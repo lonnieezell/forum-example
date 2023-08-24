@@ -1,0 +1,27 @@
+{
+  "name": "myth-forums",
+  "version": "1.0.0-dev",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "engines": {
+    "node": ">= 18"
+  },
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "dependencies": {
+    "alpinejs": "^3.10.3",
+    "daisyui": "^2.51.0",
+    "htmx.org": "^1.8.5"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.3",
+    "tailwindcss": "^3.2.7"
+  },
+  "scripts": {
+    "dev": "parcel themes/default/css/app.scss themes/default/js/app.js --dist-dir ./public"
+  }
+}
