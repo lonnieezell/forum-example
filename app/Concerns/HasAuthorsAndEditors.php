@@ -10,7 +10,7 @@ trait HasAuthorsAndEditors
     /**
       * Adds the author and editor to each post.
       */
-    public function withUsers(array|Entity $records): array|Entity
+    public function withUsers(array|Entity|null $records): array|Entity|null
     {
         if (empty($records)) {
             return $records;

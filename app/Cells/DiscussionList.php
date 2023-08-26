@@ -3,6 +3,7 @@
 namespace App\Cells;
 
 use CodeIgniter\View\Cells\Cell;
+use App\Models\ThreadModel;
 
 class DiscussionList extends Cell
 {

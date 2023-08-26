@@ -3,6 +3,8 @@
 namespace App\Cells;
 
 use CodeIgniter\View\Cells\Cell;
+use App\Models\ThreadModel;
+use App\Models\PostModel;
 
 class ShowThread extends Cell
 {
@@ -17,9 +19,13 @@ class ShowThread extends Cell
         $threadModel = model(ThreadModel::class);
         $postModel = model(PostModel::class);
 
-        $this->thread = $threadModel->findBySlug($slug);
+        // Find the thread by the slug
+        $this->thread = $threadModel->where('slug', $slug)->first();
         $this->thread = $threadModel->withUsers($this->thread);
-        $this->posts = $postModel->forThread($this->thread->id, 10);
-        $this->pager = $postModel->pager;
+
+        if ($this->thread) {
+            $this->posts = $postModel->forThread($this->thread->id, 10);
+            $this->pager = $postModel->pager;
+        }
     }
 }
