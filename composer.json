@@ -6,10 +6,10 @@
   "license": "MIT",
   "require": {
     "php": "^7.4 || ^8.0",
-    "codeigniter4/framework": "^4.0",
+    "codeigniter4/framework": "^4.4",
     "codeigniter4/shield": "^1.0@beta",
     "league/commonmark": "^2.3",
-    "michalsn/codeigniter-htmx": "^1.1",
+    "michalsn/codeigniter-htmx": "^1.2.2",
     "s9e/text-formatter": "^2.13"
   },
   "require-dev": {
