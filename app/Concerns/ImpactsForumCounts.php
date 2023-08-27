@@ -4,6 +4,7 @@ namespace App\Concerns;
 
 use App\Entities\Forum;
 use App\Models\ForumModel;
+use App\Models\ThreadModel;
 
 trait ImpactsForumCounts
 {
