@@ -18,6 +18,6 @@ No guarantee is made that this repo represents a complete, working application. 
 ## Docs and Installation
 
 Documenation (what there is of it!) can be found in the [docs](_docs) folder.
-Installation instructions are in [docs/start.md](docs/start.md).
+Installation instructions are in [docs/start.md](_docs/start.md).
 
 It may or may not be improved over time.
