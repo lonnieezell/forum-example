@@ -7,7 +7,7 @@
 
 ## Packages Used
 
--   [CodeIgniter 4.3](https://codeigniter.com/)
+-   [CodeIgniter 4.4+](https://codeigniter.com/)
 -   [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
 -   [ParcelJS](https://parceljs.org/)
