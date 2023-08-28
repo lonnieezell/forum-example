@@ -23,7 +23,7 @@ Once the reposoitory has been installed on your local machine you need to get a 
 ```cli
 composer install  (only needed if you directly downloaded the files)
 npm install
-php spark migrate
+php spark migrate --all
 php spark db:seed SampleDataSeeder  (only if you want sample forums, users, etc created)
 ```
 
