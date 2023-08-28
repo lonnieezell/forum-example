@@ -2271,13 +2271,13 @@ html {
   display: inline-flex;
 }
 
-.navbar-start {
-  width: 50%;
-  justify-content: flex-start;
-}
-
 .navbar-center {
   flex-shrink: 0;
+}
+
+.navbar-end {
+  width: 50%;
+  justify-content: flex-end;
 }
 
 .tabs {
@@ -3208,13 +3208,6 @@ html {
   border-left-width: 0;
 }
 
-.menu-compact :where(li > *) {
-  padding-top: .5rem;
-  padding-bottom: .5rem;
-  font-size: .875rem;
-  line-height: 1.25rem;
-}
-
 .menu-horizontal > :where(li:first-child) {
   border-top-left-radius: inherit;
   border-top-right-radius: unset;
@@ -3247,10 +3240,6 @@ html {
   visibility: visible;
 }
 
-.invisible {
-  visibility: hidden;
-}
-
 .static {
   position: static;
 }
@@ -3261,6 +3250,10 @@ html {
 
 .relative {
   position: relative;
+}
+
+.z-\[1\] {
+  z-index: 1;
 }
 
 .mx-auto {
@@ -3316,6 +3309,10 @@ html {
   width: 2.5rem;
 }
 
+.w-24 {
+  width: 6rem;
+}
+
 .w-5 {
   width: 1.25rem;
 }
@@ -3360,12 +3357,12 @@ html {
   justify-content: space-between;
 }
 
-.gap-2 {
-  gap: .5rem;
-}
-
 .gap-4 {
   gap: 1rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .rounded {
@@ -3402,15 +3399,6 @@ html {
 .bg-base-200 {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
-}
-
-.bg-base-300 {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
-}
-
-.fill-current {
-  fill: currentColor;
 }
 
 .p-2 {
@@ -3456,10 +3444,6 @@ html {
 
 .text-center {
   text-align: center;
-}
-
-.text-end {
-  text-align: end;
 }
 
 .text-base {
@@ -3567,22 +3551,25 @@ form select.select {
   line-height: 2;
 }
 
+#toolbarContainer .tab {
+  cursor: revert;
+  -webkit-user-select: revert;
+  user-select: revert;
+  height: revert;
+}
+
 .hover\:bg-base-300:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
 }
 
 @media (min-width: 768px) {
-  .md\:visible {
-    visibility: visible;
+  .md\:w-auto {
+    width: auto;
   }
 }
 
 @media (min-width: 1024px) {
-  .lg\:visible {
-    visibility: visible;
-  }
-
   .lg\:flex {
     display: flex;
   }
