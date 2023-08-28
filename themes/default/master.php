@@ -18,7 +18,6 @@
 <body>
 
     <?= $this->include('_app_nav') ?>
-    <?= $this->include('_discussion_nav') ?>
 
     <div class="container mx-auto px-4 py-8" id="main">
         <?= $this->renderSection('main') ?>
