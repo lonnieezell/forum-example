@@ -19,3 +19,12 @@ form select.select {
     border-color: hsl(var(--bc) / 0.3);
     border-radius: var(--rounded-btn, .5rem);
 }
+
+#toolbarContainer {
+    .tab {
+        cursor: revert;
+        -webkit-user-select: revert;
+        user-select: revert;
+        height: revert;
+    }
+}
