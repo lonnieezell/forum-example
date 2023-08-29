@@ -61,6 +61,7 @@ class ThreadModel extends Model
         $selects = [
             'threads.*',
             'forums.title as forum_title',
+            'forums.slug as forum_slug',
             'posts.created_at as last_post_created_at',
             'users.username as last_post_author',
         ];
