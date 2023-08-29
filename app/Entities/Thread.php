@@ -27,8 +27,10 @@ class Thread extends Entity
      */
     public function link()
     {
-        $forum = model(ForumModel::class)->find($this->forum_id);
+        $forum_slug = isset($this->forum_slug) ?
+            $this->forum_slug :
+            model(ForumModel::class)->find($this->forum_id)?->slug;
 
-        return route_to('thread', $forum->slug, $this->slug);
+        return route_to('thread', $forum_slug, $this->slug);
     }
 }
