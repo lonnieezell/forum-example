@@ -19,8 +19,14 @@
 
     <?= $this->include('_app_nav') ?>
 
-    <div class="container mx-auto px-4 py-8" id="main">
-        <?= $this->renderSection('main') ?>
+    <div class="flex container mx-auto gap-4">
+        <div class="flex-1 px-4 py-8 <?= auth()->user()?->handed === 'right' ? 'order-1' : 'order-2' ?>" id="main">
+            <?= $this->renderSection('main') ?>
+        </div>
+
+        <div class="flex-0 w-64 py-8 <?= auth()->user()?->handed === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
+            <?= $this->renderSection('sidebar') ?>
+        </div>
     </div>
 
     <script src="<?= base_url('js/app.js') ?>"></script>
