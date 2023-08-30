@@ -2,10 +2,63 @@
 
 namespace App\Models;
 
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
 use App\Entities\User;
 
 class UserModel extends ShieldUser
 {
     protected $returnType = User::class;
+
+    protected $allowedFields  = [
+        'username',
+        'status',
+        'status_message',
+        'active',
+        'last_active',
+        'handed',
+        'thread_count',
+        'post_count',
+        'avatar',
+        'country',
+        'timezone',
+        'deleted_at',
+    ];
+
+    public function searchMembers(array $search, int $page, int $perPage, string $sortColumn, string $sortDirection): ?array
+    {
+        $selects = [
+            'users.*',
+            '(thread_count + post_count) AS count',
+            'GROUP_CONCAT(auth_groups_users.group SEPARATOR ",") AS role',
+        ];
+
+        $results = $this
+            ->withIdentities()
+            ->select(implode(', ', $selects))
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'left')
+            ->when($search['user'] !== '', static function ($query) use ($search) {
+                $query->like('users.username', $search['user'], 'both');
+            })
+            ->when($search['country'] !== '', static function ($query) use ($search) {
+                $query->like('users.country', $search['country'], 'both');
+            })
+            ->when($search['role'] !== 'all', static function ($query) use ($search) {
+                $query->where('auth_groups_users.group', $search['role']);
+            })
+            ->when($search['type'] === 'new', static function ($query) {
+                $query->where('(thread_count + post_count) <=', 1);
+            })
+            ->groupBy('users.id')
+            ->orderBy($sortColumn, $sortDirection)
+            ->paginate($perPage, 'default', $page);
+
+        foreach ($results as $row) {
+            if ($identity = $row->getIdentities(Session::ID_TYPE_EMAIL_PASSWORD)[0] ?? null) {
+                $row->setEmail($identity->secret);
+            }
+        }
+
+        return $results;
+    }
 }

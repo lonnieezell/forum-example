@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
     <script src="https://kit.fontawesome.com/9ce245a629.js" crossorigin="anonymous"></script>
     <?= $this->renderSection('styles') ?>
+    <script src="<?= base_url('js/app.js') ?>"></script>
 </head>
 
 <body>
@@ -29,7 +30,6 @@
         </div>
     </div>
 
-    <script src="<?= base_url('js/app.js') ?>"></script>
     <?= $this->renderSection('scripts') ?>
 </body>
 
