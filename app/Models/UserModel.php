@@ -10,20 +10,21 @@ class UserModel extends ShieldUser
 {
     protected $returnType = User::class;
 
-    protected $allowedFields  = [
-        'username',
-        'status',
-        'status_message',
-        'active',
-        'last_active',
-        'handed',
-        'thread_count',
-        'post_count',
-        'avatar',
-        'country',
-        'timezone',
-        'deleted_at',
-    ];
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        // Merge properties with parent
+        $this->allowedFields = array_merge($this->allowedFields, [
+            'handed',
+            'thread_count',
+            'post_count',
+            'avatar',
+            'country',
+            'timezone',
+        ]);
+       
+    }
 
     public function searchMembers(array $search, int $page, int $perPage, string $sortColumn, string $sortDirection): ?array
     {
