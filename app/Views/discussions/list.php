@@ -8,3 +8,9 @@
     </div>
 
 <?= $this->endSection() ?>
+
+<?= $this->section('sidebar')  ?>
+
+    <h2>Sidebar</h2>
+
+<?= $this->endSection() ?>
