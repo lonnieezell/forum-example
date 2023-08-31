@@ -10,6 +10,8 @@
 -   [CodeIgniter 4.4+](https://codeigniter.com/)
 -   [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
+-   [Commonmark](https://github.com/thephpleague/commonmark)
+-   [TextFormatter](https://github.com/s9e/TextFormatter)
 -   [ParcelJS](https://parceljs.org/)
 -   [htmx](https://htmx.org/)
 -   [AlpineJS](https://alpinejs.dev/)
