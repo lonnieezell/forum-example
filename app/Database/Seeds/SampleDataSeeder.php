@@ -92,8 +92,18 @@ class SampleDataSeeder extends Seeder
         // If the total users in system is less than 10, then seed some
         // demo users.
         if (model('UserModel')->countAllResults() < 10) {
+
+            helper('setting');
+
             for ($i = 0; $i < 10; $i++) {
-                fake(UserFactory::class, null, true);
+                $user = fake(UserFactory::class, null, true);
+                db_connect()->table('auth_groups_users')
+                    ->insert([
+                        'user_id' => $user->id,
+                        'group' => setting('AuthGroups.defaultGroup'),
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+
             }
         }
     }

@@ -5,6 +5,7 @@ namespace App\Concerns;
 use App\Entities\Forum;
 use App\Models\ForumModel;
 use App\Models\ThreadModel;
+use App\Models\UserModel;
 
 trait ImpactsForumCounts
 {
@@ -18,10 +19,20 @@ trait ImpactsForumCounts
         }
 
         $thread = $this->find($data['id']);
-        $forum = model(ForumModel::class)->find($thread->forum_id);
+        $forumModel = model(ForumModel::class);
+        $userModel = model(UserModel::class);
+
+        // Increment Forum thread count
+        $forum = $forumModel->find($thread->forum_id);
         $forum->thread_count++;
 
-        model(ForumModel::class)->save($forum);
+        $forumModel->save($forum);
+
+        // Decrement User thread count
+        $user = $userModel->find($thread->author_id);
+        $user->thread_count++;
+
+        $userModel->save($user);
 
         return $data;
     }
@@ -36,10 +47,21 @@ trait ImpactsForumCounts
         }
 
         $thread = $this->find($data['id']);
-        $forum = model(ForumModel::class)->find($thread->forum_id);
+
+        $forumModel = model(ForumModel::class);
+        $userModel = model(UserModel::class);
+
+        // Decrement Forum thread count
+        $forum = $forumModel->find($thread->forum_id);
         $forum->thread_count--;
 
-        model(ForumModel::class)->save($forum);
+        $forumModel->save($forum);
+
+        // Decrement User thread count
+        $user = $userModel->find($thread->author_id);
+        $user->thread_count--;
+
+        $userModel->save($user);
 
         return $data;
     }
@@ -56,6 +78,7 @@ trait ImpactsForumCounts
         $post = $this->find($data['id']);
         $forumModel = model(ForumModel::class);
         $threadModel = model(ThreadModel::class);
+        $userModel = model(UserModel::class);
 
         // Increment Forum post count
         $forum = $forumModel->find($post->forum_id);
@@ -68,6 +91,12 @@ trait ImpactsForumCounts
         $thread->post_count++;
 
         $threadModel->save($thread);
+
+        // Increment User post count
+        $user = $userModel->find($post->author_id);
+        $user->post_count++;
+
+        $userModel->save($user);
 
         return $data;
     }
@@ -82,11 +111,27 @@ trait ImpactsForumCounts
         }
 
         $post = $this->find($data['id']);
+        $forumModel = model(ForumModel::class);
+        $threadModel = model(ThreadModel::class);
+        $userModel = model(UserModel::class);
 
-        $forum = model(ForumModel::class)->find($post->forum_id);
+        // Decrement Forum post count
+        $forum = $forumModel->find($post->forum_id);
         $forum->post_count--;
 
-        model(ForumModel::class)->save($forum);
+        $forumModel->save($forum);
+
+        // Decrement Thread post count
+        $thread = $threadModel->find($post->thread_id);
+        $thread->post_count--;
+
+        $threadModel->save($thread);
+
+        // Decrement User post count
+        $user = $userModel->find($post->author_id);
+        $user->post_count--;
+
+        $userModel->save($user);
 
         return $data;
     }

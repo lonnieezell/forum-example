@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\ImpactsForumCounts;
+use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
 use App\Entities\Thread;
 use CodeIgniter\Model;
@@ -12,6 +13,7 @@ class ThreadModel extends Model
 {
     use Sluggable;
     use ImpactsForumCounts;
+    use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
     protected $DBGroup          = 'default';
@@ -27,7 +29,7 @@ class ThreadModel extends Model
     ];
 
     protected $beforeInsert = ['generateSlug'];
-    protected $afterInsert = ['incrementThreadCount', 'touchForum'];
+    protected $afterInsert = ['incrementThreadCount', 'touchForum', 'touchUser'];
     protected $afterDelete = ['decrementThreadCount'];
     protected $afterUpdate = ['touchForum'];
 
