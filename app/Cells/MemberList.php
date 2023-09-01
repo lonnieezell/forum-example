@@ -38,12 +38,12 @@ class MemberList extends Cell
 
     protected function validRoles(): array
     {
-        return array_combine($this->validSearch['role'], $this->validSearch['role']);
+        return array_combine($this->validSearch['role'], $this->labelSearch['role']);
     }
 
     protected function validTypes(): array
     {
-        return array_combine($this->validSearch['type'], $this->validSearch['type']);
+        return array_combine($this->validSearch['type'], $this->labelSearch['type']);
     }
 
     private function defineTableSearchComponent(): void
@@ -82,12 +82,14 @@ class MemberList extends Cell
             ],
             'role' => [
                 $search['role'] ?? 'all',
-                ['in_list' => array_merge(['all'], array_keys(setting('AuthGroups.groups')))]
+                ['in_list' => array_merge(['all'], array_keys(setting('AuthGroups.groups')))],
+                array_merge(['All'], array_column(setting('AuthGroups.groups'), 'title'))
 
             ],
             'type' => [
                 $search['type'] ?? 'all',
-                ['in_list' => ['all', 'new']]
+                ['in_list' => ['all', 'new']],
+                ['All users', 'New users']
             ],
         ]);
     }

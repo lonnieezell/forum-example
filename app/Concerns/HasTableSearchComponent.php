@@ -22,6 +22,7 @@ trait HasTableSearchComponent
 
     protected array $search;
     protected array $validSearch;
+    protected array $labelSearch;
 
     private function parseRules(array $rules): array
     {
@@ -110,12 +111,13 @@ trait HasTableSearchComponent
 
     protected function parseSearchDefinition(string $name, array $options): void
     {
-        [$value, $rules] = $options;
+        [$value, $rules, $label] = array_pad($options, 3, null);
 
         $options = $this->validateRules($value, $rules, $name);
 
         $this->search[$name] = $value;
         $this->validSearch[$name] = $options;
+        $this->labelSearch[$name] = $label;
     }
 
     protected function setReplaceUrlHeader(): void
