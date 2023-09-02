@@ -16,7 +16,6 @@ class PostModel extends Model
     protected $table            = 'posts';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $insertID         = 0;
     protected $returnType       = Post::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;

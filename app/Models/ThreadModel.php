@@ -18,7 +18,6 @@ class ThreadModel extends Model
     protected $table            = 'threads';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $insertID         = 0;
     protected $returnType       = Thread::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
