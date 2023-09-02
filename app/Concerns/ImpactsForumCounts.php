@@ -28,7 +28,7 @@ trait ImpactsForumCounts
 
         $forumModel->save($forum);
 
-        // Decrement User thread count
+        // Increment User thread count
         $user = $userModel->find($thread->author_id);
         $user->thread_count++;
 

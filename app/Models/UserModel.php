@@ -36,7 +36,7 @@ class UserModel extends ShieldUser
             ->withIdentities()
             ->select(implode(', ', $selects))
             ->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'left')
-            ->when(isset($search['username']) && $search['username'] !== '', static function ($query) use ($search) {
+            ->when(isset($search['username']) && $search['username'] !== '', fn ($query) => $query->like('users.username', $search['username'], 'both');
                 $query->like('users.username', $search['username'], 'both');
             })
             ->when(isset($search['country']) && $search['country'] !== '', static function ($query) use ($search) {
