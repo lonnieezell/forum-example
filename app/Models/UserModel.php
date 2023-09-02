@@ -36,18 +36,18 @@ class UserModel extends ShieldUser
             ->withIdentities()
             ->select(implode(', ', $selects))
             ->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'left')
-            ->when(isset($search['username']) && $search['username'] !== '', fn ($query) => $query->like('users.username', $search['username'], 'both');
-                $query->like('users.username', $search['username'], 'both');
-            })
-            ->when(isset($search['country']) && $search['country'] !== '', static function ($query) use ($search) {
-                $query->like('users.country', $search['country'], 'both');
-            })
-            ->when(isset($search['role']) && $search['role'] !== 'all', static function ($query) use ($search) {
-                $query->where('auth_groups_users.group', $search['role']);
-            })
-            ->when(isset($search['type']) && $search['type'] === 'new', static function ($query) {
-                $query->where('(thread_count + post_count) <=', 1);
-            })
+            ->when(isset($search['username']) && $search['username'] !== '',
+                fn($query) => $query->like('users.username', $search['username'], 'both')
+            )
+            ->when(isset($search['country']) && $search['country'] !== '',
+                fn($query) => $query->like('users.country', $search['country'], 'both')
+            )
+            ->when(isset($search['role']) && $search['role'] !== 'all',
+                fn($query) => $query->where('auth_groups_users.group', $search['role'])
+            )
+            ->when(isset($search['type']) && $search['type'] === 'new',
+                fn($query) => $query->where('(thread_count + post_count) <=', 1)
+            )
             ->groupBy('users.id')
             ->orderBy($sortColumn, $sortDirection)
             ->paginate($perPage, 'default', $page);
