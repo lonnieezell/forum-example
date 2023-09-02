@@ -2,13 +2,15 @@
 
 namespace App\Libraries;
 
-use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\HTTP\Response;
 use InvalidArgumentException;
+use Michalsn\CodeIgniterHtmx\HTTP\IncomingRequest;
+use Michalsn\CodeIgniterHtmx\HTTP\Response;
 
 class TableHelper
 {
     protected IncomingRequest $request;
+
+    protected Response $response;
 
     protected string $baseURL;
 
@@ -84,7 +86,7 @@ class TableHelper
 
     public function setReplaceUrlHeader(): TableHelper
     {
-        if ($this->request->is('boosted')) {
+        if ($this->request->isBoosted()) {
             return $this;
         }
 
