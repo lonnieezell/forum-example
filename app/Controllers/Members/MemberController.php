@@ -46,10 +46,10 @@ class MemberController extends BaseController
 
         helper('form');
 
-        $model = model(UserModel::class);
+        $userModel= model(UserModel::class);
 
         $data = [
-            'members' => $model->searchMembers(
+            'members' => $userModel->searchMembers(
                 $table['search'], $table['page'], $table['perPage'], $table['sortColumn'], $table['sortDirection']
             )
         ];
@@ -59,7 +59,7 @@ class MemberController extends BaseController
             'type' => ['all' => 'All users', 'new' => 'New users'],
         ];
 
-        $table['pager']  = $model->pager;
+        $table['pager']  = $userModel->pager;
         $table['helper'] = new TableHelper($this->request, $this->response, 'members', $table['search'], $table['page'], $table['perPage'], $table['sortColumn'], $table['sortDirection']);
         $table['helper']->setReplaceUrlHeader();
 

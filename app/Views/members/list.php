@@ -73,7 +73,7 @@
                         </td>
                         <td><?= $member->count; ?></td>
                         <td><?= esc($member->country); ?></td>
-                        <td><?= $member->last_active->humanize() ?? 'Never'; ?></td>
+                        <td><?=($member->last_active !== null) ? $member->last_active->humanize() : 'Never';?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
