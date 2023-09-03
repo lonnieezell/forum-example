@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\ImpactsForumCounts;
+use App\Concerns\ImpactsUserActivity;
 use App\Entities\Post;
 use CodeIgniter\Model;
 
 class PostModel extends Model
 {
     use ImpactsForumCounts;
+    use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
     protected $DBGroup          = 'default';
@@ -24,7 +26,7 @@ class PostModel extends Model
         'forum_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
     ];
 
-    protected $afterInsert = ['incrementPostCount', 'touchThread'];
+    protected $afterInsert = ['incrementPostCount', 'touchThread', 'touchUser'];
     protected $afterDelete = ['decrementPostCount'];
     protected $afterUpdate = ['touchThread'];
 
