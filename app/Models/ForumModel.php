@@ -14,7 +14,6 @@ class ForumModel extends Model
     protected $table            = 'forums';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $insertID         = 0;
     protected $returnType       = Forum::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
