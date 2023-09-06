@@ -69,7 +69,14 @@ class AuthGroups extends ShieldAuthGroups
         'forums.delete'       => 'Can delete forums',
         'forums.create'       => 'Can create forums',
         'forums.moderate'     => 'Can moderate forums',
+        'threads.edit'        => 'Can edit threads',
+        'threads.delete'      => 'Can delete threads',
+        'threads.create'      => 'Can create threads',
+        'threads.moderate'    => 'Can moderate threads',
+        'posts.edit'          => 'Can edit posts',
         'posts.delete'        => 'Can delete posts',
+        'posts.create'        => 'Can create posts',
+        'posts.moderate'      => 'Can moderate posts',
     ];
 
     /**
@@ -102,7 +109,10 @@ class AuthGroups extends ShieldAuthGroups
             'users.edit',
             'beta.access',
         ],
-        'user' => [],
+        'user' => [
+            'threads.create',
+            'posts.create'
+        ],
         'beta' => [
             'beta.access',
         ],

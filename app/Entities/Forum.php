@@ -9,7 +9,8 @@ class Forum extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [
-        'parent_id' => 'integer',
+        'id' => 'integer',
+        'parent_id' => '?integer',
         'order'     => 'integer',
         'active'    => 'boolean',
         'private'   => 'boolean',

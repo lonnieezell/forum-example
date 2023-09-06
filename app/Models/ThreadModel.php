@@ -27,6 +27,8 @@ class ThreadModel extends Model
         'forum_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup',
     ];
 
+    protected $useTimestamps = true;
+
     protected $beforeInsert = ['generateSlug'];
     protected $afterInsert = ['incrementThreadCount', 'touchForum', 'touchUser'];
     protected $afterDelete = ['decrementThreadCount'];

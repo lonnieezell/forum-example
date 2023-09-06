@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
     <script src="https://kit.fontawesome.com/9ce245a629.js" crossorigin="anonymous"></script>
     <?= $this->renderSection('styles') ?>
-    <script src="<?= base_url('js/app.js') ?>"></script>
+    <script defer src="<?= base_url('js/app.js') ?>"></script>
 </head>
 
-<body>
+<body hx-ext="loading-states">
 
     <?= $this->include('_app_nav') ?>
 

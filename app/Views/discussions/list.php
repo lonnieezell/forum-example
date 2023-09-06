@@ -13,4 +13,12 @@
 
     <h2>Sidebar</h2>
 
+    <?php if (auth()->user()?->can('threads.create')): ?>
+        <div class="flex justify-center" hx-boost="true">
+            <a class="btn btn-primary mt-4" href="<?= url_to('thread-create'); ?>"">
+                Start a Discussion
+            </a>
+        </div>
+    <?php endif; ?>
+
 <?= $this->endSection() ?>

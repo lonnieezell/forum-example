@@ -31,7 +31,16 @@
     <!-- Replies -->
     <?php if (! empty($posts)) : ?>
     <div class="replies mt-6">
-        <div class="text-center">
+        <div class="flex justify-between">
+            <div>
+                <a class="btn btn-primary"
+                   hx-get="<?= route_to('post-create', $thread->id); ?>"
+                   hx-target="#post-reply"
+                   hx-swap="innerHTML show:top"
+                >
+                    Post reply
+                </a>
+            </div>
             <?= $pager->links() ?>
         </div>
 
@@ -39,9 +48,30 @@
             <?= view('discussions/_post', ['post' => $post]) ?>
         <?php endforeach ?>
 
-        <div class="text-center">
+        <div class="flex justify-between">
+            <div>
+                <a class="btn btn-primary"
+                   hx-get="<?= route_to('post-create', $thread->id); ?>"
+                   hx-target="#post-reply"
+                   hx-swap="innerHTML show:top"
+                >
+                    Post reply
+                </a>
+            </div>
             <?= $pager->links() ?>
         </div>
     </div>
+    <?php else: ?>
+        <div class="text-center mt-6">
+            <a class="btn btn-primary"
+               hx-get="<?= route_to('post-create', $thread->id); ?>"
+               hx-target="#post-reply"
+               hx-swap="innerHTML show:top"
+            >
+                Be first to post a reply
+            </a>
+        </div>
     <?php endif ?>
+
+    <div id="post-reply"></div>
 </div>
