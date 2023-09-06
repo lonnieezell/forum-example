@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use App\Concerns\RendersContent;
-use App\Models\ForumModel;
+use App\Models\CategoryModel;
 use CodeIgniter\Entity\Entity;
 
 class Thread extends Entity
@@ -13,7 +13,7 @@ class Thread extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at'];
     protected $casts   = [
-        'forum_id' => 'integer',
+        'category_id' => 'integer',
         'author_id' => 'integer',
         'editor_id' => 'integer',
         'views' => 'integer',
@@ -27,10 +27,10 @@ class Thread extends Entity
      */
     public function link()
     {
-        $forum_slug = isset($this->forum_slug) ?
-            $this->forum_slug :
-            model(ForumModel::class)->find($this->forum_id)?->slug;
+        $categorySlug = isset($this->category_slug) ?
+            $this->category_slug :
+            model(CategoryModel::class)->find($this->category_id)?->slug;
 
-        return route_to('thread', $forum_slug, $this->slug);
+        return route_to('thread', $categorySlug, $this->slug);
     }
 }

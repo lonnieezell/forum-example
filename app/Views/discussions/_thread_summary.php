@@ -16,7 +16,7 @@
                 <b><?= esc($thread->last_post_author) ?></b>
                 replied <?= \CodeIgniter\I18n\Time::parse($thread->last_post_created_at)->humanize() ?>
                 &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                <?= esc($thread->forum_title) ?>
+                <?= esc($thread->category_title) ?>
             </div>
         <?php else: ?>
             <div class="mt-4 text-neutral-content text-sm opacity-80">

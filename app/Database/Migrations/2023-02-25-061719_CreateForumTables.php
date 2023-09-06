@@ -10,7 +10,7 @@ class CreateForumTables extends Migration
     {
         $this->db->disableForeignKeyChecks();
 
-        // Forums
+        // Categories
         $this->forge->addField([
             'id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'title' => ['type' => 'varchar', 'constraint' => 255],
@@ -30,14 +30,14 @@ class CreateForumTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('slug');
-        $this->forge->addForeignKey('parent_id', 'forums', 'id', '', 'set null');
+        $this->forge->addForeignKey('parent_id', 'categories', 'id', '', 'set null');
         $this->forge->addForeignKey('last_thread_id', 'threads', 'id', '', 'set null');
-        $this->forge->createTable('forums', true);
+        $this->forge->createTable('categories', true);
 
         // Threads
         $this->forge->addField([
             'id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'forum_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'category_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'title' => ['type' => 'varchar', 'constraint' => 255],
             'slug' => ['type' => 'varchar', 'constraint' => 255],
             'body' => ['type' => 'text', 'null' => true],
@@ -59,7 +59,7 @@ class CreateForumTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('slug');
-        $this->forge->addForeignKey('forum_id', 'forums', 'id', '', 'delete');
+        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'delete');
         $this->forge->addForeignKey('author_id', 'users', 'id', '', 'delete');
         $this->forge->addForeignKey('editor_id', 'users', 'id', '', 'delete');
         $this->forge->addForeignKey('last_post_id', 'posts', 'id', '', 'delete');
@@ -69,7 +69,7 @@ class CreateForumTables extends Migration
         // Posts
         $this->forge->addField([
             'id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'forum_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'category_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'thread_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'reply_to' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'author_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
@@ -86,7 +86,7 @@ class CreateForumTables extends Migration
             'deleted_at' => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('forum_id', 'forums', 'id', '', 'delete');
+        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'delete');
         $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'delete');
         $this->forge->addForeignKey('reply_to', 'posts', 'id', '', 'delete');
         $this->forge->addForeignKey('author_id', 'users', 'id', '', 'delete');
@@ -102,7 +102,7 @@ class CreateForumTables extends Migration
 
         $this->forge->dropTable('posts', true);
         $this->forge->dropTable('threads', true);
-        $this->forge->dropTable('forums', true);
+        $this->forge->dropTable('categories', true);
 
         $this->db->enableForeignKeyChecks();
     }

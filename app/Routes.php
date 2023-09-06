@@ -6,6 +6,9 @@ $routes->get('/', function () {
     return redirect()->to('/discussions');
 });
 
+// Categories
+$routes->get('categories/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
+
 // Discussions
 $routes->get('discussions', 'Discussions\DiscussionController::list');
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);

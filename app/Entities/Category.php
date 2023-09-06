@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
-class Forum extends Entity
+class Category extends Entity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
@@ -20,10 +20,10 @@ class Forum extends Entity
     ];
 
     /**
-     * Returns a link to this forum's page for use in views.
+     * Returns a link to this category's page for use in views.
      */
     public function link()
     {
-        return route_to('forum', $this->slug);
+        return route_to('category', $this->slug);
     }
 }
