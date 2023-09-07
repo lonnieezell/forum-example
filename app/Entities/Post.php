@@ -31,4 +31,13 @@ class Post extends Entity
 
         return route_to('post', $forumSlug, $threadSlug, $this->id);
     }
+
+    public function setReplyTo(?string $value = null)
+    {
+        if (empty($value)) {
+            $this->attributes['reply_to'] = null;
+        }
+
+        return $this;
+    }
 }

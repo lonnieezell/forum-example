@@ -2,8 +2,6 @@
 
 namespace App\Controllers\Discussions;
 
-use App\Models\ThreadModel;
-
 /**
  * Class Home
  *
