@@ -11,7 +11,7 @@
 
 <?= $this->section('sidebar')  ?>
 
-    <h2>Sidebar</h2>
+    <?= view_cell('CategoryListCell', ['activeCategory' => $activeCategory ?? null]) ?>
 
     <?php if (auth()->user()?->can('threads.create')): ?>
         <div class="flex justify-center" hx-boost="true">
