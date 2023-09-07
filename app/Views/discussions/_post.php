@@ -19,11 +19,20 @@
                     <?php endif ?>
                     <?= \CodeIgniter\I18n\Time::parse($post->created_at)->humanize() ?>
                 </div>
+                <div class="flex-auto text-right">
+                    <a class="btn btn-xs btn-primary"
+                       hx-get="<?= route_to('post-create-reply', $post->thread_id, $post->id); ?>"
+                       hx-target="#post-reply"
+                       hx-swap="innerHTML show:top"
+                    >
+                        Reply
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Thread Content -->
-        <div class="thread-content prose mt-6">
+        <div class="thread-content prose !max-w-full mt-6">
             <?= $post->render() ?>
         </div>
     </div>

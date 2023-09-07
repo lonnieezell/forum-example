@@ -28,7 +28,7 @@ class PostController extends BaseController
 
             if ($this->validate([
                 'thread_id' => ['required', 'is_natural_no_zero', 'thread_exists'],
-                'reply_to' => ['permit_empty', 'is_natural_no_zero', 'post_exists'],
+                'reply_to' => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
                 'body' => ['required', 'string', 'max_length[65000]'],
             ])) {
                 $post = new Post($this->validator->getValidated());
