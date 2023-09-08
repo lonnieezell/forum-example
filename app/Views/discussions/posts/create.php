@@ -1,6 +1,7 @@
 <div class="post-create">
 
     <?= form_open('', ['hx-boost' => 'true', 'hx-confirm' => 'Are you sure you want to create a new post?']); ?>
+    <?= csrf_field() ?>
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <div class="card-title">

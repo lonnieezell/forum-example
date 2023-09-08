@@ -4,6 +4,7 @@
     <div class="thread-create">
 
         <?= form_open('', ['hx-boost' => 'true', 'hx-confirm' => 'Are you sure you want to create a new thread?']); ?>
+        <?= csrf_field() ?>
             <div class="card bg-base-100 shadow-xl">
                 <div class="card-body">
                     <div class="card-title">
