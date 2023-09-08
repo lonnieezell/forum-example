@@ -7,7 +7,7 @@ $routes->get('/', function () {
 });
 
 // Categories
-$routes->get('categories/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
+$routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
 
 // Discussions
 $routes->get('discussions', 'Discussions\DiscussionController::list');
