@@ -13,7 +13,8 @@ $routes->get('discussions', 'Discussions\DiscussionController::list');
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
-$routes->match(['get', 'post'], 'posts/(:segment)', 'Discussions\PostController::create/$1', ['as' => 'post-create']);
+$routes->match(['get', 'post'], 'posts/(:num)', 'Discussions\PostController::create/$1', ['as' => 'post-create']);
+$routes->match(['get', 'post'], 'posts/(:num)/(:num)', 'Discussions\PostController::create/$1/$2', ['as' => 'post-create-reply']);
 $routes->post('post/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
 
 // Members

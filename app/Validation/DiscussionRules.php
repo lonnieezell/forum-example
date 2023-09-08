@@ -28,7 +28,7 @@ class DiscussionRules
             ->table('posts')
             ->select('1')
             ->where('id', $value)
-            ->where('thead_id', $data['thread_id'])
+            ->where('thread_id', (int) $data['thread_id'])
             ->limit(1)
             ->get()
             ->getRow();

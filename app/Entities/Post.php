@@ -34,9 +34,7 @@ class Post extends Entity
 
     public function setReplyTo(?string $value = null)
     {
-        if (empty($value)) {
-            $this->attributes['reply_to'] = null;
-        }
+        $this->attributes['reply_to'] = $value ?: null;
 
         return $this;
     }
