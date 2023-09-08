@@ -6,6 +6,7 @@
   "license": "MIT",
   "require": {
     "php": "^7.4 || ^8.0",
+    "ext-xsl" : "*",
     "codeigniter4/framework": "^4.4",
     "codeigniter4/shield": "^1.0@beta",
     "league/commonmark": "^2.3",
