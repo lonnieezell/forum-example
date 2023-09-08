@@ -34,7 +34,7 @@ class PostController extends BaseController
                 $post = new Post($this->validator->getValidated());
                 $thread = model(ThreadModel::class)->find($post->thread_id);
 
-                $post->forum_id = $thread->forum_id;
+                $post->category_id = $thread->category_id;
                 $post->author_id = user_id();
                 $post->visible = 1;
 

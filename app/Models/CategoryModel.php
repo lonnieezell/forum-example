@@ -112,7 +112,7 @@ class CategoryModel extends Model
     }
 
     /**
-     * Returns a list of all forums, prepared for dropdown.
+     * Returns a list of all categories, prepared for dropdown.
      */
     public function findAllNestedDropdown()
     {
@@ -120,7 +120,7 @@ class CategoryModel extends Model
             'id', 'title', 'parent_id',
         ];
 
-        $forums = $this
+        $categories = $this
             ->active()
             ->orderBy('parent_id', 'asc')
             ->orderBy('order', 'asc')
@@ -129,12 +129,12 @@ class CategoryModel extends Model
 
         $resultArray = [];
 
-        foreach ($forums as $item) {
+        foreach ($categories as $item) {
             if ($item->parent_id === null) {
                 $resultArray[$item->title] = [];
             } else {
                 $parentTitle = null;
-                foreach ($forums as $parent) {
+                foreach ($categories as $parent) {
                     if ($parent->id === $item->parent_id) {
                         $parentTitle = $parent->title;
                         break;

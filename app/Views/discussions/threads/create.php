@@ -20,9 +20,9 @@
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">Forums category</span>
+                            <span class="label-text">Category</span>
                         </label>
-                        <?= form_dropdown('forum_id', $forum_dropdown, set_value('forum_id', ''), [
+                        <?= form_dropdown('category_id', $categoryDropdown, set_value('category_id', ''), [
                             'class' => 'select select-bordered', 'required' => ''
                         ]); ?>
                     </div>

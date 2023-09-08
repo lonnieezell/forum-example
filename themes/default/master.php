@@ -25,7 +25,7 @@
             <?= $this->renderSection('main') ?>
         </div>
 
-        <div class="flex-0 w-64 py-8 <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
+        <div class="flex-0 flex flex-col gap-4 w-64 py-8 <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>
