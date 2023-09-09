@@ -3,12 +3,13 @@
 use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', function () {
-    return redirect()->to('/categories');
+    return redirect()->to('/discussions');
 });
 
+// Categories
+$routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
+
 // Discussions
-$routes->get('categories', 'Discussions\DiscussionController::forums');
-$routes->get('categories/(:segment)', 'Discussions\DiscussionController::forum/$1', ['as' => 'forum']);
 $routes->get('discussions', 'Discussions\DiscussionController::list');
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);

@@ -2,20 +2,20 @@
 
 namespace App\Models\Factories;
 
-use App\Entities\Forum;
-use App\Models\ForumModel;
+use App\Entities\Category;
+use App\Models\CategoryModel;
 use Faker\Generator;
 
-class ForumFactory extends ForumModel
+class CategoryFactory extends CategoryModel
 {
     /**
-     * Factory method to create a fake forums for testing.
+     * Factory method to create a fake categories for testing.
      */
-    public function fake(Generator &$faker): Forum
+    public function fake(Generator &$faker): Category
     {
         $title = $faker->sentence(3);
 
-        return new Forum([
+        return new Category([
             'title' => $title,
             'description' => $faker->paragraph(3),
             'parent_id' => null,

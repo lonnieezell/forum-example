@@ -12,13 +12,13 @@ class Post extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at'];
     protected $casts   = [
-        'forum_id'  => 'integer',
-        'thread_id' => 'integer',
-        'reply_to'  => 'integer',
-        'author_id' => 'integer',
-        'editor_id' => 'integer',
+        'category_id' => 'integer',
+        'thread_id'   => 'integer',
+        'reply_to'    => 'integer',
+        'author_id'   => 'integer',
+        'editor_id'   => 'integer',
         'include_sig' => 'boolean',
-        'visible'   => 'boolean',
+        'visible'     => 'boolean',
     ];
 
     /**
@@ -26,10 +26,10 @@ class Post extends Entity
      */
     public function link()
     {
-        $forumSlug = model('ForumModel')->find($this->forum_id)->slug;
+        $categorySlug = model('CategoryModel')->find($this->category_id)->slug;
         $threadSlug = model('ThreadModel')->find($this->thread_id)->slug;
 
-        return route_to('post', $forumSlug, $threadSlug, $this->id);
+        return route_to('post', $categorySlug, $threadSlug, $this->id);
     }
 
     public function setReplyTo(?string $value = null)

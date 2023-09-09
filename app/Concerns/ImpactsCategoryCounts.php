@@ -2,15 +2,14 @@
 
 namespace App\Concerns;
 
-use App\Entities\Forum;
-use App\Models\ForumModel;
+use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 use App\Models\UserModel;
 
-trait ImpactsForumCounts
+trait ImpactsCategoryCounts
 {
     /**
-     * Updates the forum's discussion count.
+     * Updates the category's discussion count.
      */
     protected function incrementThreadCount(array $data)
     {
@@ -19,14 +18,14 @@ trait ImpactsForumCounts
         }
 
         $thread = $this->find($data['id']);
-        $forumModel = model(ForumModel::class);
+        $categoryModel = model(CategoryModel::class);
         $userModel = model(UserModel::class);
 
-        // Increment Forum thread count
-        $forum = $forumModel->find($thread->forum_id);
-        $forum->thread_count++;
+        // Increment Category thread count
+        $category = $categoryModel->find($thread->category_id);
+        $category->thread_count++;
 
-        $forumModel->save($forum);
+        $categoryModel->save($category);
 
         // Increment User thread count
         $user = $userModel->find($thread->author_id);
@@ -38,7 +37,7 @@ trait ImpactsForumCounts
     }
 
     /**
-     * Updates the forum's discussion count.
+     * Updates the category's discussion count.
      */
     protected function decrementThreadCount(array $data)
     {
@@ -48,14 +47,14 @@ trait ImpactsForumCounts
 
         $thread = $this->find($data['id']);
 
-        $forumModel = model(ForumModel::class);
+        $categoryModel = model(CategoryModel::class);
         $userModel = model(UserModel::class);
 
-        // Decrement Forum thread count
-        $forum = $forumModel->find($thread->forum_id);
-        $forum->thread_count--;
+        // Decrement category thread count
+        $category = $categoryModel->find($thread->category_id);
+        $category->thread_count--;
 
-        $forumModel->save($forum);
+        $categoryModel->save($category);
 
         // Decrement User thread count
         $user = $userModel->find($thread->author_id);
@@ -67,7 +66,7 @@ trait ImpactsForumCounts
     }
 
     /**
-     * Updates the forum's post count.
+     * Updates the category's post count.
      */
     protected function incrementPostCount(array $data)
     {
@@ -76,15 +75,15 @@ trait ImpactsForumCounts
         }
 
         $post = $this->find($data['id']);
-        $forumModel = model(ForumModel::class);
+        $categoryModel = model(CategoryModel::class);
         $threadModel = model(ThreadModel::class);
         $userModel = model(UserModel::class);
 
-        // Increment Forum post count
-        $forum = $forumModel->find($post->forum_id);
-        $forum->post_count++;
+        // Increment Category post count
+        $category = $categoryModel->find($post->category_id);
+        $category->post_count++;
 
-        $forumModel->save($forum);
+        $categoryModel->save($category);
 
         // Increment Thread post count
         $thread = $threadModel->find($post->thread_id);
@@ -102,7 +101,7 @@ trait ImpactsForumCounts
     }
 
     /**
-     * Updates the forum's post count.
+     * Updates the category's post count.
      */
     protected function decrementPostCount(array $data)
     {
@@ -111,15 +110,15 @@ trait ImpactsForumCounts
         }
 
         $post = $this->find($data['id']);
-        $forumModel = model(ForumModel::class);
+        $categoryModel = model(CategoryModel::class);
         $threadModel = model(ThreadModel::class);
         $userModel = model(UserModel::class);
 
-        // Decrement Forum post count
-        $forum = $forumModel->find($post->forum_id);
-        $forum->post_count--;
+        // Decrement category post count
+        $category = $categoryModel->find($post->category_id);
+        $category->post_count--;
 
-        $forumModel->save($forum);
+        $categoryModel->save($category);
 
         // Decrement Thread post count
         $thread = $threadModel->find($post->thread_id);

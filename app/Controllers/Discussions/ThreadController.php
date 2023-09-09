@@ -4,7 +4,7 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\Thread;
-use App\Models\ForumModel;
+use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 
 /**
@@ -25,16 +25,16 @@ class ThreadController extends BaseController
 
         helper('form');
 
-        $forumDropdown = model(ForumModel::class)->findAllNestedDropdown();
+        $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
 
         if ($this->request->is('post')) {
 
-            $validForumIds = array_reduce($forumDropdown, fn($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);
-            $validForumIds = implode(',', $validForumIds);
+            $validCategoryIds = array_reduce($categoryDropdown, fn($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);
+            $validCategoryIds = implode(',', $validCategoryIds);
 
             if ($this->validate([
                 'title' => ['required', 'string', 'max_length[255]'],
-                'forum_id' => ['required', "in_list[{$validForumIds}]"],
+                'category_id' => ['required', "in_list[{$validCategoryIds}]"],
                 'body' => ['required', 'string', 'max_length[65000]'],
             ])) {
                 $thread = new Thread($this->validator->getValidated());
@@ -52,7 +52,7 @@ class ThreadController extends BaseController
         }
 
         $data = [
-            'forum_dropdown' => array_merge_recursive(['' => 'Select...'], $forumDropdown),
+            'categoryDropdown' => array_merge_recursive(['' => 'Select...'], $categoryDropdown),
             'validator' => $this->validator ?? service('validation'),
         ];
 

@@ -50,12 +50,6 @@
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1 gap-4 flex">
                 <li>
-                    <a href="<?= site_url('/categories') ?>"
-                        <?= url_is('categories') ? 'class="active"' : '' ?>>
-                        Categories
-                    </a>
-                </li>
-                <li>
                     <a href="<?= site_url('discussions') ?>"
                         <?= url_is('discussions') ? 'class="active"' : '' ?>>
                         Discussions

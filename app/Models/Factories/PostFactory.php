@@ -14,7 +14,7 @@ class PostFactory extends PostModel
     public function fake(Generator &$faker): Post
     {
         return new Post([
-            'forum_id' => null,
+            'category_id' => null,
             'thread_id' => null,
             'reply_to' => null,
             'author_id' => model('UserModel')->orderBy('RAND()')->first()->id,

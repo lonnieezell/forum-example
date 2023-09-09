@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
-use App\Concerns\ImpactsForumCounts;
+use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
 use App\Entities\Thread;
@@ -12,7 +12,7 @@ use CodeIgniter\Model;
 class ThreadModel extends Model
 {
     use Sluggable;
-    use ImpactsForumCounts;
+    use ImpactsCategoryCounts;
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
@@ -24,15 +24,15 @@ class ThreadModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'forum_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup',
+        'category_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup',
     ];
 
     protected $useTimestamps = true;
 
     protected $beforeInsert = ['generateSlug'];
-    protected $afterInsert = ['incrementThreadCount', 'touchForum', 'touchUser'];
+    protected $afterInsert = ['incrementThreadCount', 'touchCategory', 'touchUser'];
     protected $afterDelete = ['decrementThreadCount'];
-    protected $afterUpdate = ['touchForum'];
+    protected $afterUpdate = ['touchCategory'];
 
     /**
      * Scope method to only return open threads.
@@ -57,14 +57,14 @@ class ThreadModel extends Model
     }
 
     /**
-     * Returns a paginated list of threads for the forum.
+     * Returns a paginated list of threads for the category.
      */
     public function forList(array $params = [])
     {
         $selects = [
             'threads.*',
-            'forums.title as forum_title',
-            'forums.slug as forum_slug',
+            'categories.title as category_title',
+            'categories.slug as category_slug',
             'posts.created_at as last_post_created_at',
             'users.username as last_post_author',
         ];
@@ -72,7 +72,7 @@ class ThreadModel extends Model
         $query = $this->select(implode(', ', $selects))
             ->open()
             ->visible()
-            ->join('forums', 'forums.id = threads.forum_id')
+            ->join('categories', 'categories.id = threads.category_id')
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
             ->join('users', 'users.id = posts.author_id');
 
@@ -106,16 +106,16 @@ class ThreadModel extends Model
     }
 
     /**
-     * Update the forum's last_thread_id.
+     * Update the category's last_thread_id.
      */
-    protected function touchForum(array $data)
+    protected function touchCategory(array $data)
     {
-        if (empty($data['data']['forum_id'])) {
+        if (empty($data['data']['category_id'])) {
             return $data;
         }
 
-        model(ForumModel::class)
-            ->where('id', $data['data']['forum_id'])
+        model(CategoryModel::class)
+            ->where('id', $data['data']['category_id'])
             ->set('last_thread_id', $data['id'])
             ->update();
 

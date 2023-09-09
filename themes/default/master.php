@@ -21,11 +21,11 @@
     <?= $this->include('_app_nav') ?>
 
     <div class="flex container mx-auto gap-4">
-        <div class="flex-1 px-4 py-8 <?= auth()->user()?->handed === 'right' ? 'order-1' : 'order-2' ?>" id="main">
+        <div class="flex-1 px-4 py-8 <?= (auth()->user()?->handed ?? 'right') === 'right'  ? 'order-1' : 'order-2' ?>" id="main">
             <?= $this->renderSection('main') ?>
         </div>
 
-        <div class="flex-0 w-64 py-8 <?= auth()->user()?->handed === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
+        <div class="flex-0 flex flex-col gap-4 w-64 py-8 <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>

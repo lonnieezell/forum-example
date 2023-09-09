@@ -6,6 +6,14 @@ Homestead.json
 Homestead.yaml
 
 #-------------------------
+# Generated Assets
+#-------------------------
+public/css/*
+public/js/*
+!public/css/.gitkeep
+!public/js/.gitkeep
+
+#-------------------------
 # Development only Files
 #-------------------------
 /node_modules

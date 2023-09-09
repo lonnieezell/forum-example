@@ -3,18 +3,18 @@
 namespace App\Models;
 
 use App\Concerns\Sluggable;
-use App\Entities\Forum;
+use App\Entities\Category;
 use CodeIgniter\Model;
 
-class ForumModel extends Model
+class CategoryModel extends Model
 {
     use Sluggable;
 
     protected $DBGroup          = 'default';
-    protected $table            = 'forums';
+    protected $table            = 'categories';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = Forum::class;
+    protected $returnType       = Category::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
@@ -25,43 +25,43 @@ class ForumModel extends Model
     protected $beforeInsert = ['generateSlug'];
 
     /**
-     * Scope method to only return active forums.
+     * Scope method to only return active categories.
      *
      * Example:
-     *  $forums = model(ForumModel::class)->active()->findAll();
+     *  $categories = model(CategoryModel::class)->active()->findAll();
      */
     public function active()
     {
-        return $this->where('forums.active', 1);
+        return $this->where('categories.active', 1);
     }
 
     /**
-     * Scope method to only return public forums.
+     * Scope method to only return public categories.
      *
      * Example:
-     *  $forums = model(ForumModel::class)->public()->findAll();
+     *  $categories = model(CategoryModel::class)->public()->findAll();
      */
     public function public()
     {
-        return $this->where('forums.private', 0);
+        return $this->where('categories.private', 0);
     }
 
     /**
-     * Scope method to only return forums with no parent.
+     * Scope method to only return categories with no parent.
      *
      * Example:
-     *  $forums = model(ForumModel::class)->parents()->findAll();
+     *  $categories = model(CategoryModel::class)->parents()->findAll();
      */
     public function parents()
     {
-        return $this->where('forums.parent_id', null);
+        return $this->where('categories.parent_id', null);
     }
 
     /**
-     * Scope method to only return forums with a parent.
+     * Scope method to only return categories with a parent.
      *
      * Example:
-     *  $forums = model(ForumModel::class)->children()->findAll();
+     *  $categories = model(CategoryModel::class)->children()->findAll();
      */
     public function children()
     {
@@ -69,23 +69,23 @@ class ForumModel extends Model
     }
 
     /**
-     * Returns a list of all forums, nested by parent.
+     * Returns a list of all categories, nested by parent.
      */
     public function findAllNested()
     {
         $selects = [
-            'forums.*',
+            'categories.*',
             'threads.title as last_thread_title',
             'threads.updated_at as last_thread_updated_at',
             'users.username as last_thread_author',
         ];
 
-        $forums = $this
+        $categories = $this
             ->active()
             ->orderBy('order', 'asc')
             ->parents()
             ->select(implode(', ', $selects))
-            ->join('threads', 'threads.id = forums.last_thread_id')
+            ->join('threads', 'threads.id = categories.last_thread_id')
             ->join('users', 'users.id = threads.author_id')
             ->findAll();
 
@@ -93,26 +93,26 @@ class ForumModel extends Model
             ->active()
             ->children()
             ->select(implode(', ', $selects))
-            ->join('threads', 'threads.id = forums.last_thread_id')
+            ->join('threads', 'threads.id = categories.last_thread_id')
             ->join('users', 'users.id = threads.author_id')
             ->orderBy('order', 'asc')
             ->findAll();
 
-        foreach ($forums as $forum) {
+        foreach ($categories as $category) {
             $children = [];
             foreach ($allchildren as $child) {
-                if ($child->parent_id == $forum->id) {
+                if ($child->parent_id == $category->id) {
                     $children[] = $child;
                 }
             }
-            $forum->children = $children;
+            $category->children = $children;
         }
 
-        return $forums;
+        return $categories;
     }
 
     /**
-     * Returns a list of all forums, prepared for dropdown.
+     * Returns a list of all categories, prepared for dropdown.
      */
     public function findAllNestedDropdown()
     {
@@ -120,7 +120,7 @@ class ForumModel extends Model
             'id', 'title', 'parent_id',
         ];
 
-        $forums = $this
+        $categories = $this
             ->active()
             ->orderBy('parent_id', 'asc')
             ->orderBy('order', 'asc')
@@ -129,12 +129,12 @@ class ForumModel extends Model
 
         $resultArray = [];
 
-        foreach ($forums as $item) {
+        foreach ($categories as $item) {
             if ($item->parent_id === null) {
                 $resultArray[$item->title] = [];
             } else {
                 $parentTitle = null;
-                foreach ($forums as $parent) {
+                foreach ($categories as $parent) {
                     if ($parent->id === $item->parent_id) {
                         $parentTitle = $parent->title;
                         break;

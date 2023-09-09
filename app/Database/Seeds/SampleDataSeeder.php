@@ -2,17 +2,18 @@
 
 namespace App\Database\Seeds;
 
-use App\Entities\Forum;
-use App\Models\Factories\ForumFactory;
+use App\Entities\Category;
+use App\Models\Factories\CategoryFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
+use CodeIgniter\CLI\CLI;
 use CodeIgniter\Database\Seeder;
 
 class SampleDataSeeder extends Seeder
 {
-    private array $forums = [
-        'Operations' => ['parent' => null, 'order' => 1, 'active' => 1, 'private' => 1, 'permissions' => ['admin.access', 'forums.moderate']],
+    private array $categories = [
+        'Operations' => ['parent' => null, 'order' => 1, 'active' => 1, 'private' => 1, 'permissions' => ['admin.access', 'categories.moderate']],
             'Framework Planning' => ['parent' => 'Operations', 'order' => 1, 'active' => 1, 'private' => 1],
             'Website Planning' => ['parent' => 'Operations', 'order' => 2, 'active' => 1, 'private' => 1],
             'Social Stuff' => ['parent' => 'Operations', 'order' => 3, 'active' => 1, 'private' => 1],
@@ -53,19 +54,23 @@ class SampleDataSeeder extends Seeder
     public function run()
     {
         helper('test');
-        $forumModel = model('ForumModel');
+        $categoryModel = model('CategoryModel');
 
         $this->seedDemoUsers();
 
-        foreach ($this->forums as $name => $info) {
+        $totalSteps = count($this->categories);
+        $currentStep = 1;
+
+        foreach ($this->categories as $name => $info) {
+            CLI::showProgress($currentStep++, $totalSteps);
             $parent = $info['parent']
-                ? $forumModel->where('title', $info['parent'])->first()
+                ? $categoryModel->where('title', $info['parent'])->first()
                 : null;
 
-            $forum = $forumModel->where('title', $name)->first();
+            $category = $categoryModel->where('title', $name)->first();
 
-            if (! $forum) {
-                fake(ForumFactory::class, [
+            if (! $category) {
+                fake(CategoryFactory::class, [
                     'title' => $name,
                     'parent_id' => $parent !== null ? $parent->id : null,
                     'order' => $info['order'],
@@ -74,17 +79,19 @@ class SampleDataSeeder extends Seeder
                     'permissions' => $info['permissions'] ?? null,
                 ], true);
 
-                $forum = $forumModel->where('title', $name)->first();
-                db_connect()->table('forums')
-                    ->where('id', $forum->id)
+                $category = $categoryModel->where('title', $name)->first();
+                db_connect()->table('categories')
+                    ->where('id', $category->id)
                     ->update([
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
             }
 
-            $this->createThreads($forum);
+            $this->createThreads($category);
         }
+
+        CLI::showProgress(false);
     }
 
     private function seedDemoUsers()
@@ -108,13 +115,13 @@ class SampleDataSeeder extends Seeder
         }
     }
 
-    private function createThreads(Forum $forum)
+    private function createThreads(Category $category)
     {
-        $numPerForum = 10;
+        $numPerCategory = 10;
 
-        for ($i = 0; $i < $numPerForum; $i++) {
+        for ($i = 0; $i < $numPerCategory; $i++) {
             $thread = fake(ThreadFactory::class, [
-                'forum_id' => $forum->id,
+                'category_id' => $category->id,
             ], true);
 
             db_connect()->table('threads')
@@ -128,7 +135,7 @@ class SampleDataSeeder extends Seeder
 
             for ($j = 0; $j < $numReplies; $j++) {
                 $post = fake(PostFactory::class, [
-                    'forum_id' => $forum->id,
+                    'category_id' => $category->id,
                     'thread_id' => $thread->id,
                 ], true);
 

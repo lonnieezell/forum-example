@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
-use App\Concerns\ImpactsForumCounts;
+use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Entities\Post;
 use CodeIgniter\Model;
 
 class PostModel extends Model
 {
-    use ImpactsForumCounts;
+    use ImpactsCategoryCounts;
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
@@ -22,7 +22,7 @@ class PostModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'forum_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
+        'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
     ];
 
     protected $useTimestamps = true;
@@ -56,7 +56,7 @@ class PostModel extends Model
     }
 
     /**
-     * Update the forum's last_thread_id.
+     * Update the category's last_thread_id.
      */
     protected function touchThread(array $data)
     {
