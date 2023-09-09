@@ -17,6 +17,11 @@
                 'class' => 'input input-bordered', 'required' => '',
                 'id' => 'editor', 'data-type' => 'markdown'
             ]); ?>
+            <?php if ($validator->hasError('body')): ?>
+                <label class="label">
+                    <span class="label-text-alt text-red-600"><?= $validator->getError('body'); ?></span>
+                </label>
+            <?php endif; ?>
         </div>
         <div class="flex justify-center">
             <div class="btn-group btn-group-horizontal w-full">
