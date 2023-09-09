@@ -20,6 +20,9 @@ class Thread extends Entity
         'closed' => 'boolean',
         'sticky' => 'boolean',
         'visible' => 'boolean',
+        'last_post_id' => '?integer',
+        'post_count' => 'integer',
+        'answer_post_id' => '?integer',
     ];
 
     /**
@@ -32,5 +35,13 @@ class Thread extends Entity
             model(CategoryModel::class)->find($this->category_id)?->slug;
 
         return route_to('thread', $categorySlug, $this->slug);
+    }
+
+    /**
+     * Returns an original (initial) category_id value.
+     */
+    public function getOriginalCategoryId(): int
+    {
+        return (int) $this->original['category_id'];
     }
 }

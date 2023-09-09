@@ -98,7 +98,8 @@ class ThreadController extends BaseController
                 $thread->edited_at = Time::now('UTC');
 
                 if ($thread->hasChanged('category_id')) {
-                    // we need to update all the stats
+                    // We need to update all the stats
+                    $threadModel->withStats($thread->getOriginalCategoryId());
                 }
 
                 if ($threadModel->update($threadId, $thread)) {

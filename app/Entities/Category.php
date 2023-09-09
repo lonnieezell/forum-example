@@ -16,6 +16,7 @@ class Category extends Entity
         'private'   => 'boolean',
         'thread_count' => 'integer',
         'post_count' => 'integer',
+        'last_thread_id' => '?integer',
         'permissions' => 'array',
     ];
 
