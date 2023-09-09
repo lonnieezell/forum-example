@@ -37,7 +37,7 @@
                     </div>
                     <div class="flex justify-center">
                         <div class="btn-group btn-group-horizontal w-full">
-                            <button class="btn btn-dark w-1/2"
+                            <button class="btn w-1/2"
                                 hx-confirm="unset"
                                 hx-post="<?= route_to('thread-preview'); ?>"
                                 hx-target="#editor-preview"

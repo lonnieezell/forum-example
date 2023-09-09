@@ -1,6 +1,11 @@
 <div class="post-create">
 
-    <?= form_open('', ['hx-boost' => 'true', 'hx-confirm' => 'Are you sure you want to create a new post?']); ?>
+    <?= form_open('', [
+        'hx-confirm' => 'Are you sure you want to create a new post?',
+        'hx-post' => current_url(),
+        'hx-target' => '#replies-content',
+        'hx-swap' => 'beforeend show:bottom',
+    ]); ?>
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <div class="card-title">
@@ -19,7 +24,7 @@
                 </div>
                 <div class="flex justify-center">
                     <div class="btn-group btn-group-horizontal w-full">
-                        <button class="btn btn-dark w-1/2"
+                        <button class="btn w-1/2"
                             hx-confirm="unset"
                             hx-post="<?= route_to('post-preview'); ?>"
                             hx-target="#editor-preview"

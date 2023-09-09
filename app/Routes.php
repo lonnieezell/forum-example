@@ -11,11 +11,17 @@ $routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['
 
 // Discussions
 $routes->get('discussions', 'Discussions\DiscussionController::list');
+
+// Threads
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);
+$routes->match(['get', 'put'], 'discussions/(:num)/edit', 'Discussions\ThreadController::edit/$1', ['as' => 'thread-edit']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
+
+// Posts
 $routes->match(['get', 'post'], 'posts/(:num)', 'Discussions\PostController::create/$1', ['as' => 'post-create']);
 $routes->match(['get', 'post'], 'posts/(:num)/(:num)', 'Discussions\PostController::create/$1/$2', ['as' => 'post-create-reply']);
+$routes->match(['get', 'put'], 'posts/(:num)/edit', 'Discussions\PostController::edit/$1', ['as' => 'post-edit']);
 $routes->post('post/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
 
 // Members
