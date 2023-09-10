@@ -1,5 +1,5 @@
-<div>
-    <div class="post p-6 rounded bg-base-100 shadow-xl my-6">
+<div class="my-6">
+    <div class="post p-6 rounded bg-base-100 shadow-xl">
         <!-- Post Meta -->
         <div class="post-meta">
             <div class="flex gap-4">
