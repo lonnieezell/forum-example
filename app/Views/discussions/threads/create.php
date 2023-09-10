@@ -40,7 +40,7 @@
                         <label class="label">
                             <span class="label-text">Message</span>
                         </label>
-                        <?= form_textarea('body', set_value('body'),  [
+                        <?= form_textarea('body', set_value('body', '', false),  [
                             'class' => 'input input-bordered', 'required' => '',
                             'id' => 'editor', 'data-type' => 'markdown'
                         ]); ?>
