@@ -8,7 +8,7 @@
             <h3 class="text-xl leading-loose font-bold">
                 <?= esc($thread->title) ?>
             </h3>
-            <div class="thread-content prose">
+            <div class="thread-content prose !max-w-full">
                 <?= $thread->render() ?>
             </div>
         </div>

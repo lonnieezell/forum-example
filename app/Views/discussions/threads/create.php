@@ -17,6 +17,11 @@
                             'class' => 'input input-bordered', 'placeholder' => 'Type here...',
                             'required' => ''
                         ]); ?>
+                        <?php if ($validator->hasError('title')): ?>
+                            <label class="label">
+                                <span class="label-text-alt text-red-600"><?= $validator->getError('title'); ?></span>
+                            </label>
+                        <?php endif; ?>
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
@@ -25,19 +30,29 @@
                         <?= form_dropdown('category_id', $categoryDropdown, set_value('category_id', ''), [
                             'class' => 'select select-bordered', 'required' => ''
                         ]); ?>
+                        <?php if ($validator->hasError('category_id')): ?>
+                            <label class="label">
+                                <span class="label-text-alt text-red-600"><?= $validator->getError('category_id'); ?></span>
+                            </label>
+                        <?php endif; ?>
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text">Message</span>
                         </label>
-                        <?= form_textarea('body', set_value('body'),  [
+                        <?= form_textarea('body', set_value('body', '', false),  [
                             'class' => 'input input-bordered', 'required' => '',
                             'id' => 'editor', 'data-type' => 'markdown'
                         ]); ?>
+                        <?php if ($validator->hasError('body')): ?>
+                            <label class="label">
+                                <span class="label-text-alt text-red-600"><?= $validator->getError('body'); ?></span>
+                            </label>
+                        <?php endif; ?>
                     </div>
                     <div class="flex justify-center">
                         <div class="btn-group btn-group-horizontal w-full">
-                            <button class="btn btn-dark w-1/2"
+                            <button class="btn w-1/2"
                                 hx-confirm="unset"
                                 hx-post="<?= route_to('thread-preview'); ?>"
                                 hx-target="#editor-preview"

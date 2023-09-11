@@ -8,6 +8,7 @@ use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
 use App\Entities\Thread;
 use CodeIgniter\Model;
+use ReflectionException;
 
 class ThreadModel extends Model
 {
@@ -29,10 +30,14 @@ class ThreadModel extends Model
 
     protected $useTimestamps = true;
 
+    protected $cleanValidationRules = false;
+
     protected $beforeInsert = ['generateSlug'];
     protected $afterInsert = ['incrementThreadCount', 'touchCategory', 'touchUser'];
     protected $afterDelete = ['decrementThreadCount'];
-    protected $afterUpdate = ['touchCategory'];
+    protected $afterUpdate = ['touchCategory', 'recalculateStats'];
+
+    protected ?int $oldCategoryId = null;
 
     /**
      * Scope method to only return open threads.
@@ -121,4 +126,69 @@ class ThreadModel extends Model
 
         return $data;
     }
+
+    /**
+     * Set the old category_id, so we can recalculate stats later.
+     */
+    public function withStats(int $categoryId)
+    {
+        $this->oldCategoryId = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Recalculate stats for thread.
+     *
+     * @throws ReflectionException
+     */
+    protected function recalculateStats(array $data)
+    {
+        if (! $data['result']) {
+            return false;
+        }
+
+        if ($this->oldCategoryId === null || count($data['id']) > 1) {
+            return $data;
+        }
+
+        $categoryModel = model(CategoryModel::class);
+
+        // Update stats for new category
+        $newCategory = $categoryModel->find($data['data']['category_id']);
+        $newCategory->thread_count++;
+        $newCategory->post_count += $data['data']['post_count'];
+
+        // Update the last_thread_id for new category
+        $oldestThread = $this
+            ->where('category_id', $newCategory->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($newCategory->last_thread_id !== $oldestThread->id) {
+            $newCategory->last_thread_id = $oldestThread->id;
+        }
+
+        $categoryModel->save($newCategory);
+
+        // Update stats for old category
+        $oldCategory = $categoryModel->find($this->oldCategoryId);
+        $oldCategory->thread_count--;
+        $oldCategory->post_count -= $data['data']['post_count'];
+
+        // Update the last_thread_id for old category
+        if ($oldCategory->last_thread_id === $data['id'][0]) {
+            $oldestThread = $this
+                ->where('category_id', $oldCategory->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            $oldCategory->last_thread_id = $oldestThread->id;
+        }
+
+        $categoryModel->save($oldCategory);
+
+        return $data;
+    }
+
 }

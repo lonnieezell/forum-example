@@ -7,6 +7,7 @@ use App\Entities\Post;
 use App\Entities\Thread;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
+use CodeIgniter\I18n\Time;
 
 /**
  * Class Post
@@ -37,11 +38,15 @@ class PostController extends BaseController
                 $post->category_id = $thread->category_id;
                 $post->author_id = user_id();
                 $post->visible = 1;
+                $post->ip_address = $this->request->getIPAddress();
+
 
                 $postModel = model(PostModel::class);
 
                 if ($postId = $postModel->insert($post)) {
-                    return redirect()->hxRedirect($thread->link());
+                    $post = $postModel->find($postId);
+                    return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
+                        . '<div id="post-reply" hx-swap-oob="true"></div>';
                 }
             }
         }
@@ -54,7 +59,47 @@ class PostController extends BaseController
             'validator' => $this->validator ?? service('validation'),
         ];
 
-        return $this->render('discussions/posts/create', $data);
+        return view('discussions/posts/_create', $data);
+    }
+
+    /**
+     * Edit post
+     */
+    public function edit(int $postId)
+    {
+        $postModel = model(PostModel::class);
+
+        $post = $postModel->find($postId);
+
+        if (empty($post) ||
+            ($post->author_id !== user_id() &&
+                ! auth()->user()?->can('posts.edit'))) {
+            dd('Unauthorized');
+        }
+
+        if ($this->request->is('put')) {
+
+            if ($this->validate([
+                'body' => ['required', 'string', 'max_length[65000]'],
+            ])) {
+                $post->fill($this->validator->getValidated());
+                $post->editor_id = user_id();
+                $post->edited_at = Time::now('UTC');
+
+                if ($postModel->update($postId, $post)) {
+                    return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+                }
+            }
+        }
+
+        helper('form');
+
+        $data = [
+            'post' => $post,
+            'validator' => $this->validator ?? service('validation'),
+        ];
+
+        return view('discussions/posts/_edit', $data);
     }
 
     /**
