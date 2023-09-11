@@ -14,6 +14,7 @@ trait RendersContent
         switch ($this->markup) {
             case 'bbcode':
                 return TextFormatter::instance()->renderBBCode($this->body);
+
             case 'markdown':
             default:
                 return TextFormatter::instance()->renderMarkdown($this->body);

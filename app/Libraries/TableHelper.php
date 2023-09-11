@@ -9,29 +9,21 @@ use Michalsn\CodeIgniterHtmx\HTTP\Response;
 class TableHelper
 {
     protected IncomingRequest $request;
-
     protected Response $response;
-
     protected string $baseURL;
-
     protected array $search;
-
     protected int $page;
-
     protected int $perPage;
-
     protected string $sortColumn;
-
     protected string $sortDirection;
-
     protected array $validSortColumns = [];
 
     public function __construct(IncomingRequest $request, Response $response, string $baseURL, array $search, int $page, int $perPage, string $sortColumn, string $sortDirection)
     {
-        $this->request       = $request;
-        $this->response      = $response;
+        $this->request  = $request;
+        $this->response = $response;
 
-        $this->baseURL       = $baseURL;
+        $this->baseURL = $baseURL;
 
         $this->search        = $search;
         $this->page          = $page;
@@ -94,7 +86,7 @@ class TableHelper
             'sortColumn'    => $this->sortColumn,
             'sortDirection' => $this->sortDirection,
             'perPage'       => $this->perPage,
-            'page'          => $this->page
+            'page'          => $this->page,
         ];
 
         if ($this->search) {

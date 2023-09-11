@@ -14,17 +14,17 @@ class PostFactory extends PostModel
     public function fake(Generator &$faker): Post
     {
         return new Post([
-            'category_id' => null,
-            'thread_id' => null,
-            'reply_to' => null,
-            'author_id' => model('UserModel')->orderBy('RAND()')->first()->id,
-            'editor_id' => null,
-            'edited_at' => null,
+            'category_id'   => null,
+            'thread_id'     => null,
+            'reply_to'      => null,
+            'author_id'     => model('UserModel')->orderBy('RAND()')->first()->id,
+            'editor_id'     => null,
+            'edited_at'     => null,
             'edited_reason' => null,
-            'body' => $faker->paragraph(5, true),
-            'ip_address' => $faker->ipv4,
-            'include_sig' => false,
-            'visible' => true,
+            'body'          => $faker->paragraph(5, true),
+            'ip_address'    => $faker->ipv4,
+            'include_sig'   => false,
+            'visible'       => true,
         ]);
     }
 }

@@ -24,12 +24,10 @@ class PostModel extends Model
     protected $allowedFields    = [
         'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
     ];
-
     protected $useTimestamps = true;
-
-    protected $afterInsert = ['incrementPostCount', 'touchThread', 'touchUser'];
-    protected $afterDelete = ['decrementPostCount'];
-    protected $afterUpdate = ['touchThread'];
+    protected $afterInsert   = ['incrementPostCount', 'touchThread', 'touchUser'];
+    protected $afterDelete   = ['decrementPostCount'];
+    protected $afterUpdate   = ['touchThread'];
 
     /**
      * Scope method to only return visible posts.
@@ -45,7 +43,7 @@ class PostModel extends Model
     /**
      * Returns a paginated list of posts for the thread.
      */
-    public function forThread(int $threadId, int $perPage=10)
+    public function forThread(int $threadId, int $perPage = 10)
     {
         $posts = $this->where('thread_id', $threadId)
             ->visible()

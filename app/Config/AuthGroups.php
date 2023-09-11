@@ -65,10 +65,10 @@ class AuthGroups extends ShieldAuthGroups
         'users.edit'          => 'Can edit existing non-admin users',
         'users.delete'        => 'Can delete existing non-admin users',
         'beta.access'         => 'Can access beta-level features',
-        'categories.edit'         => 'Can edit categories',
-        'categories.delete'       => 'Can delete categories',
-        'categories.create'       => 'Can create categories',
-        'categories.moderate'     => 'Can moderate categories',
+        'categories.edit'     => 'Can edit categories',
+        'categories.delete'   => 'Can delete categories',
+        'categories.create'   => 'Can create categories',
+        'categories.moderate' => 'Can moderate categories',
         'threads.edit'        => 'Can edit threads',
         'threads.delete'      => 'Can delete threads',
         'threads.create'      => 'Can create threads',
@@ -111,7 +111,7 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'user' => [
             'threads.create',
-            'posts.create'
+            'posts.create',
         ],
         'beta' => [
             'beta.access',

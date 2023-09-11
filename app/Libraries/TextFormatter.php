@@ -15,7 +15,7 @@ class TextFormatter
 
     public static function instance()
     {
-        if (is_null(static::$instance)) {
+        if (null === static::$instance) {
             static::$instance = new static();
         }
 
@@ -50,11 +50,12 @@ class TextFormatter
 
     /**
      * Returns the Markdown parser
+     *
      * @return mixed
      */
     private function markdownParser()
     {
-        if (! is_null($this->markdownParser)) {
+        if (null !== $this->markdownParser) {
             return $this->markdownParser;
         }
 
@@ -67,7 +68,7 @@ class TextFormatter
         // Get an instance of the parser and the renderer
         extract($configurator->finalize());
 
-        $this->markdownParser = $parser;
+        $this->markdownParser   = $parser;
         $this->markdownRenderer = $renderer;
 
         return $this->markdownParser;
@@ -75,11 +76,12 @@ class TextFormatter
 
     /**
      * Returns the Markdown renderer
+     *
      * @return mixed
      */
     private function markdownRenderer()
     {
-        if (! is_null($this->markdownRenderer)) {
+        if (null !== $this->markdownRenderer) {
             return $this->markdownRenderer;
         }
 
@@ -90,11 +92,12 @@ class TextFormatter
 
     /**
      * Returns the BBCode parser
+     *
      * @return mixed
      */
     private function bbcodeParser()
     {
-        if (! is_null($this->bbcodeParser)) {
+        if (null !== $this->bbcodeParser) {
             return $this->bbcodeParser;
         }
 
@@ -104,7 +107,7 @@ class TextFormatter
         // Get an instance of the parser and the renderer
         extract($configurator->finalize());
 
-        $this->bbcodeParser = $parser;
+        $this->bbcodeParser   = $parser;
         $this->bbcodeRenderer = $renderer;
 
         return $this->bbcodeParser;
@@ -112,11 +115,12 @@ class TextFormatter
 
     /**
      * Returns the BBCode renderer
+     *
      * @return mixed
      */
     private function bbcodeRenderer()
     {
-        if (! is_null($this->bbcodeRenderer)) {
+        if (null !== $this->bbcodeRenderer) {
             return $this->bbcodeRenderer;
         }
 

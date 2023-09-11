@@ -9,8 +9,6 @@ use InvalidArgumentException;
 
 /**
  * Class MemberController
- *
- * @package App\Controllers\Members
  */
 class MemberController extends BaseController
 {
@@ -34,7 +32,7 @@ class MemberController extends BaseController
             'page'            => ['is_natural', 'greater_than_equal_to[1]'],
             'search.username' => ['permit_empty', 'string', 'max_length[20]'],
             'search.country'  => ['permit_empty', 'string', 'max_length[20]'],
-            'search.role'     => ['permit_empty', 'in_list['.implode(',', $roleKeys).']'],
+            'search.role'     => ['permit_empty', 'in_list[' . implode(',', $roleKeys) . ']'],
             'search.type'     => ['permit_empty', 'in_list[all,new]'],
             'sortColumn'      => ['in_list[username,role,count,country,last_active]'],
             'sortDirection'   => ['in_list[asc,desc]'],
@@ -46,12 +44,16 @@ class MemberController extends BaseController
 
         helper('form');
 
-        $userModel= model(UserModel::class);
+        $userModel = model(UserModel::class);
 
         $data = [
             'members' => $userModel->searchMembers(
-                $table['search'], $table['page'], $table['perPage'], $table['sortColumn'], $table['sortDirection']
-            )
+                $table['search'],
+                $table['page'],
+                $table['perPage'],
+                $table['sortColumn'],
+                $table['sortDirection']
+            ),
         ];
 
         $table['dropdowns'] = [
@@ -67,5 +69,4 @@ class MemberController extends BaseController
 
         return $this->render('members/list', $data);
     }
-
 }

@@ -27,17 +27,13 @@ class ThreadModel extends Model
     protected $allowedFields    = [
         'category_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup',
     ];
-
-    protected $useTimestamps = true;
-
+    protected $useTimestamps        = true;
     protected $cleanValidationRules = false;
-
-    protected $beforeInsert = ['generateSlug'];
-    protected $afterInsert = ['incrementThreadCount', 'touchCategory', 'touchUser'];
-    protected $afterDelete = ['decrementThreadCount'];
-    protected $afterUpdate = ['touchCategory', 'recalculateStats'];
-
-    protected ?int $oldCategoryId = null;
+    protected $beforeInsert         = ['generateSlug'];
+    protected $afterInsert          = ['incrementThreadCount', 'touchCategory', 'touchUser'];
+    protected $afterDelete          = ['decrementThreadCount'];
+    protected $afterUpdate          = ['touchCategory', 'recalculateStats'];
+    protected ?int $oldCategoryId   = null;
 
     /**
      * Scope method to only return open threads.
@@ -81,18 +77,21 @@ class ThreadModel extends Model
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
             ->join('users', 'users.id = posts.author_id');
 
-        switch($params['type'] ?? 'recent-posts') {
+        switch ($params['type'] ?? 'recent-posts') {
             case 'recent-threads':
                 $query = $query->orderBy('threads.created_at', 'desc');
                 break;
+
             case 'unanswered':
                 $query = $query->where('threads.answer_post_id', null)
                     ->orderBy('threads.created_at', 'desc');
                 break;
+
             case 'my-threads':
                 $query = $query->where('threads.author_id', user_id())
                     ->orderBy('posts.created_at', 'desc');
                 break;
+
             case 'recent-posts':
             default:
                 $query = $query->orderBy('posts.created_at', 'desc');
@@ -190,5 +189,4 @@ class ThreadModel extends Model
 
         return $data;
     }
-
 }

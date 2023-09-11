@@ -13,15 +13,15 @@ class Thread extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at'];
     protected $casts   = [
-        'category_id' => 'integer',
-        'author_id' => 'integer',
-        'editor_id' => 'integer',
-        'views' => 'integer',
-        'closed' => 'boolean',
-        'sticky' => 'boolean',
-        'visible' => 'boolean',
-        'last_post_id' => '?integer',
-        'post_count' => 'integer',
+        'category_id'    => 'integer',
+        'author_id'      => 'integer',
+        'editor_id'      => 'integer',
+        'views'          => 'integer',
+        'closed'         => 'boolean',
+        'sticky'         => 'boolean',
+        'visible'        => 'boolean',
+        'last_post_id'   => '?integer',
+        'post_count'     => 'integer',
         'answer_post_id' => '?integer',
     ];
 
@@ -30,8 +30,7 @@ class Thread extends Entity
      */
     public function link()
     {
-        $categorySlug = isset($this->category_slug) ?
-            $this->category_slug :
+        $categorySlug = $this->category_slug ??
             model(CategoryModel::class)->find($this->category_id)?->slug;
 
         return route_to('thread', $categorySlug, $this->slug);

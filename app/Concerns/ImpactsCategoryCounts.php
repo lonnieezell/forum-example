@@ -5,21 +5,24 @@ namespace App\Concerns;
 use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 use App\Models\UserModel;
+use ReflectionException;
 
 trait ImpactsCategoryCounts
 {
     /**
      * Updates the category's discussion count.
+     *
+     * @throws ReflectionException
      */
-    protected function incrementThreadCount(array $data)
+    protected function incrementThreadCount(array $data): bool|array
     {
         if (! $data['result']) {
             return false;
         }
 
-        $thread = $this->find($data['id']);
+        $thread        = $this->find($data['id']);
         $categoryModel = model(CategoryModel::class);
-        $userModel = model(UserModel::class);
+        $userModel     = model(UserModel::class);
 
         // Increment Category thread count
         $category = $categoryModel->find($thread->category_id);
@@ -48,7 +51,7 @@ trait ImpactsCategoryCounts
         $thread = $this->find($data['id']);
 
         $categoryModel = model(CategoryModel::class);
-        $userModel = model(UserModel::class);
+        $userModel     = model(UserModel::class);
 
         // Decrement category thread count
         $category = $categoryModel->find($thread->category_id);
@@ -74,10 +77,10 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $post = $this->find($data['id']);
+        $post          = $this->find($data['id']);
         $categoryModel = model(CategoryModel::class);
-        $threadModel = model(ThreadModel::class);
-        $userModel = model(UserModel::class);
+        $threadModel   = model(ThreadModel::class);
+        $userModel     = model(UserModel::class);
 
         // Increment Category post count
         $category = $categoryModel->find($post->category_id);
@@ -109,10 +112,10 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $post = $this->find($data['id']);
+        $post          = $this->find($data['id']);
         $categoryModel = model(CategoryModel::class);
-        $threadModel = model(ThreadModel::class);
-        $userModel = model(UserModel::class);
+        $threadModel   = model(ThreadModel::class);
+        $userModel     = model(UserModel::class);
 
         // Decrement category post count
         $category = $categoryModel->find($post->category_id);

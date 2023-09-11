@@ -1,10 +1,6 @@
 <?php
 
-use CodeIgniter\Router\RouteCollection;
-
-$routes->get('/', function () {
-    return redirect()->to('/discussions');
-});
+$routes->get('/', static fn () => redirect()->to('/discussions'));
 
 // Categories
 $routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);

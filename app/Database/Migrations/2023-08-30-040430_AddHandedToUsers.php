@@ -10,11 +10,11 @@ class AddHandedToUsers extends Migration
     {
         $fields = [
             'handed' => [
-                'type' => 'ENUM',
+                'type'       => 'ENUM',
                 'constraint' => ['left', 'right'],
-                'default' => 'right',
-                'null' => false,
-                'after' => 'last_active'
+                'default'    => 'right',
+                'null'       => false,
+                'after'      => 'last_active',
             ],
         ];
         $this->forge->addColumn('users', $fields);

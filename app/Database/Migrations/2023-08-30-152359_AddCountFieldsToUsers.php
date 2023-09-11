@@ -11,41 +11,41 @@ class AddCountFieldsToUsers extends Migration
         // Users extra fields
         $fields = [
             'thread_count' => [
-                'type' => 'int',
+                'type'       => 'int',
                 'constraint' => 11,
-                'unsigned' => true,
-                'null' => false,
-                'default' => 0,
-                'after' => 'handed'
+                'unsigned'   => true,
+                'null'       => false,
+                'default'    => 0,
+                'after'      => 'handed',
             ],
             'post_count' => [
-                'type' => 'int',
+                'type'       => 'int',
                 'constraint' => 11,
-                'unsigned' => true,
-                'null' => false,
-                'default' => 0,
-                'after' => 'thread_count'
+                'unsigned'   => true,
+                'null'       => false,
+                'default'    => 0,
+                'after'      => 'thread_count',
             ],
             'avatar' => [
-                'type' => 'varchar',
+                'type'       => 'varchar',
                 'constraint' => 64,
-                'null' => true,
-                'default' => null,
-                'after' => 'post_count'
+                'null'       => true,
+                'default'    => null,
+                'after'      => 'post_count',
             ],
             'country' => [
-                'type' => 'varchar',
+                'type'       => 'varchar',
                 'constraint' => 32,
-                'null' => true,
-                'default' => null,
-                'after' => 'avatar'
+                'null'       => true,
+                'default'    => null,
+                'after'      => 'avatar',
             ],
             'timezone' => [
-                'type' => 'varchar',
+                'type'       => 'varchar',
                 'constraint' => 32,
-                'null' => false,
-                'default' => 'UTC',
-                'after' => 'country'
+                'null'       => false,
+                'default'    => 'UTC',
+                'after'      => 'country',
             ],
         ];
         $this->forge->addColumn('users', $fields);

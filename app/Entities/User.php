@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use CodeIgniter\Entity\Entity;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 
 class User extends ShieldUser

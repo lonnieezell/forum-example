@@ -4,15 +4,12 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\Post;
-use App\Entities\Thread;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\I18n\Time;
 
 /**
  * Class Post
- *
- * @package App\Controllers\Discussions
  */
 class PostController extends BaseController
 {
@@ -26,25 +23,24 @@ class PostController extends BaseController
         }
 
         if ($this->request->is('post')) {
-
             if ($this->validate([
                 'thread_id' => ['required', 'is_natural_no_zero', 'thread_exists'],
-                'reply_to' => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
-                'body' => ['required', 'string', 'max_length[65000]'],
+                'reply_to'  => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
+                'body'      => ['required', 'string', 'max_length[65000]'],
             ])) {
-                $post = new Post($this->validator->getValidated());
+                $post   = new Post($this->validator->getValidated());
                 $thread = model(ThreadModel::class)->find($post->thread_id);
 
                 $post->category_id = $thread->category_id;
-                $post->author_id = user_id();
-                $post->visible = 1;
-                $post->ip_address = $this->request->getIPAddress();
-
+                $post->author_id   = user_id();
+                $post->visible     = 1;
+                $post->ip_address  = $this->request->getIPAddress();
 
                 $postModel = model(PostModel::class);
 
                 if ($postId = $postModel->insert($post)) {
                     $post = $postModel->find($postId);
+
                     return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
                         . '<div id="post-reply" hx-swap-oob="true"></div>';
                 }
@@ -55,7 +51,7 @@ class PostController extends BaseController
 
         $data = [
             'thread_id' => $threadId,
-            'post_id' => $postId ?? '',
+            'post_id'   => $postId ?? '',
             'validator' => $this->validator ?? service('validation'),
         ];
 
@@ -71,14 +67,13 @@ class PostController extends BaseController
 
         $post = $postModel->find($postId);
 
-        if (empty($post) ||
-            ($post->author_id !== user_id() &&
-                ! auth()->user()?->can('posts.edit'))) {
+        if (empty($post)
+            || ($post->author_id !== user_id()
+                && ! auth()->user()?->can('posts.edit'))) {
             dd('Unauthorized');
         }
 
         if ($this->request->is('put')) {
-
             if ($this->validate([
                 'body' => ['required', 'string', 'max_length[65000]'],
             ])) {
@@ -95,7 +90,7 @@ class PostController extends BaseController
         helper('form');
 
         $data = [
-            'post' => $post,
+            'post'      => $post,
             'validator' => $this->validator ?? service('validation'),
         ];
 
@@ -117,7 +112,7 @@ class PostController extends BaseController
             return '';
         }
 
-        $thread = new Post($this->validator->getValidated());
+        $thread         = new Post($this->validator->getValidated());
         $thread->markup = 'markdown';
 
         return view('discussions/posts/_post_preview', ['thread' => $thread]);

@@ -15,10 +15,10 @@ class UserFactory extends UserModel
     {
         return new User([
             'username' => $this->generateUniqueUsername($faker->userName),
-            'email' => $faker->email,
+            'email'    => $faker->email,
             'password' => $faker->password,
-            'active' => true,
-            'country' => $faker->country,
+            'active'   => true,
+            'country'  => $faker->country,
             'timezone' => $faker->timezone,
         ]);
     }

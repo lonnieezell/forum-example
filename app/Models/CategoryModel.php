@@ -21,7 +21,6 @@ class CategoryModel extends Model
         'title', 'slug', 'description', 'parent_id', 'order', 'active', 'private',
         'thread_count', 'post_count', 'permissions', 'last_thread_id',
     ];
-
     protected $beforeInsert = ['generateSlug'];
 
     /**
@@ -100,8 +99,9 @@ class CategoryModel extends Model
 
         foreach ($categories as $category) {
             $children = [];
+
             foreach ($allchildren as $child) {
-                if ($child->parent_id == $category->id) {
+                if ($child->parent_id === $category->id) {
                     $children[] = $child;
                 }
             }
@@ -134,6 +134,7 @@ class CategoryModel extends Model
                 $resultArray[$item->title] = [];
             } else {
                 $parentTitle = null;
+
                 foreach ($categories as $parent) {
                     if ($parent->id === $item->parent_id) {
                         $parentTitle = $parent->title;

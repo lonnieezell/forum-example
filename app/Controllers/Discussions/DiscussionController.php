@@ -4,8 +4,6 @@ namespace App\Controllers\Discussions;
 
 /**
  * Class Home
- *
- * @package App\Controllers\Discussions
  */
 class DiscussionController extends \App\Controllers\BaseController
 {
