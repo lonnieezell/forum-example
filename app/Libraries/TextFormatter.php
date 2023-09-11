@@ -15,7 +15,7 @@ class TextFormatter
 
     public static function instance()
     {
-        if (null === static::$instance) {
+        if (static::$instance === null) {
             static::$instance = new static();
         }
 
@@ -55,7 +55,7 @@ class TextFormatter
      */
     private function markdownParser()
     {
-        if (null !== $this->markdownParser) {
+        if ($this->markdownParser !== null) {
             return $this->markdownParser;
         }
 
@@ -81,7 +81,7 @@ class TextFormatter
      */
     private function markdownRenderer()
     {
-        if (null !== $this->markdownRenderer) {
+        if ($this->markdownRenderer !== null) {
             return $this->markdownRenderer;
         }
 
@@ -97,7 +97,7 @@ class TextFormatter
      */
     private function bbcodeParser()
     {
-        if (null !== $this->bbcodeParser) {
+        if ($this->bbcodeParser !== null) {
             return $this->bbcodeParser;
         }
 
@@ -120,7 +120,7 @@ class TextFormatter
      */
     private function bbcodeRenderer()
     {
-        if (null !== $this->bbcodeRenderer) {
+        if ($this->bbcodeRenderer !== null) {
             return $this->bbcodeRenderer;
         }
 
