@@ -27,7 +27,7 @@ class Post extends Entity
     public function link()
     {
         $categorySlug = model('CategoryModel')->find($this->category_id)->slug;
-        $threadSlug = model('ThreadModel')->find($this->thread_id)->slug;
+        $threadSlug   = model('ThreadModel')->find($this->thread_id)->slug;
 
         return route_to('post', $categorySlug, $threadSlug, $this->id);
     }

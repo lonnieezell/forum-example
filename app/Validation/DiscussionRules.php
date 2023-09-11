@@ -16,6 +16,7 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This thread does not exist';
+
             return false;
         }
 
@@ -35,6 +36,7 @@ class DiscussionRules
 
         if ($result === null) {
             $error = "The thread or post you're trying to reply does not exist";
+
             return false;
         }
 

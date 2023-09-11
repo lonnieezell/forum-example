@@ -25,7 +25,7 @@ trait Sluggable
     {
         $slug = url_title($title, '-', true);
 
-        $count = 1;
+        $count        = 1;
         $originalSlug = $slug;
 
         while ($this->where('slug', $slug)->first()) {

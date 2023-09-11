@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Config;
 
-use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
+use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends ShieldAuth
@@ -377,7 +377,7 @@ class Auth extends ShieldAuth
 
     protected function getUrl(string $url): string
     {
-        return strpos($url, 'http') === 0
+        return str_starts_with($url, 'http')
             ? $url
             : rtrim(site_url($url), '/ ');
     }

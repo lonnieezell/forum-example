@@ -8,36 +8,18 @@ use Michalsn\CodeIgniterHtmx\HTTP\Response;
 
 class TableHelper
 {
-    protected IncomingRequest $request;
-
-    protected Response $response;
-
-    protected string $baseURL;
-
-    protected array $search;
-
-    protected int $page;
-
-    protected int $perPage;
-
-    protected string $sortColumn;
-
-    protected string $sortDirection;
-
     protected array $validSortColumns = [];
 
-    public function __construct(IncomingRequest $request, Response $response, string $baseURL, array $search, int $page, int $perPage, string $sortColumn, string $sortDirection)
-    {
-        $this->request       = $request;
-        $this->response      = $response;
-
-        $this->baseURL       = $baseURL;
-
-        $this->search        = $search;
-        $this->page          = $page;
-        $this->perPage       = $perPage;
-        $this->sortColumn    = $sortColumn;
-        $this->sortDirection = $sortDirection;
+    public function __construct(
+        protected IncomingRequest $request,
+        protected Response $response,
+        protected string $baseURL,
+        protected array $search,
+        protected int $page,
+        protected int $perPage,
+        protected string $sortColumn,
+        protected string $sortDirection
+    ) {
     }
 
     public function setValidSortColumns(array $data): TableHelper
@@ -94,7 +76,7 @@ class TableHelper
             'sortColumn'    => $this->sortColumn,
             'sortDirection' => $this->sortDirection,
             'perPage'       => $this->perPage,
-            'page'          => $this->page
+            'page'          => $this->page,
         ];
 
         if ($this->search) {

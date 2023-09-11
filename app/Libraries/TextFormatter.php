@@ -7,7 +7,7 @@ use s9e\TextFormatter\Configurator;
 
 class TextFormatter
 {
-    private static $instance;
+    private static ?TextFormatter $instance = null;
     private $markdownParser;
     private $markdownRenderer;
     private $bbcodeParser;
@@ -15,7 +15,7 @@ class TextFormatter
 
     public static function instance()
     {
-        if (is_null(static::$instance)) {
+        if (static::$instance === null) {
             static::$instance = new static();
         }
 
@@ -30,7 +30,7 @@ class TextFormatter
             if (! simplexml_load_string($text)) {
                 $text = $this->markdownParser()->parse($text);
             }
-        } catch (ErrorException $e) {
+        } catch (ErrorException) {
             $text = $this->markdownParser()->parse($text);
         }
 
@@ -50,11 +50,12 @@ class TextFormatter
 
     /**
      * Returns the Markdown parser
+     *
      * @return mixed
      */
     private function markdownParser()
     {
-        if (! is_null($this->markdownParser)) {
+        if ($this->markdownParser !== null) {
             return $this->markdownParser;
         }
 
@@ -67,7 +68,7 @@ class TextFormatter
         // Get an instance of the parser and the renderer
         extract($configurator->finalize());
 
-        $this->markdownParser = $parser;
+        $this->markdownParser   = $parser;
         $this->markdownRenderer = $renderer;
 
         return $this->markdownParser;
@@ -75,11 +76,12 @@ class TextFormatter
 
     /**
      * Returns the Markdown renderer
+     *
      * @return mixed
      */
     private function markdownRenderer()
     {
-        if (! is_null($this->markdownRenderer)) {
+        if ($this->markdownRenderer !== null) {
             return $this->markdownRenderer;
         }
 
@@ -90,11 +92,12 @@ class TextFormatter
 
     /**
      * Returns the BBCode parser
+     *
      * @return mixed
      */
     private function bbcodeParser()
     {
-        if (! is_null($this->bbcodeParser)) {
+        if ($this->bbcodeParser !== null) {
             return $this->bbcodeParser;
         }
 
@@ -104,7 +107,7 @@ class TextFormatter
         // Get an instance of the parser and the renderer
         extract($configurator->finalize());
 
-        $this->bbcodeParser = $parser;
+        $this->bbcodeParser   = $parser;
         $this->bbcodeRenderer = $renderer;
 
         return $this->bbcodeParser;
@@ -112,11 +115,12 @@ class TextFormatter
 
     /**
      * Returns the BBCode renderer
+     *
      * @return mixed
      */
     private function bbcodeRenderer()
     {
-        if (! is_null($this->bbcodeRenderer)) {
+        if ($this->bbcodeRenderer !== null) {
             return $this->bbcodeRenderer;
         }
 

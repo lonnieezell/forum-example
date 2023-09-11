@@ -2,14 +2,14 @@
 
 namespace App\Concerns;
 
-use CodeIgniter\Entity\Entity;
 use App\Models\UserModel;
+use CodeIgniter\Entity\Entity;
 
 trait HasAuthorsAndEditors
 {
     /**
-      * Adds the author and editor to each post.
-      */
+     * Adds the author and editor to each post.
+     */
     public function withUsers(array|Entity|null $records): array|Entity|null
     {
         if (empty($records)) {
@@ -22,6 +22,7 @@ trait HasAuthorsAndEditors
         }
 
         $userIds = [];
+
         foreach ($records as $record) {
             $userIds[] = $record->author_id;
             $userIds[] = $record->editor_id;
@@ -33,13 +34,11 @@ trait HasAuthorsAndEditors
 
         // Convert the array of users into an associative array
         // with the user ID as the key.
-        $userIds = array_map(function ($user) {
-            return $user->id;
-        }, $users);
-        $users = array_combine($userIds, $users);
+        $userIds = array_map(static fn ($user) => $user->id, $users);
+        $users   = array_combine($userIds, $users);
 
         // Add the users to the records
-        array_walk($records, function (&$post) use ($users) {
+        array_walk($records, static function (&$post) use ($users) {
             $post->author = $users[$post->author_id] ?? null;
             $post->editor = $users[$post->editor_id] ?? null;
         });

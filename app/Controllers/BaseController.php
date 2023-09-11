@@ -4,9 +4,10 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Michalsn\CodeIgniterHtmx\HTTP\IncomingRequest;
+use Michalsn\CodeIgniterHtmx\HTTP\Response;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,6 +34,13 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
+
+    /**
+     * Instance of the main Response object.
+     *
+     * @var Response
+     */
+    protected $response;
 
     /**
      * An array of helpers to be loaded automatically upon
@@ -71,8 +79,8 @@ abstract class BaseController extends Controller
      */
     protected function render(string $view, array $data = []): string
     {
-        $themePath = ROOTPATH ."/themes/{$this->theme}/";
-        $renderer = single_service('renderer', $themePath);
+        $themePath = ROOTPATH . "/themes/{$this->theme}/";
+        $renderer  = single_service('renderer', $themePath);
 
         return $renderer
             ->setData($data)

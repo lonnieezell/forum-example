@@ -2,12 +2,12 @@
 
 namespace App\Controllers\Discussions;
 
+use App\Controllers\BaseController;
+
 /**
  * Class Home
- *
- * @package App\Controllers\Discussions
  */
-class DiscussionController extends \App\Controllers\BaseController
+class DiscussionController extends BaseController
 {
     /**
      * Display a standard forum-style list of discussions.

@@ -11,12 +11,9 @@ trait RendersContent
      */
     public function render(): string
     {
-        switch ($this->markup) {
-            case 'bbcode':
-                return TextFormatter::instance()->renderBBCode($this->body);
-            case 'markdown':
-            default:
-                return TextFormatter::instance()->renderMarkdown($this->body);
-        }
+        return match ($this->markup) {
+            'bbcode' => TextFormatter::instance()->renderBBCode($this->body),
+            default  => TextFormatter::instance()->renderMarkdown($this->body),
+        };
     }
 }

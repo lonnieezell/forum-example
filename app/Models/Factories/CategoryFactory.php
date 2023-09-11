@@ -16,12 +16,12 @@ class CategoryFactory extends CategoryModel
         $title = $faker->sentence(3);
 
         return new Category([
-            'title' => $title,
+            'title'       => $title,
             'description' => $faker->paragraph(3),
-            'parent_id' => null,
-            'order' => 0,
-            'active' => 1,
-            'private' => 0,
+            'parent_id'   => null,
+            'order'       => 0,
+            'active'      => 1,
+            'private'     => 0,
         ]);
     }
 }
