@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:30"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    target-branch: "develop"
+    labels:
+      - "dependa bot"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:30"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    target-branch: "develop"
+    labels:
+      - "dependa bot"
+      - "github_action"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:30"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    target-branch: "develop"
+    labels:
+      - "dependa bot"
+
