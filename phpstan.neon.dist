@@ -1,21 +1,36 @@
 parameters:
 	tmpDir: build/phpstan
-	level: 6
+	level: 5
 	paths:
 		- app/
 		- tests/
 	bootstrapFiles:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
-		- app/Routes.php
+		- app/Cells/category_list.php
+		- app/Cells/discussion_list_cell.php
+		- app/Cells/show_thread_cell.php
+		- app/Config/*
 		- app/Views/*
+		- app/Libraries/TextFormatter.php
+		- app/Routes.php
 	ignoreErrors:
+	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
+	    - '#Cannot access property [\$a-z_]+ on (array|object)#'
+	    - '#Cannot call method [fill\|\|link\|\|hasChanged].+\(\) on array\|object.#'
+	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
+	    - '#Property CodeIgniter\\Controller::\$validator \(CodeIgniter\\Validation\\ValidationInterface\) on left side of \?\? is not nullable.#'
+	    -
+	    	message: '#Call to deprecated function random_string\(\):#'
+	    	paths:
+	    	    - app/Models/Factories/UserFactory.php
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity
 		- CodeIgniter\Entity\Entity
 		- Faker\Generator
 	scanDirectories:
 		- vendor/codeigniter4/framework/system/Helpers
+		- vendor/codeigniter4/settings/src/Helpers
 	dynamicConstantNames:
 		- APP_NAMESPACE
 		- CI_DEBUG

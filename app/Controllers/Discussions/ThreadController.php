@@ -8,6 +8,7 @@ use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 use CodeIgniter\I18n\Time;
 use Exception;
+use ReflectionException;
 
 /**
  * Class Thread
@@ -16,6 +17,7 @@ class ThreadController extends BaseController
 {
     /**
      * Create a new thread
+     * @throws ReflectionException
      */
     public function create()
     {
@@ -63,7 +65,7 @@ class ThreadController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(int $threadId)
+    public function edit(int $threadId): string
     {
         $threadModel = model(ThreadModel::class);
 

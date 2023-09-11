@@ -7,6 +7,7 @@ use App\Entities\Post;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\I18n\Time;
+use Exception;
 
 /**
  * Class Post
@@ -16,7 +17,7 @@ class PostController extends BaseController
     /**
      * Create a new post
      */
-    public function create(int $threadId, ?int $postId = null)
+    public function create(int $threadId, ?int $postId = null): string
     {
         if (! auth()->user()?->can('posts.create')) {
             dd('Unauthorized');
@@ -60,8 +61,10 @@ class PostController extends BaseController
 
     /**
      * Edit post
+     *
+     * @throws Exception
      */
-    public function edit(int $postId)
+    public function edit(int $postId): string
     {
         $postModel = model(PostModel::class);
 
@@ -100,7 +103,7 @@ class PostController extends BaseController
     /**
      * Preview a new post
      */
-    public function preview()
+    public function preview(): string
     {
         if (! auth()->user()?->can('posts.create')) {
             dd('Unauthorized');

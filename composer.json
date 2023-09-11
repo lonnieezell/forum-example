@@ -6,6 +6,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.1",
+    "ext-simplexml": "*",
     "ext-xsl" : "*",
     "codeigniter4/framework": "^4.4",
     "codeigniter4/shield": "^1.0@beta",
@@ -14,7 +15,8 @@
     "s9e/text-formatter": "^2.13"
   },
   "require-dev": {
-    "codeigniter4/devkit": "^1.1"
+    "codeigniter4/devkit": "^1.1",
+    "rector/rector": "0.18.2"
   },
   "config": {
     "optimize-autoloader": true,
