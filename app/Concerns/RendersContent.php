@@ -13,7 +13,7 @@ trait RendersContent
     {
         return match ($this->markup) {
             'bbcode' => TextFormatter::instance()->renderBBCode($this->body),
-            default => TextFormatter::instance()->renderMarkdown($this->body),
+            default  => TextFormatter::instance()->renderMarkdown($this->body),
         };
     }
 }

@@ -18,8 +18,8 @@ class TableHelper
         protected int $page,
         protected int $perPage,
         protected string $sortColumn,
-        protected string $sortDirection)
-    {
+        protected string $sortDirection
+    ) {
     }
 
     public function setValidSortColumns(array $data): TableHelper

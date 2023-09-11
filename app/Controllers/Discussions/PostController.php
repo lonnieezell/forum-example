@@ -28,8 +28,8 @@ class PostController extends BaseController
             'reply_to'  => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
             'body'      => ['required', 'string', 'max_length[65000]'],
         ])) {
-            $post   = new Post($this->validator->getValidated());
-            $thread = model(ThreadModel::class)->find($post->thread_id);
+            $post              = new Post($this->validator->getValidated());
+            $thread            = model(ThreadModel::class)->find($post->thread_id);
             $post->category_id = $thread->category_id;
             $post->author_id   = user_id();
             $post->visible     = 1;

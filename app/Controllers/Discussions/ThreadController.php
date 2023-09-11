@@ -17,6 +17,7 @@ class ThreadController extends BaseController
 {
     /**
      * Create a new thread
+     *
      * @throws ReflectionException
      */
     public function create()

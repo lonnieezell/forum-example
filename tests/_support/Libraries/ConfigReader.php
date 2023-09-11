@@ -3,6 +3,7 @@
 namespace Tests\Support\Libraries;
 
 use Config\App;
+
 /**
  * Class ConfigReader
  *
