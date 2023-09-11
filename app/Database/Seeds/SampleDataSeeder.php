@@ -129,7 +129,7 @@ class SampleDataSeeder extends Seeder
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
 
-            $numReplies = mt_rand(0, 10);
+            $numReplies = random_int(0, 10);
 
             for ($j = 0; $j < $numReplies; $j++) {
                 $post = fake(PostFactory::class, [

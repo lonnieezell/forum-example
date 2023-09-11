@@ -57,7 +57,7 @@ class MemberController extends BaseController
         ];
 
         $table['dropdowns'] = [
-            'role' => array_combine($roleKeys, array_merge(['All'], array_column(setting('AuthGroups.groups'), 'title'))),
+            'role' => array_combine($roleKeys, ['All', ...array_column(setting('AuthGroups.groups'), 'title')]),
             'type' => ['all' => 'All users', 'new' => 'New users'],
         ];
 

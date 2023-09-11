@@ -23,28 +23,25 @@ class PostController extends BaseController
             dd('Unauthorized');
         }
 
-        if ($this->request->is('post')) {
-            if ($this->validate([
-                'thread_id' => ['required', 'is_natural_no_zero', 'thread_exists'],
-                'reply_to'  => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
-                'body'      => ['required', 'string', 'max_length[65000]'],
-            ])) {
-                $post   = new Post($this->validator->getValidated());
-                $thread = model(ThreadModel::class)->find($post->thread_id);
+        if ($this->request->is('post') && $this->validate([
+            'thread_id' => ['required', 'is_natural_no_zero', 'thread_exists'],
+            'reply_to'  => ['permit_empty', 'is_natural_no_zero', 'post_exists[]'],
+            'body'      => ['required', 'string', 'max_length[65000]'],
+        ])) {
+            $post   = new Post($this->validator->getValidated());
+            $thread = model(ThreadModel::class)->find($post->thread_id);
+            $post->category_id = $thread->category_id;
+            $post->author_id   = user_id();
+            $post->visible     = 1;
+            $post->ip_address  = $this->request->getIPAddress();
 
-                $post->category_id = $thread->category_id;
-                $post->author_id   = user_id();
-                $post->visible     = 1;
-                $post->ip_address  = $this->request->getIPAddress();
+            $postModel = model(PostModel::class);
 
-                $postModel = model(PostModel::class);
+            if ($postId = $postModel->insert($post)) {
+                $post = $postModel->find($postId);
 
-                if ($postId = $postModel->insert($post)) {
-                    $post = $postModel->find($postId);
-
-                    return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
-                        . '<div id="post-reply" hx-swap-oob="true"></div>';
-                }
+                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
+                    . '<div id="post-reply" hx-swap-oob="true"></div>';
             }
         }
 
@@ -76,17 +73,15 @@ class PostController extends BaseController
             dd('Unauthorized');
         }
 
-        if ($this->request->is('put')) {
-            if ($this->validate([
-                'body' => ['required', 'string', 'max_length[65000]'],
-            ])) {
-                $post->fill($this->validator->getValidated());
-                $post->editor_id = user_id();
-                $post->edited_at = Time::now('UTC');
+        if ($this->request->is('put') && $this->validate([
+            'body' => ['required', 'string', 'max_length[65000]'],
+        ])) {
+            $post->fill($this->validator->getValidated());
+            $post->editor_id = user_id();
+            $post->edited_at = Time::now('UTC');
 
-                if ($postModel->update($postId, $post)) {
-                    return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
-                }
+            if ($postModel->update($postId, $post)) {
+                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
         }
 

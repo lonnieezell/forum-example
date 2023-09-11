@@ -377,7 +377,7 @@ class Auth extends ShieldAuth
 
     protected function getUrl(string $url): string
     {
-        return strpos($url, 'http') === 0
+        return str_starts_with($url, 'http')
             ? $url
             : rtrim(site_url($url), '/ ');
     }

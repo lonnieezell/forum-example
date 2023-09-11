@@ -7,7 +7,7 @@ use s9e\TextFormatter\Configurator;
 
 class TextFormatter
 {
-    private static $instance;
+    private static ?TextFormatter $instance = null;
     private $markdownParser;
     private $markdownRenderer;
     private $bbcodeParser;
@@ -30,7 +30,7 @@ class TextFormatter
             if (! simplexml_load_string($text)) {
                 $text = $this->markdownParser()->parse($text);
             }
-        } catch (ErrorException $e) {
+        } catch (ErrorException) {
             $text = $this->markdownParser()->parse($text);
         }
 

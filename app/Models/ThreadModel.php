@@ -77,26 +77,14 @@ class ThreadModel extends Model
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
             ->join('users', 'users.id = posts.author_id');
 
-        switch ($params['type'] ?? 'recent-posts') {
-            case 'recent-threads':
-                $query = $query->orderBy('threads.created_at', 'desc');
-                break;
-
-            case 'unanswered':
-                $query = $query->where('threads.answer_post_id', null)
-                    ->orderBy('threads.created_at', 'desc');
-                break;
-
-            case 'my-threads':
-                $query = $query->where('threads.author_id', user_id())
-                    ->orderBy('posts.created_at', 'desc');
-                break;
-
-            case 'recent-posts':
-            default:
-                $query = $query->orderBy('posts.created_at', 'desc');
-                break;
-        }
+        $query = match ($params['type'] ?? 'recent-posts') {
+            'recent-threads' => $query->orderBy('threads.created_at', 'desc'),
+            'unanswered' => $query->where('threads.answer_post_id', null)
+                ->orderBy('threads.created_at', 'desc'),
+            'my-threads' => $query->where('threads.author_id', user_id())
+                ->orderBy('posts.created_at', 'desc'),
+            default => $query->orderBy('posts.created_at', 'desc'),
+        };
 
         return $query->paginate(20);
     }
@@ -147,7 +135,7 @@ class ThreadModel extends Model
             return false;
         }
 
-        if ($this->oldCategoryId === null || count($data['id']) > 1) {
+        if ($this->oldCategoryId === null || (is_countable($data['id']) ? count($data['id']) : 0) > 1) {
             return $data;
         }
 
