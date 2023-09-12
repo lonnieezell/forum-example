@@ -26,6 +26,7 @@
 		<exclude>
 			<directory suffix=".php">./app/Config</directory>
 			<directory suffix=".php">./app/Views</directory>
+			<directory suffix="_cell.php">./app/Cells</directory>
             <file>./app/Routes.php</file>
         </exclude>
 		<report>
