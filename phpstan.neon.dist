@@ -7,7 +7,7 @@ parameters:
 	bootstrapFiles:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
-		- app/Cells/category_list.php
+		- app/Cells/category_list_cell.php
 		- app/Cells/discussion_list_cell.php
 		- app/Cells/show_thread_cell.php
 		- app/Config/*

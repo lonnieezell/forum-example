@@ -8,6 +8,7 @@ use CodeIgniter\View\Cells\Cell;
 
 class CategoryListCell extends Cell
 {
+    protected string $view = 'category_list_cell';
     public array $categories;
     public int $activeId = 0;
     public int $parentId = 0;
