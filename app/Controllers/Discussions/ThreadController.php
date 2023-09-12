@@ -22,8 +22,8 @@ class ThreadController extends BaseController
      */
     public function create()
     {
-        if (! auth()->user()?->can('threads.create')) {
-            dd('Unauthorized');
+        if (! $this->policy->can('threads.create')) {
+            return $this->policy->deny('You are not allowed to create threads.');
         }
 
         helper('form');
