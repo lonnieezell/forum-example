@@ -17,7 +17,7 @@
             <directory name="vendor" />
             <directory name="app/Config" />
             <directory name="app/Views" />
-            <file name="app/Cells/category_list.php" />
+            <file name="app/Cells/category_list_cell.php" />
             <file name="app/Cells/discussion_list_cell.php" />
             <file name="app/Cells/show_thread_cell.php" />
             <file name="app/Routes.php" />
