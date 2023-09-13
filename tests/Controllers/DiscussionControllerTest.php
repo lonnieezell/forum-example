@@ -2,14 +2,15 @@
 
 namespace Tests\Controllers;
 
-use App\Entities\User;
 use App\Models\Factories\UserFactory;
-use App\Models\UserModel;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
 
-class DiscussionControllerTest extends TestCase
+/**
+ * @internal
+ */
+final class DiscussionControllerTest extends TestCase
 {
     protected $seed = TestDataSeeder::class;
 
@@ -112,7 +113,7 @@ class DiscussionControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('hx-redirect', site_url(implode('/', [
-            'discussions', 'cat-1-sub-category-1', 'a-new-thread'
+            'discussions', 'cat-1-sub-category-1', 'a-new-thread',
         ])));
 
         $this->seeInDatabase('threads', ['title' => 'A new thread']);
