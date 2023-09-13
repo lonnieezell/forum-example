@@ -3,8 +3,8 @@
 <?= $this->section('main')  ?>
     <h1>Discussions</h1>
 
-    <div class="discussion-list">
-        <?= view_cell('DiscussionList') ?>
+    <div id="discussion-list">
+        <?= view('discussions/_list_items', ['threads' => $threads, 'table' => $table]); ?>
     </div>
 
 <?= $this->endSection() ?>
