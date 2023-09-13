@@ -21,14 +21,16 @@ class TestDataSeeder extends Seeder
         $cat1SubCategory1 = fake(CategoryFactory::class, [
             'parent_id' => $category1->id, 'title' => 'Cat 1 Sub category 1',
         ]);
-        $cat1SubCategory2 = fake(CategoryFactory::class, [
+        // $cat1SubCategory2
+        fake(CategoryFactory::class, [
             'parent_id' => $category1->id, 'title' => 'Cat 1 Sub category 2',
         ]);
 
         $category2 = fake(CategoryFactory::class, [
             'parent_id' => null, 'title' => 'Category 2',
         ]);
-        $cat2SubCategory2 = fake(CategoryFactory::class, [
+        // $cat2SubCategory1
+        fake(CategoryFactory::class, [
             'parent_id' => $category2->id, 'title' => 'Cat 2 Sub category 1',
         ]);
 
@@ -60,35 +62,36 @@ class TestDataSeeder extends Seeder
             'thread_id'   => $thread1->id,
             'author_id'   => $user1->id,
         ]);
-        // post reply
-        $post1Reply1 = fake(PostFactory::class, [
+        // $post1Reply1
+        fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
             'author_id'   => $user2->id,
         ]);
-        // post reply
-        $post1Reply2 = fake(PostFactory::class, [
+        // $post1Reply2
+        fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
             'author_id'   => $user1->id,
         ]);
-        $post1Reply3 = fake(PostFactory::class, [
+        // $post1Reply3
+        fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
             'author_id'   => $user2->id,
         ]);
-        $post1Reply3 = fake(PostFactory::class, [
+        // $post1Reply4
+        fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
             'author_id'   => $user1->id,
         ]);
-
-        // post 2
-        $post2 = fake(PostFactory::class, [
+        // $post2
+        fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'author_id'   => $user1->id,
