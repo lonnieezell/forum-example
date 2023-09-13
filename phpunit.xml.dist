@@ -49,7 +49,7 @@
 			<arguments>
 				<array>
 					<element key="timeLimit">
-						<double>0.50</double>
+						<double>1.00</double>
 					</element>
 					<element key="reportable">
 						<integer>30</integer>
