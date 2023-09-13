@@ -3,7 +3,7 @@
 <?= $this->section('main')  ?>
     <h1>Members</h1>
 
-    <div class="member-list">
+    <div id="member-list">
 
         <div class="mt-4 my-6 flex justify-between">
             <form action="<?= current_url(); ?>" id="member-search" class="flex w-full" hx-target="body">

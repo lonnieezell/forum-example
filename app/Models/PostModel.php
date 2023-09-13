@@ -14,7 +14,6 @@ class PostModel extends Model
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
-    protected $DBGroup          = 'default';
     protected $table            = 'posts';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

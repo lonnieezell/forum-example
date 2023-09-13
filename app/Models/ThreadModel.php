@@ -17,7 +17,6 @@ class ThreadModel extends Model
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
-    protected $DBGroup          = 'default';
     protected $table            = 'threads';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -60,7 +59,7 @@ class ThreadModel extends Model
     /**
      * Returns a paginated list of threads for the category.
      */
-    public function forList(array $params = [])
+    public function forList(array $search, int $perPage)
     {
         $selects = [
             'threads.*',
@@ -75,9 +74,9 @@ class ThreadModel extends Model
             ->visible()
             ->join('categories', 'categories.id = threads.category_id')
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
-            ->join('users', 'users.id = posts.author_id');
+            ->join('users', 'users.id = posts.author_id', 'left');
 
-        $query = match ($params['type'] ?? 'recent-posts') {
+        $query = match ($search['type'] ?? 'recent-posts') {
             'recent-threads' => $query->orderBy('threads.created_at', 'desc'),
             'unanswered'     => $query->where('threads.answer_post_id', null)
                 ->orderBy('threads.created_at', 'desc'),
@@ -86,7 +85,7 @@ class ThreadModel extends Model
             default => $query->orderBy('posts.created_at', 'desc'),
         };
 
-        return $query->paginate(20);
+        return $query->paginate($perPage);
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
+use App\Models\ThreadModel;
+use InvalidArgumentException;
 
 /**
  * Class Home
@@ -14,7 +16,44 @@ class DiscussionController extends BaseController
      */
     public function list()
     {
-        return $this->render('discussions/list');
+        $table = [
+            'perPage' => $this->request->getGet('perPage') ?? 20,
+            'search'  => $this->request->getGet('search') ?? [],
+        ];
+
+        $types = [
+            'recent-threads' => 'by Newest Threads',
+            'recent-posts'   => 'by Newest Replies',
+            'unanswered'     => 'only Unanswered',
+            'my-threads'     => 'only My Threads',
+        ];
+
+        $rules = [
+            'perPage'     => ['in_list[20]'],
+            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+        ];
+
+        if (! $this->validateData($table, $rules)) {
+            throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
+        }
+
+        helper('form');
+
+        $threadModel = model(ThreadModel::class);
+
+        $data = [
+            'threads' => $threadModel->forList($table['search'], $table['perPage']),
+            'table'   => [
+                'dropdowns' => [
+                    'type' => $types,
+                ],
+                'pager' => $threadModel->pager,
+            ],
+        ];
+
+        $data['table'] = [...$table, ...$data['table']];
+
+        return $this->render('discussions/list', $data);
     }
 
     /**
