@@ -21,7 +21,8 @@ class CategoryModel extends Model
         'title', 'slug', 'description', 'parent_id', 'order', 'active', 'private',
         'thread_count', 'post_count', 'permissions', 'last_thread_id',
     ];
-    protected $beforeInsert = ['generateSlug'];
+    protected $useTimestamps = true;
+    protected $beforeInsert  = ['generateSlug'];
 
     /**
      * Scope method to only return active categories.

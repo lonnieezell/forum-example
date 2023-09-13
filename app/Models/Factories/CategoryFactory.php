@@ -22,6 +22,7 @@ class CategoryFactory extends CategoryModel
             'order'       => 0,
             'active'      => 1,
             'private'     => 0,
+            'permissions' => null,
         ]);
     }
 }

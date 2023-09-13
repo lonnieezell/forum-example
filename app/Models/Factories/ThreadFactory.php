@@ -18,7 +18,7 @@ class ThreadFactory extends ThreadModel
         return new Thread([
             'title'     => $title,
             'body'      => $faker->paragraphs(3, true),
-            'author_id' => model('UserModel')->orderBy('RAND()')->first()->id,
+            'author_id' => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,
             'views'     => $faker->numberBetween(0, 1000),
             'closed'    => false,
             'sticky'    => false,

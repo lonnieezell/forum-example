@@ -17,7 +17,7 @@ class PostFactory extends PostModel
             'category_id'   => null,
             'thread_id'     => null,
             'reply_to'      => null,
-            'author_id'     => model('UserModel')->orderBy('RAND()')->first()->id,
+            'author_id'     => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,
             'editor_id'     => null,
             'edited_at'     => null,
             'edited_reason' => null,
