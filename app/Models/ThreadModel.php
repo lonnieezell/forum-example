@@ -17,7 +17,6 @@ class ThreadModel extends Model
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
 
-    protected $DBGroup          = 'default';
     protected $table            = 'threads';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

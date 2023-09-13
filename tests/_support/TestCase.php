@@ -17,6 +17,8 @@ abstract class TestCase extends CIUnitTestCase
 
     protected function setUp(): void
     {
+        $this->resetServices();
+
         parent::setUp();
         helper('test');
     }

@@ -10,7 +10,6 @@ class CategoryModel extends Model
 {
     use Sluggable;
 
-    protected $DBGroup          = 'default';
     protected $table            = 'categories';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

@@ -17,6 +17,7 @@ class TestDataSeeder extends Seeder
         $category1 = fake(CategoryFactory::class, [
             'parent_id' => null, 'title' => 'Category 1',
         ]);
+        //d($category1);
         $cat1SubCategory1 = fake(CategoryFactory::class, [
             'parent_id' => $category1->id, 'title' => 'Cat 1 Sub category 1',
         ]);
@@ -31,11 +32,20 @@ class TestDataSeeder extends Seeder
             'parent_id' => $category2->id, 'title' => 'Cat 2 Sub category 1',
         ]);
 
-        $user1 = fake(UserFactory::class);
+        $user1 = fake(UserFactory::class, [
+            'username' => 'testuser1'
+        ]);
         $user1->addGroup('user');
 
-        $user2 = fake(UserFactory::class);
+        $user2 = fake(UserFactory::class, [
+            'username' => 'testuser2'
+        ]);
         $user2->addGroup('user')->addGroup('admin');
+
+        $user3 = fake(UserFactory::class, [
+            'username' => 'testuser3'
+        ]);
+        $user3->addGroup('user');
 
         $thread1 = fake(ThreadFactory::class, [
             'category_id' => $cat1SubCategory1->id,
