@@ -78,7 +78,7 @@ class ThreadModel extends Model
 
         $query = match ($search['type'] ?? 'recent-posts') {
             'recent-threads' => $query->orderBy('threads.created_at', 'desc'),
-            'unanswered' => $query->where('threads.answer_post_id', null)
+            'unanswered'     => $query->where('threads.answer_post_id', null)
                 ->orderBy('threads.created_at', 'desc'),
             'my-threads' => $query->where('threads.author_id', user_id())
                 ->orderBy('posts.created_at', 'desc'),

@@ -13,7 +13,7 @@ abstract class TestCase extends CIUnitTestCase
     use FeatureTestTrait;
     use AuthenticationTesting;
 
-    protected $namespace = null;
+    protected $namespace;
 
     protected function setUp(): void
     {
