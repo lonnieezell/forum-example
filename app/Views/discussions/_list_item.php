@@ -7,7 +7,6 @@
     <div class="flex-1 pr-8">
         <h3 class="text-lg leading-tight font-semibold">
             <?= esc($thread->title) ?>
-            </a>
         </h3>
 
         <?php if (! empty($thread->last_post_author)) : ?>

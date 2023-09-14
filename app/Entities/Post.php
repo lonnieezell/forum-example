@@ -14,7 +14,7 @@ class Post extends Entity
     protected $casts   = [
         'category_id' => 'integer',
         'thread_id'   => 'integer',
-        'reply_to'    => 'integer',
+        'reply_to'    => '?integer',
         'author_id'   => 'integer',
         'editor_id'   => 'integer',
         'include_sig' => 'boolean',

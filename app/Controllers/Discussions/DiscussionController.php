@@ -3,7 +3,9 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
+use App\Models\PostModel;
 use App\Models\ThreadModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use InvalidArgumentException;
 
 /**
@@ -14,7 +16,7 @@ class DiscussionController extends BaseController
     /**
      * Display a standard forum-style list of discussions.
      */
-    public function list()
+    public function list(): string
     {
         $table = [
             'perPage' => $this->request->getGet('perPage') ?? 20,
@@ -59,10 +61,32 @@ class DiscussionController extends BaseController
     /**
      * Displays a single thread and it's replies.
      */
-    public function thread(string $slug)
+    public function thread(string $slug): string
     {
+        if (! $this->validateData([
+            'slug' => $slug
+        ], [
+            'slug' => ['max_length[255]'],
+        ])) {
+            throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
+        }
+
+        $threadModel = model(ThreadModel::class);
+
+        // Find the thread by the slug
+        $thread = $threadModel->where('slug', $slug)->first();
+
+        if (! $thread) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $thread    = $threadModel->withUsers($thread);
+        $postModel = model(PostModel::class);
+        $posts     = $postModel->forThread($thread->id, 10);
+        $pager     = $postModel->pager;
+
         return $this->render('discussions/thread', [
-            'slug' => $slug,
+            'slug' => $slug, 'thread' => $thread, 'posts' => $posts, 'pager' => $pager,
         ]);
     }
 }
