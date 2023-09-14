@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Policies\Policy;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\RequestInterface;
@@ -52,6 +53,11 @@ abstract class BaseController extends Controller
     protected $helpers = [];
 
     /**
+     * Policy instance for additional authorization.
+     */
+    protected Policy $policy;
+
+    /**
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
@@ -68,8 +74,9 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-
         // E.g.: $this->session = \Config\Services::session();
+
+        $this->policy = service('policy');
     }
 
     /**

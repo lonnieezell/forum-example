@@ -29,4 +29,8 @@ $routes->post('post/preview', 'Discussions\PostController::preview', ['as' => 'p
 $routes->get('members', 'Members\MemberController::list');
 $routes->get('members/(:segment)', 'Members\MemberController::profile/$1', ['as' => 'profile']);
 
+// General Error Page.
+$routes->get('display-error', 'ErrorController::general', ['as' => 'general-error']);
+
+// Shield Auth routes
 service('auth')->routes($routes);

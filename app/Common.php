@@ -13,3 +13,18 @@
  *
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
+
+if (! function_exists('policy')) {
+    /**
+     * A convenience method for accessing the Policy service.
+     *
+     * @param string $permission
+     * @param mixed  $arguments
+     *
+     * @return mixed
+     */
+    function policy(string $permission, ...$arguments)
+    {
+        return service('policy')->check($permission, ...$arguments);
+    }
+}
