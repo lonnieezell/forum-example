@@ -1,10 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Libraries\Policies;
 
 use App\Entities\User;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * Provides centralized autnorization based around policies
@@ -37,7 +37,7 @@ class Policy
 
         // If the method doesn't exist, then we'll just check
         // against the user's permissions.
-        if (!$policy || !method_exists($policy, $method)) {
+        if (! $policy || ! method_exists($policy, $method)) {
             return $user->can($permission);
         }
 
@@ -51,7 +51,7 @@ class Policy
         }
 
         // Call the policy method and return the result.
-        return $policy->$method($user, ...$args);
+        return $policy->{$method}($user, ...$args);
     }
 
     /**
@@ -70,7 +70,7 @@ class Policy
      */
     public function withPolicy(PolicyInterface $policy): self
     {
-        $this->policies[get_class($policy)] = $policy;
+        $this->policies[$policy::class] = $policy;
 
         return $this;
     }

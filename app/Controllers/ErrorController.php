@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-
 class ErrorController extends BaseController
 {
     /**
@@ -24,7 +22,7 @@ class ErrorController extends BaseController
             : 'errors/html/error.php';
 
         return view($view, [
-            'status' => session('status'),
+            'status'  => session('status'),
             'message' => session('message'),
         ]);
     }

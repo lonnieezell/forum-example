@@ -13,6 +13,7 @@ parameters:
 		- app/Views/*
 		- app/Libraries/TextFormatter.php
 	ignoreErrors:
+	    - '#Call to deprecated method getStatusCode\(\) of class CodeIgniter\\HTTP\\Response:#'
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
 	    - '#Cannot access property [\$a-z_]+ on (array|object)#'
 	    - '#Cannot call method [fill\|\|link\|\|hasChanged].+\(\) on array\|object.#'
@@ -22,6 +23,7 @@ parameters:
 	    	message: '#Call to deprecated function random_string\(\):#'
 	    	paths:
 	    	    - app/Models/Factories/UserFactory.php
+	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity
 		- CodeIgniter\Entity\Entity
