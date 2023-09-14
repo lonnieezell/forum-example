@@ -925,16 +925,16 @@
         },
         {
             "name": "s9e/text-formatter",
-            "version": "2.14.0",
+            "version": "2.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/TextFormatter.git",
-                "reference": "48a2f3a3fb18af8d78330204732a3369441c4060"
+                "reference": "19c0005a4c6513f73ed8d780959bcc5453b4fa37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/48a2f3a3fb18af8d78330204732a3369441c4060",
-                "reference": "48a2f3a3fb18af8d78330204732a3369441c4060",
+                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/19c0005a4c6513f73ed8d780959bcc5453b4fa37",
+                "reference": "19c0005a4c6513f73ed8d780959bcc5453b4fa37",
                 "shasum": ""
             },
             "require": {
@@ -961,7 +961,7 @@
             },
             "type": "library",
             "extra": {
-                "version": "2.14.0"
+                "version": "2.14.1"
             },
             "autoload": {
                 "psr-4": {
@@ -993,9 +993,9 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/TextFormatter/issues",
-                "source": "https://github.com/s9e/TextFormatter/tree/2.14.0"
+                "source": "https://github.com/s9e/TextFormatter/tree/2.14.1"
             },
-            "time": "2023-06-08T07:19:50+00:00"
+            "time": "2023-09-14T09:16:53+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
