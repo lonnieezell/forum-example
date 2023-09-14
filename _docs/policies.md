@@ -8,7 +8,7 @@ For example, a user may be allowed to edit a post, but only if they are the auth
 
 ## Creating Policies
 
-Policies are simple classes that extend the `App\Libraries\Policies\PolicyInterface` class. These work hand-in-hand with the permissions defined in `App\AuthGroups` and the names of the classes and methods are based on these permissions. For example, if you have a permission called `posts.create`, you would create a policy called `PostPolicy` with a method called `create()`. The name must be the singular version of the first segment of the permission. In the previous example, the class name is `PostPolicy` even though the permission's first segment is `posts`. The file is expected to be located within the `app/Policies` directory and have the appropriate namespace, `App\Policies\PostPolicy`.
+Policies are simple classes that extend the `App\Libraries\Policies\PolicyInterface` class. These work hand-in-hand with the permissions defined in `App\AuthGroups` and the names of the classes and methods are based on these permissions. For example, if you have a permission called `posts.create`, you would create a policy called `PostPolicy` with a method called `create()`. The name must be the singular version of the first segment of the permission. In the previous example, the class name is `PostPolicy` even though the permission's first segment is `posts`. The file is expected to be located within the `app/Policies` directory and have the appropriate namespace, `App\Policies`.
 
 Here are some examples:
 

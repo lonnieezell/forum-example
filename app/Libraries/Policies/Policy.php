@@ -21,7 +21,7 @@ class Policy
      *
      * Example:
      * if (! $this->policy->can('posts.create')) {
-     *    return $this->policy->deny(403, 'You are not allowed to create posts.');
+     *    return $this->policy->deny('You are not allowed to create posts.', 403);
      * }
      */
     public function can(string $permission, ...$args): bool
