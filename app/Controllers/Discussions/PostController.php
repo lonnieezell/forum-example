@@ -19,8 +19,8 @@ class PostController extends BaseController
      */
     public function create(int $threadId, ?int $postId = null): string
     {
-        if (! auth()->user()?->can('posts.create')) {
-            dd('Unauthorized');
+        if (! $this->policy->can('posts.create')) {
+            return $this->policy->deny('You are not allowed to create posts.');
         }
 
         if ($this->request->is('post') && $this->validate([
@@ -100,8 +100,8 @@ class PostController extends BaseController
      */
     public function preview(): string
     {
-        if (! auth()->user()?->can('posts.create')) {
-            dd('Unauthorized');
+        if (! $this->policy->can('posts.create')) {
+            return $this->policy->deny('You are not allowed to create posts.');
         }
 
         if (! $this->validate([

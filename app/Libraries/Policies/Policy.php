@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Libraries\Policies;
 
@@ -12,6 +12,9 @@ use RuntimeException;
  */
 class Policy
 {
+    private array $policies = [];
+    private User $user;
+
     /**
      * Used within the controllers to determine if the current
      * user has the ability to perform the given action.
@@ -21,10 +24,10 @@ class Policy
      *    return $this->policy->deny(403, 'You are not allowed to create posts.');
      * }
      */
-    public function can(string $permission, ?User $user = null, ...$args): bool
+    public function can(string $permission, ...$args): bool
     {
         // We must have a user....
-        $user = $user ?? auth()->user();
+        $user = $this->user ?? auth()->user();
         if (! $user) {
             return false;
         }
@@ -34,7 +37,7 @@ class Policy
 
         // If the method doesn't exist, then we'll just check
         // against the user's permissions.
-        if (! method_exists($policy, $method)) {
+        if (!$policy || !method_exists($policy, $method)) {
             return $user->can($permission);
         }
 
@@ -63,6 +66,26 @@ class Policy
     }
 
     /**
+     * Sets the policy to use for the current request.
+     */
+    public function withPolicy(PolicyInterface $policy): self
+    {
+        $this->policies[get_class($policy)] = $policy;
+
+        return $this;
+    }
+
+    /**
+     * Sets the user to use for the current request.
+     */
+    public function withUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
      * Attempts to find the appropriate policy for the given permission string.
      * This is done by looking in `app/Policies` for a class that matches the
      * first section of the permission string, singularized and with the word
@@ -73,7 +96,7 @@ class Policy
      * class named "PostPolicy". Within that class it would look for a method
      * named "create".
      */
-    private function getPolicy(string $permission): PolicyInterface
+    protected function getPolicy(string $permission): ?PolicyInterface
     {
         helper('inflector');
         $className = substr($permission, 0, strpos($permission, '.'));
@@ -81,11 +104,15 @@ class Policy
 
         $policy = 'App\\Policies\\' . $className;
 
-        if (! class_exists($policy, false)) {
-            throw new InvalidArgumentException('Policy not found: '. $policy);
+        if (empty($this->policies[$policy])) {
+            if (! class_exists($policy, false)) {
+                return null;
+            }
+
+            $this->policies[$policy] = new $policy();
         }
 
-        return new $policy();
+        return $this->policies[$policy];
     }
 
     /**
