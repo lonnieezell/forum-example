@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Support\Policies;
 
@@ -29,8 +31,8 @@ class TestPolicy implements PolicyInterface
      */
     public function edit(User $user, User $targetUser): bool
     {
-        return $user->inGroup('admin') &&
-            ! $targetUser->inGroup('superadmin');
+        return $user->inGroup('admin')
+            && ! $targetUser->inGroup('superadmin');
     }
 
     /**
@@ -38,7 +40,7 @@ class TestPolicy implements PolicyInterface
      */
     public function delete(User $user, User $targetUser): bool
     {
-        return $user->inGroup('superadmin') &&
-            ! $targetUser->inGroup('superadmin');
+        return $user->inGroup('superadmin')
+            && ! $targetUser->inGroup('superadmin');
     }
 }

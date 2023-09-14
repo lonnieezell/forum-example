@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Libraries\Policies\Policy;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -25,6 +26,6 @@ class Services extends BaseService
             return static::getSharedInstance('policy');
         }
 
-        return new \App\Libraries\Policies\Policy();
+        return new Policy();
     }
 }

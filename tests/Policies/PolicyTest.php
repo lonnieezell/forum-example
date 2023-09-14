@@ -1,11 +1,13 @@
 <?php
 
+use App\Entities\User;
 use App\Libraries\Policies\Policy;
 use App\Models\UserModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
+use Mockery as m;
 use Tests\Support\Policies\TestPolicy;
-use \Mockery as m;
 
 /**
  * @internal
@@ -26,6 +28,7 @@ final class PolicyTest extends CIUnitTestCase
     public function testCanOnlyUserPermissions()
     {
         $policy = new Policy();
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('user');
 
@@ -41,6 +44,7 @@ final class PolicyTest extends CIUnitTestCase
 
     public function testCanSuccess()
     {
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('user');
 
@@ -58,6 +62,7 @@ final class PolicyTest extends CIUnitTestCase
 
     public function testCanWithArguments()
     {
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('user');
         $otherUser = fake(UserModel::class);
@@ -102,11 +107,11 @@ final class PolicyTest extends CIUnitTestCase
 
         $response = $policy->deny('You are not allowed to create threads.');
 
-        $this->assertInstanceOf(\CodeIgniter\HTTP\RedirectResponse::class, $response);
-        $this->assertEquals(200, $response->getStatusCode()); // Set by codeigniter-htmx
-        $this->assertEquals(403, session()->getFlashdata('status'));
-        $this->assertEquals('You are not allowed to create threads.', session()->getFlashdata('error'));
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(200, $response->getStatusCode()); // Set by codeigniter-htmx
+        $this->assertSame(403, session()->getFlashdata('status'));
+        $this->assertSame('You are not allowed to create threads.', session()->getFlashdata('error'));
         // Should have set the HX-Location header
-        $this->assertEquals(json_encode(['path' => route_to('general-error')]), $response->getHeaderLine('HX-Location'));
+        $this->assertSame(json_encode(['path' => route_to('general-error')]), $response->getHeaderLine('HX-Location'));
     }
 }
