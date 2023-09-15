@@ -60,9 +60,17 @@ class Policy
      */
     public function deny(string $message, int $status = 403)
     {
-        return redirect()->hxLocation(route_to('general-error'))
-            ->with('error', $message)
-            ->with('status', $status);
+        if (service('request')->is('htmx')) {
+            return redirect()
+                ->with('message', $message)
+                ->with('status', (string) $status)
+                ->hxLocation(route_to('general-error'));
+        }
+
+        return redirect()
+            ->with('message', $message)
+            ->with('status', (string) $status)
+            ->route('general-error');
     }
 
     /**
@@ -102,10 +110,10 @@ class Policy
         $className = substr($permission, 0, strpos($permission, '.'));
         $className = ucfirst(singular($className)) . 'Policy';
 
-        $policy = 'App\\Policies\\' . $className;
+        $policy = '\\App\\Policies\\' . $className;
 
         if (empty($this->policies[$policy])) {
-            if (! class_exists($policy, false)) {
+            if (! class_exists($policy)) {
                 return null;
             }
 
