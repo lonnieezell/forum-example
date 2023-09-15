@@ -59,11 +59,13 @@ final class ThreadControllerTest extends TestCase
      */
     public function testCanGuestSeeCreateADiscussionPage()
     {
-        $response = $this->get('discussions/new');
+        $response = $this->withHeaders([
+            'HX-Request' => 'true',
+        ])->get('discussions/new');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to create threads.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to create threads.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -71,15 +73,17 @@ final class ThreadControllerTest extends TestCase
      */
     public function testCanGuestCreateADiscussion()
     {
-        $response = $this->post('discussions/new', [
+        $response = $this->withHeaders([
+            'HX-Request' => 'true',
+        ])->post('discussions/new', [
             'title'       => 'A new thread',
             'category_id' => 2,
             'body'        => 'Sample body',
         ]);
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to create threads.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to create threads.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -91,11 +95,13 @@ final class ThreadControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->get('discussions/1/edit');
+        $response = $this->actingAs($user)->withHeaders([
+            'HX-Request' => 'true',
+        ])->get('discussions/1/edit');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to edit this thread.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to edit this thread.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -107,15 +113,17 @@ final class ThreadControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->withBody(http_build_query([
+        $response = $this->actingAs($user)->withHeaders([
+            'HX-Request' => 'true',
+        ])->withBody(http_build_query([
             'title'       => 'A updated thread',
             'category_id' => 2,
             'body'        => 'Sample updated body',
         ]))->put('discussions/1/edit');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to edit this thread.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to edit this thread.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**

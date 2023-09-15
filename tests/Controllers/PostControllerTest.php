@@ -58,11 +58,13 @@ final class PostControllerTest extends TestCase
      */
     public function testCanGuestSeeCreateAPostPage()
     {
-        $response = $this->get('posts/1');
+        $response = $this->withHeaders([
+            'HX-Request' => 'true',
+        ])->get('posts/1');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to create posts.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -70,15 +72,17 @@ final class PostControllerTest extends TestCase
      */
     public function testCanGuestCreateAPost()
     {
-        $response = $this->post('posts/1', [
+        $response = $this->withHeaders([
+            'HX-Request' => 'true',
+        ])->post('posts/1', [
             'thread_id' => '1',
             'reply_to'  => '',
             'body'      => 'Sample body',
         ]);
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to create posts.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -90,11 +94,13 @@ final class PostControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->get('posts/1/edit');
+        $response = $this->actingAs($user)->withHeaders([
+            'HX-Request' => 'true',
+        ])->get('posts/1/edit');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to edit this post.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to edit this post.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
@@ -106,15 +112,17 @@ final class PostControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->withBody(http_build_query([
+        $response = $this->actingAs($user)->withHeaders([
+            'HX-Request' => 'true',
+        ])->withBody(http_build_query([
             'thread_id' => '1',
             'reply_to'  => '',
             'body'      => 'Sample updated post body',
         ]))->put('posts/1/edit');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('error', 'You are not allowed to edit this post.');
-        $response->assertSessionHas('status', 403);
+        $response->assertSessionHas('message', 'You are not allowed to edit this post.');
+        $response->assertSessionHas('status', '403');
     }
 
     /**
