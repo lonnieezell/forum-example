@@ -64,7 +64,7 @@ class DiscussionController extends BaseController
     public function thread(string $slug): string
     {
         if (! $this->validateData([
-            'slug' => $slug
+            'slug' => $slug,
         ], [
             'slug' => ['max_length[255]'],
         ])) {

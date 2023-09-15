@@ -30,6 +30,7 @@ class DiscussionRules
             ->select('1')
             ->where('id', $value)
             ->where('thread_id', (int) $data['thread_id'])
+            ->where('reply_to', null)
             ->limit(1)
             ->get()
             ->getRow();

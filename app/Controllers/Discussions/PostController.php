@@ -40,8 +40,11 @@ class PostController extends BaseController
             if ($postId = $postModel->insert($post)) {
                 $post = $postModel->find($postId);
 
-                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
-                    . '<div id="post-reply" hx-swap-oob="true"></div>';
+                $this->response->triggerClientEvent('removePostForm', [
+                    'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
+                ]);
+
+                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
         }
 
@@ -110,9 +113,19 @@ class PostController extends BaseController
             return '';
         }
 
-        $thread         = new Post($this->validator->getValidated());
-        $thread->markup = 'markdown';
+        $post         = new Post($this->validator->getValidated());
+        $post->markup = 'markdown';
 
-        return view('discussions/posts/_post_preview', ['thread' => $thread]);
+        return view('discussions/posts/_post_preview', ['post' => $post]);
+    }
+
+    /**
+     * Display all replies for given post.
+     */
+    public function allReplies(int $postId): string
+    {
+        $posts = model(PostModel::class)->getAllReplies($postId);
+
+        return view('discussions/_thread_items', ['posts' => $posts]);
     }
 }

@@ -2,6 +2,7 @@ import './htmx.js';
 import 'htmx.org/dist/ext/loading-states'
 import Alpine from 'alpinejs';
 import { initEditor } from "./components/markdownEditor.js";
+import "./events.js";
 
 window.Alpine = Alpine;
 

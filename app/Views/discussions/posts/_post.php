@@ -14,10 +14,10 @@
                     <?= \CodeIgniter\I18n\Time::parse($post->created_at)->humanize() ?>
                 </div>
                 <div class="flex-auto text-right">
-                    <?php if ($post->reply_to === null && auth()->user()?->can('posts.create')): ?>
+                    <?php if (auth()->user()?->can('posts.create')): ?>
                         <a class="btn btn-xs btn-primary"
-                           hx-get="<?= route_to('post-create-reply', $post->thread_id, $post->id); ?>"
-                           hx-target="#post-reply"
+                           hx-get="<?= route_to('post-create-reply', $post->thread_id, $post->reply_to ?? $post->id); ?>"
+                           hx-target="#post-reply-<?= $post->reply_to ?? $post->id; ?>"
                            hx-swap="innerHTML show:top"
                         >
                             Reply
@@ -43,11 +43,25 @@
     </div>
 
     <!-- Replies -->
-    <?php if (! empty($post->replies)) : ?>
-        <div class="post-replies pl-1">
-            <?php foreach ($post->replies as $post) : ?>
-                <?= view('discussions/posts/_post', ['post' => $post]) ?>
+    <?php if (isset($post->replies)) : ?>
+        <div class="post-replies ml-10">
+            <?php if ($post->replies_count > 2): ?>
+                <div class="my-6 text-center">
+                    <a class="btn btn-xs btn-primary"
+                       hx-get="<?= route_to('post-replies-all', $post->id); ?>"
+                       hx-target="closest .post-replies"
+                       hx-swap="innerHTML show:top"
+                    >
+                        Load previous replies
+                    </a>
+                </div>
+            <?php endif; ?>
+            <?php foreach ($post->replies as $reply) : ?>
+                <?= view('discussions/posts/_post', ['post' => $reply]) ?>
             <?php endforeach ?>
+        </div>
+        <div class="ml-10">
+            <div id="post-reply-<?= $post->id; ?>" class="<?= $post->replies_count === 0 ? 'my-6' : '' ?>"></div>
         </div>
     <?php endif ?>
 </div>

@@ -25,9 +25,7 @@
                 </div>
 
                 <div id="replies-content">
-                    <?php foreach ($posts as $post) : ?>
-                        <?= view('discussions/posts/_post', ['post' => $post]) ?>
-                    <?php endforeach ?>
+                    <?= view('discussions/_thread_items', ['posts' => $posts]) ?>
                 </div>
 
                 <div id="replies-footer" class="flex justify-between">
@@ -59,5 +57,6 @@
         <?php endif ?>
 
         <div id="post-reply"></div>
+
     </div>
 <?= $this->endSection() ?>

@@ -70,52 +70,77 @@ class PostModel extends Model
         return $this->withUsers($posts);
     }
 
+    /**
+     * Adds last X replies for every post.
+     */
     public function withReplies(array $posts, int $limit = 2): array
     {
-        $postIds = array_map('intval', array_column($posts, 'id'));
-        $replies = $this->getReplies($postIds, $limit);
+        $postIds      = array_map('intval', array_column($posts, 'id'));
+        $replies      = $this->getReplies($postIds, $limit);
+        $repliesCount = $this->getRepliesCount($postIds);
 
         foreach ($posts as $post) {
-            $post->replies = $replies[$post->id] ?? [];
+            $post->replies       = $replies[$post->id] ?? [];
+            $post->replies_count = $repliesCount[$post->id] ?? 0;
         }
 
         return $posts;
     }
 
+    /**
+     * Get latest replies for posts by given IDs.
+     */
     public function getReplies(array $postIds, int $limit): array
     {
-        $joinSubQuery = $this->builder('posts')
-            ->select('reply_to, COUNT(*) AS reply_count')
-            ->whereIn('reply_to', $postIds)
-            ->groupBy('reply_to')
-            ->getCompiledSelect();
-
-        $subQuery = $this->builder('posts')
+        // Used to get last replies using rank
+        $subQuery = $this->builder()
             ->select('*, ROW_NUMBER() OVER (PARTITION BY reply_to ORDER BY created_at DESC) AS reply_rank')
             ->whereIn('reply_to', $postIds);
 
-        $result = $this->db
+        $posts = $this->db
             ->newQuery()
             ->fromSubquery($subQuery, 'pr')
-            ->select('pr.*, COALESCE(pc.reply_count, 0) AS reply_count')
-            ->join('(' . $joinSubQuery . ') pc', 'pc.reply_to = pr.reply_to')
             ->where('pr.reply_rank <=', $limit)
             ->orderBy('pr.reply_to, pr.created_at', 'asc')
             ->get()
             ->getCustomResultObject(Post::class);
 
+        $subQuery->resetQuery();
+
+        $posts = $this->withUsers($posts);
+
         $replies = [];
 
-        foreach ($result as $row) {
-            $replies[$row->reply_to][] = $row;
+        foreach ($posts as $post) {
+            $replies[$post->reply_to][] = $post;
         }
 
         return $replies;
     }
 
-    public function getAllReplies(int $postId)
+    /**
+     * Get number of replies for every given post id.
+     */
+    public function getRepliesCount(array $postIds): array
     {
+        $results = $this->builder()
+            ->select('reply_to, COUNT(*) AS reply_count')
+            ->whereIn('reply_to', $postIds)
+            ->groupBy('reply_to')
+            ->get()
+            ->getResultArray();
 
+        return array_column($results, 'reply_count', 'reply_to');
+    }
+
+    /**
+     * Get all replies for given post.
+     */
+    public function getAllReplies(int $postId): array
+    {
+        $posts = $this->where('reply_to', $postId)->findAll();
+
+        return $this->withUsers($posts);
     }
 
     /**
