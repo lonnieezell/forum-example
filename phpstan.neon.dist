@@ -23,6 +23,7 @@ parameters:
 	    	message: '#Call to deprecated function random_string\(\):#'
 	    	paths:
 	    	    - app/Models/Factories/UserFactory.php
+	    	    - tests/Controllers/DiscussionControllerTest.php
 	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity

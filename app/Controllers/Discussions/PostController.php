@@ -17,7 +17,7 @@ class PostController extends BaseController
     /**
      * Create a new post
      */
-    public function create(int $threadId, ?int $postId = null): string
+    public function create(int $threadId, ?int $postId = null)
     {
         if (! $this->policy->can('posts.create')) {
             return $this->policy->deny('You are not allowed to create posts.');
@@ -64,16 +64,14 @@ class PostController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(int $postId): string
+    public function edit(int $postId)
     {
         $postModel = model(PostModel::class);
 
         $post = $postModel->find($postId);
 
-        if (empty($post)
-            || ($post->author_id !== user_id()
-                && ! auth()->user()?->can('posts.edit'))) {
-            dd('Unauthorized');
+        if (! $this->policy->can('posts.edit', $post)) {
+            return $this->policy->deny('You are not allowed to edit this post.');
         }
 
         if ($this->request->is('put') && $this->validate([

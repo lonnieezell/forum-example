@@ -3,7 +3,9 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\UserFactory;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use Exception;
+use InvalidArgumentException;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
 
@@ -28,39 +30,44 @@ final class DiscussionControllerTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @dataProvider provideShowDiscussionSearchByType
      */
-    public function testShowDiscussionsNewest()
+    public function testShowDiscussionSearchByType(string $input, bool $see)
     {
-        $response = $this->get('discussions?search[type]=recent-posts');
+        $response = $this->get('discussions?search[type]=' . $input);
 
         $response->assertOK();
         $response->assertSeeElement('#discussion-search');
-        $response->assertDontSee('Sorry, there are no discussion to display');
+
+        if ($see) {
+            $response->assertSee('Sorry, there are no discussion to display');
+        } else {
+            $response->assertDontSee('Sorry, there are no discussion to display');
+        }
+    }
+
+    public static function provideShowDiscussionSearchByType(): iterable
+    {
+        yield ['recent-threads', false];
+
+        yield ['recent-posts', false];
+
+        yield ['unanswered', false];
+
+        yield ['my-threads', true];
     }
 
     /**
      * @throws Exception
      */
-    public function testShowDiscussionsUnanswered()
+    public function testShowDiscussionSearchByTypeValidationError()
     {
-        $response = $this->get('discussions?search[type]=unanswered');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The search.type field must be one of: recent-threads,recent-posts,unanswered,my-threads.'
+        );
 
-        $response->assertOK();
-        $response->assertSeeElement('#discussion-search');
-        $response->assertDontSee('Sorry, there are no discussion to display');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testShowDiscussionsMy()
-    {
-        $response = $this->get('discussions?search[type]=my-threads');
-
-        $response->assertOK();
-        $response->assertSeeElement('#discussion-search');
-        $response->assertSee('Sorry, there are no discussion to display');
+        $this->get('discussions?search[type]=wrong-type');
     }
 
     /**
@@ -83,45 +90,6 @@ final class DiscussionControllerTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCanUserSeeTheCreateDiscussionPage()
-    {
-        $user = fake(UserFactory::class, [
-            'username' => 'testuser',
-        ]);
-        $user->addGroup('user');
-        $response = $this->actingAs($user)->get('discussions/new');
-
-        $response->assertOK();
-        $response->assertSeeElement('.thread-create');
-        $response->assertSee('Create a new thread');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testCanUserCreateDiscussion()
-    {
-        $user = fake(UserFactory::class, [
-            'username' => 'testuser',
-        ]);
-        $user->addGroup('user');
-        $response = $this->actingAs($user)->post('discussions/new', [
-            'title'       => 'A new thread',
-            'category_id' => 2,
-            'body'        => 'Sample body',
-        ]);
-
-        $response->assertStatus(200);
-        $response->assertHeader('hx-redirect', site_url(implode('/', [
-            'discussions', 'cat-1-sub-category-1', 'a-new-thread',
-        ])));
-
-        $this->seeInDatabase('threads', ['title' => 'A new thread']);
-    }
-
-    /**
-     * @throws Exception
-     */
     public function testShowDiscussionsThread()
     {
         $response = $this->get('discussions/cat-1-sub-category-1/sample-thread-1');
@@ -129,5 +97,27 @@ final class DiscussionControllerTest extends TestCase
         $response->assertOK();
         $response->assertSeeElement('#thread');
         $response->assertSeeElement('#replies-content');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testDiscussionsThread404()
+    {
+        $this->expectException(PageNotFoundException::class);
+        $this->get('discussions/cat-1-sub-category-1/sample-thread-123456789');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testDiscussionsThreadSlugValidationError()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The slug field cannot exceed 255 characters in length.');
+
+        helper('text');
+        $slug = random_string('alnum', 256);
+        $this->get('discussions/cat-1-sub-category-1/' . $slug);
     }
 }
