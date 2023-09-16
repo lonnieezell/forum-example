@@ -8,7 +8,7 @@
 
         <!-- Replies -->
         <?php if (! empty($posts)) : ?>
-            <div class="replies mt-6">
+            <div id="replies" class="mt-6">
                 <div id="replies-header" class="flex justify-between">
                     <?php if (auth()->user()?->can('posts.create')): ?>
                         <div>
@@ -21,7 +21,9 @@
                             </a>
                         </div>
                     <?php endif; ?>
-                    <?= $pager->links() ?>
+                    <div hx-boost="true" hx-target="#replies" hx-select="#replies">
+                        <?= $pager->links() ?>
+                    </div>
                 </div>
 
                 <div id="replies-content">
@@ -40,7 +42,9 @@
                             </a>
                         </div>
                     <?php endif; ?>
-                    <?= $pager->links() ?>
+                    <div hx-boost="true" hx-target="#replies" hx-select="#replies">
+                        <?= $pager->links() ?>
+                    </div>
                 </div>
             </div>
         <?php else: ?>
