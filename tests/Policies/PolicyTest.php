@@ -23,6 +23,7 @@ final class PolicyTest extends CIUnitTestCase
     {
         parent::setUp();
 
+        Services::resetSingle('auth');
         Services::resetSingle('request');
     }
 
