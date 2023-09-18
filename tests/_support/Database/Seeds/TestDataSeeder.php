@@ -90,7 +90,19 @@ class TestDataSeeder extends Seeder
             'reply_to'    => $post1->id,
             'author_id'   => $user1->id,
         ]);
-        // $post2
+        $post2 = fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread1->id,
+            'author_id'   => $user1->id,
+        ]);
+        // $post2Reply1
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread1->id,
+            'reply_to'    => $post2->id,
+            'author_id'   => $user1->id,
+        ]);
+        // $post3
         fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,

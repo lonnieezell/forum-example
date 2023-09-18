@@ -24,6 +24,7 @@ $routes->match(['get', 'post'], 'posts/(:num)', 'Discussions\PostController::cre
 $routes->match(['get', 'post'], 'posts/(:num)/(:num)', 'Discussions\PostController::create/$1/$2', ['as' => 'post-create-reply']);
 $routes->match(['get', 'put'], 'posts/(:num)/edit', 'Discussions\PostController::edit/$1', ['as' => 'post-edit']);
 $routes->post('post/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
+$routes->get('post/replies/(:num)', 'Discussions\PostController::allReplies/$1', ['as' => 'post-replies-load']);
 
 // Members
 $routes->get('members', 'Members\MemberController::list');

@@ -20,6 +20,5 @@ abstract class TestCase extends CIUnitTestCase
         $this->resetServices();
 
         parent::setUp();
-        helper('test');
     }
 }

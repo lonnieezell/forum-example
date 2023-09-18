@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
+use Config\Services;
 use Mockery as m;
 use Tests\Support\Policies\TestPolicy;
 
@@ -17,6 +18,14 @@ final class PolicyTest extends CIUnitTestCase
     use DatabaseTestTrait;
 
     protected $namespace = '';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Services::resetSingle('auth');
+        Services::resetSingle('request');
+    }
 
     public function testCanNoUser()
     {
@@ -101,17 +110,31 @@ final class PolicyTest extends CIUnitTestCase
         $this->assertTrue($policy->withUser($user)->can('test.create'));
     }
 
-    public function testDeny()
+    public function testDenyWithHtmxRequest()
     {
+        service('request')->setHeader('HX-Request', 'true');
+
         $policy = new Policy();
 
         $response = $policy->deny('You are not allowed to create threads.');
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertSame(200, $response->getStatusCode()); // Set by codeigniter-htmx
-        $this->assertSame(403, session()->getFlashdata('status'));
-        $this->assertSame('You are not allowed to create threads.', session()->getFlashdata('error'));
+        $this->assertSame('403', session()->getFlashdata('status'));
+        $this->assertSame('You are not allowed to create threads.', session()->getFlashdata('message'));
         // Should have set the HX-Location header
         $this->assertSame(json_encode(['path' => route_to('general-error')]), $response->getHeaderLine('HX-Location'));
+    }
+
+    public function testDenyWithRegularRequest()
+    {
+        $policy = new Policy();
+
+        $response = $policy->deny('You are not allowed to create threads.');
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame(302, $response->getStatusCode());
+        $this->assertSame('403', session()->getFlashdata('status'));
+        $this->assertSame('You are not allowed to create threads.', session()->getFlashdata('message'));
     }
 }

@@ -4,9 +4,9 @@
             Preview
         </div>
 
-        <div class="thread mt-6 p-6 border rounded bg-base-200 border-base-300">
-            <div class="thread-content prose !max-w-full">
-                <?= $thread->render() ?>
+        <div class="post mt-6 p-6 border rounded bg-base-200 border-base-300">
+            <div class="post-content prose !max-w-full">
+                <?= $post->render() ?>
             </div>
         </div>
 

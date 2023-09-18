@@ -66,17 +66,14 @@ class ThreadController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(int $threadId): string
+    public function edit(int $threadId)
     {
         $threadModel = model(ThreadModel::class);
 
         $thread = $threadModel->find($threadId);
 
-        if (empty($thread)
-            || ($thread->author_id !== user_id()
-                && ! auth()->user()?->can('threads.edit'))
-        ) {
-            dd('Unauthorized');
+        if (! $this->policy->can('threads.edit', $thread)) {
+            return $this->policy->deny('You are not allowed to edit this thread.');
         }
 
         helper('form');

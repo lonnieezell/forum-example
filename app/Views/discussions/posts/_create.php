@@ -3,7 +3,7 @@
     <?= form_open('', [
         'hx-confirm' => 'Are you sure you want to create a new post?',
         'hx-post' => current_url(),
-        'hx-target' => '#replies-content',
+        'hx-target' => empty($post_id) ? '#replies-content' : 'previous .post-replies',
         'hx-swap' => 'beforeend show:bottom',
     ]); ?>
         <div class="card bg-base-100 shadow-xl">

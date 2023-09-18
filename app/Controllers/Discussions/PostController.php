@@ -17,7 +17,7 @@ class PostController extends BaseController
     /**
      * Create a new post
      */
-    public function create(int $threadId, ?int $postId = null): string
+    public function create(int $threadId, ?int $postId = null)
     {
         if (! $this->policy->can('posts.create')) {
             return $this->policy->deny('You are not allowed to create posts.');
@@ -40,8 +40,11 @@ class PostController extends BaseController
             if ($postId = $postModel->insert($post)) {
                 $post = $postModel->find($postId);
 
-                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)])
-                    . '<div id="post-reply" hx-swap-oob="true"></div>';
+                $this->response->triggerClientEvent('removePostForm', [
+                    'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
+                ]);
+
+                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
         }
 
@@ -61,16 +64,14 @@ class PostController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(int $postId): string
+    public function edit(int $postId)
     {
         $postModel = model(PostModel::class);
 
         $post = $postModel->find($postId);
 
-        if (empty($post)
-            || ($post->author_id !== user_id()
-                && ! auth()->user()?->can('posts.edit'))) {
-            dd('Unauthorized');
+        if (! $this->policy->can('posts.edit', $post)) {
+            return $this->policy->deny('You are not allowed to edit this post.');
         }
 
         if ($this->request->is('put') && $this->validate([
@@ -110,9 +111,19 @@ class PostController extends BaseController
             return '';
         }
 
-        $thread         = new Post($this->validator->getValidated());
-        $thread->markup = 'markdown';
+        $post         = new Post($this->validator->getValidated());
+        $post->markup = 'markdown';
 
-        return view('discussions/posts/_post_preview', ['thread' => $thread]);
+        return view('discussions/posts/_post_preview', ['post' => $post]);
+    }
+
+    /**
+     * Display all replies for given post.
+     */
+    public function allReplies(int $postId): string
+    {
+        $posts = model(PostModel::class)->getAllReplies($postId);
+
+        return view('discussions/_thread_items', ['posts' => $posts]);
     }
 }
