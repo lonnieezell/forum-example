@@ -9,7 +9,7 @@
   "main": "dist/main.js",
   "dependencies": {
     "alpinejs": "^3.13.0",
-    "daisyui": "^3.7.4",
+    "daisyui": "^3.7.5",
     "easymde": "^2.18.0",
     "htmx.org": "^1.9.5"
   },
