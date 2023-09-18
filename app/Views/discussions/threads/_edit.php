@@ -40,7 +40,7 @@
                 <label class="label">
                     <span class="label-text">Tags (optional)</span>
                 </label>
-                <?= form_input('tags', set_value('tags', isset($thread->tags) ? implode(',', $thread->tags) : ''), [
+                <?= form_input('tags', set_value('tags', isset($thread->tags) ? implode(',', array_column($thread->tags, 'name')) : ''), [
                     'class' => 'input input-bordered input-tags', 'id' => 'tags'
                 ]); ?>
                 <?php if ($validator->hasError('tags')): ?>
