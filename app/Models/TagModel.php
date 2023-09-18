@@ -83,8 +83,7 @@ class TagModel extends Model
 
         $tagIds = array_map('intval', array_column($tagIds, 'tag_id'));
 
-        $tags = $this->asArray()->find($tagIds);
-        return array_column($tags, 'name');
+        return $this->find($tagIds);
     }
 
     /**
@@ -109,8 +108,9 @@ class TagModel extends Model
         }
         $tagIds = array_map('intval', array_column($tagIds, 'tag_id'));
 
-        $tags = $this->asArray()->find($tagIds);
-        $tags = array_column($tags, 'name', 'id');
+        $tags   = $this->find($tagIds);
+        $tagIds = array_column($tags, 'id');
+        $tags   = array_combine($tagIds, $tags);
 
         $results = [];
 

@@ -126,7 +126,7 @@ trait HasTags
      */
     protected function tagsAfterFind(array $eventData): array
     {
-        if (! $this->includeTags) {
+        if (! $this->includeTags || empty($eventData['data'])) {
             return $eventData;
         }
 

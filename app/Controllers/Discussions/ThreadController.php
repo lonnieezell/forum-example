@@ -101,6 +101,7 @@ class ThreadController extends BaseController
                 }
 
                 if ($threadModel->update($threadId, $thread)) {
+                    $thread = $threadModel->withTags()->find($threadId);
                     return view('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
                 }
             }

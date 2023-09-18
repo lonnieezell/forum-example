@@ -108,5 +108,13 @@ class TestDataSeeder extends Seeder
             'thread_id'   => $thread1->id,
             'author_id'   => $user1->id,
         ]);
+        // thread2
+        fake(ThreadFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'author_id'   => $user1->id,
+            'title'       => 'Sample thread 1',
+            'tags'        => 'tag1,tag2',
+            'views'       => 0,
+        ]);
     }
 }

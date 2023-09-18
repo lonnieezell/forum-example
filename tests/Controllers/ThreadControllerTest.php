@@ -57,6 +57,34 @@ final class ThreadControllerTest extends TestCase
     /**
      * @throws Exception
      */
+    public function testCanUserCreateADiscussionWithTags()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+        ]);
+        $user->addGroup('user');
+        $response = $this->actingAs($user)->post('discussions/new', [
+            'title'       => 'A new thread',
+            'category_id' => 2,
+            'tags'        => 'tag1,tag2',
+            'body'        => 'Sample body',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertHeader('hx-redirect', site_url(implode('/', [
+            'discussions', 'cat-1-sub-category-1', 'a-new-thread',
+        ])));
+
+        $this->seeInDatabase('threads', ['title' => 'A new thread']);
+        $this->seeInDatabase('tags', ['name' => 'tag1']);
+        $this->seeInDatabase('tags', ['name' => 'tag2']);
+        $this->seeInDatabase('thread_tags', ['thread_id' => 3, 'tag_id' => 1]);
+        $this->seeInDatabase('thread_tags', ['thread_id' => 3, 'tag_id' => 2]);
+    }
+
+    /**
+     * @throws Exception
+     */
     public function testCanGuestSeeCreateADiscussionPage()
     {
         $response = $this->withHeaders([
@@ -153,5 +181,27 @@ final class ThreadControllerTest extends TestCase
         $response->assertOK();
         $response->assertSee('A updated thread', 'h3');
         $this->seeInDatabase('threads', ['title' => 'A updated thread']);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCanUserUpdateHisOwnThreadWithTags()
+    {
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withBody(http_build_query([
+            'title'       => 'A updated thread',
+            'category_id' => 2,
+            'tags'        => 'tag1,tag2',
+            'body'        => 'Sample updated body',
+        ]))->put('discussions/1/edit');
+
+        $response->assertOK();
+        $response->assertSee('A updated thread', 'h3');
+        $this->seeInDatabase('threads', ['title' => 'A updated thread']);
+        $this->seeInDatabase('tags', ['name' => 'tag1']);
+        $this->seeInDatabase('tags', ['name' => 'tag2']);
+        $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 1]);
+        $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 2]);
     }
 }

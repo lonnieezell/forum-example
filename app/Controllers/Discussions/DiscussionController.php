@@ -75,7 +75,7 @@ class DiscussionController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         // Find the thread by the slug
-        $thread = $threadModel->where('slug', $slug)->first();
+        $thread = $threadModel->where('slug', $slug)->withTags()->first();
 
         if (! $thread) {
             throw PageNotFoundException::forPageNotFound();
