@@ -33,7 +33,7 @@ class TagController extends BaseController
         $rules = [
             'perPage'     => ['in_list[20]'],
             'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
-            'search.tag'  => ['required', 'regex_match[/^[a-z0-9-]{0,20}$/]']
+            'search.tag'  => ['required', 'regex_match[/^[a-z0-9-]{0,20}$/]'],
         ];
 
         if (! $this->validateData($table, $rules)) {

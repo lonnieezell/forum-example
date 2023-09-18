@@ -8,13 +8,13 @@ use ReflectionException;
 
 class TagModel extends Model
 {
-    protected $table            = 'tags';
-    protected $primaryKey       = 'id';
-    protected $returnType       = Tag::class;
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = ['name'];
-    protected $useTimestamps    = true;
+    protected $table          = 'tags';
+    protected $primaryKey     = 'id';
+    protected $returnType     = Tag::class;
+    protected $useSoftDeletes = false;
+    protected $protectFields  = true;
+    protected $allowedFields  = ['name'];
+    protected $useTimestamps  = true;
 
     /**
      * Create many tags
@@ -42,7 +42,7 @@ class TagModel extends Model
     public function createTag(string $name, int $threadId): int
     {
         $data = [
-            'tag_id' => $this->findOrCreateId($name),
+            'tag_id'    => $this->findOrCreateId($name),
             'thread_id' => $threadId,
         ];
 

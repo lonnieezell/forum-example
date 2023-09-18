@@ -8,16 +8,16 @@ use CodeIgniter\Validation\ValidationInterface;
 trait HasTags
 {
     protected bool $includeTags = false;
-    protected array $tags = [];
+    protected array $tags       = [];
 
     public function __construct(?ValidationInterface $validation = null)
     {
-        array_push($this->beforeInsert, 'tagsBeforeInsert');
-        array_push($this->afterInsert, 'tagsAfterInsert');
-        array_push($this->beforeUpdate, 'tagsBeforeUpdate');
-        array_push($this->afterUpdate, 'tagsAfterUpdate');
-        array_push($this->afterFind, 'tagsAfterFind');
-        array_push($this->allowedFields, 'tags');
+        $this->beforeInsert[]  = 'tagsBeforeInsert';
+        $this->afterInsert[]   = 'tagsAfterInsert';
+        $this->beforeUpdate[]  = 'tagsBeforeUpdate';
+        $this->afterUpdate[]   = 'tagsAfterUpdate';
+        $this->afterFind[]     = 'tagsAfterFind';
+        $this->allowedFields[] = 'tags';
 
         parent::__construct($validation);
     }

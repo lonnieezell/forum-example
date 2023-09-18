@@ -50,6 +50,7 @@ class DiscussionRules
 
         if (count($value) > $params) {
             $error = 'The number of tags is too high.';
+
             return false;
         }
 
@@ -58,6 +59,7 @@ class DiscussionRules
         foreach ($value as $string) {
             if (! preg_match($pattern, $string)) {
                 $error = 'Tag "' . $string . '" is not valid.';
+
                 return false;
             }
         }
