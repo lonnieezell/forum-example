@@ -10,6 +10,9 @@ $routes->get('/', static fn () => redirect()->to('/discussions'));
 // Categories
 $routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
 
+// Tags
+$routes->get('t/(:segment)', 'Discussions\TagController::get/$1', ['as' => 'tag']);
+
 // Discussions
 $routes->get('discussions', 'Discussions\DiscussionController::list');
 

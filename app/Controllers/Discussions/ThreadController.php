@@ -37,6 +37,7 @@ class ThreadController extends BaseController
             if ($this->validate([
                 'title'       => ['required', 'string', 'max_length[255]'],
                 'category_id' => ['required', "in_list[{$validCategoryIds}]"],
+                'tags'        => ['permit_empty', 'string', 'valid_tags[5]'],
                 'body'        => ['required', 'string', 'max_length[65000]'],
             ])) {
                 $thread            = new Thread($this->validator->getValidated());
@@ -70,7 +71,7 @@ class ThreadController extends BaseController
     {
         $threadModel = model(ThreadModel::class);
 
-        $thread = $threadModel->find($threadId);
+        $thread = $threadModel->withTags()->find($threadId);
 
         if (! $this->policy->can('threads.edit', $thread)) {
             return $this->policy->deny('You are not allowed to edit this thread.');
@@ -87,6 +88,7 @@ class ThreadController extends BaseController
             if ($this->validate([
                 'title'       => ['required', 'string', 'max_length[255]'],
                 'category_id' => ['required', "in_list[{$validCategoryIds}]"],
+                'tags'        => ['permit_empty', 'string', 'valid_tags[5]'],
                 'body'        => ['required', 'string', 'max_length[65000]'],
             ])) {
                 $thread->fill($this->validator->getValidated());

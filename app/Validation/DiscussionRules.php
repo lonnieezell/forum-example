@@ -43,4 +43,25 @@ class DiscussionRules
 
         return true;
     }
+
+    public function valid_tags(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $value = explode(',', $value);
+
+        if (count($value) > $params) {
+            $error = 'The number of tags is too high.';
+            return false;
+        }
+
+        $pattern = '/^[a-z0-9-]{0,20}$/';
+
+        foreach ($value as $string) {
+            if (! preg_match($pattern, $string)) {
+                $error = 'Tag "' . $string . '" is not valid.';
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

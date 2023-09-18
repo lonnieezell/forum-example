@@ -1,5 +1,5 @@
 <div class="mt-4 my-6 flex justify-between">
-    <?= form_open('discussions', [
+    <?= form_open($searchUrl, [
         'method' => 'get', 'id' => 'discussion-search',
         'hx-boost' => 'true', 'hx-select' => '#discussion-list',
         'hx-target' => '#discussion-list', 'hx-swap' => 'outerHTML show:window:top'

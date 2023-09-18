@@ -38,6 +38,19 @@
             </div>
             <div class="form-control w-full">
                 <label class="label">
+                    <span class="label-text">Tags (optional)</span>
+                </label>
+                <?= form_input('tags', set_value('tags', isset($thread->tags) ? implode(',', $thread->tags) : ''), [
+                    'class' => 'input input-bordered input-tags', 'id' => 'tags'
+                ]); ?>
+                <?php if ($validator->hasError('tags')): ?>
+                    <label class="label">
+                        <span class="label-text-alt text-red-600"><?= $validator->getError('tags'); ?></span>
+                    </label>
+                <?php endif; ?>
+            </div>
+            <div class="form-control w-full">
+                <label class="label">
                     <span class="label-text">Message</span>
                 </label>
                 <?= form_textarea('body', set_value('body', $thread->body, false),  [

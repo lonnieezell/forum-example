@@ -8,6 +8,16 @@
         <h3 class="text-lg leading-tight font-semibold">
             <?= esc($thread->title) ?>
         </h3>
+        <?php if ($thread->tags): ?>
+        <div>
+            <?php foreach ($thread->tags as $tag): ?>
+                <a class="btn btn-xs"
+                   href="<?= route_to('tag', esc($tag, 'attr')); ?>">
+                    <?= esc($tag); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
 
         <?php if (! empty($thread->last_post_author)) : ?>
             <div class="mt-4 text-neutral-content text-sm opacity-80">

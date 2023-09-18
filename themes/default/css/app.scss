@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import '../../../node_modules/easymde/dist/easymde.min.css';
+@import '../../../node_modules/@yaireo/tagify/dist/tagify.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
@@ -20,6 +21,10 @@ form select.select {
     border-width: 1px;
     border-color: hsl(var(--bc) / 0.3);
     border-radius: var(--rounded-btn, .5rem);
+}
+
+.input-tags {
+    height: revert !important;
 }
 
 #toolbarContainer {
