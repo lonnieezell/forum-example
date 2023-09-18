@@ -82,7 +82,7 @@ class ThreadModel extends Model
                 static fn ($query) => $query
                     ->join('thread_tags', 'thread_tags.thread_id = threads.id', 'left')
                     ->join('tags', 'tags.id = thread_tags.tag_id', 'left')
-                    ->where('tags.name', strtolower($search['tag']))
+                    ->where('tags.name', strtolower((string) $search['tag']))
             );
 
         $query = match ($search['type'] ?? 'recent-posts') {

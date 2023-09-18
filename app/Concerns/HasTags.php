@@ -3,14 +3,13 @@
 namespace App\Concerns;
 
 use App\Models\TagModel;
-use CodeIgniter\Validation\ValidationInterface;
 
 trait HasTags
 {
     protected bool $includeTags = false;
     protected array $tags       = [];
 
-    public function __construct(?ValidationInterface $validation = null)
+    public function __construct()
     {
         $this->beforeInsert[]  = 'tagsBeforeInsert';
         $this->afterInsert[]   = 'tagsAfterInsert';
@@ -19,7 +18,7 @@ trait HasTags
         $this->afterFind[]     = 'tagsAfterFind';
         $this->allowedFields[] = 'tags';
 
-        parent::__construct($validation);
+        parent::__construct();
     }
 
     public function withTags(): static
