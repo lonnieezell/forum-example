@@ -7,16 +7,17 @@
         <ul class="menu">
             <?php foreach($categories as $category) : ?>
                 <?php if (is_countable($category->children) ? count($category->children) : 0) : ?>
-                    <li x-data="{ open: <?= $category->id === $parentId || $parentId === 0 ? 'true' : 'false' ?> }">
-                        <details x-show="open" x-transition <?= $category->id === $parentId || $parentId === 0 ? 'open' : '' ?>>
+                    <li x-data="{ open: <?= $category->id === $parentId ? 'true' : 'false' ?> }">
+                        <details x-transition <?= $category->id === $parentId ? 'open' : '' ?>>
                             <summary x-on:click="open = !open">
                                 <?= esc($category->title) ?>
                             </summary>
-                            <ul>
+                            <ul x-show="open">
                                 <?php foreach($category->children as $child) : ?>
                                     <li>
                                         <a href="<?= route_to('category', $child->slug) ?>"
-                                            class="<?= $activeId === $child->id ? 'active' : '' ?>">
+                                            class="<?= $activeId === $child->id ? 'active' : '' ?>"
+                                            hx-boost="true">
                                             <?= esc($child->title) ?>
                                         </a>
                                     </li>
