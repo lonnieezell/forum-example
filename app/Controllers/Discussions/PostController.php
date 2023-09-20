@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Entities\Post;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use Exception;
 
@@ -14,6 +15,23 @@ use Exception;
  */
 class PostController extends BaseController
 {
+    /**
+     * Show post.
+     *
+     * @throws PageNotFoundException
+     */
+    public function show(int $postId)
+    {
+        $postModel = model(PostModel::class);
+        $post      = $postModel->find($postId);
+
+        if (! $post) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+    }
+
     /**
      * Create a new post
      */
@@ -44,7 +62,7 @@ class PostController extends BaseController
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
                 ]);
 
-                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+                return view('discussions/posts/_post_with_replies', ['post' => $postModel->withUsers($post)]);
             }
         }
 

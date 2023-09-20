@@ -20,14 +20,16 @@ $routes->get('discussions', 'Discussions\DiscussionController::list');
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);
 $routes->match(['get', 'put'], 'discussions/(:num)/edit', 'Discussions\ThreadController::edit/$1', ['as' => 'thread-edit']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);
+$routes->get('discussions/(:num)/show', 'Discussions\ThreadController::show/$1', ['as' => 'thread-show']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
 
 // Posts
 $routes->match(['get', 'post'], 'posts/(:num)', 'Discussions\PostController::create/$1', ['as' => 'post-create']);
 $routes->match(['get', 'post'], 'posts/(:num)/(:num)', 'Discussions\PostController::create/$1/$2', ['as' => 'post-create-reply']);
 $routes->match(['get', 'put'], 'posts/(:num)/edit', 'Discussions\PostController::edit/$1', ['as' => 'post-edit']);
-$routes->post('post/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
-$routes->get('post/replies/(:num)', 'Discussions\PostController::allReplies/$1', ['as' => 'post-replies-load']);
+$routes->post('posts/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
+$routes->get('posts/(:num)/show', 'Discussions\PostController::show/$1', ['as' => 'post-show']);
+$routes->get('posts/replies/(:num)', 'Discussions\PostController::allReplies/$1', ['as' => 'post-replies-load']);
 
 // Members
 $routes->get('members', 'Members\MemberController::list');
