@@ -14,6 +14,13 @@ use InvalidArgumentException;
  */
 class DiscussionController extends BaseController
 {
+    protected array $types = [
+        'recent-threads' => 'by Newest Threads',
+        'recent-posts'   => 'by Newest Replies',
+        'unanswered'     => 'only Unanswered',
+        'my-threads'     => 'only My Threads',
+    ];
+
     /**
      * Display a standard forum-style list of discussions.
      */
@@ -24,16 +31,9 @@ class DiscussionController extends BaseController
             'search'  => $this->request->getGet('search') ?? [],
         ];
 
-        $types = [
-            'recent-threads' => 'by Newest Threads',
-            'recent-posts'   => 'by Newest Replies',
-            'unanswered'     => 'only Unanswered',
-            'my-threads'     => 'only My Threads',
-        ];
-
         $rules = [
             'perPage'     => ['in_list[20]'],
-            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($this->types)) . ']'],
         ];
 
         if (! $this->validateData($table, $rules)) {
@@ -48,7 +48,7 @@ class DiscussionController extends BaseController
             'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
             'table'   => [
                 'dropdowns' => [
-                    'type' => $types,
+                    'type' => $this->types,
                 ],
                 'pager' => $threadModel->pager,
             ],
@@ -71,16 +71,9 @@ class DiscussionController extends BaseController
         ];
         $table['search']['category'] = $slug;
 
-        $types = [
-            'recent-threads' => 'by Newest Threads',
-            'recent-posts'   => 'by Newest Replies',
-            'unanswered'     => 'only Unanswered',
-            'my-threads'     => 'only My Threads',
-        ];
-
         $rules = [
             'perPage'         => ['in_list[20]'],
-            'search.type'     => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+            'search.type'     => ['permit_empty', 'in_list[' . implode(',', array_keys($this->types)) . ']'],
             'search.category' => ['required', 'max_length[255]', 'category_exists[child]']
         ];
 
@@ -96,7 +89,7 @@ class DiscussionController extends BaseController
             'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
             'table'   => [
                 'dropdowns' => [
-                    'type' => $types,
+                    'type' => $this->types,
                 ],
                 'pager' => $threadModel->pager,
             ],
@@ -121,16 +114,9 @@ class DiscussionController extends BaseController
 
         $table['search']['tag'] = $tagSlug;
 
-        $types = [
-            'recent-threads' => 'by Newest Threads',
-            'recent-posts'   => 'by Newest Replies',
-            'unanswered'     => 'only Unanswered',
-            'my-threads'     => 'only My Threads',
-        ];
-
         $rules = [
             'perPage'     => ['in_list[20]'],
-            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($this->types)) . ']'],
             'search.tag'  => ['required', 'regex_match[/^[a-z0-9-]{0,20}$/]'],
         ];
 
@@ -146,7 +132,7 @@ class DiscussionController extends BaseController
             'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
             'table'   => [
                 'dropdowns' => [
-                    'type' => $types,
+                    'type' => $this->types,
                 ],
                 'pager' => $threadModel->pager,
             ],

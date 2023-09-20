@@ -1,7 +1,7 @@
 <?= $this->extend('master')  ?>
 
 <?= $this->section('main')  ?>
-    <h1>Tag: <?= esc($table['search']['tag']); ?></h1>
+    <h1>Discussions - Tag: <?= esc($table['search']['tag']); ?></h1>
 
     <div id="discussion-list">
         <?= view('discussions/_list_items', ['threads' => $threads, 'table' => $table, 'searchUrl' => $searchUrl]); ?>
@@ -13,8 +13,8 @@
 
 <?php if (auth()->user()?->can('threads.create')): ?>
     <div class="py-4" hx-boost="true">
-        <a class="btn btn-primary mt-4 w-full" href="<?= url_to('thread-create'); ?>"">
-        Start a Discussion
+        <a class="btn btn-primary mt-4 w-full" href="<?= url_to('thread-create'); ?>">
+            Start a Discussion
         </a>
     </div>
 <?php endif; ?>
