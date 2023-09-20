@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
+use App\Concerns\HasTags;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
@@ -16,6 +17,7 @@ class ThreadModel extends Model
     use ImpactsCategoryCounts;
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
+    use HasTags;
 
     protected $table            = 'threads';
     protected $primaryKey       = 'id';
@@ -74,7 +76,14 @@ class ThreadModel extends Model
             ->visible()
             ->join('categories', 'categories.id = threads.category_id')
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
-            ->join('users', 'users.id = posts.author_id', 'left');
+            ->join('users', 'users.id = posts.author_id', 'left')
+            ->when(
+                isset($search['tag']),
+                static fn ($query) => $query
+                    ->join('thread_tags', 'thread_tags.thread_id = threads.id', 'left')
+                    ->join('tags', 'tags.id = thread_tags.tag_id', 'left')
+                    ->where('tags.name', strtolower((string) $search['tag']))
+            );
 
         $query = match ($search['type'] ?? 'recent-posts') {
             'recent-threads' => $query->orderBy('threads.created_at', 'desc'),

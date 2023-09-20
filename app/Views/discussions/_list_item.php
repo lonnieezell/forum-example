@@ -1,13 +1,16 @@
-<div class="flex justify-between p-2 mt-2 border rounded bg-base-200 border-base-300 cursor-pointer hover:bg-base-300"
-     hx-get="<?= esc($thread->link(), 'attr') ?>"
-     hx-target="#main"
-     hx-push-url="true"
-     hx-select="#thread-wrap"
->
+<div class="flex justify-between p-2 mt-2 border rounded bg-base-200 border-base-300 hover:bg-base-300">
     <div class="flex-1 pr-8">
-        <h3 class="text-lg leading-tight font-semibold">
+        <h3 class="text-lg leading-tight font-semibold cursor-pointer"
+            hx-get="<?= esc($thread->link(), 'attr') ?>"
+            hx-target="#main"
+            hx-push-url="true"
+            hx-select="#thread-wrap">
             <?= esc($thread->title) ?>
         </h3>
+
+        <?php if ($thread->tags): ?>
+            <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
+        <?php endif; ?>
 
         <?php if (! empty($thread->last_post_author)) : ?>
             <div class="mt-4 text-neutral-content text-sm opacity-80">

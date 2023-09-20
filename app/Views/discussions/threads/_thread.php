@@ -5,9 +5,13 @@
         </a>
     </h3>
 
+    <?php if ($thread->tags): ?>
+        <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
+    <?php endif; ?>
+
     <!-- Thread Meta -->
     <div class="thread-meta">
-        <div class="flex gap-4 ">
+        <div class="flex">
             <i class="fa-solid fa-user"></i>
             <div class="flex-1 opacity-50">
                 <i class="fa-solid fa-pencil"></i>

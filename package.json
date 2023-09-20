@@ -8,6 +8,7 @@
   "source": "src/index.js",
   "main": "dist/main.js",
   "dependencies": {
+    "@yaireo/tagify": "^4.17.9",
     "alpinejs": "^3.13.0",
     "daisyui": "^3.7.6",
     "easymde": "^2.18.0",
