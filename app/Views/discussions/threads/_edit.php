@@ -65,7 +65,14 @@
             </div>
             <div class="flex justify-center">
                 <div class="btn-group btn-group-horizontal w-full">
-                    <button class="btn w-1/2"
+                    <button class="btn w-1/3"
+                            hx-confirm="unset"
+                            hx-get="<?= route_to('thread-show', $thread->id); ?>"
+                            hx-target="#thread"
+                            data-loading-disable>
+                        Cancel
+                    </button>
+                    <button class="btn btn-neutral w-1/3"
                         hx-confirm="unset"
                         hx-post="<?= route_to('thread-preview'); ?>"
                         hx-target="#editor-preview"
@@ -73,7 +80,7 @@
                         data-loading-disable>
                         Preview
                     </button>
-                    <button type="submit" class="btn btn-primary w-1/2" data-loading-disable>
+                    <button type="submit" class="btn btn-primary w-1/3" data-loading-disable>
                         Update
                     </button>
                 </div>

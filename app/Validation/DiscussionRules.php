@@ -66,4 +66,31 @@ class DiscussionRules
 
         return true;
     }
+
+    public function category_exists(string $value, string $params, array $data, ?string &$error = null)
+    {
+        $result = db_connect()
+            ->table('categories')
+            ->select('1')
+            ->where('slug', $value)
+            ->when(
+                $params === 'child',
+                static fn ($query) => $query->where('parent_id !=', null)
+            )
+            ->when(
+                $params === 'parent',
+                static fn ($query) => $query->where('parent_id', null)
+            )
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This category does not exist';
+
+            return false;
+        }
+
+        return true;
+    }
 }

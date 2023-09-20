@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Entities\Thread;
 use App\Models\CategoryModel;
 use App\Models\ThreadModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use Exception;
 use ReflectionException;
@@ -15,6 +16,23 @@ use ReflectionException;
  */
 class ThreadController extends BaseController
 {
+    /**
+     * Show thread.
+     *
+     * @throws PageNotFoundException
+     */
+    public function show(int $threadId)
+    {
+        $threadModel = model(ThreadModel::class);
+        $thread      = $threadModel->withTags()->find($threadId);
+
+        if (! $thread) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
+    }
+
     /**
      * Create a new thread
      *

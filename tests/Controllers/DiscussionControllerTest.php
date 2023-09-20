@@ -90,6 +90,92 @@ final class DiscussionControllerTest extends TestCase
     /**
      * @throws Exception
      */
+    public function testShowCategory()
+    {
+        $response = $this->get('c/cat-1-sub-category-1');
+
+        $response->assertOK();
+        $response->assertSeeElement('#discussion-search');
+        $response->assertDontSee('Sorry, there are no discussion to display');
+        $response->assertDontSee('Start a Discussion');
+    }
+
+    /**
+     * @dataProvider provideShowDiscussionSearchByType
+     */
+    public function testShowCategorySearchByType(string $input, bool $see)
+    {
+        $response = $this->get('c/cat-1-sub-category-1?search[type]=' . $input);
+
+        $response->assertOK();
+        $response->assertSeeElement('#discussion-search');
+
+        if ($see) {
+            $response->assertSee('Sorry, there are no discussion to display');
+        } else {
+            $response->assertDontSee('Sorry, there are no discussion to display');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testShowCategorySearchByTypeValidationError()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The search.type field must be one of: recent-threads,recent-posts,unanswered,my-threads.'
+        );
+
+        $this->get('c/cat-1-sub-category-1?search[type]=wrong-type');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testShowTag()
+    {
+        $response = $this->get('t/tag1');
+
+        $response->assertOK();
+        $response->assertSeeElement('#discussion-search');
+        $response->assertDontSee('Sorry, there are no discussion to display');
+        $response->assertDontSee('Start a Discussion');
+    }
+
+    /**
+     * @dataProvider provideShowDiscussionSearchByType
+     */
+    public function testShowTagSearchByType(string $input, bool $see)
+    {
+        $response = $this->get('t/tag1?search[type]=' . $input);
+
+        $response->assertOK();
+        $response->assertSeeElement('#discussion-search');
+
+        if ($see) {
+            $response->assertSee('Sorry, there are no discussion to display');
+        } else {
+            $response->assertDontSee('Sorry, there are no discussion to display');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testShowTagSearchByTypeValidationError()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The search.type field must be one of: recent-threads,recent-posts,unanswered,my-threads.'
+        );
+
+        $this->get('t/tag1?search[type]=wrong-type');
+    }
+
+    /**
+     * @throws Exception
+     */
     public function testShowDiscussionsThread()
     {
         $response = $this->get('discussions/cat-1-sub-category-1/sample-thread-1');

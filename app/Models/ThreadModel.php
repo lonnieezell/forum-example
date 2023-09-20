@@ -83,6 +83,11 @@ class ThreadModel extends Model
                     ->join('thread_tags', 'thread_tags.thread_id = threads.id', 'left')
                     ->join('tags', 'tags.id = thread_tags.tag_id', 'left')
                     ->where('tags.name', strtolower((string) $search['tag']))
+            )
+            ->when(
+                isset($search['category']),
+                static fn ($query) => $query
+                    ->where('categories.slug', strtolower((string) $search['category']))
             );
 
         $query = match ($search['type'] ?? 'recent-posts') {
