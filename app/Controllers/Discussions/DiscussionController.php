@@ -66,15 +66,15 @@ class DiscussionController extends BaseController
     public function category(string $slug): string
     {
         $table = [
-            'perPage'  => $this->request->getGet('perPage') ?? 20,
-            'search'   => $this->request->getGet('search') ?? [],
+            'perPage' => $this->request->getGet('perPage') ?? 20,
+            'search'  => $this->request->getGet('search') ?? [],
         ];
         $table['search']['category'] = $slug;
 
         $rules = [
             'perPage'         => ['in_list[20]'],
             'search.type'     => ['permit_empty', 'in_list[' . implode(',', array_keys($this->types)) . ']'],
-            'search.category' => ['required', 'max_length[255]', 'category_exists[child]']
+            'search.category' => ['required', 'max_length[255]', 'category_exists[child]'],
         ];
 
         if (! $this->validateData($table, $rules)) {
