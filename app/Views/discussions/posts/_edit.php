@@ -26,14 +26,14 @@
             </div>
             <div class="flex justify-center">
                 <div class="btn-group btn-group-horizontal w-full">
-                    <button class="btn btn-neutral w-1/3"
+                    <button class="btn w-1/3"
                             hx-confirm="unset"
                             hx-get="<?= route_to('post-show', $post->id); ?>"
                             hx-target="closest .post-edit"
                             data-loading-disable>
                         Cancel
                     </button>
-                    <button class="btn w-1/3"
+                    <button class="btn btn-neutral w-1/3"
                             hx-confirm="unset"
                             hx-post="<?= route_to('post-preview'); ?>"
                             hx-target="#editor-preview"

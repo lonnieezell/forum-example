@@ -29,11 +29,11 @@
             </div>
             <div class="flex justify-center">
                 <div class="btn-group btn-group-horizontal w-full">
-                    <button class="btn btn-neutral w-1/3" type="button"
+                    <button class="btn w-1/3" type="button"
                             @click="$dispatch('removePostForm', { id: '<?= $post_id === '' ? 'post-reply' : 'post-reply-' . $post_id; ?>' })">
                         Cancel
                     </button>
-                    <button class="btn w-1/3"
+                    <button class="btn btn-neutral w-1/3"
                             hx-confirm="unset"
                             hx-post="<?= route_to('post-preview'); ?>"
                             hx-target="#editor-preview"
