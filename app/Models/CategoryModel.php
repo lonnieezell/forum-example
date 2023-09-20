@@ -150,4 +150,13 @@ class CategoryModel extends Model
 
         return $resultArray;
     }
+
+    public function findBySlug(string $slug)
+    {
+        return $this
+            ->active()
+            ->children()
+            ->where('slug', $slug)
+            ->first();
+    }
 }

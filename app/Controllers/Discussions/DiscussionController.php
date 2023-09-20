@@ -3,6 +3,7 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
+use App\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -57,6 +58,104 @@ class DiscussionController extends BaseController
         $data['table'] = [...$table, ...$data['table']];
 
         return $this->render('discussions/list', $data);
+    }
+
+    /**
+     * Display a standard forum-style list of discussions.
+     */
+    public function category(string $slug): string
+    {
+        $table = [
+            'perPage'  => $this->request->getGet('perPage') ?? 20,
+            'search'   => $this->request->getGet('search') ?? [],
+        ];
+        $table['search']['category'] = $slug;
+
+        $types = [
+            'recent-threads' => 'by Newest Threads',
+            'recent-posts'   => 'by Newest Replies',
+            'unanswered'     => 'only Unanswered',
+            'my-threads'     => 'only My Threads',
+        ];
+
+        $rules = [
+            'perPage'         => ['in_list[20]'],
+            'search.type'     => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+            'search.category' => ['required', 'max_length[255]', 'category_exists[child]']
+        ];
+
+        if (! $this->validateData($table, $rules)) {
+            throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
+        }
+
+        helper('form');
+
+        $threadModel = model(ThreadModel::class);
+
+        $data = [
+            'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
+            'table'   => [
+                'dropdowns' => [
+                    'type' => $types,
+                ],
+                'pager' => $threadModel->pager,
+            ],
+            'searchUrl'      => route_to('category', $slug),
+            'activeCategory' => model(CategoryModel::class)->findBySlug($slug),
+        ];
+
+        $data['table'] = [...$table, ...$data['table']];
+
+        return $this->render('discussions/category', $data);
+    }
+
+    /**
+     * Display a standard forum-style list of discussions.
+     */
+    public function tag(string $tagSlug)
+    {
+        $table = [
+            'perPage' => $this->request->getGet('perPage') ?? 20,
+            'search'  => $this->request->getGet('search') ?? [],
+        ];
+
+        $table['search']['tag'] = $tagSlug;
+
+        $types = [
+            'recent-threads' => 'by Newest Threads',
+            'recent-posts'   => 'by Newest Replies',
+            'unanswered'     => 'only Unanswered',
+            'my-threads'     => 'only My Threads',
+        ];
+
+        $rules = [
+            'perPage'     => ['in_list[20]'],
+            'search.type' => ['permit_empty', 'in_list[' . implode(',', array_keys($types)) . ']'],
+            'search.tag'  => ['required', 'regex_match[/^[a-z0-9-]{0,20}$/]'],
+        ];
+
+        if (! $this->validateData($table, $rules)) {
+            throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
+        }
+
+        helper('form');
+
+        $threadModel = model(ThreadModel::class);
+
+        $data = [
+            'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
+            'table'   => [
+                'dropdowns' => [
+                    'type' => $types,
+                ],
+                'pager' => $threadModel->pager,
+            ],
+            'searchUrl' => route_to('tag', $tagSlug),
+        ];
+
+        $data['table'] = [...$table, ...$data['table']];
+
+        return $this->render('discussions/tag', $data);
     }
 
     /**

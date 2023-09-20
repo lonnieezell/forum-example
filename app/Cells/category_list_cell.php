@@ -7,8 +7,8 @@
         <ul class="menu">
             <?php foreach($categories as $category) : ?>
                 <?php if (is_countable($category->children) ? count($category->children) : 0) : ?>
-                    <li x-data="{ open: <?= $category->id === $parentId ? 'true' : 'false' ?> }">
-                        <details x-show="open" x-transition <?= $category->id === $parentId ? 'open' : '' ?>>
+                    <li x-data="{ open: <?= $category->id === $parentId || $parentId === 0 ? 'true' : 'false' ?> }">
+                        <details x-show="open" x-transition <?= $category->id === $parentId || $parentId === 0 ? 'open' : '' ?>>
                             <summary x-on:click="open = !open">
                                 <?= esc($category->title) ?>
                             </summary>
