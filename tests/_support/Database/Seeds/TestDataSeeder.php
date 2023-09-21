@@ -113,7 +113,7 @@ class TestDataSeeder extends Seeder
             'category_id' => $cat1SubCategory1->id,
             'author_id'   => $user1->id,
             'title'       => 'Sample thread 1',
-            'tags'        => 'tag1,tag2',
+            'tags'        => 'tag1,tag2,tag3',
             'views'       => 0,
         ]);
     }
