@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Entities\Tag;
+use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Model;
 use ReflectionException;
 
@@ -34,10 +35,13 @@ class TagModel extends Model
         $this->db->table('thread_tags')->where('thread_id', $threadId)->delete();
 
         $this->createTags($tags, $threadId);
+        $this->cleanupTags();
     }
 
     /**
      * Create tag
+     *
+     * @throws ReflectionException
      */
     public function createTag(string $name, int $threadId): int
     {
@@ -49,6 +53,20 @@ class TagModel extends Model
         $this->db->table('thread_tags')->insert($data);
 
         return $data['tag_id'];
+    }
+
+    /**
+     * Cleanup tags which are no longer used.
+     */
+    public function cleanupTags(): bool|string
+    {
+        return $this->db
+            ->table('tags')
+            ->whereNotIn(
+                'id',
+                static fn (BaseBuilder $builder) => $builder->distinct()->select('tag_id')->from('thread_tags')
+            )
+            ->delete();
     }
 
     /**

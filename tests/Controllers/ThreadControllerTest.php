@@ -204,4 +204,30 @@ final class ThreadControllerTest extends TestCase
         $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 1]);
         $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 2]);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function testIsUnusedTagsAreCleared()
+    {
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withBody(http_build_query([
+            'title'       => 'A updated thread',
+            'category_id' => 2,
+            'tags'        => 'tag1,tag2',
+            'body'        => 'Sample updated body',
+        ]))->put('discussions/2/edit');
+
+        $response->assertOK();
+        $response->assertSee('A updated thread', 'h3');
+        $this->seeInDatabase('threads', ['title' => 'A updated thread']);
+
+        $this->seeInDatabase('tags', ['name' => 'tag1']);
+        $this->seeInDatabase('tags', ['name' => 'tag2']);
+        $this->dontSeeInDatabase('tags', ['name' => 'tag3']);
+
+        $this->seeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 1]);
+        $this->seeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 2]);
+        $this->dontSeeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 3]);
+    }
 }
