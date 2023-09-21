@@ -166,6 +166,11 @@ class DiscussionController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
+        if (! $this->request->is('boosted')) {
+            // Increase view count
+            $threadModel->incrementViewCount($thread->id);
+        }
+
         $thread    = $threadModel->withUsers($thread);
         $postModel = model(PostModel::class);
         $posts     = $postModel->forThread($thread->id, 10);
