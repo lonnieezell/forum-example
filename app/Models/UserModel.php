@@ -70,11 +70,6 @@ class UserModel extends ShieldUser
         );
 
         foreach ($results as $row) {
-            // Grab user email
-            if ($identity = $row->getIdentities(Session::ID_TYPE_EMAIL_PASSWORD)[0] ?? null) {
-                $row->setEmail($identity->secret);
-            }
-
             // Set user-friendly group names
             if (isset($userRoles[$row->id])) {
                 $roles = [];

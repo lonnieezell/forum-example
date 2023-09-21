@@ -3,8 +3,8 @@
     <div class="post-meta">
         <div class="flex gap-4">
             <div class="avatar">
-                <div class="mask mask-squircle w-6 h-6">
-                    <img src="<?= $post->author->avatarLink(25); ?>" alt="" />
+                <div class="mask mask-squircle">
+                    <?= $post->author->renderAvatar(25); ?>
                 </div>
             </div>
             <div class="flex-1 opacity-50">

@@ -9,8 +9,8 @@
     <div class="thread-meta">
         <div class="flex">
             <div class="avatar pr-2">
-                <div class="mask mask-squircle w-6 h-6">
-                    <img src="<?= $thread->author->avatarLink(25); ?>" alt="" />
+                <div class="mask mask-squircle">
+                    <?= $thread->author->renderAvatar(25); ?>
                 </div>
             </div>
             <div class="flex-1 opacity-50">
