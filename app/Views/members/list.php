@@ -61,8 +61,8 @@
                         <td>
                             <div class="flex items-center space-x-3">
                                 <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                        <img src="<?= $member->avatarLink(40); ?>" alt="" />
+                                    <div class="mask mask-squircle">
+                                        <?= $member->renderAvatar(40); ?>
                                     </div>
                                 </div>
                                 <div class="px-4">

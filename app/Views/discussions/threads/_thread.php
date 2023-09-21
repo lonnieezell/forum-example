@@ -1,20 +1,19 @@
-<div class="thread mt-6 p-6 border rounded bg-base-200 border-base-300">
-    <h3 class="text-xl leading-loose font-bold">
+<div class="thread mt-6 px-6 py-4 border rounded bg-base-200 border-base-300">
+    <h3 class="text-xl leading-loose font-bold pb-2">
         <a href="<?= esc($thread->link(), 'attr') ?>">
             <?= esc($thread->title) ?>
         </a>
     </h3>
 
-    <?php if ($thread->tags): ?>
-        <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
-    <?php endif; ?>
-
     <!-- Thread Meta -->
     <div class="thread-meta">
         <div class="flex">
-            <i class="fa-solid fa-user"></i>
+            <div class="avatar pr-2">
+                <div class="mask mask-squircle">
+                    <?= $thread->author->renderAvatar(25); ?>
+                </div>
+            </div>
             <div class="flex-1 opacity-50">
-                <i class="fa-solid fa-pencil"></i>
                 <?php if ($thread->author) : ?>
                     <a href="<?= $thread->author->link() ?>">
                         <b><?= esc($thread->author->username) ?></b>
@@ -34,6 +33,9 @@
                 <?php endif; ?>
             </div>
         </div>
+        <?php if ($thread->tags): ?>
+            <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
+        <?php endif; ?>
     </div>
 
     <!-- Thread Content -->

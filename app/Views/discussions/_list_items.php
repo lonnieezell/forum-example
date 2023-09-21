@@ -19,11 +19,10 @@
 </div>
 
 <?php if ($threads): ?>
-    <div class="mt-6 p-6 border rounded bg-base-200 border-base-300">
-        <?php foreach($threads as $thread) : ?>
-            <?= view('discussions/_list_item', ['thread' => $thread]) ?>
-        <?php endforeach ?>
-    </div>
+
+    <?php foreach($threads as $thread) : ?>
+        <?= view('discussions/_list_item', ['thread' => $thread]) ?>
+    <?php endforeach ?>
 
     <div class="mt-6 text-center"
          hx-boost="true" hx-select="#discussion-list"
