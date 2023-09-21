@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Entities\User;
-use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
 
 class UserModel extends ShieldUser
