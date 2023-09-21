@@ -24,7 +24,7 @@ class Users extends BaseConfig
      * The default image type to use from Gravatar if they do not have an
      * image for that user.
      */
-    public $gravatarDefault = 'blank';
+    public $gravatarDefault = 'mp';
 
     /**
      * --------------------------------------------------------------------------

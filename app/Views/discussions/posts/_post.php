@@ -2,7 +2,11 @@
     <!-- Post Meta -->
     <div class="post-meta">
         <div class="flex gap-4">
-            <i class="fa-solid fa-user"></i>
+            <div class="avatar">
+                <div class="mask mask-squircle w-6 h-6">
+                    <img src="<?= $post->author->avatarLink(25); ?>" alt="" />
+                </div>
+            </div>
             <div class="flex-1 opacity-50">
                 <i class="fa-solid fa-reply"></i>
                 <?php if ($post->author) : ?>
