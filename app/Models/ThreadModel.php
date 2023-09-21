@@ -61,7 +61,7 @@ class ThreadModel extends Model
     /**
      * Returns a paginated list of threads for the category.
      */
-    public function forList(array $search, int $perPage)
+    public function forList(array $search, int $perPage): ?array
     {
         $selects = [
             'threads.*',
@@ -100,6 +100,14 @@ class ThreadModel extends Model
         };
 
         return $query->paginate($perPage);
+    }
+
+    /**
+     * Increment thread view count.
+     */
+    public function incrementViewCount(int $threadId): bool
+    {
+        return $this->builder()->where('id', $threadId)->increment('views', 1);
     }
 
     /**
