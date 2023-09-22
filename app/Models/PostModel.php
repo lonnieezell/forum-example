@@ -25,10 +25,11 @@ class PostModel extends Model
     protected $allowedFields    = [
         'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
     ];
-    protected $useTimestamps = true;
-    protected $afterInsert   = ['updatePostImages', 'incrementPostCount', 'touchThread', 'touchUser'];
-    protected $afterDelete   = ['decrementPostCount'];
-    protected $afterUpdate   = ['updatePostImages', 'touchThread'];
+    protected $useTimestamps        = true;
+    protected $cleanValidationRules = false;
+    protected $afterInsert          = ['updatePostImages', 'incrementPostCount', 'touchThread', 'touchUser'];
+    protected $afterDelete          = ['decrementPostCount'];
+    protected $afterUpdate          = ['updatePostImages', 'touchThread'];
 
     /**
      * Scope method to only return visible posts.

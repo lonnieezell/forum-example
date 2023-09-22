@@ -61,11 +61,18 @@ class CleanupImages extends BaseCommand
     public function run(array $params)
     {
         $hours = array_shift($params) ?? 3;
+        $date  = Time::now()->subHours($hours)->format('Y-m-d H:i:s');
 
         $db    = db_connect();
         $query = $db->table('images')
             ->where('is_used', 0)
-            ->where('created_at <', Time::now()->subHours($hours)->format('Y-m-d H:i:s'))
+            ->groupStart()
+            ->groupStart()
+            ->where('thread_id', null)
+            ->where('created_at <', $date)
+            ->groupEnd()
+            ->orWhere('thread_id !=', null)
+            ->groupEnd()
             ->get();
 
         $delete = [];

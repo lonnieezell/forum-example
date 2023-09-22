@@ -63,9 +63,10 @@ class ImageController extends BaseController
 
         // Save file name to the DB
         if (! model(ImageModel::class)->insert([
-            'user_id' => user_id(),
-            'name'    => $newName,
-            'size'    => $file->getSize(),
+            'user_id'    => user_id(),
+            'name'       => $newName,
+            'size'       => $file->getSize(),
+            'ip_address' => $this->request->getIPAddress(),
         ])) {
             unlink($newPath . DIRECTORY_SEPARATOR . $newName);
 
