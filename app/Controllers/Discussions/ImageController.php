@@ -27,7 +27,7 @@ class ImageController extends BaseController
         if (! $this->validate([
             'image' => [
                 'uploaded[image]', 'max_size[image,2048]',
-                'mime_in[image,image/png,image/jpeg]', 'ext_in[image,png,jpg,jpeg]'
+                'mime_in[image,image/png,image/jpeg]', 'ext_in[image,png,jpg,jpeg]',
             ],
         ])) {
             return $this->response->setStatusCode(400)->setJSON([
@@ -68,6 +68,7 @@ class ImageController extends BaseController
             'size'    => $file->getSize(),
         ])) {
             unlink($newPath . DIRECTORY_SEPARATOR . $newName);
+
             return $this->response->setStatusCode(400)->setJSON([
                 'error' => 'Saving file to the DB failed.',
             ]);

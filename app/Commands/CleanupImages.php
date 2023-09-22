@@ -43,7 +43,7 @@ class CleanupImages extends BaseCommand
      * @var array
      */
     protected $arguments = [
-        'hours' => 'After how many hours image is treated as expired.'
+        'hours' => 'After how many hours image is treated as expired.',
     ];
 
     /**
@@ -55,8 +55,6 @@ class CleanupImages extends BaseCommand
 
     /**
      * Actually execute a command.
-     *
-     * @param array $params
      *
      * @throws Exception
      */

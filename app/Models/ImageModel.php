@@ -26,11 +26,11 @@ class ImageModel extends Model
         return $this
             ->where('user_id', $userId)
             ->groupStart()
-                ->groupStart()
-                    ->where('thread_id', $threadId)
-                    ->where('post_id', $postId)
-                ->groupEnd()
-                ->orWhere('thread_id', null)
+            ->groupStart()
+            ->where('thread_id', $threadId)
+            ->where('post_id', $postId)
+            ->groupEnd()
+            ->orWhere('thread_id', null)
             ->groupEnd()
             ->find();
     }

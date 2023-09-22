@@ -93,7 +93,7 @@ class AuthGroups extends ShieldAuthGroups
             'beta.*',
             'categories.*',
             'posts.*',
-            'images.*'
+            'images.*',
         ],
         'admin' => [
             'admin.access',
@@ -103,7 +103,7 @@ class AuthGroups extends ShieldAuthGroups
             'beta.access',
             'categories.*',
             'posts.*',
-            'images.*'
+            'images.*',
         ],
         'developer' => [
             'admin.access',

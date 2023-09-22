@@ -12,9 +12,9 @@ trait HasImages
      */
     protected function updateThreadImages(array $eventData): array
     {
-        if (! $eventData['result'] ||
-            (is_array($eventData['id']) && count($eventData['id']) > 1) ||
-            ! isset($eventData['data']['author_id'])
+        if (! $eventData['result']
+            || (is_array($eventData['id']) && count($eventData['id']) > 1)
+            || ! isset($eventData['data']['author_id'])
         ) {
             return $eventData;
         }
@@ -52,9 +52,9 @@ trait HasImages
      */
     protected function updatePostImages(array $eventData): array
     {
-        if (! $eventData['result'] ||
-            (is_array($eventData['id']) && count($eventData['id']) > 1) ||
-            ! isset($eventData['data']['author_id'])
+        if (! $eventData['result']
+            || (is_array($eventData['id']) && count($eventData['id']) > 1)
+            || ! isset($eventData['data']['author_id'])
         ) {
             return $eventData;
         }
