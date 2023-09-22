@@ -77,6 +77,7 @@ class AuthGroups extends ShieldAuthGroups
         'posts.delete'        => 'Can delete posts',
         'posts.create'        => 'Can create posts',
         'posts.moderate'      => 'Can moderate posts',
+        'images.upload'       => 'Can upload images',
     ];
 
     /**
@@ -92,6 +93,7 @@ class AuthGroups extends ShieldAuthGroups
             'beta.*',
             'categories.*',
             'posts.*',
+            'images.*'
         ],
         'admin' => [
             'admin.access',
@@ -101,6 +103,7 @@ class AuthGroups extends ShieldAuthGroups
             'beta.access',
             'categories.*',
             'posts.*',
+            'images.*'
         ],
         'developer' => [
             'admin.access',
@@ -108,10 +111,12 @@ class AuthGroups extends ShieldAuthGroups
             'users.create',
             'users.edit',
             'beta.access',
+            'images.upload',
         ],
         'user' => [
             'threads.create',
             'posts.create',
+            'images.upload',
         ],
         'beta' => [
             'beta.access',

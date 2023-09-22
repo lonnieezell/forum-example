@@ -31,6 +31,9 @@ $routes->post('posts/preview', 'Discussions\PostController::preview', ['as' => '
 $routes->get('posts/(:num)/show', 'Discussions\PostController::show/$1', ['as' => 'post-show']);
 $routes->get('posts/replies/(:num)', 'Discussions\PostController::allReplies/$1', ['as' => 'post-replies-load']);
 
+// Image upload
+$routes->post('images/upload', 'Discussions\ImageController::upload');
+
 // Members
 $routes->get('members', 'Members\MemberController::list');
 $routes->get('members/(:segment)', 'Members\MemberController::profile/$1', ['as' => 'profile']);

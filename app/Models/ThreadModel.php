@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
+use App\Concerns\HasImages;
 use App\Concerns\HasTags;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
@@ -18,6 +19,7 @@ class ThreadModel extends Model
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
     use HasTags;
+    use HasImages;
 
     protected $table            = 'threads';
     protected $primaryKey       = 'id';
@@ -31,9 +33,9 @@ class ThreadModel extends Model
     protected $useTimestamps        = true;
     protected $cleanValidationRules = false;
     protected $beforeInsert         = ['generateSlug'];
-    protected $afterInsert          = ['incrementThreadCount', 'touchCategory', 'touchUser'];
+    protected $afterInsert          = ['updateThreadImages', 'incrementThreadCount', 'touchCategory', 'touchUser'];
     protected $afterDelete          = ['decrementThreadCount'];
-    protected $afterUpdate          = ['touchCategory', 'recalculateStats'];
+    protected $afterUpdate          = ['updateThreadImages', 'touchCategory', 'recalculateStats'];
     protected ?int $oldCategoryId   = null;
 
     /**
