@@ -19,11 +19,7 @@ trait HasImages
             return $eventData;
         }
 
-        if (is_array($eventData['id'])) {
-            $threadId = (int) $eventData['id'][0];
-        } else {
-            $threadId = (int) $eventData['id'];
-        }
+        $threadId = is_array($eventData['id']) ? (int) $eventData['id'][0] : (int) $eventData['id'];
 
         $imageModel = model(ImageModel::class);
 
@@ -34,7 +30,7 @@ trait HasImages
         }
 
         foreach ($images as $image) {
-            if (str_contains($eventData['data']['body'], $image->name)) {
+            if (str_contains((string) $eventData['data']['body'], (string) $image->name)) {
                 $image->thread_id = $threadId;
                 $image->is_used   = true;
             } else {
@@ -59,11 +55,7 @@ trait HasImages
             return $eventData;
         }
 
-        if (is_array($eventData['id'])) {
-            $postId = (int) $eventData['id'][0];
-        } else {
-            $postId = (int) $eventData['id'];
-        }
+        $postId = is_array($eventData['id']) ? (int) $eventData['id'][0] : (int) $eventData['id'];
 
         $imageModel = model(ImageModel::class);
 
@@ -74,7 +66,7 @@ trait HasImages
         }
 
         foreach ($images as $image) {
-            if (str_contains($eventData['data']['body'], $image->name)) {
+            if (str_contains((string) $eventData['data']['body'], (string) $image->name)) {
                 $image->thread_id = (int) $eventData['data']['thread_id'];
                 $image->post_id   = $postId;
                 $image->is_used   = true;
