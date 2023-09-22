@@ -2,6 +2,7 @@
 
 namespace Tests\Controllers;
 
+use App\Models\Factories\ImageFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
 use Exception;
@@ -40,10 +41,21 @@ final class ThreadControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
         $response = $this->actingAs($user)->post('discussions/new', [
             'title'       => 'A new thread',
             'category_id' => 2,
-            'body'        => 'Sample body',
+            'body'        => 'Sample body ![](' . $fileUrl . ')',
         ]);
 
         $response->assertStatus(200);
@@ -52,6 +64,8 @@ final class ThreadControllerTest extends TestCase
         ])));
 
         $this->seeInDatabase('threads', ['title' => 'A new thread']);
+        $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 1, 'thread_id' => 3]);
+        $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 0, 'thread_id' => null]);
     }
 
     /**
@@ -171,16 +185,29 @@ final class ThreadControllerTest extends TestCase
      */
     public function testCanUserUpdateHisOwnThread()
     {
-        $user     = model(UserModel::class)->find(1);
+        $user = model(UserModel::class)->find(1);
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image2.jpg');
         $response = $this->actingAs($user)->withBody(http_build_query([
             'title'       => 'A updated thread',
             'category_id' => 2,
-            'body'        => 'Sample updated body',
+            'body'        => 'Sample updated body ![](' . $fileUrl . ')',
         ]))->put('discussions/1/edit');
 
         $response->assertOK();
         $response->assertSee('A updated thread', 'h3');
         $this->seeInDatabase('threads', ['title' => 'A updated thread']);
+        $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 0, 'thread_id' => null]);
+        $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 1, 'thread_id' => 1]);
     }
 
     /**

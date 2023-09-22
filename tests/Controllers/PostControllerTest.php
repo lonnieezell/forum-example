@@ -2,6 +2,7 @@
 
 namespace Tests\Controllers;
 
+use App\Models\Factories\ImageFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
 use Exception;
@@ -40,17 +41,30 @@ final class PostControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
         $response = $this->actingAs($user)->post('posts/1', [
             'thread_id' => '1',
             'reply_to'  => '',
-            'body'      => 'Sample body for post',
+            'body'      => 'Sample body for post ![](' . $fileUrl . ')',
         ]);
 
         $response->assertStatus(200);
         $response->seeElement('.post-meta');
         $response->assertHeader('hx-trigger', '{"removePostForm":{"id":"post-reply"}}');
 
-        $this->seeInDatabase('posts', ['body' => 'Sample body for post']);
+        $this->seeInDatabase('posts', ['body' => 'Sample body for post ![](' . $fileUrl . ')']);
+        $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 1, 'thread_id' => 1]);
+        $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 0, 'thread_id' => null]);
     }
 
     /**
@@ -140,17 +154,30 @@ final class PostControllerTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCanUserUpdateHisOwnThread()
+    public function testCanUserUpdateHisOwnPost()
     {
-        $user     = model(UserModel::class)->find(1);
+        $user = model(UserModel::class)->find(1);
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image2.jpg');
         $response = $this->actingAs($user)->withBody(http_build_query([
             'thread_id' => '1',
             'reply_to'  => '',
-            'body'      => 'Sample updated post body',
+            'body'      => 'Sample updated post body ![](' . $fileUrl . ')',
         ]))->put('posts/1/edit');
 
         $response->assertOK();
         $response->assertSeeElement('.post-meta');
-        $this->seeInDatabase('posts', ['body' => 'Sample updated post body']);
+        $this->seeInDatabase('posts', ['body' => 'Sample updated post body ![](' . $fileUrl . ')']);
+        $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 0, 'thread_id' => null]);
+        $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 1, 'thread_id' => 1]);
     }
 }
