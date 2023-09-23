@@ -2,7 +2,7 @@ import EasyMDE from "easymde";
 
 export function initEditor(elem) {
   const uploadEnabled = Boolean(elem.dataset.uploadEnabled || false);
-  const uploadSize = Number(elem.dataset.uploadSize || 1024 * 1024 * 2);
+  const uploadSize = Number(elem.dataset.uploadSize * 1024 || 1024 * 1024 * 2);
   const uploadMime = (elem.dataset.uploadMime || 'image/png,image/jpeg').split(',');
   const uploadUrl = elem.dataset.uploadUrl || '/images/upload';
 
