@@ -15,7 +15,6 @@ trait HasImages
         if (! $eventData['result']
             || (is_array($eventData['id']) && count($eventData['id']) > 1)
             || ! isset($eventData['data']['author_id'])
-
         ) {
             return $eventData;
         }
@@ -52,7 +51,6 @@ trait HasImages
         if (! $eventData['result']
             || (is_array($eventData['id']) && count($eventData['id']) > 1)
             || ! isset($eventData['data']['author_id'])
-
         ) {
             return $eventData;
         }
