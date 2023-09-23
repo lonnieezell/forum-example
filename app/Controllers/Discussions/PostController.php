@@ -132,6 +132,8 @@ class PostController extends BaseController
         $post         = new Post($this->validator->getValidated());
         $post->markup = 'markdown';
 
+        $this->response->triggerClientEvent('preview-show');
+
         return view('discussions/posts/_post_preview', ['post' => $post]);
     }
 
