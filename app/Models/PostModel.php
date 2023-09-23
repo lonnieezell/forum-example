@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
+use App\Concerns\HasImages;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Entities\Post;
@@ -13,6 +14,7 @@ class PostModel extends Model
     use ImpactsCategoryCounts;
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
+    use HasImages;
 
     protected $table            = 'posts';
     protected $primaryKey       = 'id';
@@ -23,10 +25,11 @@ class PostModel extends Model
     protected $allowedFields    = [
         'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
     ];
-    protected $useTimestamps = true;
-    protected $afterInsert   = ['incrementPostCount', 'touchThread', 'touchUser'];
-    protected $afterDelete   = ['decrementPostCount'];
-    protected $afterUpdate   = ['touchThread'];
+    protected $useTimestamps        = true;
+    protected $cleanValidationRules = false;
+    protected $afterInsert          = ['updatePostImages', 'incrementPostCount', 'touchThread', 'touchUser'];
+    protected $afterDelete          = ['decrementPostCount'];
+    protected $afterUpdate          = ['updatePostImages', 'touchThread'];
 
     /**
      * Scope method to only return visible posts.

@@ -33,7 +33,7 @@ trait HasTags
      */
     public function addTags(array $tags): static
     {
-        $this->tags = array_unique(array_merge($this->tags, $tags));
+        $this->tags = array_filter(array_unique(array_merge($this->tags, $tags)));
 
         $this->withTags();
 
@@ -45,7 +45,7 @@ trait HasTags
      */
     public function removeTags(array $tags): static
     {
-        $this->tags = array_diff($this->tags, $tags);
+        $this->tags = array_filter(array_diff($this->tags, $tags));
 
         $this->withTags();
 
@@ -57,7 +57,7 @@ trait HasTags
      */
     public function replaceTags(array $tags): static
     {
-        $this->tags = array_unique($tags);
+        $this->tags = array_filter(array_unique($tags));
 
         $this->withTags();
 
