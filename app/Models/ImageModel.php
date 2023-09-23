@@ -13,7 +13,7 @@ class ImageModel extends Model
     protected $returnType       = Image::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'thread_id', 'post_id', 'name', 'size', 'is_used'];
+    protected $allowedFields    = ['user_id', 'thread_id', 'post_id', 'name', 'size', 'is_used', 'ip_address'];
 
     // Dates
     protected $useTimestamps = true;

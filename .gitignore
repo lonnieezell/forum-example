@@ -13,6 +13,8 @@ public/js/*
 !public/css/.gitkeep
 !public/js/.gitkeep
 
+public/uploads/*
+
 #-------------------------
 # Development only Files
 #-------------------------
