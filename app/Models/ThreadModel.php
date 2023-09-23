@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasImages;
+use App\Concerns\HasStats;
 use App\Concerns\HasTags;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
@@ -18,6 +19,7 @@ class ThreadModel extends Model
     use ImpactsCategoryCounts;
     use ImpactsUserActivity;
     use HasAuthorsAndEditors;
+    use HasStats;
     use HasTags;
     use HasImages;
 
