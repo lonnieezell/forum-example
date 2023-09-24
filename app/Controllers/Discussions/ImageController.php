@@ -4,6 +4,7 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Models\ImageModel;
+use Config\ImageUpload;
 use ReflectionException;
 
 /**
@@ -18,6 +19,14 @@ class ImageController extends BaseController
      */
     public function upload()
     {
+        $imageUploadConfig = config(ImageUpload::class);
+
+        if (! $imageUploadConfig->enabled) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'error' => 'Image upload is disabled.',
+            ]);
+        }
+
         if (! $this->policy->can('images.upload')) {
             return $this->response->setStatusCode(401)->setJSON([
                 'error' => 'You are not allowed to upload images.',
@@ -26,8 +35,9 @@ class ImageController extends BaseController
 
         if (! $this->validate([
             'image' => [
-                'uploaded[image]', 'max_size[image,2048]',
-                'mime_in[image,image/png,image/jpeg]', 'ext_in[image,png,jpg,jpeg]',
+                'uploaded[image]', 'max_size[image,' . $imageUploadConfig->fileSize . ']',
+                'mime_in[image,' . $imageUploadConfig->getMime() . ']',
+                'ext_in[image,' . $imageUploadConfig->getExt() . ']',
             ],
         ])) {
             return $this->response->setStatusCode(400)->setJSON([

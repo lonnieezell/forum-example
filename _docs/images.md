@@ -12,6 +12,10 @@ Main rules:
 - We track whether each uploaded file is actually used in the message body to prevent abuse.
 - We should set up `.htaccess` file with proper rules to block hotlinking.
 
+## Config
+
+There is a `ImageUpload` configuration file that contains all the basic options for handling the upload process, such as maximum file size, allowed mime types, upload URL, etc. The defined values are used in both - frontend and the backend file validation process.
+
 ## Database
 
 The design of the `images` table makes it easy to delete files from disk when we introduce the option to permanently delete threads/posts in the future.
