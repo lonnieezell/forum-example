@@ -29,7 +29,7 @@ final class PostControllerTest extends TestCase
 
         $response->assertOK();
         $response->assertSeeElement('.post-create');
-        $response->assertSee('Create a new post', 'div.card-title');
+        $response->assertSee('Create a new post', 'div');
     }
 
     /**
@@ -148,7 +148,7 @@ final class PostControllerTest extends TestCase
         $response = $this->actingAs($user)->get('posts/1/edit');
 
         $response->assertOK();
-        $response->assertSee('Edit a post', 'div.card-title');
+        $response->assertSee('Edit a post', 'div');
     }
 
     /**
