@@ -34,6 +34,10 @@ class AuthGroups extends ShieldAuthGroups
             'title'       => 'Admin',
             'description' => 'Day to day administrators of the site.',
         ],
+        'moderators' => [
+            'title'       => 'Moderators',
+            'description' => 'Day to day moderators of the site.',
+        ],
         'developer' => [
             'title'       => 'Developer',
             'description' => 'Site programmers.',

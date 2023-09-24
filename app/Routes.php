@@ -41,5 +41,10 @@ $routes->get('members/(:segment)', 'Members\MemberController::profile/$1', ['as'
 // General Error Page.
 $routes->get('display-error', 'ErrorController::general', ['as' => 'general-error']);
 
+// Account routes
+$routes->group('account', ['filter'], static function (RouteCollection $routes) {
+    $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
+});
+
 // Shield Auth routes
 service('auth')->routes($routes);
