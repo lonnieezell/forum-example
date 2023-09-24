@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\HasStats;
 use App\Concerns\Sluggable;
 use App\Entities\Category;
 use CodeIgniter\Model;
 
 class CategoryModel extends Model
 {
+    use HasStats;
     use Sluggable;
 
     protected $table            = 'categories';

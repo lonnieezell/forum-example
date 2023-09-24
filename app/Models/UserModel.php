@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\HasStats;
 use App\Entities\User;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
 
 class UserModel extends ShieldUser
 {
+    use HasStats;
+
     protected $returnType = User::class;
 
     protected function initialize(): void
