@@ -20,6 +20,8 @@
 
     <?= $this->include('_app_nav') ?>
 
+    <?= $this->renderSection('header') ?>
+
     <div class="flex container mx-auto gap-4">
         <div class="flex-1 px-4 py-8 <?= (auth()->user()?->handed ?? 'right') === 'right'  ? 'order-1' : 'order-2' ?>" id="main">
             <?= $this->renderSection('main') ?>
