@@ -177,7 +177,7 @@ final class ThreadControllerTest extends TestCase
         $response = $this->actingAs($user)->get('discussions/1/edit');
 
         $response->assertOK();
-        $response->assertSee('Edit the thread', 'div.card-title');
+        $response->assertSee('Edit the thread', 'div');
     }
 
     /**

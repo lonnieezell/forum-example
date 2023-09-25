@@ -154,6 +154,8 @@ class ThreadController extends BaseController
         $thread         = new Thread($this->validator->getValidated());
         $thread->markup = 'markdown';
 
+        $this->response->triggerClientEvent('preview-show');
+
         return view('discussions/threads/_thread_preview', ['thread' => $thread]);
     }
 }
