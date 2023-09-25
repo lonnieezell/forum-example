@@ -15,7 +15,7 @@ class UserFactory extends UserModel
     {
         return new User([
             'username' => $this->generateUniqueUsername($faker->userName),
-            'name' => $faker->name,
+            'name'     => $faker->name,
             'email'    => $faker->email,
             'password' => $faker->password,
             'active'   => true,

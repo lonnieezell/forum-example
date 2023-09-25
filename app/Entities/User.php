@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use App\Models\UserModel;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -33,7 +32,7 @@ class User extends ShieldUser
 
         if ($this->id) {
             if (setting('Users.avatarNameBasis') === 'name') {
-                $names = explode(' ', $this->name);
+                $names    = explode(' ', $this->name);
                 $idString = $this->first_name
                     ? $names[0][0] . ($names[1][0] ?? '')
                     : $this->username[0] . $this->username[1];

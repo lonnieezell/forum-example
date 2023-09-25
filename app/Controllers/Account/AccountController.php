@@ -3,8 +3,6 @@
 namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use ReflectionException;
 
 class AccountController extends BaseController
 {
