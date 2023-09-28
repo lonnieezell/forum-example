@@ -132,6 +132,7 @@ class ThreadModel extends Model
         }
 
         model(CategoryModel::class)
+            ->allowCallbacks(false)
             ->where('id', $data['data']['category_id'])
             ->set('last_thread_id', $data['id'])
             ->update();
@@ -167,12 +168,13 @@ class ThreadModel extends Model
         $categoryModel = model(CategoryModel::class);
 
         // Update stats for new category
-        $newCategory = $categoryModel->find($data['data']['category_id']);
+        $newCategory = $categoryModel->allowCallbacks(false)->find($data['data']['category_id']);
         $newCategory->thread_count++;
         $newCategory->post_count += $data['data']['post_count'];
 
         // Update the last_thread_id for new category
         $oldestThread = $this
+            ->allowCallbacks(false)
             ->where('category_id', $newCategory->id)
             ->orderBy('created_at', 'desc')
             ->first();
@@ -181,16 +183,17 @@ class ThreadModel extends Model
             $newCategory->last_thread_id = $oldestThread->id;
         }
 
-        $categoryModel->save($newCategory);
+        $categoryModel->allowCallbacks(false)->save($newCategory);
 
         // Update stats for old category
-        $oldCategory = $categoryModel->find($this->oldCategoryId);
+        $oldCategory = $categoryModel->allowCallbacks(false)->find($this->oldCategoryId);
         $oldCategory->thread_count--;
         $oldCategory->post_count -= $data['data']['post_count'];
 
         // Update the last_thread_id for old category
         if ($oldCategory->last_thread_id === $data['id'][0]) {
             $oldestThread = $this
+                ->allowCallbacks(false)
                 ->where('category_id', $oldCategory->id)
                 ->orderBy('created_at', 'desc')
                 ->first();
@@ -198,7 +201,7 @@ class ThreadModel extends Model
             $oldCategory->last_thread_id = $oldestThread->id;
         }
 
-        $categoryModel->save($oldCategory);
+        $categoryModel->allowCallbacks(false)->save($oldCategory);
 
         return $data;
     }
