@@ -17,7 +17,7 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $thread = $this->find($data['id']);
+        $thread = $this->allowCallbacks(false)->find($data['id']);
 
         // Increment Category thread count
         model(CategoryModel::class)->incrementStats($thread->category_id, 'thread_count');
@@ -36,7 +36,7 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $thread = $this->find($data['id']);
+        $thread = $this->allowCallbacks(false)->find($data['id']);
 
         // Decrement Category thread count
         model(CategoryModel::class)->decrementStats($thread->category_id, 'thread_count');
@@ -55,7 +55,7 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $post = $this->find($data['id']);
+        $post = $this->allowCallbacks(false)->find($data['id']);
 
         // Increment Category post count
         model(CategoryModel::class)->incrementStats($post->category_id, 'post_count');
@@ -76,7 +76,7 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $post = $this->find($data['id']);
+        $post = $this->allowCallbacks(false)->find($data['id']);
 
         // Decrement Category post count
         model(CategoryModel::class)->decrementStats($post->category_id, 'post_count');
