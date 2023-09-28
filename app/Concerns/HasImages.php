@@ -22,7 +22,7 @@ trait HasImages
         $threadId = is_array($eventData['id']) ? (int) $eventData['id'][0] : (int) $eventData['id'];
 
         $imageModel = model(ImageModel::class);
-        $images     = $imageModel->findForCheck($eventData['data']['author_id'], $threadId);
+        $images     = $imageModel->allowCallbacks(false)->findForCheck($eventData['data']['author_id'], $threadId);
 
         if (! $images) {
             return $eventData;
@@ -38,7 +38,7 @@ trait HasImages
             }
         }
 
-        $imageModel->updateBatch($images, 'id');
+        $imageModel->allowCallbacks(false)->updateBatch($images, 'id');
 
         return $eventData;
     }
@@ -58,7 +58,7 @@ trait HasImages
         $postId = is_array($eventData['id']) ? (int) $eventData['id'][0] : (int) $eventData['id'];
 
         $imageModel = model(ImageModel::class);
-        $images     = $imageModel->findForCheck($eventData['data']['author_id'], $eventData['data']['thread_id'], $postId);
+        $images     = $imageModel->allowCallbacks(false)->findForCheck($eventData['data']['author_id'], $eventData['data']['thread_id'], $postId);
 
         if (! $images) {
             return $eventData;
@@ -75,7 +75,7 @@ trait HasImages
             }
         }
 
-        $imageModel->updateBatch($images, 'id');
+        $imageModel->allowCallbacks(false)->updateBatch($images, 'id');
 
         return $eventData;
     }

@@ -28,7 +28,7 @@ trait Sluggable
         $count        = 1;
         $originalSlug = $slug;
 
-        while ($this->where('slug', $slug)->first()) {
+        while ($this->allowCallbacks(false)->where('slug', $slug)->first()) {
             $slug = $originalSlug . '-' . $count;
             $count++;
         }

@@ -17,6 +17,7 @@ trait ImpactsUserActivity
         }
 
         model(UserModel::class)
+            ->allowCallbacks(false)
             ->where('id', $data['data']['author_id'])
             ->set('last_active', Time::now('UTC'))
             ->update();
