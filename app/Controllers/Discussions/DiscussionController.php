@@ -45,7 +45,7 @@ class DiscussionController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         $data = [
-            'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
+            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -86,7 +86,7 @@ class DiscussionController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         $data = [
-            'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
+            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -129,7 +129,7 @@ class DiscussionController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         $data = [
-            'threads' => $threadModel->withTags()->forList($table['search'], $table['perPage']),
+            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
