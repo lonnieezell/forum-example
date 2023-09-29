@@ -8,7 +8,7 @@
             <?= esc($thread->title) ?>
         </h3>
 
-        <?php if ($thread->tags): ?>
+        <?php if (! $thread->tags->isEmpty()): ?>
             <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
         <?php endif; ?>
 
