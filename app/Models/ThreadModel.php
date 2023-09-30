@@ -40,6 +40,11 @@ class ThreadModel extends Model
     protected $afterUpdate          = ['updateThreadImages', 'touchCategory', 'recalculateStats'];
     protected ?int $oldCategoryId   = null;
 
+    protected function initialize(): void
+    {
+        $this->initTags();
+    }
+
     /**
      * Scope method to only return open threads.
      *
