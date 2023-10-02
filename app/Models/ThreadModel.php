@@ -5,12 +5,12 @@ namespace App\Models;
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasImages;
 use App\Concerns\HasStats;
-use App\Concerns\HasTags;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
 use App\Entities\Thread;
 use CodeIgniter\Model;
+use Michalsn\CodeIgniterTags\Traits\HasTags;
 use ReflectionException;
 
 class ThreadModel extends Model
@@ -39,6 +39,11 @@ class ThreadModel extends Model
     protected $afterDelete          = ['decrementThreadCount'];
     protected $afterUpdate          = ['updateThreadImages', 'touchCategory', 'recalculateStats'];
     protected ?int $oldCategoryId   = null;
+
+    protected function initialize(): void
+    {
+        $this->initTags();
+    }
 
     /**
      * Scope method to only return open threads.
@@ -84,8 +89,8 @@ class ThreadModel extends Model
             ->when(
                 isset($search['tag']),
                 static fn ($query) => $query
-                    ->join('thread_tags', 'thread_tags.thread_id = threads.id', 'left')
-                    ->join('tags', 'tags.id = thread_tags.tag_id', 'left')
+                    ->join('taggable', 'taggable.taggable_id = threads.id AND taggable.taggable_type = "threads"', 'left')
+                    ->join('tags', 'tags.id = taggable.tag_id', 'left')
                     ->where('tags.name', strtolower((string) $search['tag']))
             )
             ->when(
