@@ -26,6 +26,9 @@
                                 </svg>
                                 Account
                             </a>
+                            <ul class="menu">
+                                <?= view_cell('App\Cells\AccountNavCell') ?>
+                            </ul>
                         </li>
                         <li>
                             <a class="w-full" href="<?= route_to('logout') ?>" hx-boost="false">
