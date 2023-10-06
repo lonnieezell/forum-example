@@ -9,7 +9,7 @@
   "main": "dist/main.js",
   "dependencies": {
     "@yaireo/tagify": "^4.17.9",
-    "alpinejs": "^3.13.0",
+    "alpinejs": "^3.13.1",
     "daisyui": "^3.8.1",
     "easymde": "^2.18.0",
     "htmx.org": "^1.9.6"
@@ -18,7 +18,7 @@
     "@parcel/transformer-sass": "^2.9.3",
     "@tailwindcss/typography": "^0.5.9",
     "parcel": "^2.9.3",
-    "postcss": "^8.4.30",
+    "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.5",
     "tailwindcss": "^3.3.3"
