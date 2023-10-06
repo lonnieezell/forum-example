@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\HasStats;
 use App\Entities\User;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
+use ReflectionException;
 
 class UserModel extends ShieldUser
 {
@@ -20,6 +21,9 @@ class UserModel extends ShieldUser
         $this->allowedFields = array_merge($this->allowedFields, [
             'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature',
         ]);
+
+        // Add event after insert
+        $this->afterInsert[] = 'createNotificationSettings';
     }
 
     public function searchMembers(array $search, int $page, int $perPage, string $sortColumn, string $sortDirection): ?array
@@ -79,5 +83,17 @@ class UserModel extends ShieldUser
         }
 
         return $results;
+    }
+
+    /**
+     * Create default notification settings for user.
+     *
+     * @throws ReflectionException
+     */
+    protected function createNotificationSettings(array $eventData): void
+    {
+        if ($eventData['result']) {
+            model(NotificationSettingModel::class)->insert(['user_id' => $eventData['id']]);
+        }
     }
 }

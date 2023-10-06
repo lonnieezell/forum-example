@@ -45,6 +45,7 @@ $routes->get('display-error', 'ErrorController::general', ['as' => 'general-erro
 $routes->group('account', ['filter'], static function (RouteCollection $routes) {
     $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
     $routes->get('posts', 'Account\AccountController::posts', ['as' => 'account-posts']);
+    $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
 });
 
 // Shield Auth routes
