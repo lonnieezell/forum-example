@@ -10,7 +10,7 @@
   "dependencies": {
     "@yaireo/tagify": "^4.17.9",
     "alpinejs": "^3.13.1",
-    "daisyui": "^3.8.1",
+    "daisyui": "^3.9.2",
     "easymde": "^2.18.0",
     "htmx.org": "^1.9.6"
   },
