@@ -12,7 +12,7 @@
         ],
         [
             'title' => 'Notifications',
-            'url'   => '',
+            'url'   => route_to('account-notifications'),
             'icon'  => view('icons/bell'),
         ],
         [

@@ -147,6 +147,40 @@ class PostModel extends Model
     }
 
     /**
+     * Get all users ids for people who posted a reply to a given thread.
+     */
+    public function getAuthorIds(int $threadId, array $excludeUsers = []): array
+    {
+        $authors = $this->builder()
+            ->distinct()
+            ->select('author_id')
+            ->where('thread_id', $threadId)
+            ->whereNotIn('author_id', $excludeUsers)
+            ->where('visible', true)
+            ->get()
+            ->getResultArray();
+
+        return array_map('intval', array_column($authors, 'author_id'));
+    }
+
+    /**
+     * Get all users ids for people who posted a reply to a given post.
+     */
+    public function getReplyAuthorIds(int $replyTo, array $excludeUsers = []): array
+    {
+        $authors = $this->builder()
+            ->distinct()
+            ->select('author_id')
+            ->where('reply_to', $replyTo)
+            ->whereNotIn('author_id', $excludeUsers)
+            ->where('visible', true)
+            ->get()
+            ->getResultArray();
+
+        return array_map('intval', array_column($authors, 'author_id'));
+    }
+
+    /**
      * Update the category's last_thread_id.
      */
     protected function touchThread(array $data)

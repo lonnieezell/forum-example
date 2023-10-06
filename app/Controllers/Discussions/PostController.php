@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Entities\Post;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
+use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use Exception;
@@ -47,7 +48,8 @@ class PostController extends BaseController
             'body'      => ['required', 'string', 'max_length[65000]'],
         ])) {
             $post              = new Post($this->validator->getValidated());
-            $thread            = model(ThreadModel::class)->find($post->thread_id);
+            $threadModel       = model(ThreadModel::class);
+            $thread            = $threadModel->find($post->thread_id);
             $post->category_id = $thread->category_id;
             $post->author_id   = user_id();
             $post->visible     = 1;
@@ -57,12 +59,15 @@ class PostController extends BaseController
 
             if ($postId = $postModel->insert($post)) {
                 $post = $postModel->find($postId);
+                $post = $postModel->withUsers($post);
+
+                Events::trigger('new_post', $threadModel->withUsers($thread), $post);
 
                 $this->response->triggerClientEvent('removePostForm', [
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
                 ]);
 
-                return view('discussions/posts/_post_with_replies', ['post' => $postModel->withUsers($post)]);
+                return view('discussions/posts/_post_with_replies', ['post' => $post]);
             }
         }
 
