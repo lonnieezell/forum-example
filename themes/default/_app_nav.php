@@ -27,7 +27,7 @@
                                 Account
                             </a>
                             <ul class="menu">
-                                <?= view_cell('App\Cells\AccountNavCell') ?>
+                                <?= view('account/_nav') ?>
                             </ul>
                         </li>
                         <li>
