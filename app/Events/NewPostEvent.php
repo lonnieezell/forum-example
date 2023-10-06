@@ -86,7 +86,7 @@ class NewPostEvent
     {
         $postModel = model(PostModel::class);
 
-        // get all post authors except the current on
+        // get all post authors except the current one
         $authorIds = $postModel->getAuthorIds($this->thread->id, [$this->post->author_id]);
 
         if (empty($authorIds)) {
