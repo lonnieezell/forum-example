@@ -1,36 +1,6 @@
-<section>
-    <ul class="menu pt-0">
+<section class="hidden sm:block">
+    <ul class="menu pt-0" hx-boost="true">
         <li class="menu-title">Menu</li>
-        <li>
-            <a class="" href="">
-                <?= view('icons/chat-bubbles') ?>
-                Posts
-            </a>
-        </li>
-        <li>
-            <a class="" href="">
-                <?= view('icons/chat-bubble') ?>
-                Discussions
-            </a>
-        </li>
-        <li>
-            <a class="" href="">
-                <?= view('icons/bell') ?>
-                Notifications
-            </a>
-        </li>
-        <br>
-        <li>
-            <a class="" href="">
-                <?= view('icons/gear') ?>
-                Settings
-            </a>
-        </li>
-        <li>
-            <a class="" href="">
-                <?= view('icons/shield') ?>
-                Security
-            </a>
-        </li>
+        <?= view('account/_nav') ?>
     </ul>
 </section>

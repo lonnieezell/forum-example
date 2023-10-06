@@ -26,6 +26,9 @@
                                 </svg>
                                 Account
                             </a>
+                            <ul class="menu">
+                                <?= view('account/_nav') ?>
+                            </ul>
                         </li>
                         <li>
                             <a class="w-full" href="<?= route_to('logout') ?>" hx-boost="false">
@@ -80,9 +83,7 @@
             <?php if (auth()->loggedIn()): ?>
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                        <div class="w-10 mask mask-squircle">
-                            <?= auth()->user()->renderAvatar() ?>
-                        </div>
+                            <?= auth()->user()->renderAvatar(40) ?>
                     </label>
                     <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                         <li>
