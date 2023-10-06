@@ -1,8 +1,6 @@
 <div class="flex justify-center p-6 bg-base-200 border border-l-0 border-r-0 border-base-300">
     <div class="container flex flex-col sm:flex-row gap-8 w-auto">
-        <div class="mask mask-squircle border w-auto flex-0">
-            <?= $user->renderAvatar(64) ?>
-        </div>
+        <?= $user->renderAvatar(80) ?>
 
         <div class="flex-1">
             <h1 class="text-xl font-bold">
