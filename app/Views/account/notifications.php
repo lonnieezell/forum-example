@@ -7,7 +7,7 @@
 
 <?= $this->section('main')  ?>
 <?= view('account/_post-head', [
-    'title' => 'Notifications',
+    'title' => 'My Notifications',
     'subTitle' => 'Your notification settings for discussions and new posts.'
 ]) ?>
 

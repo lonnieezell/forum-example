@@ -10,8 +10,21 @@ use App\Models\PostModel;
 
 class NewPostEvent
 {
+    /**
+     * Number of notifications sent.
+     */
+    private int $count = 0;
+
     public function __construct(protected Thread $thread, protected Post $post)
     {
+    }
+
+    /**
+     * Get number of notifications sent.
+     */
+    public function getCount(): int
+    {
+        return $this->count;
     }
 
     /**
@@ -60,6 +73,8 @@ class NewPostEvent
             return false;
         }
 
+        $this->count++;
+
         // send notification
         return $this->sendNotification($this->thread->author, $this->thread, $this->post);
     }
@@ -100,6 +115,7 @@ class NewPostEvent
             if ($setting->email_post === true) {
                 // send notification
                 $this->sendNotification($this->post->author, $this->thread, $this->post);
+                $this->count++;
 
                 continue;
             }
@@ -110,6 +126,7 @@ class NewPostEvent
                 if ($postReplyTo?->author_id === $setting->user_id) {
                     // send notification
                     $this->sendNotification($this->post->author, $this->thread, $this->post);
+                    $this->count++;
 
                     continue;
                 }
@@ -118,10 +135,11 @@ class NewPostEvent
                 if (in_array($setting->user_id, $replyAuthorIds, true)) {
                     // send notification
                     $this->sendNotification($this->post->author, $this->thread, $this->post);
+                    $this->count++;
                 }
             }
         }
 
-        return true;
+        return $this->count > 0;
     }
 }
