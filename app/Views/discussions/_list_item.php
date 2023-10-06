@@ -8,12 +8,12 @@
             <?= esc($thread->title) ?>
         </h3>
 
-        <?php if ($thread->tags): ?>
+        <?php if (! $thread->tags->isEmpty()): ?>
             <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
         <?php endif; ?>
 
-        <?php if (! empty($thread->last_post_author)) : ?>
-            <div class="mt-2 text-neutral-400 text-sm">
+        <div class="mt-2 text-neutral-400 text-sm">
+            <?php if (! empty($thread->last_post_author)) : ?>
                 <i class="fa-solid fa-reply"></i>
                 <strong>
                     <a href="<?= route_to('profile', esc($thread->last_post_author,'attr')); ?>"
@@ -23,19 +23,24 @@
                     </a>
                 </strong>
                 replied <?= \CodeIgniter\I18n\Time::parse($thread->last_post_created_at)->humanize() ?>
-                &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                <a href="<?= route_to('category', esc($thread->category_slug,'attr')); ?>"
-                    class="hover:text-neutral"
-                >
-                    <?= esc($thread->category_title) ?>
-                </a>
-            </div>
-        <?php else: ?>
-            <div class="mt-2 text-neutral-400 text-sm">
+            <?php else: ?>
                 <i class="fa-solid fa-pen"></i>
+                <strong>
+                    <a href="<?= $thread->author->link() ?>"
+                       class="hover:text-neutral"
+                    >
+                        <?= esc($thread->author->username) ?>
+                    </a>
+                </strong>
                 created <?= \CodeIgniter\I18n\Time::parse($thread->updated_at)->humanize() ?>
-            </div>
-        <?php endif ?>
+            <?php endif ?>
+            &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+            <a href="<?= route_to('category', esc($thread->category_slug,'attr')); ?>"
+               class="hover:text-neutral"
+            >
+                <?= esc($thread->category_title) ?>
+            </a>
+        </div>
     </div>
 
     <div class="flex flex-row gap-4">

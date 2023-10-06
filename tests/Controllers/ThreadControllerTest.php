@@ -92,8 +92,8 @@ final class ThreadControllerTest extends TestCase
         $this->seeInDatabase('threads', ['title' => 'A new thread']);
         $this->seeInDatabase('tags', ['name' => 'tag1']);
         $this->seeInDatabase('tags', ['name' => 'tag2']);
-        $this->seeInDatabase('thread_tags', ['thread_id' => 3, 'tag_id' => 1]);
-        $this->seeInDatabase('thread_tags', ['thread_id' => 3, 'tag_id' => 2]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 3, 'taggable_type' => 'threads', 'tag_id' => 1]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 3, 'taggable_type' => 'threads', 'tag_id' => 2]);
     }
 
     /**
@@ -228,8 +228,8 @@ final class ThreadControllerTest extends TestCase
         $this->seeInDatabase('threads', ['title' => 'A updated thread']);
         $this->seeInDatabase('tags', ['name' => 'tag1']);
         $this->seeInDatabase('tags', ['name' => 'tag2']);
-        $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 1]);
-        $this->seeInDatabase('thread_tags', ['thread_id' => 1, 'tag_id' => 2]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 1, 'taggable_type' => 'threads', 'tag_id' => 1]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 1, 'taggable_type' => 'threads', 'tag_id' => 2]);
     }
 
     /**
@@ -253,8 +253,8 @@ final class ThreadControllerTest extends TestCase
         $this->seeInDatabase('tags', ['name' => 'tag2']);
         $this->dontSeeInDatabase('tags', ['name' => 'tag3']);
 
-        $this->seeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 1]);
-        $this->seeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 2]);
-        $this->dontSeeInDatabase('thread_tags', ['thread_id' => 2, 'tag_id' => 3]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 1]);
+        $this->seeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 2]);
+        $this->dontSeeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 3]);
     }
 }
