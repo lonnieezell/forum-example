@@ -2,11 +2,13 @@
 
 namespace App\Events;
 
+use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
 use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
+use App\Models\UserModel;
 
 class NewPostEvent
 {
@@ -14,8 +16,9 @@ class NewPostEvent
      * Number of notifications sent.
      */
     private int $count = 0;
+    private array $notifiedUsers = [];
 
-    public function __construct(protected Thread $thread, protected Post $post)
+    public function __construct(protected Category $category, protected Thread $thread, protected Post $post)
     {
     }
 
@@ -46,7 +49,7 @@ class NewPostEvent
      *
      * @todo Make it run in the background (queueNotification).
      */
-    private function sendNotification(User $recipient, Thread $thread, Post $post): bool
+    private function sendNotification(User $recipient, Category $category, Thread $thread, Post $post): bool
     {
         helper('text');
 
@@ -54,7 +57,7 @@ class NewPostEvent
             ->setTo($recipient->email)
             ->setSubject(config('App')->siteName . ' - New post notification')
             ->setMessage(view('_emails/new_post', [
-                'user' => $recipient, 'thread' => $thread, 'post' => $post,
+                'user' => $recipient, 'category' => $category, 'thread' => $thread, 'post' => $post,
             ]))
             ->send();
     }
@@ -73,9 +76,10 @@ class NewPostEvent
         }
 
         $this->count++;
+        $this->notifiedUsers[] = $this->thread->author_id;
 
         // send notification
-        return $this->sendNotification($this->thread->author, $this->thread, $this->post);
+        return $this->sendNotification($this->thread->author, $this->category, $this->thread, $this->post);
     }
 
     /**
@@ -99,6 +103,9 @@ class NewPostEvent
             return false;
         }
 
+        $users = model(UserModel::class)->find(array_column($notifications, 'user_id'));
+        $users = array_column($users, null, 'id');
+
         // if we deal with the reply_to post type get the main post
         $postReplyTo = $this->post->reply_to !== null ?
             $postModel->find($this->post->reply_to) :
@@ -110,11 +117,16 @@ class NewPostEvent
 
         // check users notifications
         foreach ($notifications as $setting) {
+            // skip if user was already notified
+            if (in_array($setting->user_id, $this->notifiedUsers, true)) {
+                continue;
+            }
             // user wants to be notified about every reply
             if ($setting->email_post === true) {
                 // send notification
-                $this->sendNotification($this->post->author, $this->thread, $this->post);
+                $this->sendNotification($users[$setting->user_id], $this->category, $this->thread, $this->post);
                 $this->count++;
+                $this->notifiedUsers[] = $setting->user_id;
 
                 continue;
             }
@@ -124,8 +136,9 @@ class NewPostEvent
                 // direct reply to the post author
                 if ($postReplyTo?->author_id === $setting->user_id) {
                     // send notification
-                    $this->sendNotification($this->post->author, $this->thread, $this->post);
+                    $this->sendNotification($users[$setting->user_id], $this->category, $this->thread, $this->post);
                     $this->count++;
+                    $this->notifiedUsers[] = $setting->user_id;
 
                     continue;
                 }
@@ -133,8 +146,9 @@ class NewPostEvent
                 // user replied to the same post earlier
                 if (in_array($setting->user_id, $replyAuthorIds, true)) {
                     // send notification
-                    $this->sendNotification($this->post->author, $this->thread, $this->post);
+                    $this->sendNotification($users[$setting->user_id], $this->category, $this->thread, $this->post);
                     $this->count++;
+                    $this->notifiedUsers[] = $setting->user_id;
                 }
             }
         }

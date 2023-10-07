@@ -171,13 +171,28 @@ class DiscussionController extends BaseController
             $threadModel->incrementViewCount($thread->id);
         }
 
-        $thread    = $threadModel->withUsers($thread);
         $postModel = model(PostModel::class);
-        $posts     = $postModel->forThread($thread->id, 10);
-        $pager     = $postModel->pager;
+
+        if ($postId = (int) $this->request->getGet('post_id')) {
+            // User was directed here to see the certain post
+            $post = $postModel->where('thread_id', $thread->id)->find($postId);
+            // Determine the page number for the post
+            $page = $postModel->getPageNumberForPost($post->thread_id, $post->reply_to ?? $post->id);
+            // Load all the replies for the post if needed
+            if ($page !== null && $post->reply_to !== null) {
+                $loadedReplies = [
+                    $post->reply_to => $postModel->getAllReplies($post->reply_to),
+                ];
+            }
+        }
+
+        $thread = $threadModel->withUsers($thread);
+        $posts  = $postModel->forThread($thread->id, 10, $page ?? null);
+        $pager  = $postModel->pager->only(['page']);
 
         return $this->render('discussions/thread', [
-            'slug' => $slug, 'thread' => $thread, 'posts' => $posts, 'pager' => $pager,
+            'slug' => $slug, 'thread' => $thread, 'posts' => $posts,
+            'pager' => $pager, 'loadedReplies' => $loadedReplies ?? [],
         ]);
     }
 }

@@ -1,4 +1,4 @@
-<div class="post p-6 rounded bg-base-100 shadow-xl">
+<div class="post p-6 rounded bg-base-100 shadow-xl" id="post-<?= $post->id ?>">
     <!-- Post Meta -->
     <div class="post-meta">
         <div class="flex gap-4">

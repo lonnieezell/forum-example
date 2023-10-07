@@ -27,7 +27,7 @@
                 </div>
 
                 <div id="replies-content">
-                    <?= view('discussions/_thread_items', ['posts' => $posts]) ?>
+                    <?= view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => $loadedReplies]) ?>
                 </div>
 
                 <div id="replies-footer" class="flex justify-between">

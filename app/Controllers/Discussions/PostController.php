@@ -4,6 +4,7 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\Post;
+use App\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Events\Events;
@@ -60,8 +61,10 @@ class PostController extends BaseController
             if ($postId = $postModel->insert($post)) {
                 $post = $postModel->find($postId);
                 $post = $postModel->withUsers($post);
+                // Load category to prevent unnecessary DB call when generating a link to post.
+                $category = model(CategoryModel::class)->find($post->category_id);
 
-                Events::trigger('new_post', $threadModel->withUsers($thread), $post);
+                Events::trigger('new_post', $category, $threadModel->withUsers($thread), $post);
 
                 $this->response->triggerClientEvent('removePostForm', [
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
@@ -149,6 +152,6 @@ class PostController extends BaseController
     {
         $posts = model(PostModel::class)->getAllReplies($postId);
 
-        return view('discussions/_thread_items', ['posts' => $posts]);
+        return view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => []]);
     }
 }

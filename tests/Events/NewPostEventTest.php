@@ -1,8 +1,10 @@
 <?php
 
+use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
 use App\Events\NewPostEvent;
+use App\Models\CategoryModel;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\NotificationSettingModel;
@@ -42,13 +44,15 @@ final class NewPostEventTest extends TestCase
         $thread = model(ThreadModel::class)->find(1);
         /** @var Thread $thread */
         $thread = model(ThreadModel::class)->withUsers($thread);
+        /** @var Category $category */
+        $category = model(CategoryModel::class)->find(1);
 
         model(NotificationSettingModel::class)->save([
             'user_id'      => 1,
             'email_thread' => $emailThread,
         ]);
 
-        $event  = new NewPostEvent($thread, $post);
+        $event  = new NewPostEvent($category, $thread, $post);
         $method = $this->getPrivateMethodInvoker($event, 'handleThreadNotifications');
         $this->assertSame($result, $method());
         $this->assertSame($event->getCount(), $count);
@@ -96,6 +100,8 @@ final class NewPostEventTest extends TestCase
         $thread = model(ThreadModel::class)->find(1);
         /** @var Thread $thread */
         $thread = model(ThreadModel::class)->withUsers($thread);
+        /** @var Category $category */
+        $category = model(CategoryModel::class)->find(1);
 
         model(NotificationSettingModel::class)->save([
             'user_id'          => $userId ?? $user->id,
@@ -103,7 +109,7 @@ final class NewPostEventTest extends TestCase
             'email_post_reply' => $emailPostReply,
         ]);
 
-        $event  = new NewPostEvent($thread, $post2);
+        $event  = new NewPostEvent($category, $thread, $post2);
         $method = $this->getPrivateMethodInvoker($event, 'handlePostNotifications');
         $this->assertSame($result, $method());
         $this->assertSame($event->getCount(), $count);

@@ -56,13 +56,13 @@ class PostModel extends Model
     /**
      * Returns a paginated list of posts for the thread.
      */
-    public function forThread(int $threadId, int $perPage = 10)
+    public function forThread(int $threadId, int $perPage = 10, ?int $page = null)
     {
         $posts = $this->where('thread_id', $threadId)
             ->visible()
             ->main()
             ->orderBy('id', 'asc')
-            ->paginate($perPage);
+            ->paginate($perPage, 'default', $page);
 
         if (! $posts) {
             return [];
@@ -144,6 +144,27 @@ class PostModel extends Model
         $posts = $this->where('reply_to', $postId)->findAll();
 
         return $this->withUsers($posts);
+    }
+
+    /**
+     * Determine the page based on the postId.
+     */
+    public function getPageNumberForPost(int $threadId, int $postId, int $perPage = 10): ?int
+    {
+        //$sql = "SELECT COUNT(*) as position FROM your_table WHERE postId <= ? ORDER BY postId";
+        $result = $this->builder()
+            ->select('COUNT(*) AS position')
+            ->where('thread_id', $threadId)
+            ->where('id <=', $postId)
+            ->where('reply_to', null)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            return null;
+        }
+
+        return (int) ceil($result->position / $perPage);
     }
 
     /**

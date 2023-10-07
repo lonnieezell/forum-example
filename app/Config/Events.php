@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
 use App\Events\NewPostEvent;
@@ -60,6 +61,6 @@ Events::on('pre_system', static function () {
 /**
  * Event fired after a new post is added.
  */
-Events::on('new_post', static function (Thread $thread, Post $post) {
-    (new NewPostEvent($thread, $post))->process();
+Events::on('new_post', static function (Category $category, Thread $thread, Post $post) {
+    (new NewPostEvent($category, $thread, $post))->process();
 });
