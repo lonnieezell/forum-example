@@ -16,6 +16,7 @@ class NewPostEvent
      * Number of notifications sent.
      */
     private int $count = 0;
+
     private array $notifiedUsers = [];
 
     public function __construct(protected Category $category, protected Thread $thread, protected Post $post)

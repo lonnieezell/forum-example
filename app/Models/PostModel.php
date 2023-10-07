@@ -151,7 +151,6 @@ class PostModel extends Model
      */
     public function getPageNumberForPost(int $threadId, int $postId, int $perPage = 10): ?int
     {
-        //$sql = "SELECT COUNT(*) as position FROM your_table WHERE postId <= ? ORDER BY postId";
         $result = $this->builder()
             ->select('COUNT(*) AS position')
             ->where('thread_id', $threadId)

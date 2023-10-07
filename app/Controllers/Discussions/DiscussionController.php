@@ -191,7 +191,7 @@ class DiscussionController extends BaseController
         $pager  = $postModel->pager->only(['page']);
 
         return $this->render('discussions/thread', [
-            'slug' => $slug, 'thread' => $thread, 'posts' => $posts,
+            'slug'  => $slug, 'thread' => $thread, 'posts' => $posts,
             'pager' => $pager, 'loadedReplies' => $loadedReplies ?? [],
         ]);
     }
