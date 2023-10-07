@@ -51,7 +51,6 @@ class NewPostEvent
         helper('text');
 
         return service('email', false)
-            ->setFrom('notifications@myth.forum', config('App')->siteName)
             ->setTo($recipient->email)
             ->setSubject(config('App')->siteName . ' - New post notification')
             ->setMessage(view('_emails/new_post', [
