@@ -8,7 +8,7 @@ parameters:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
 		- app/Cells/category_list_cell.php
-		- app/Cells/show_thread_cell.php
+		- app/Cells/mute_thread.php
 		- app/Config/*
 		- app/Views/*
 		- app/Libraries/TextFormatter.php

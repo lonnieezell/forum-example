@@ -67,6 +67,7 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'session' => ['before' => ['account*', 'admin*']],
+        'session'   => ['before' => ['account*', 'admin*']],
+        'signedurl' => ['before' => ['thread-notifications/*']],
     ];
 }

@@ -35,7 +35,7 @@ class Post extends Entity
             model('ThreadModel')->find($this->thread_id)->slug :
             $thread->slug;
 
-        return site_url(route_to('post', $categorySlug, $threadSlug, $this->id)) . '#post-' . $this->id;
+        return url_to('post', $categorySlug, $threadSlug, $this->id) . '#post-' . $this->id;
     }
 
     public function setReplyTo(?string $value = null)

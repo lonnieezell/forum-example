@@ -37,4 +37,14 @@ class NotificationSettingModel extends Model
 
         return $this;
     }
+
+    /**
+     * Get settings with any active email notification.
+     */
+    public function withAnyNotification()
+    {
+        $this->groupStart()->where('email_thread', 1)->orWhere('email_post', 1)->orWhere('email_post_reply', 1)->groupEnd();
+
+        return $this;
+    }
 }

@@ -21,5 +21,10 @@ You can view this discussion in your browser by clicking <a href="<?= $post->lin
 <small>
     —<br>
     You are receiving this because you are subscribed to this type of notifications.<br>
-    This behavior can be changed permanently in your <a href="<?= site_url(route_to('account-notifications')) ?>">account settings</a>.
+    This behavior can be changed permanently in your <a href="<?= url_to('account-notifications') ?>">account settings</a>.<br>
+    To mute notifications only for this discussion click here to <a href="<?= signedurl()->urlTo(
+        'action-thread-notifications',
+        $user->id,
+        $thread->id,
+        'mute'); ?>">unsubscribe</a>.
 </small>

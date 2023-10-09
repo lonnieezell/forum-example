@@ -6,6 +6,7 @@ use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
 use App\Entities\User;
+use App\Models\NotificationMutedModel;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
@@ -17,10 +18,20 @@ class NewPostEvent
      */
     private int $count = 0;
 
+    /**
+     * Notified users IDs.
+     */
     private array $notifiedUsers = [];
+
+    /**
+     * Muted users for thread.
+     */
+    private array $mutedUsers;
 
     public function __construct(protected Category $category, protected Thread $thread, protected Post $post)
     {
+        $this->mutedUsers = model(NotificationMutedModel::class)->findBy('thread_id', $thread->id);
+        $this->mutedUsers = array_column($this->mutedUsers, 'user_id');
     }
 
     /**
@@ -76,6 +87,11 @@ class NewPostEvent
             return false;
         }
 
+        // skip users who have muted notifications for this thread
+        if (in_array($this->thread->author_id, $this->mutedUsers, true)) {
+            return false;
+        }
+
         $this->count++;
         $this->notifiedUsers[] = $this->thread->author_id;
 
@@ -118,6 +134,10 @@ class NewPostEvent
 
         // check users notifications
         foreach ($notifications as $setting) {
+            // skip users who have muted notifications for this thread
+            if (in_array($setting->user_id, $this->mutedUsers, true)) {
+                continue;
+            }
             // skip if user was already notified
             if (in_array($setting->user_id, $this->notifiedUsers, true)) {
                 continue;

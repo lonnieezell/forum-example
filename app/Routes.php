@@ -49,5 +49,8 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
 });
 
+// Actions
+$routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
+
 // Shield Auth routes
 service('auth')->routes($routes);
