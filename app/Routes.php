@@ -21,6 +21,7 @@ $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController
 $routes->match(['get', 'put'], 'discussions/(:num)/edit', 'Discussions\ThreadController::edit/$1', ['as' => 'thread-edit']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);
 $routes->get('discussions/(:num)/show', 'Discussions\ThreadController::show/$1', ['as' => 'thread-show']);
+$routes->get('discussions/(:segment)/(:segment)?post_id=(:num)', 'Discussions\DiscussionController::thread/$2', ['as' => 'post']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
 
 // Posts

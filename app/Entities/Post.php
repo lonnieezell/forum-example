@@ -12,6 +12,7 @@ class Post extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at'];
     protected $casts   = [
+        'id'          => 'integer',
         'category_id' => 'integer',
         'thread_id'   => 'integer',
         'reply_to'    => '?integer',
@@ -24,12 +25,17 @@ class Post extends Entity
     /**
      * Returns a link to this post's page for use in views.
      */
-    public function link()
+    public function link(?Category $category = null, ?Thread $thread = null)
     {
-        $categorySlug = model('CategoryModel')->find($this->category_id)->slug;
-        $threadSlug   = model('ThreadModel')->find($this->thread_id)->slug;
+        $categorySlug = $category === null ?
+            model('CategoryModel')->find($this->category_id)->slug :
+            $category->slug;
 
-        return route_to('post', $categorySlug, $threadSlug, $this->id);
+        $threadSlug = $thread === null ?
+            model('ThreadModel')->find($this->thread_id)->slug :
+            $thread->slug;
+
+        return site_url(route_to('post', $categorySlug, $threadSlug, $this->id)) . '#post-' . $this->id;
     }
 
     public function setReplyTo(?string $value = null)

@@ -36,3 +36,8 @@ We use [ParcelJS]() to handle compiling the frontend assets, including SASS and 
 ```cli
 npm run dev
 ```
+
+## Sending emails
+
+Setup some Email Sandbox. Provide credentials - preferably using the `.env` file. 
+Don't forget to set up `fromEmail` and `fromName` variables too, because without them emails won't be sent.
