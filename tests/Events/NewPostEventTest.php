@@ -10,17 +10,18 @@ use App\Models\Factories\UserFactory;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
-use CodeIgniter\Test\ReflectionHelper;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 use Tests\Support\Database\Seeds\TestDataSeeder;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class NewPostEventTest extends TestCase
+final class NewPostEventTest extends CIUnitTestCase
 {
-    use ReflectionHelper;
+    use DatabaseTestTrait;
 
+    protected $namespace;
     protected $seed = TestDataSeeder::class;
 
     /**

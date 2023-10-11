@@ -23,7 +23,7 @@ class ErrorController extends BaseController
 
         return view($view, [
             'status'  => session('status'),
-            'message' => session('message'),
+            'message' => session('message') ?? session('error'),
         ]);
     }
 }
