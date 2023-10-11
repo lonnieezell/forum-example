@@ -8,10 +8,7 @@
         ); ?>"
            hx-target="#mute-thread-cell"
            class="btn w-full">
-            <?= $notificationStatus === null ?
-                                        view('icons/bell') . 'Mute notifications' :
-                                        view('icons/bell-slash') . 'Unmute notifications'
-    ?>
+            <?= $notificationStatus === null ? view('icons/bell') . 'Mute notifications' : view('icons/bell-slash') . 'Unmute notifications' ?>
         </a>
     </div>
 <?php endif; ?>
