@@ -58,20 +58,17 @@ class NewPostEvent
 
     /**
      * Send email notification.
-     *
-     * @todo Make it run in the background (queueNotification).
      */
-    private function sendNotification(User $recipient, Category $category, Thread $thread, Post $post): bool
+    private function sendNotification(User $user, Category $category, Thread $thread, Post $post): bool
     {
         helper('text');
 
-        return service('email', false)
-            ->setTo($recipient->email)
-            ->setSubject(config('App')->siteName . ' - New post notification')
-            ->setMessage(view('_emails/new_post', [
-                'user' => $recipient, 'category' => $category, 'thread' => $thread, 'post' => $post,
-            ]))
-            ->send();
+        return service('queue')->push('emails', 'email-post-notification', [
+            'to'      => $user->email,
+            'message' => view('_emails/email_post_notification', [
+                'user' => $user, 'category' => $category, 'thread' => $thread, 'post' => $post,
+            ]),
+        ]);
     }
 
     /**
