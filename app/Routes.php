@@ -47,6 +47,8 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
     $routes->get('posts', 'Account\AccountController::posts', ['as' => 'account-posts']);
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
+    $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
+    $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
 });
 
 // Actions

@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -88,5 +89,16 @@ class User extends ShieldUser
     public function lastLogin(): ?Login
     {
         return model(LoginModel::class)->lastLogin($this);
+    }
+
+    /**
+     * Returns the user's last login records.
+     */
+    public function logins(int $limit = 10)
+    {
+        return model(LoginModel::class)->where('user_id', $this->id)
+            ->orderBy('date', 'desc')
+            ->limit($limit)
+            ->findAll();
     }
 }

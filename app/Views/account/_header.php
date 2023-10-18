@@ -33,7 +33,7 @@
                         <?php endif ?>
                     </li>
                     <li><span class="opacity-50">Last Login:</span>
-                        <?= $user->lastLogin()?->date?->format('F d, Y g:ia') ?? 'n/a' ?>
+                        <?= $user->lastLogin()?->date?->humanize() ?? 'n/a' ?>
                     </li>
                 </ul>
             </div>
