@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -96,9 +95,10 @@ class User extends ShieldUser
      */
     public function logins(int $limit = 10)
     {
-        return model(LoginModel::class)->where('user_id', $this->id)
+        return model(LoginModel::class)
+            ->where('user_id', $this->id)
             ->orderBy('date', 'desc')
             ->limit($limit)
-            ->findAll();
+            ->find();
     }
 }

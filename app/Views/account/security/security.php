@@ -51,18 +51,7 @@
 
     <!-- Danger Zone -->
     <div class="border border-error rounded-lg p-4 mt-12">
-        <div class="flex justify-between">
-            <!-- Password reset button and description -->
-            <div>
-                <h3 class="font-bold">Delete Your Account</h3>
-                <p class="text-sm opacity-50">
-                    Permanently delete your account. This action cannot be undone.
-                </p>
-            </div>
-            <div class="flex align-middle h-full">
-                <a href="#" class="btn btn-outline btn-error">Delete Your Account</a>
-            </div>
-        </div>
+        <?= view('account/security/_delete') ?>
     </div>
 <?= $this->endSection() ?>
 

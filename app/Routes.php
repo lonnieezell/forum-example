@@ -49,6 +49,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
     $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
     $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
+    $routes->post('security/delete', 'Account\SecurityController::deleteAccount', ['as' => 'account-security-delete']);
 });
 
 // Actions

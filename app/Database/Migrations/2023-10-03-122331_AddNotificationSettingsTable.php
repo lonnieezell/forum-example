@@ -16,7 +16,7 @@ class AddNotificationSettingsTable extends Migration
             'created_at'       => ['type' => 'datetime', 'null' => false],
             'updated_at'       => ['type' => 'datetime', 'null' => false],
         ]);
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'delete');
+        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'cascade');
         $this->forge->addUniqueKey('user_id');
         $this->forge->createTable('notification_settings', true);
     }

@@ -3,27 +3,13 @@
 namespace Tests\Controllers;
 
 use App\Entities\User;
-use App\Models\NotificationMutedModel;
-use App\Models\NotificationSettingModel;
 use App\Models\UserModel;
-use CodeIgniter\Exceptions\FrameworkException;
-use CodeIgniter\Database\Exceptions\DatabaseException;
-use CodeIgniter\Exceptions\PageNotFoundException;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Exceptions\LogicException;
-use CodeIgniter\Router\Exceptions\RouterException;
-use CodeIgniter\HTTP\Exceptions\RedirectException;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException as RecursionContextInvalidArgumentException;
-use PHPUnit\Framework\ExpectationFailedException;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 
 /**
@@ -37,14 +23,15 @@ final class SecurityControllerTest extends CIUnitTestCase
 
     protected $namespace;
     protected $seed = TestDataSeeder::class;
-
     protected User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = fake(UserModel::class);
+        $this->user = fake(UserModel::class, [
+            'password' => 'secret123',
+        ]);
         $this->user->addGroup('admin');
     }
 
@@ -87,4 +74,21 @@ final class SecurityControllerTest extends CIUnitTestCase
         $this->assertCount(0, $memory->where('user_id', $this->user->id)->findAll());
     }
 
+    public function testDeleteAccount()
+    {
+        // First with invalid password
+        $response = $this->actingAs($this->user)
+            ->post(route_to('account-security-delete'), ['password' => 'invalid']);
+        $response->assertSee('The password you entered is incorrect.');
+
+        // Now with valid password
+        $response = $this->actingAs($this->user)
+            ->post(route_to('account-security-delete'), ['password' => 'secret123']);
+
+        // Should redirect
+        $response->assertHeader('HX-Location', json_encode(['path' => '/login']));
+
+        // User should be deleted
+        $this->assertNull(model(UserModel::class)->find($this->user->id));
+    }
 }
