@@ -15,7 +15,7 @@
     "michalsn/codeigniter-htmx": "^1.2.2",
     "michalsn/codeigniter-queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",
-    "michalsn/codeigniter-tags": "dev-develop",
+    "michalsn/codeigniter-tags": "^1.0",
     "s9e/text-formatter": "^2.13"
   },
   "require-dev": {

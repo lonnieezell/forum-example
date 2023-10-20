@@ -73,6 +73,8 @@
                                 'data-upload-size' => config('ImageUpload')->fileSize,
                                 'data-upload-mime' => config('ImageUpload')->getMime(),
                                 'data-upload-url' => config('ImageUpload')->uploadUrl,
+                                'data-csrf-name' => config('Security')->tokenName,
+                                'data-csrf-header' => config('Security')->headerName,
                             ]); ?>
                             <?php if ($validator->hasError('body')): ?>
                                 <label class="label">
