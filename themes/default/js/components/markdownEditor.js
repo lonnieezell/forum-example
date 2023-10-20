@@ -5,6 +5,9 @@ export function initEditor(elem) {
   const uploadSize = Number(elem.dataset.uploadSize * 1024 || 1024 * 1024 * 2);
   const uploadMime = (elem.dataset.uploadMime || 'image/png,image/jpeg').split(',');
   const uploadUrl = elem.dataset.uploadUrl || '/images/upload';
+  const csrfName = elem.dataset.csrfName || '';
+  const csrfToken = elem.closest('form').querySelector('input[name="' + csrfName + '"]').value || '';
+  const csrfHeader = elem.dataset.csrfHeader || '';
 
   const easyMDE = new EasyMDE({
     element: elem,
@@ -13,6 +16,9 @@ export function initEditor(elem) {
     imageMaxSize: uploadSize,
     imageAccept: uploadMime,
     imageUploadEndpoint: uploadUrl,
+    imageCSRFHeader: true,
+    imageCSRFName: csrfHeader,
+    imageCSRFToken: csrfToken,
   });
 
   easyMDE.codemirror.on("change", () => {
