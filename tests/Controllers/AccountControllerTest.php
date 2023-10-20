@@ -49,11 +49,13 @@ final class AccountControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->post('account/notifications', [
-            'email_thread'     => 1,
-            'email_post'       => 0,
-            'email_post_reply' => 0,
-        ]);
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('account/notifications', [
+                'email_thread'     => 1,
+                'email_post'       => 0,
+                'email_post_reply' => 0,
+            ]);
 
         $response->assertOK();
         $response->assertSeeElement('h2');
