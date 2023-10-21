@@ -3,12 +3,12 @@
 namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
+use App\Entities\User;
 use App\Models\UserModel;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Models\RememberModel;
 use Throwable;
-use App\Entities\User;
 
 class SecurityController extends BaseController
 {
