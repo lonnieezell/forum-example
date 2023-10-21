@@ -8,6 +8,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Models\RememberModel;
 use Throwable;
+use App\Entities\User;
 
 class SecurityController extends BaseController
 {
@@ -18,9 +19,12 @@ class SecurityController extends BaseController
     {
         helper('form');
 
+        /** @var User::class $user */
+        $user = auth()->user();
+
         return $this->render('account/security/security', [
-            'user'         => auth()->user(),
-            'logins'       => auth()->user()->logins(5),
+            'user'         => $user,
+            'logins'       => $user->logins(5),
             'agent'        => $this->request->getUserAgent(),
             'isRemembered' => model(RememberModel::class)->where('user_id', user_id())->countAllResults() > 0,
             'validator'    => service('validation'),
