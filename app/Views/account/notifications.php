@@ -16,7 +16,7 @@
 <div class="form-control">
     <label class="label cursor-pointer flex">
         <input type="hidden" name="email_thread" value="0">
-        <input type="checkbox" name="email_thread" value="1" <?= set_checkbox('email_thread', '1', $notification->email_thread) ?>
+        <input type="checkbox" name="email_thread" value="1" <?= set_checkbox('email_thread', '1', $notification?->email_thread ?? false) ?>
                class="toggle toggle-primary">
         <span class="label-text ml-2 flex-auto">Send a notification for every new post in the thread I created</span>
     </label>
@@ -28,11 +28,11 @@
 </div>
 
 <h6 class="border-solid border-b-2 mt-6">Posts</h6>
-<div x-data="{ checkboxEmailPost: <?= $notification->email_post ? 'true' : 'false' ?>, checkboxEmailPostReply: <?= $notification->email_post_reply ? 'true' : 'false' ?> }">
+<div x-data="{ checkboxEmailPost: <?= $notification?->email_post ? 'true' : 'false' ?>, checkboxEmailPostReply: <?= $notification?->email_post_reply ? 'true' : 'false' ?> }">
     <div class="form-control">
         <label class="label cursor-pointer flex">
             <input type="hidden" name="email_post" value="0">
-            <input type="checkbox" name="email_post" value="1" <?= set_checkbox('email_post', '1', $notification->email_post) ?>
+            <input type="checkbox" name="email_post" value="1" <?= set_checkbox('email_post', '1', $notification?->email_post ?? false) ?>
                    class="toggle toggle-primary"
                    x-model="checkboxEmailPost" @click="checkboxEmailPostReply = false">
             <span class="label-text ml-2 flex-auto">Send a notification for every new post in a thread in which I participated</span>
@@ -46,7 +46,7 @@
     <div class="form-control">
         <label class="label cursor-pointer flex">
             <input type="hidden" name="email_post_reply" value="0">
-            <input type="checkbox" name="email_post_reply" value="1" <?= set_checkbox('email_post_reply', '1', $notification->email_post_reply) ?>
+            <input type="checkbox" name="email_post_reply" value="1" <?= set_checkbox('email_post_reply', '1', $notification?->email_post_reply ?? false) ?>
                    class="toggle toggle-primary"
                    x-model="checkboxEmailPostReply" @click="checkboxEmailPost = false">
             <span class="label-text ml-2 flex-auto">Send a notification only for posts that are replies to my post</span>
