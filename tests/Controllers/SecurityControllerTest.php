@@ -91,4 +91,27 @@ final class SecurityControllerTest extends CIUnitTestCase
         // User should be deleted
         $this->assertNull(model(UserModel::class)->find($this->user->id));
     }
+
+    public function testChangePassword()
+    {
+        // First with invalid password
+        $response = $this->actingAs($this->user)
+            ->post(route_to('account-change-password'), [
+                'current_password' => 'invalid',
+                'password'         => 'alkd9fsdklfj!*',
+                'confirm_password' => 'alkd9fsdklfj!*',
+            ]);
+        $response->assertSee('The password you entered is incorrect.');
+
+        // Now with valid password
+        $response = $this->actingAs($this->user)
+            ->post(route_to('account-change-password'), [
+                'current_password' => 'secret123',
+                'password'         => 'alkd9fsdklfj!*',
+                'confirm_password' => 'alkd9fsdklfj!*',
+            ]);
+
+        // Should redirect
+        $response->assertSee('Your password has been updated.');
+    }
 }

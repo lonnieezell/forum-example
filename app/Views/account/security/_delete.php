@@ -24,11 +24,11 @@
 
         <?= form_open(url_to('account-security-delete')) ?>
             <div class="flex flex-col mt-4">
-                <?= view('components/_password_input') ?>
+                <?= view('components/password_input') ?>
             </div>
 
             <div class="flex justify-end mt-4">
-                <button class="btn btn-ghost mr-4" x-on:click="open = !open">Cancel</button>
+                <a class="btn btn-ghost mr-4" x-on:click="open = !open">Cancel</a>
                 <button type="submit" class="btn btn-error"
                     hx-post="<?= url_to('account-security-delete') ?>"
                     hx-confirm="Are you sure you want to delete your account? This action cannot be undone."
@@ -38,5 +38,6 @@
                     Yes, Delete My Account
                 </button>
             </div>
+        <?= form_close() ?>
     </div>
 </div>

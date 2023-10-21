@@ -50,6 +50,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
     $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
     $routes->post('security/delete', 'Account\SecurityController::deleteAccount', ['as' => 'account-security-delete']);
+    $routes->post('security/change-password', 'Account\SecurityController::changePassword', ['as' => 'account-change-password']);
 });
 
 // Actions

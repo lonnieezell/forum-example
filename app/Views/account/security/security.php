@@ -15,19 +15,7 @@
 
     <!-- Warning Zone -->
     <div class="border border-warning rounded-lg p-4 mt-12">
-        <!-- Change Password -->
-        <div class="flex justify-between border-b pb-4 border-slate-700">
-            <!-- Password reset button and description -->
-            <div>
-                <h3 class="font-bold">Reset Password</h3>
-                <p class="text-sm opacity-50">
-                    Reset your password to log out of all devices and force a password change.
-                </p>
-            </div>
-            <div class="flex align-middle h-full">
-                <a href="#" class="btn btn-outline btn-warning">Change Password</a>
-            </div>
-        </div>
+        <?= view('account/security/_change_password', ['validator' => $validator]) ?>
 
         <!-- Logout of all devices -->
         <div class="flex justify-between border-b pb-4 border-slate-700 mt-4">

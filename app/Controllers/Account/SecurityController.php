@@ -23,6 +23,7 @@ class SecurityController extends BaseController
             'logins'       => auth()->user()->logins(5),
             'agent'        => $this->request->getUserAgent(),
             'isRemembered' => model(RememberModel::class)->where('user_id', user_id())->countAllResults() > 0,
+            'validator'    => service('validation'),
         ]);
     }
 
@@ -42,6 +43,79 @@ class SecurityController extends BaseController
         return redirect()
             ->hxRedirect(route_to('login'))
             ->with('success', 'You have been logged out of all sessions.');
+    }
+
+    /**
+     * Allow a user to change their own password.
+     */
+    public function changePassword()
+    {
+        if (! $this->policy->can('users.changePassword', auth()->user())) {
+            // user is allowed NOT to edit the post
+            return $this->policy->deny('You are not allowed to change the password for this user.');
+        }
+
+        helper('form');
+
+        // Validate the user's password.
+        $valid = $this->validateData($this->request->getPost(), [
+            'current_password' => 'required',
+            'password'         => 'required|min_length[' . setting('Auth.minimumPasswordLength') . ']|max_length[255]|strong_password',
+            'confirm_password' => 'required|matches[password]',
+        ]);
+
+        if (! $valid) {
+            return $this->render('account/security/_change_password', [
+                'open'      => true,
+                'validator' => $this->validator,
+            ]);
+        }
+
+        // Make sure the current password matches the one in the database.
+        $credentials = [
+            'email'    => auth()->user()->email,
+            'password' => $this->request->getPost('current_password'),
+        ];
+
+        $validCreds = auth()->check($credentials);
+
+        if (! $validCreds->isOK()) {
+            $this->validator->setError('current_password', 'The password you entered is incorrect.');
+        }
+
+        // Make sure the new password is different from the old one.
+        if ($this->request->getPost('current_password') === $this->request->getPost('password')) {
+            $this->validator->setError('password', 'The new password must be different from the old one.');
+        }
+
+        // If there are any errors, display the form again with the errors.
+        if (count($this->validator->getErrors()) > 0) {
+            return $this->render('account/security/_change_password', [
+                'open'      => true,
+                'validator' => $this->validator,
+            ]);
+        }
+
+        // Update the user's password.
+        try {
+            $user           = auth()->user();
+            $user->password = $this->request->getPost('password');
+            model(UserModel::class)->save($user);
+        } catch (Throwable $e) {
+            // Log the error
+            log_message('error', $e->getMessage());
+
+            return $this->render('account/security/_change_password', [
+                'open'  => true,
+                'error' => 'There was an error updating your password. Please try again.',
+            ]);
+        }
+
+        return $this->render('account/security/_change_password', [
+            'message'   => 'Your password has been updated.',
+            'open'      => true,
+            'validator' => $this->validator,
+        ]);
     }
 
     /**
