@@ -54,6 +54,7 @@ final class SecurityControllerTest extends CIUnitTestCase
     {
         // Admin user should see the security page
         $result = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->get(route_to('account-security'));
 
         $result->assertOk();
@@ -69,6 +70,7 @@ final class SecurityControllerTest extends CIUnitTestCase
         $this->assertCount(1, $memory->where('user_id', $this->user->id)->findAll());
 
         $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->post(route_to('account-security-logout-all'));
 
         $this->assertCount(0, $memory->where('user_id', $this->user->id)->findAll());
@@ -78,11 +80,13 @@ final class SecurityControllerTest extends CIUnitTestCase
     {
         // First with invalid password
         $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->post(route_to('account-security-delete'), ['password' => 'invalid']);
         $response->assertSee('The password you entered is incorrect.');
 
         // Now with valid password
         $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->post(route_to('account-security-delete'), ['password' => 'secret123']);
 
         // Should redirect
@@ -96,6 +100,7 @@ final class SecurityControllerTest extends CIUnitTestCase
     {
         // First with invalid password
         $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->post(route_to('account-change-password'), [
                 'current_password' => 'invalid',
                 'password'         => 'alkd9fsdklfj!*',
@@ -105,6 +110,7 @@ final class SecurityControllerTest extends CIUnitTestCase
 
         // Now with valid password
         $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash()])
             ->post(route_to('account-change-password'), [
                 'current_password' => 'secret123',
                 'password'         => 'alkd9fsdklfj!*',
