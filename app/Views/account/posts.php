@@ -12,7 +12,7 @@
     ]) ?>
 
     <?php foreach ($posts as $post): ?>
-        <?= view('account/_post', ['post' => $post]); ?>
+        <?= view('account/_post', ['post' => $post, 'user' => $user]); ?>
     <?php endforeach; ?>
 
     <div class="mt-6 text-center" hx-boost="true">

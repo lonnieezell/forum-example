@@ -30,7 +30,7 @@ class AccountController extends BaseController
 
         return $this->render('account/posts', [
             'user'  => auth()->user(),
-            'posts' => $postModel->withUsers($posts),
+            'posts' => $posts,
             'pager' => $postModel->pager,
         ]);
     }
