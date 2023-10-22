@@ -201,6 +201,28 @@ class PostModel extends Model
     }
 
     /**
+     * Get posts by user.
+     */
+    public function getPostsByUser(int $userId, int $perPage): array
+    {
+        $selects = [
+            'posts.*',
+            'categories.title AS category_title',
+            'categories.slug AS category_slug',
+            'threads.title AS thread_title',
+            'threads.slug AS thread_slug',
+        ];
+
+        return $this
+            ->select(implode(', ', $selects))
+            ->join('categories', 'categories.id = posts.category_id', 'left')
+            ->join('threads', 'threads.id = posts.thread_id', 'left')
+            ->where('posts.author_id', $userId)
+            ->orderBy('posts.created_at', 'desc')
+            ->paginate($perPage);
+    }
+
+    /**
      * Update the category's last_thread_id.
      */
     protected function touchThread(array $data)
