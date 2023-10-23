@@ -3,25 +3,19 @@
 namespace Tests\Controllers;
 
 use App\Entities\User;
+use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Models\RememberModel;
-use CodeIgniter\Shield\Test\AuthenticationTesting;
-use CodeIgniter\Test\CIUnitTestCase;
-use CodeIgniter\Test\DatabaseTestTrait;
-use CodeIgniter\Test\FeatureTestTrait;
+use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
+use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class SecurityControllerTest extends CIUnitTestCase
+final class SecurityControllerTest extends TestCase
 {
-    use DatabaseTestTrait;
-    use FeatureTestTrait;
-    use AuthenticationTesting;
-
-    protected $namespace;
     protected $seed = TestDataSeeder::class;
     private User $user;
 
@@ -29,26 +23,23 @@ final class SecurityControllerTest extends CIUnitTestCase
     {
         parent::setUp();
 
-        $this->user = fake(UserModel::class, [
+        /** @var User $user */
+        $user = fake(UserFactory::class, [
             'password' => 'secret123',
         ]);
+        $this->user = $user;
         $this->user->addGroup('admin');
     }
 
     /**
-     * TODO: Investigate why this fails in test,
-     * but works in real life.
+     * @throws Exception
      */
-    // public function testIndexGuest()
-    // {
-    //     $guest = fake(UserModel::class);
-    //     $guest->addGroup('user');
+    public function testIndexGuest()
+    {
+        $result = $this->get(route_to('account-security'));
 
-    //     $result = $this->actingAs($guest)
-    //         ->get(route_to('account-security'));
-
-    //     $result->assertRedirectTo('/login');
-    // }
+        $result->assertRedirectTo('/login');
+    }
 
     public function testIndexAdmin()
     {
