@@ -19,7 +19,7 @@ class SecurityController extends BaseController
     {
         helper('form');
 
-        /** @var User::class $user */
+        /** @var User $user */
         $user = auth()->user();
 
         return $this->render('account/security/security', [
