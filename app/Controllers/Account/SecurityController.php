@@ -40,7 +40,7 @@ class SecurityController extends BaseController
         try {
             auth()->forget(auth()->user());
             auth()->logout();
-        } catch (AuthenticationException $e) {
+        } catch (AuthenticationException) {
             return redirect()->back()->with('error', lang('Auth.logoutAllError'));
         }
 
@@ -93,7 +93,7 @@ class SecurityController extends BaseController
         }
 
         // If there are any errors, display the form again with the errors.
-        if (count($this->validator->getErrors()) > 0) {
+        if ($this->validator->getErrors() !== []) {
             return $this->render('account/security/_change_password', [
                 'open'      => true,
                 'validator' => $this->validator,

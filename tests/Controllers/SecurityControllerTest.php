@@ -23,7 +23,7 @@ final class SecurityControllerTest extends CIUnitTestCase
 
     protected $namespace;
     protected $seed = TestDataSeeder::class;
-    protected User $user;
+    private User $user;
 
     protected function setUp(): void
     {
