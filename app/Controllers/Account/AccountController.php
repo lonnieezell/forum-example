@@ -23,11 +23,10 @@ class AccountController extends BaseController
      */
     public function posts()
     {
+        helper('text');
+
         $postModel = model(PostModel::class);
-        $posts     = $postModel
-            ->where('author_id', auth()->id())
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $posts     = $postModel->getPostsByUser(auth()->id(), 10);
 
         return $this->render('account/posts', [
             'user'  => auth()->user(),
