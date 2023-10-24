@@ -47,7 +47,14 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
     $routes->get('posts', 'Account\AccountController::posts', ['as' => 'account-posts']);
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
+    $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
+    $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
+    $routes->post('security/delete', 'Account\SecurityController::deleteAccount', ['as' => 'account-security-delete']);
+    $routes->post('security/change-password', 'Account\SecurityController::changePassword', ['as' => 'account-change-password']);
 });
+
+// Actions
+$routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
 
 // Shield Auth routes
 service('auth')->routes($routes);

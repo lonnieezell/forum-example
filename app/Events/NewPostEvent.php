@@ -6,6 +6,7 @@ use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
 use App\Entities\User;
+use App\Models\NotificationMutedModel;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
@@ -17,10 +18,20 @@ class NewPostEvent
      */
     private int $count = 0;
 
+    /**
+     * Notified users IDs.
+     */
     private array $notifiedUsers = [];
+
+    /**
+     * Muted users for thread.
+     */
+    private array $mutedUsers;
 
     public function __construct(protected Category $category, protected Thread $thread, protected Post $post)
     {
+        $this->mutedUsers = model(NotificationMutedModel::class)->findBy('thread_id', $thread->id);
+        $this->mutedUsers = array_column($this->mutedUsers, 'user_id');
     }
 
     /**
@@ -47,20 +58,17 @@ class NewPostEvent
 
     /**
      * Send email notification.
-     *
-     * @todo Make it run in the background (queueNotification).
      */
-    private function sendNotification(User $recipient, Category $category, Thread $thread, Post $post): bool
+    private function sendNotification(User $user, Category $category, Thread $thread, Post $post): bool
     {
         helper('text');
 
-        return service('email', false)
-            ->setTo($recipient->email)
-            ->setSubject(config('App')->siteName . ' - New post notification')
-            ->setMessage(view('_emails/new_post', [
-                'user' => $recipient, 'category' => $category, 'thread' => $thread, 'post' => $post,
-            ]))
-            ->send();
+        return service('queue')->push('emails', 'email-post-notification', [
+            'to'      => $user->email,
+            'message' => view('_emails/email_post_notification', [
+                'user' => $user, 'category' => $category, 'thread' => $thread, 'post' => $post,
+            ]),
+        ]);
     }
 
     /**
@@ -73,6 +81,11 @@ class NewPostEvent
             ->find($this->thread->author_id);
 
         if (empty($notifications)) {
+            return false;
+        }
+
+        // skip users who have muted notifications for this thread
+        if (in_array($this->thread->author_id, $this->mutedUsers, true)) {
             return false;
         }
 
@@ -118,6 +131,10 @@ class NewPostEvent
 
         // check users notifications
         foreach ($notifications as $setting) {
+            // skip users who have muted notifications for this thread
+            if (in_array($setting->user_id, $this->mutedUsers, true)) {
+                continue;
+            }
             // skip if user was already notified
             if (in_array($setting->user_id, $this->notifiedUsers, true)) {
                 continue;

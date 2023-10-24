@@ -8,7 +8,7 @@ parameters:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
 		- app/Cells/category_list_cell.php
-		- app/Cells/show_thread_cell.php
+		- app/Cells/mute_thread.php
 		- app/Config/*
 		- app/Views/*
 		- app/Libraries/TextFormatter.php
@@ -19,6 +19,10 @@ parameters:
 	    - '#Cannot call method [fill\|\|link\|\|hasChanged].+\(\) on array\|object.#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
 	    - '#Property CodeIgniter\\Controller::\$validator \(CodeIgniter\\Validation\\ValidationInterface\) on left side of \?\? is not nullable.#'
+	    -
+	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
+	    	paths:
+	    	    - app/Controllers/Account/SecurityController.php
 	    -
 	    	message: '#Call to deprecated function random_string\(\):#'
 	    	paths:

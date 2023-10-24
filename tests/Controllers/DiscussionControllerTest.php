@@ -206,4 +206,30 @@ final class DiscussionControllerTest extends TestCase
         $slug = random_string('alnum', 256);
         $this->get('discussions/cat-1-sub-category-1/' . $slug);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function testGuestDontSeeMuteNotificationsButton()
+    {
+        $response = $this->get('discussions/cat-1-sub-category-1/sample-thread-1');
+
+        $response->assertOK();
+        $response->assertDontSeeElement('#mute-thread-cell');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUserSeeMuteNotificationsButton()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+        ]);
+        $user->addGroup('user');
+        $response = $this->actingAs($user)->get('discussions/cat-1-sub-category-1/sample-thread-1');
+
+        $response->assertOK();
+        $response->assertSeeElement('#mute-thread-cell');
+    }
 }

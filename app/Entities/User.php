@@ -89,4 +89,16 @@ class User extends ShieldUser
     {
         return model(LoginModel::class)->lastLogin($this);
     }
+
+    /**
+     * Returns the user's last login records.
+     */
+    public function logins(int $limit = 10)
+    {
+        return model(LoginModel::class)
+            ->where('user_id', $this->id)
+            ->orderBy('date', 'desc')
+            ->limit($limit)
+            ->find();
+    }
 }
