@@ -52,11 +52,13 @@ final class ThreadControllerTest extends TestCase
         ]);
 
         $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
-        $response = $this->actingAs($user)->post('discussions/new', [
-            'title'       => 'A new thread',
-            'category_id' => 2,
-            'body'        => 'Sample body ![](' . $fileUrl . ')',
-        ]);
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('discussions/new', [
+                'title'       => 'A new thread',
+                'category_id' => 2,
+                'body'        => 'Sample body ![](' . $fileUrl . ')',
+            ]);
 
         $response->assertStatus(200);
         $response->assertHeader('hx-redirect', site_url(implode('/', [
@@ -77,12 +79,14 @@ final class ThreadControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->post('discussions/new', [
-            'title'       => 'A new thread',
-            'category_id' => 2,
-            'tags'        => 'tag1,tag2',
-            'body'        => 'Sample body',
-        ]);
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('discussions/new', [
+                'title'       => 'A new thread',
+                'category_id' => 2,
+                'tags'        => 'tag1,tag2',
+                'body'        => 'Sample body',
+            ]);
 
         $response->assertStatus(200);
         $response->assertHeader('hx-redirect', site_url(implode('/', [
@@ -116,7 +120,8 @@ final class ThreadControllerTest extends TestCase
     public function testCanGuestCreateADiscussion()
     {
         $response = $this->withHeaders([
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
+            csrf_header() => csrf_hash(),
         ])->post('discussions/new', [
             'title'       => 'A new thread',
             'category_id' => 2,
@@ -156,7 +161,8 @@ final class ThreadControllerTest extends TestCase
         ]);
         $user->addGroup('user');
         $response = $this->actingAs($user)->withHeaders([
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
+            csrf_header() => csrf_hash(),
         ])->withBody(http_build_query([
             'title'       => 'A updated thread',
             'category_id' => 2,
@@ -201,7 +207,7 @@ final class ThreadControllerTest extends TestCase
             'title'       => 'A updated thread',
             'category_id' => 2,
             'body'        => 'Sample updated body ![](' . $fileUrl . ')',
-        ]))->put('discussions/1/edit');
+        ]))->withHeaders([csrf_header() => csrf_hash()])->put('discussions/1/edit');
 
         $response->assertOK();
         $response->assertSee('A updated thread', 'h3');
@@ -221,7 +227,7 @@ final class ThreadControllerTest extends TestCase
             'category_id' => 2,
             'tags'        => 'tag1,tag2',
             'body'        => 'Sample updated body',
-        ]))->put('discussions/1/edit');
+        ]))->withHeaders([csrf_header() => csrf_hash()])->put('discussions/1/edit');
 
         $response->assertOK();
         $response->assertSee('A updated thread', 'h3');
@@ -243,7 +249,7 @@ final class ThreadControllerTest extends TestCase
             'category_id' => 2,
             'tags'        => 'tag1,tag2',
             'body'        => 'Sample updated body',
-        ]))->put('discussions/2/edit');
+        ]))->withHeaders([csrf_header() => csrf_hash()])->put('discussions/2/edit');
 
         $response->assertOK();
         $response->assertSee('A updated thread', 'h3');

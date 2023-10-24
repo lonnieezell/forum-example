@@ -16,10 +16,12 @@ No guarantee is made that this repo represents a complete, working application. 
 -   [AlpineJS](https://alpinejs.dev/)
 -   [Tailwind](https://tailwindcss.com/)
 -   [DaisyUI](https://daisyui.com/)
+-   [HeroIcons](https://heroicons.com/) 
+-   [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)
 
 ## Docs and Installation
 
-Documenation (what there is of it!) can be found in the [docs](_docs) folder.
+Documentation (what there is of it!) can be found in the [docs](_docs) folder.
 Installation instructions are in [docs/start.md](_docs/start.md).
 
 It may or may not be improved over time.

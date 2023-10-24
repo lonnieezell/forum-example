@@ -36,7 +36,9 @@ final class ImageControllerTest extends TestCase
      */
     public function testCanGuestUploadAnImage()
     {
-        $response = $this->post('images/upload');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->post('images/upload');
 
         $response->assertStatus(401);
         $response->assertJSONExact(['error' => 'You are not allowed to upload images.']);
@@ -51,7 +53,9 @@ final class ImageControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->post('images/upload');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('images/upload');
 
         $response->assertStatus(400);
         $response->assertJSONExact(['error' => 'image is not a valid uploaded file.']);
@@ -80,7 +84,9 @@ final class ImageControllerTest extends TestCase
             'username' => 'testuser',
         ]);
         $user->addGroup('user');
-        $response = $this->actingAs($user)->post('images/upload');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('images/upload');
 
         $response->assertStatus(400);
         $response->assertJSONExact(['error' => 'image is not a valid uploaded file.']);

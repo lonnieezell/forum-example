@@ -3,6 +3,8 @@
 namespace App\Entities;
 
 use App\Concerns\RendersContent;
+use App\Models\CategoryModel;
+use App\Models\ThreadModel;
 use CodeIgniter\Entity\Entity;
 
 class Post extends Entity
@@ -27,13 +29,21 @@ class Post extends Entity
      */
     public function link(?Category $category = null, ?Thread $thread = null)
     {
-        $categorySlug = $category === null ?
-            model('CategoryModel')->find($this->category_id)->slug :
-            $category->slug;
+        if (! isset($this->category_slug)) {
+            $categorySlug = $category === null ?
+                model(CategoryModel::class)->find($this->category_id)->slug :
+                $category->slug;
+        } else {
+            $categorySlug = $this->category_slug;
+        }
 
-        $threadSlug = $thread === null ?
-            model('ThreadModel')->find($this->thread_id)->slug :
-            $thread->slug;
+        if (! isset($this->thread_slug)) {
+            $threadSlug = $thread === null ?
+                model(ThreadModel::class)->find($this->thread_id)->slug :
+                $thread->slug;
+        } else {
+            $threadSlug = $this->thread_slug;
+        }
 
         return url_to('post', $categorySlug, $threadSlug, $this->id) . '#post-' . $this->id;
     }
