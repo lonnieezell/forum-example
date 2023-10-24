@@ -4,6 +4,7 @@
 
 -   PHP 8.1+
 -   Node 18.12.1+
+-   MySQL 8.0+
 
 ## Packages Used
 
