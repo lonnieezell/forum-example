@@ -20,6 +20,10 @@ parameters:
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
 	    - '#Property CodeIgniter\\Controller::\$validator \(CodeIgniter\\Validation\\ValidationInterface\) on left side of \?\? is not nullable.#'
 	    -
+	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
+	    	paths:
+	    	    - app/Controllers/Account/SecurityController.php
+	    -
 	    	message: '#Call to deprecated function random_string\(\):#'
 	    	paths:
 	    	    - app/Models/Factories/UserFactory.php

@@ -22,7 +22,7 @@
         ],
         [
             'title' => 'Security',
-            'url'   => '',
+            'url'   => route_to('account-security'),
             'icon'  => view('icons/shield'),
         ],
     ];

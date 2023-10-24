@@ -51,7 +51,7 @@ class PostPolicy extends PolicyInterface
 
 ## Registering Policies
 
-Policies are auto-matically discovered within the `app/Policies` directory. You do not need to register them anywhere.
+Policies are automatically discovered within the `app/Policies` directory. You do not need to register them anywhere.
 
 ## Using Policies
 

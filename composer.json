@@ -15,14 +15,14 @@
     "michalsn/codeigniter-htmx": "^1.2.2",
     "michalsn/codeigniter-queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",
-    "michalsn/codeigniter-tags": "dev-develop",
+    "michalsn/codeigniter-tags": "^1.0",
     "s9e/text-formatter": "^2.13"
   },
   "require-dev": {
     "codeigniter4/devkit": "^1.1",
     "mockery/mockery": "^1.6",
     "phpstan/phpstan-mockery": "^1.1",
-    "rector/rector": "0.18.4"
+    "rector/rector": "0.18.5"
   },
   "config": {
     "optimize-autoloader": true,

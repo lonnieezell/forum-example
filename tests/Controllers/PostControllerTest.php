@@ -52,11 +52,13 @@ final class PostControllerTest extends TestCase
         ]);
 
         $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
-        $response = $this->actingAs($user)->post('posts/1', [
-            'thread_id' => '1',
-            'reply_to'  => '',
-            'body'      => 'Sample body for post ![](' . $fileUrl . ')',
-        ]);
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('posts/1', [
+                'thread_id' => '1',
+                'reply_to'  => '',
+                'body'      => 'Sample body for post ![](' . $fileUrl . ')',
+            ]);
 
         $response->assertStatus(200);
         $response->seeElement('.post-meta');
@@ -87,7 +89,8 @@ final class PostControllerTest extends TestCase
     public function testCanGuestCreateAPost()
     {
         $response = $this->withHeaders([
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
+            csrf_header() => csrf_hash(),
         ])->post('posts/1', [
             'thread_id' => '1',
             'reply_to'  => '',
@@ -127,7 +130,8 @@ final class PostControllerTest extends TestCase
         ]);
         $user->addGroup('user');
         $response = $this->actingAs($user)->withHeaders([
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
+            csrf_header() => csrf_hash(),
         ])->withBody(http_build_query([
             'thread_id' => '1',
             'reply_to'  => '',
@@ -172,7 +176,7 @@ final class PostControllerTest extends TestCase
             'thread_id' => '1',
             'reply_to'  => '',
             'body'      => 'Sample updated post body ![](' . $fileUrl . ')',
-        ]))->put('posts/1/edit');
+        ]))->withHeaders([csrf_header() => csrf_hash()])->put('posts/1/edit');
 
         $response->assertOK();
         $response->assertSeeElement('.post-meta');

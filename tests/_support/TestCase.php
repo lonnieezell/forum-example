@@ -6,6 +6,7 @@ use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
 
 abstract class TestCase extends CIUnitTestCase
 {
@@ -18,6 +19,7 @@ abstract class TestCase extends CIUnitTestCase
     protected function setUp(): void
     {
         $this->resetServices();
+        Services::routes()->loadRoutes();
 
         parent::setUp();
     }
