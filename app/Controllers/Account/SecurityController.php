@@ -153,7 +153,11 @@ class SecurityController extends BaseController
             $user = auth()->user();
             Events::trigger('account-deleting', $user);
 
-            model(UserModel::class)->delete($user->id, true);
+            $userModel = model(UserModel::class);
+            $userModel->transException(true)->transStart();
+            model(UserModel::class)->delete($user->id);
+            $userModel->transComplete();
+
             auth()->logout();
 
             Events::trigger('account-deleted', $user);
@@ -168,6 +172,6 @@ class SecurityController extends BaseController
         }
 
         return redirect()
-            ->hxLocation(route_to('login'));
+            ->hxRedirect(route_to('login'));
     }
 }

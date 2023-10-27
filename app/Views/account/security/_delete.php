@@ -24,7 +24,7 @@
 
         <?= form_open(url_to('account-security-delete')) ?>
             <div class="flex flex-col mt-4">
-                <?= view('components/password_input') ?>
+                <?= view('components/password_input', ['name' => 'password', 'placeholder' => 'Current Password']) ?>
             </div>
 
             <div class="flex justify-end mt-4">

@@ -64,7 +64,7 @@ class PostController extends BaseController
                 // Load category to prevent unnecessary DB call when generating a link to post.
                 $category = model(CategoryModel::class)->find($post->category_id);
 
-                Events::trigger('new_post', $category, $threadModel->withUsers($thread), $post);
+                Events::trigger('new-post', $category, $threadModel->withUsers($thread), $post);
 
                 $this->response->triggerClientEvent('removePostForm', [
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,

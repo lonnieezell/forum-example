@@ -2,7 +2,7 @@
 
 namespace Config;
 
-use App\Jobs\EmailPostNotification;
+use App\Jobs\EmailSimpleMessage;
 use Michalsn\CodeIgniterQueue\Config\Queue as BaseQueue;
 use Michalsn\CodeIgniterQueue\Handlers\DatabaseHandler;
 
@@ -42,6 +42,6 @@ class Queue extends BaseQueue
      * Your jobs handlers.
      */
     public array $jobHandlers = [
-        'email-post-notification' => EmailPostNotification::class,
+        'email-simple-message' => EmailSimpleMessage::class,
     ];
 }
