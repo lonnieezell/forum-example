@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Entities\UserDelete;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
-use Exception;
 
 class UserDeleteModel extends Model
 {
@@ -41,5 +40,4 @@ class UserDeleteModel extends Model
 
         return $this;
     }
-
 }

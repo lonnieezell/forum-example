@@ -6,7 +6,6 @@ use App\Concerns\HasStats;
 use App\Concerns\RestoreEntry;
 use App\Entities\User;
 use CodeIgniter\Database\BaseBuilder;
-use CodeIgniter\Database\RawSql;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
 use ReflectionException;
 
@@ -154,7 +153,7 @@ class UserModel extends ShieldUser
                 ->where('deleted_at', null)
                 ->whereIn(
                     'thread_id',
-                    static fn(BaseBuilder $builder) => $builder
+                    static fn (BaseBuilder $builder) => $builder
                         ->select('id')
                         ->from('threads')
                         ->where('deleted_at', $user->deleted_at)

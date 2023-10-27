@@ -1,24 +1,13 @@
 <?php
 
-use App\Entities\Category;
-use App\Entities\Post;
-use App\Entities\Thread;
 use App\Entities\User;
 use App\Events\AccountDeletedEvent;
-use App\Events\NewPostEvent;
-use App\Models\CategoryModel;
-use App\Models\Factories\PostFactory;
-use App\Models\Factories\UserFactory;
-use App\Models\NotificationSettingModel;
-use App\Models\PostModel;
-use App\Models\ThreadModel;
 use App\Models\UserDeleteModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Tests\Support\Database\Seeds\TestAccountDeletedSeeder;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 
 /**
@@ -49,7 +38,7 @@ final class AccountDeleteEventTest extends CIUnitTestCase
     {
         $this->expectException(DatabaseException::class);
         $this->expectExceptionMessage(
-            "UNIQUE constraint failed: users_delete.user_id"
+            'UNIQUE constraint failed: users_delete.user_id'
         );
 
         model(UserDeleteModel::class)->insert([
@@ -57,7 +46,7 @@ final class AccountDeleteEventTest extends CIUnitTestCase
         ]);
 
         /** @var User $user */
-        $user  = model(UserModel::class)->find(1);
+        $user = model(UserModel::class)->find(1);
         new AccountDeletedEvent($user);
     }
 

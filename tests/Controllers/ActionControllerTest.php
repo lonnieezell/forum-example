@@ -5,7 +5,6 @@ namespace Tests\Controllers;
 use App\Entities\User;
 use App\Models\NotificationMutedModel;
 use App\Models\NotificationSettingModel;
-use App\Models\PostModel;
 use App\Models\UserDeleteModel;
 use App\Models\UserModel;
 use CodeIgniter\Events\Events;
@@ -136,7 +135,7 @@ final class ActionControllerTest extends CIUnitTestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The userId field must contain a previously existing value in the database.');
 
-        $url = $this->convertToPath(signedurl()->urlTo('action-cancel-account-delete', 123456789));
+        $url = $this->convertToPath(signedurl()->urlTo('action-cancel-account-delete', 12345));
         $this->get($url);
     }
 

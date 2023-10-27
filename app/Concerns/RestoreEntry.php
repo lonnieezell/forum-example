@@ -26,8 +26,7 @@ trait RestoreEntry
     /**
      * Restores a single record from the database where $id matches.
      *
-     * @param array|int|string|null $id    The rows primary key(s)
-     * @param Time $deletedAt
+     * @param array|int|string|null $id The rows primary key(s)
      *
      * @return BaseResult|bool
      *

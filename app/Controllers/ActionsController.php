@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\NotificationMutedModel;
 use App\Models\NotificationSettingModel;
-use App\Models\PostModel;
 use App\Models\ThreadModel;
 use App\Models\UserDeleteModel;
 use App\Models\UserModel;

@@ -7,7 +7,6 @@ use App\Models\UserDeleteModel;
 use App\Models\UserModel;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use CodeIgniter\I18n\Time;
 
 class AccountsDelete extends BaseCommand
 {
@@ -41,8 +40,6 @@ class AccountsDelete extends BaseCommand
 
     /**
      * Actually execute a command.
-     *
-     * @param array $params
      */
     public function run(array $params)
     {
@@ -50,6 +47,7 @@ class AccountsDelete extends BaseCommand
 
         if ($toDelete === []) {
             CLI::write('No accounts to delete.');
+
             return EXIT_SUCCESS;
         }
 
@@ -88,7 +86,7 @@ class AccountsDelete extends BaseCommand
             'to'      => $user->email,
             'subject' => 'Your account has been permanently deleted',
             'message' => view('_emails/account_deleted', [
-                'user' => $user
+                'user' => $user,
             ]),
         ]);
     }

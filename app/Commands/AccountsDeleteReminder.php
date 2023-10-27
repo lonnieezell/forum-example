@@ -50,8 +50,6 @@ class AccountsDeleteReminder extends BaseCommand
 
     /**
      * Actually execute a command.
-     *
-     * @param array $params
      */
     public function run(array $params)
     {
@@ -64,17 +62,17 @@ class AccountsDeleteReminder extends BaseCommand
 
         if ($scheduled === []) {
             CLI::write('No accounts scheduled to delete.');
+
             return EXIT_SUCCESS;
         }
 
         // Filter out users who should not receive a notification today
         $now       = Time::now();
-        $scheduled = array_filter($scheduled, function ($user) use ($now, $days) {
-            return in_array($now->difference($user->scheduled_at)->getDays(), $days, true);
-        });
+        $scheduled = array_filter($scheduled, static fn ($user) => in_array($now->difference($user->scheduled_at)->getDays(), $days, true));
 
         if ($scheduled === []) {
             CLI::write('No accounts scheduled to delete for today.');
+
             return EXIT_SUCCESS;
         }
 
@@ -106,7 +104,7 @@ class AccountsDeleteReminder extends BaseCommand
             'to'      => $user->email,
             'subject' => 'Your account will be removed soon',
             'message' => view('_emails/account_delete_reminder', [
-                'user' => $user
+                'user' => $user,
             ]),
         ]);
     }

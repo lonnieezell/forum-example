@@ -9,9 +9,9 @@ class AddUsersDeleteTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            'user_id'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'scheduled_at'     => ['type' => 'datetime', 'null' => false],
-            'created_at'       => ['type' => 'datetime', 'null' => false],
+            'user_id'      => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'scheduled_at' => ['type' => 'datetime', 'null' => false],
+            'created_at'   => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'cascade');
         $this->forge->addUniqueKey('user_id');
