@@ -199,7 +199,7 @@ class UserModel extends ShieldUser
                 ->onConstraint('id')
                 ->updateBatch();
 
-            // Update post_count for every affected category
+            // Update thread_count, post_count and last_thread_id for every affected category
             // Prepare sub query
             $subQuery = $this->db->table('posts')
                 ->distinct()
@@ -207,8 +207,8 @@ class UserModel extends ShieldUser
                 ->where('deleted_at', $user->deleted_at);
             // Run sub query
             $query = $this->db->newQuery()->fromSubquery($subQuery, 'categories')
-                ->select('categories.category_id AS id, COALESCE(COUNT(posts.id), 0) AS post_count')
-                ->join('posts', 'categories.category_id = posts.category_id AND posts.deleted_at IS NULL', 'left')
+                ->select('categories.category_id AS id, COALESCE(COUNT(threads.id), 0) AS thread_count, COALESCE(SUM(threads.post_count), 0) AS post_count, MAX(threads.id) AS last_thread_id')
+                ->join('threads', 'categories.category_id = threads.category_id AND threads.deleted_at IS NULL', 'left')
                 ->groupBy('categories.category_id');
 
             $this->builder('categories')
@@ -286,16 +286,16 @@ class UserModel extends ShieldUser
                 ->onConstraint('id')
                 ->updateBatch();
 
-            // Update post_count for every affected category
+            // Update thread_count, post_count and last_thread_id for every affected category
             // Prepare sub query
             $subQuery = $this->db->table('posts')
                 ->distinct()
                 ->select('category_id')
                 ->where('deleted_at', $data['deletedAt']);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 't');
+            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'c');
             // Run sub query
-            $query = $this->builder('posts')
-                ->select('category_id AS id, COUNT(*) AS post_count')
+            $query = $this->builder('threads')
+                ->select('category_id AS id, COALESCE(COUNT(id), 0) AS thread_count, COALESCE(SUM(post_count), 0) AS post_count, MAX(id) AS last_thread_id')
                 ->groupStart()
                 ->where('deleted_at', null)
                 ->orWhere('deleted_at', $data['deletedAt'])

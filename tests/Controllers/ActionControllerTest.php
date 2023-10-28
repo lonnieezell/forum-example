@@ -170,6 +170,8 @@ final class ActionControllerTest extends CIUnitTestCase
 
         $this->seeInDatabase('users', ['id' => 1, 'thread_count' => 0, 'post_count' => 0]);
         $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 0, 'post_count' => 0]);
+        $this->seeInDatabase('threads', ['id' => 1, 'post_count' => 0, 'last_post_id' => null]);
+        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 0, 'post_count' => 0, 'last_thread_id' => null]);
         $this->seeInDatabase('users_delete', ['user_id' => 1]);
 
         $url      = $this->convertToPath(signedurl()->urlTo('action-cancel-account-delete', 1));
@@ -180,6 +182,8 @@ final class ActionControllerTest extends CIUnitTestCase
 
         $this->seeInDatabase('users', ['id' => 1, 'thread_count' => 2, 'post_count' => 6]);
         $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 0, 'post_count' => 2]);
+        $this->seeInDatabase('threads', ['id' => 1, 'post_count' => 8, 'last_post_id' => 8]);
+        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 2, 'post_count' => 8, 'last_thread_id' => 2]);
         $this->dontSeeInDatabase('users_delete', ['user_id' => 1]);
     }
 }
