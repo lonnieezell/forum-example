@@ -169,9 +169,10 @@ final class ActionControllerTest extends CIUnitTestCase
         Events::trigger('account-deleted', new User(['id' => 1]));
 
         $this->seeInDatabase('users', ['id' => 1, 'thread_count' => 0, 'post_count' => 0]);
-        $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 0, 'post_count' => 0]);
+        $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 1, 'post_count' => 3]);
         $this->seeInDatabase('threads', ['id' => 1, 'post_count' => 0, 'last_post_id' => null]);
-        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 0, 'post_count' => 0, 'last_thread_id' => null]);
+        $this->seeInDatabase('threads', ['id' => 2, 'post_count' => 4, 'last_post_id' => 14]);
+        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 1, 'post_count' => 4, 'last_thread_id' => 2]);
         $this->seeInDatabase('users_delete', ['user_id' => 1]);
 
         $url      = $this->convertToPath(signedurl()->urlTo('action-cancel-account-delete', 1));
@@ -180,10 +181,11 @@ final class ActionControllerTest extends CIUnitTestCase
         $response->assertOK();
         $response->assertRedirect();
 
-        $this->seeInDatabase('users', ['id' => 1, 'thread_count' => 2, 'post_count' => 6]);
-        $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 0, 'post_count' => 2]);
+        $this->seeInDatabase('users', ['id' => 1, 'thread_count' => 1, 'post_count' => 10]);
+        $this->seeInDatabase('users', ['id' => 2, 'thread_count' => 1, 'post_count' => 5]);
         $this->seeInDatabase('threads', ['id' => 1, 'post_count' => 8, 'last_post_id' => 8]);
-        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 2, 'post_count' => 8, 'last_thread_id' => 2]);
+        $this->seeInDatabase('threads', ['id' => 2, 'post_count' => 7, 'last_post_id' => 15]);
+        $this->seeInDatabase('categories', ['id' => 2, 'thread_count' => 2, 'post_count' => 15, 'last_thread_id' => 2]);
         $this->dontSeeInDatabase('users_delete', ['user_id' => 1]);
     }
 }
