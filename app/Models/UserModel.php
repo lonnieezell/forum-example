@@ -128,46 +128,60 @@ class UserModel extends ShieldUser
                 ->set('deleted_at', $user->deleted_at)
                 ->update();
 
-            // Soft-delete all replies to this user posts
+            // Mark Soft-deleted posts which has replies
             // Prepare sub query
             $subQuery = $this->db->table('posts')
                 ->select('id')
                 ->where('deleted_at', $user->deleted_at)
                 ->where('author_id', $user->id);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'p');
+            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'p1');
+            $subQuery = $this->db->table('posts')
+                ->distinct()
+                ->select('reply_to')
+                ->whereIn('reply_to', $subQuery);
+            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'p2');
             // Run sub query
             $this->builder('posts')
-                ->whereIn('reply_to', $subQuery)
-                ->set('deleted_at', $user->deleted_at)
+                ->whereIn('id', $subQuery)
+                ->set('marked_as_deleted', $user->deleted_at)
+                ->set('deleted_at', null)
                 ->update();
 
             // Soft-delete all threads created by this user
             $this->builder('threads')
-                ->where('deleted_at', null)
                 ->where('author_id', $user->id)
+                ->where('deleted_at', null)
                 ->set('deleted_at', $user->deleted_at)
                 ->update();
 
             // Soft-delete all post in the threads created by this user
             $this->builder('posts')
-                ->where('deleted_at', null)
                 ->whereIn(
                     'thread_id',
                     static fn (BaseBuilder $builder) => $builder
                         ->select('id')
                         ->from('threads')
-                        ->where('deleted_at', $user->deleted_at)
                         ->where('author_id', $user->id)
+                        ->where('deleted_at', $user->deleted_at)
                 )
+                ->groupStart()
+                ->where('deleted_at', null)
+                ->orWhere('marked_as_deleted', $user->deleted_at)
+                ->groupEnd()
+                ->set('marked_as_deleted', null)
                 ->set('deleted_at', $user->deleted_at)
                 ->update();
+
+            // Update post_count and thread_count for user requesting account delete
+            $this->builder()->where('id', $userId)->update(['thread_count' => 0, 'post_count' => 0]);
 
             // Update post_count for every affected user
             // Prepare sub query
             $subQuery = $this->db->table('posts')
                 ->distinct()
                 ->select('author_id')
-                ->where('deleted_at', $user->deleted_at);
+                ->where('deleted_at', $user->deleted_at)
+                ->where('author_id !=', $userId);
             // Run sub query
             $query = $this->db->newQuery()->fromSubquery($subQuery, 'authors')
                 ->select('authors.author_id AS id, COALESCE(COUNT(posts.id), 0) AS post_count')
@@ -179,15 +193,13 @@ class UserModel extends ShieldUser
                 ->onConstraint('id')
                 ->updateBatch();
 
-            // Update thread_count for user requesting account delete
-            $this->builder()->where('id', $userId)->update(['thread_count' => 0]);
-
             // Update post_count and last_post_id for every affected thread
             // Prepare sub query
             $subQuery = $this->db->table('posts')
                 ->distinct()
                 ->select('thread_id')
-                ->where('deleted_at', $user->deleted_at);
+                ->where('deleted_at', $user->deleted_at)
+                ->orWhere('marked_as_deleted', $user->deleted_at);
             // Run sub query
             $query = $this->db->newQuery()->fromSubquery($subQuery, 'threads')
                 ->select('threads.thread_id AS id, COALESCE(COUNT(posts.id), 0) AS post_count, MAX(posts.id) AS last_post_id')
@@ -204,7 +216,8 @@ class UserModel extends ShieldUser
             $subQuery = $this->db->table('posts')
                 ->distinct()
                 ->select('category_id')
-                ->where('deleted_at', $user->deleted_at);
+                ->where('deleted_at', $user->deleted_at)
+                ->orWhere('marked_as_deleted', $user->deleted_at);
             // Run sub query
             $query = $this->db->newQuery()->fromSubquery($subQuery, 'categories')
                 ->select('categories.category_id AS id, COALESCE(COUNT(threads.id), 0) AS thread_count, COALESCE(SUM(threads.post_count), 0) AS post_count, MAX(threads.id) AS last_thread_id')
@@ -234,126 +247,110 @@ class UserModel extends ShieldUser
             return false;
         }
 
-        foreach ($data['id'] as $userId) {
-            // Update post_count for every affected user
-            // Prepare sub query
-            $subQuery = $this->db->table('posts')
-                ->distinct()
-                ->select('author_id')
-                ->where('deleted_at', $data['deletedAt']);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'a');
-            // Run sub query
-            $query = $this->builder('posts')
-                ->select('author_id AS id, COUNT(*) AS post_count')
-                ->groupStart()
-                ->where('deleted_at', null)
-                ->orWhere('deleted_at', $data['deletedAt'])
-                ->groupEnd()
-                ->whereIn('author_id', $subQuery)
-                ->groupBy('author_id');
+        // Update post_count for every affected user
+        // Prepare sub query
+        $subQuery = $this->db->table('posts')
+            ->distinct()
+            ->select('author_id')
+            ->where('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt']);
+        $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'a');
+        // Run sub query
+        $query = $this->builder('posts')
+            ->select('author_id AS id, COUNT(*) AS post_count')
+            ->whereIn('author_id', $subQuery)
+            ->groupStart()
+            ->where('deleted_at', null)
+            ->orWhere('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt'])
+            ->groupEnd()
+            ->groupBy('author_id');
 
-            $this->builder('users')
-                ->setQueryAsData($query)
-                ->onConstraint('id')
-                ->updateBatch();
+        $this->builder('users')
+            ->setQueryAsData($query)
+            ->onConstraint('id')
+            ->updateBatch();
 
-            // Update thread_count for this user
-            $count = $this->builder('threads')
-                ->where('author_id', $userId)
-                ->countAllResults();
+        // Update post_count and last_post_id for every affected thread
+        // Prepare sub query
+        $subQuery = $this->db->table('posts')
+            ->distinct()
+            ->select('thread_id')
+            ->where('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt']);
+        $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 't');
+        // Run sub query
+        $query = $this->builder('posts')
+            ->select('thread_id AS id, COUNT(*) AS post_count, MAX(id) AS last_post_id')
+            ->groupStart()
+            ->where('deleted_at', null)
+            ->orWhere('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt'])
+            ->groupEnd()
+            ->whereIn('thread_id', $subQuery)
+            ->groupBy('thread_id');
 
-            $this->builder()->where('id', $userId)->set('thread_count', $count)->update();
+        $this->builder('threads')
+            ->setQueryAsData($query)
+            ->onConstraint('id')
+            ->updateBatch();
 
-            // Update post_count and last_post_id for every affected thread
-            // Prepare sub query
-            $subQuery = $this->db->table('posts')
-                ->distinct()
-                ->select('thread_id')
-                ->where('deleted_at', $data['deletedAt']);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 't');
-            // Run sub query
-            $query = $this->builder('posts')
-                ->select('thread_id AS id, COUNT(*) AS post_count, MAX(id) AS last_post_id')
-                ->groupStart()
-                ->where('deleted_at', null)
-                ->orWhere('deleted_at', $data['deletedAt'])
-                ->groupEnd()
-                ->whereIn('thread_id', $subQuery)
-                ->groupBy('thread_id');
+        // Update thread_count, post_count and last_thread_id for every affected category
+        // Prepare sub query
+        $subQuery = $this->db->table('posts')
+            ->distinct()
+            ->select('category_id')
+            ->where('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt']);
+        $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'c');
+        // Run sub query
+        $query = $this->builder('threads')
+            ->select('category_id AS id, COALESCE(COUNT(id), 0) AS thread_count, COALESCE(SUM(post_count), 0) AS post_count, MAX(id) AS last_thread_id')
+            ->groupStart()
+            ->where('deleted_at', null)
+            ->orWhere('deleted_at', $data['deletedAt'])
+            ->groupEnd()
+            ->whereIn('category_id', $subQuery)
+            ->groupBy('category_id');
 
-            $this->builder('threads')
-                ->setQueryAsData($query)
-                ->onConstraint('id')
-                ->updateBatch();
+        $this->builder('categories')
+            ->setQueryAsData($query)
+            ->onConstraint('id')
+            ->updateBatch();
 
-            // Update thread_count, post_count and last_thread_id for every affected category
-            // Prepare sub query
-            $subQuery = $this->db->table('posts')
-                ->distinct()
-                ->select('category_id')
-                ->where('deleted_at', $data['deletedAt']);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'c');
-            // Run sub query
-            $query = $this->builder('threads')
-                ->select('category_id AS id, COALESCE(COUNT(id), 0) AS thread_count, COALESCE(SUM(post_count), 0) AS post_count, MAX(id) AS last_thread_id')
-                ->groupStart()
-                ->where('deleted_at', null)
-                ->orWhere('deleted_at', $data['deletedAt'])
-                ->groupEnd()
-                ->whereIn('category_id', $subQuery)
-                ->groupBy('category_id');
+        // Restore all posts created by this user
+        $this->builder('posts')
+            ->where('author_id', $data['id'])
+            ->groupStart()
+            ->where('deleted_at', $data['deletedAt'])
+            ->orWhere('marked_as_deleted', $data['deletedAt'])
+            ->groupEnd()
+            ->set('deleted_at', null)
+            ->set('marked_as_deleted', null)
+            ->update();
 
-            $this->builder('categories')
-                ->setQueryAsData($query)
-                ->onConstraint('id')
-                ->updateBatch();
+        // Restore all threads created by this user
+        $this->builder('threads')
+            ->where('deleted_at', $data['deletedAt'])
+            ->where('author_id', $data['id'])
+            ->set('deleted_at', null)
+            ->update();
 
-            // Restore all replies for posts written by this user
-            // Prepare sub query
-            $subQuery = $this->db->table('posts')
-                ->select('id')
-                ->where('deleted_at', $data['deletedAt'])
-                ->where('author_id', $userId);
-            $subQuery = $this->db->newQuery()->fromSubquery($subQuery, 'p');
-            // Run sub query
-            $this->builder('posts')
-                ->whereIn('reply_to', $subQuery)
-                ->set('deleted_at', null)
-                ->update();
+        // Update thread_count and post_count for this user
+        $countThreads = $this->builder('threads')
+            ->where('author_id', $data['id'])
+            ->where('deleted_at', null)
+            ->countAllResults();
 
-            // Restore all posts created by this user
-            $this->builder('posts')
-                ->where('deleted_at', $data['deletedAt'])
-                ->where('author_id', $userId)
-                ->set('deleted_at', null)
-                ->update();
+        $this->builder()
+            ->where('id', $data['id'])
+            ->set('thread_count', $countThreads)
+            ->update();
 
-            // Restore all post in the threads created by this user
-            $this->builder('posts')
-                ->where('deleted_at', $data['deletedAt'])
-                ->whereIn(
-                    'thread_id',
-                    static fn (BaseBuilder $builder) => $builder
-                        ->select('id')
-                        ->from('threads')
-                        ->where('deleted_at', $data['deletedAt'])
-                        ->where('author_id', $userId)
-                )
-                ->set('deleted_at', null)
-                ->update();
-
-            // Restore all threads created by this user
-            $this->builder('threads')
-                ->where('deleted_at', $data['deletedAt'])
-                ->where('author_id', $userId)
-                ->set('deleted_at', null)
-                ->update();
-
-            // @todo
-            // update answer_post_id, but this should probably involve
-            // changes in the posts table to make it possible to mark the answer
-            // at the post level, so we can restore the correct value if needed
-        }
+        // @todo
+        // update answer_post_id, but this should probably involve
+        // changes in the posts table to make it possible to mark the answer
+        // at the post level, so we can restore the correct value if needed
 
         return $data;
     }

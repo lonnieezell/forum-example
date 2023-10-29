@@ -59,38 +59,39 @@ class CreateForumTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('slug');
-        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'delete');
-        $this->forge->addForeignKey('author_id', 'users', 'id', '', 'delete');
-        $this->forge->addForeignKey('editor_id', 'users', 'id', '', 'delete');
-        $this->forge->addForeignKey('last_post_id', 'posts', 'id', '', 'delete');
-        $this->forge->addForeignKey('answer_post_id', 'posts', 'id', '', 'delete');
+        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'cascade');
+        $this->forge->addForeignKey('author_id', 'users', 'id', '', 'cascade');
+        $this->forge->addForeignKey('editor_id', 'users', 'id', '', 'set null');
+        $this->forge->addForeignKey('last_post_id', 'posts', 'id', '', 'set null');
+        $this->forge->addForeignKey('answer_post_id', 'posts', 'id', '', 'no action');
         $this->forge->createTable('threads', true);
 
         // Posts
         $this->forge->addField([
-            'id'            => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'category_id'   => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'thread_id'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'reply_to'      => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
-            'author_id'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
-            'editor_id'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
-            'edited_at'     => ['type' => 'datetime', 'null' => true],
-            'edited_reason' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'body'          => ['type' => 'text', 'null' => true],
-            'ip_address'    => ['type' => 'varchar', 'constraint' => 45, 'null' => true],
-            'include_sig'   => ['type' => 'tinyint', 'constraint' => 2, 'default' => 0],
-            'visible'       => ['type' => 'tinyint', 'constraint' => 2, 'default' => 0],
-            'markup'        => ['type' => 'varchar', 'constraint' => 255, 'default' => 'markdown'],
-            'created_at'    => ['type' => 'datetime', 'null' => false],
-            'updated_at'    => ['type' => 'datetime', 'null' => false],
-            'deleted_at'    => ['type' => 'datetime', 'null' => true],
+            'id'                => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'category_id'       => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'thread_id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'reply_to'          => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'author_id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'editor_id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'edited_at'         => ['type' => 'datetime', 'null' => true],
+            'edited_reason'     => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'body'              => ['type' => 'text', 'null' => true],
+            'ip_address'        => ['type' => 'varchar', 'constraint' => 45, 'null' => true],
+            'include_sig'       => ['type' => 'tinyint', 'constraint' => 2, 'default' => 0],
+            'visible'           => ['type' => 'tinyint', 'constraint' => 2, 'default' => 0],
+            'markup'            => ['type' => 'varchar', 'constraint' => 255, 'default' => 'markdown'],
+            'created_at'        => ['type' => 'datetime', 'null' => false],
+            'updated_at'        => ['type' => 'datetime', 'null' => false],
+            'deleted_at'        => ['type' => 'datetime', 'null' => true],
+            'marked_as_deleted' => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'delete');
-        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'delete');
-        $this->forge->addForeignKey('reply_to', 'posts', 'id', '', 'delete');
-        $this->forge->addForeignKey('author_id', 'users', 'id', '', 'delete');
-        $this->forge->addForeignKey('editor_id', 'users', 'id', '', 'delete');
+        $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'cascade');
+        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'cascade');
+        $this->forge->addForeignKey('reply_to', 'posts', 'id', '', 'cascade');
+        $this->forge->addForeignKey('author_id', 'users', 'id', '', 'cascade');
+        $this->forge->addForeignKey('editor_id', 'users', 'id', '', 'no action');
         $this->forge->createTable('posts', true);
 
         $this->db->enableForeignKeyChecks();

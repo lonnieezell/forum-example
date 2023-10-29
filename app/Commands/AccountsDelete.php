@@ -60,6 +60,15 @@ class AccountsDelete extends BaseCommand
             ->findAll();
 
         foreach ($users as $user) {
+            // prevent permanent delete of parent posts
+            $userModel->builder('posts')
+                ->where('author_id', $user->id)
+                ->where('marked_as_deleted !=', null)
+                ->set('author_id', null)
+                ->set('body', null)
+                ->update();
+
+            // delete account (and all related data)
             if ($userModel->builder()->delete($user->id)) {
                 // Mark unused images
                 if ($this->markUnusedImages($user)) {

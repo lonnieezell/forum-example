@@ -7,7 +7,12 @@ Any user can request the deletion of their account. This can be done via user se
 ### How is this working
 
 When a user deletes their account, it is soft-deleted. Along with it, all user's posts, 
-replies to her/his posts and created discussions are deleted in the same way.
+and created discussions are deleted in the same way. 
+
+If there are any replies to a user's posts (other than discussions of which he or she is the author) 
+we leave them in the database, but with the date in the `marked_as_deleted` field, so we can preserve
+the structure of the discussion and distinguish which post should be given special treatment 
+when we display the thread.
 
 We give user 7 days to change her/his mind. This is configurable via `Config\Forum::accountDeleteAfter` variable.
 
@@ -24,5 +29,6 @@ is soft-deleted, we are re-calculating all the stats for users, threads and cate
 
 Only after that we can remove the user from the database.
 
-Removing related images automatically is not yet supported via model event.
+Removing related images automatically is not yet supported via model event. 
+It's implemented only by `accounts:delete` command.
 

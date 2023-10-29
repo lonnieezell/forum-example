@@ -12,7 +12,7 @@ class Post extends Entity
     use RendersContent;
 
     protected $datamap = [];
-    protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at'];
+    protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at', 'marked_as_deleted'];
     protected $casts   = [
         'id'          => 'integer',
         'category_id' => 'integer',
@@ -53,5 +53,10 @@ class Post extends Entity
         $this->attributes['reply_to'] = $value ?: null;
 
         return $this;
+    }
+
+    public function isMarkedAsDeleted(): bool
+    {
+        return $this->attributes['marked_as_deleted'] !== null;
     }
 }
