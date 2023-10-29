@@ -10,7 +10,7 @@ We will remove your account permanently on: <strong><?= $userDelete->scheduled_a
 
 <br><br>
 
-You can <a href="<?= $userDelete->restore() ?>">click here</a> to restore your account.
+You can <a href="<?= $userDelete->restoreLink() ?>">click here</a> to restore your account.
 
 <br><br>
 
