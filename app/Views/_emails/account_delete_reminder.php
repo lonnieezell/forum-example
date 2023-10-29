@@ -10,7 +10,7 @@ If you haven't changed your mind on this, then you don't have to make any action
 
 <br><br>
 
-But if you have reconsidered your desicion, you can <a href="<?= $userDelete->restore() ?>">click here</a> to restore your account.
+But if you have reconsidered your decision, you can <a href="<?= $userDelete->restore() ?>">click here</a> to restore your account.
 
 <br><br>
 
