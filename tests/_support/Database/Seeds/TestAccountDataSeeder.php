@@ -52,7 +52,7 @@ class TestAccountDataSeeder extends Seeder
         $thread1 = fake(ThreadFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'author_id'   => $user1->id,
-            'title'       => 'Sample thread 1',
+            'title'       => 'Sample thread number 1',
             'views'       => 0,
         ]);
 
@@ -81,14 +81,14 @@ class TestAccountDataSeeder extends Seeder
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
-            'author_id'   => $user2->id,
+            'author_id'   => $user1->id,
         ]);
         // $post1Reply4
         fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'thread_id'   => $thread1->id,
             'reply_to'    => $post1->id,
-            'author_id'   => $user1->id,
+            'author_id'   => $user2->id,
         ]);
         $post2 = fake(PostFactory::class, [
             'category_id' => $cat1SubCategory1->id,
@@ -112,7 +112,7 @@ class TestAccountDataSeeder extends Seeder
         $thread2 = fake(ThreadFactory::class, [
             'category_id' => $cat1SubCategory1->id,
             'author_id'   => $user2->id,
-            'title'       => 'Sample thread 2',
+            'title'       => 'Sample thread number 2',
         ]);
         // post4
         $post4 = fake(PostFactory::class, [
