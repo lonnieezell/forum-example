@@ -15,7 +15,7 @@ class UserDelete extends Entity
     /**
      * Generate link to restore user account.
      */
-    public function restore(): string
+    public function restoreLink(): string
     {
         $days = config('Forum')->accountDeleteAfter * DAY;
 
