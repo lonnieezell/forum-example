@@ -11,4 +11,10 @@ class Forum extends BaseConfig
      * user account will be deleted.
      */
     public int $accountDeleteAfter = 7;
+
+    /**
+     * The number of seconds after which
+     * alert will be removed.
+     */
+    public int $alertDisplayTime = 5;
 }

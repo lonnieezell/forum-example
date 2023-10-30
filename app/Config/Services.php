@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use CodeIgniter\Config\BaseService;
 
@@ -27,5 +28,14 @@ class Services extends BaseService
         }
 
         return new Policy();
+    }
+
+    public static function alerts($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('alerts');
+        }
+
+        return new Alerts(static::session());
     }
 }
