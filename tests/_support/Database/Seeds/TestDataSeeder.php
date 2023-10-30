@@ -109,12 +109,58 @@ class TestDataSeeder extends Seeder
             'author_id'   => $user1->id,
         ]);
         // thread2
-        fake(ThreadFactory::class, [
+        $thread2 = fake(ThreadFactory::class, [
             'category_id' => $cat1SubCategory1->id,
-            'author_id'   => $user1->id,
-            'title'       => 'Sample thread 1',
+            'author_id'   => $user2->id,
+            'title'       => 'Sample thread 2',
             'tags'        => 'tag1,tag2,tag3',
             'views'       => 0,
+        ]);
+        // post4
+        $post4 = fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'author_id'   => $user1->id,
+        ]);
+        // $post4Reply1
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'reply_to'    => $post4->id,
+            'author_id'   => $user2->id,
+        ]);
+        // $post4Reply2
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'reply_to'    => $post4->id,
+            'author_id'   => $user1->id,
+        ]);
+        // $post4Reply3
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'reply_to'    => $post4->id,
+            'author_id'   => $user2->id,
+        ]);
+        // post5
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'author_id'   => $user1->id,
+        ]);
+        // post6
+        $post6 = fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'author_id'   => $user2->id,
+        ]);
+        // $post6Reply1
+        fake(PostFactory::class, [
+            'category_id' => $cat1SubCategory1->id,
+            'thread_id'   => $thread2->id,
+            'reply_to'    => $post6->id,
+            'author_id'   => $user1->id,
         ]);
     }
 }

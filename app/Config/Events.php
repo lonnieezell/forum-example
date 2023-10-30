@@ -5,6 +5,8 @@ namespace Config;
 use App\Entities\Category;
 use App\Entities\Post;
 use App\Entities\Thread;
+use App\Entities\User;
+use App\Events\AccountDeletedEvent;
 use App\Events\NewPostEvent;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
@@ -61,6 +63,13 @@ Events::on('pre_system', static function () {
 /**
  * Event fired after a new post is added.
  */
-Events::on('new_post', static function (Category $category, Thread $thread, Post $post) {
+Events::on('new-post', static function (Category $category, Thread $thread, Post $post) {
     (new NewPostEvent($category, $thread, $post))->process();
+});
+
+/**
+ * Event fired after user is soft-deleted.
+ */
+Events::on('account-deleted', static function (User $user) {
+    (new AccountDeletedEvent($user))->process();
 });

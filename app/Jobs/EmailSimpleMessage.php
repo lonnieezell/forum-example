@@ -6,14 +6,14 @@ use Exception;
 use Michalsn\CodeIgniterQueue\BaseJob;
 use Michalsn\CodeIgniterQueue\Interfaces\JobInterface;
 
-class EmailPostNotification extends BaseJob implements JobInterface
+class EmailSimpleMessage extends BaseJob implements JobInterface
 {
     public function process()
     {
         $email  = service('email', null, false);
         $result = $email
             ->setTo($this->data['to'])
-            ->setSubject(config('App')->siteName . ' - New post notification')
+            ->setSubject($this->data['subject'])
             ->setMessage($this->data['message'])
             ->send(false);
 

@@ -28,6 +28,14 @@ parameters:
 	    	paths:
 	    	    - app/Models/Factories/UserFactory.php
 	    	    - tests/Controllers/DiscussionControllerTest.php
+	    -
+	    	message: '#Call to an undefined method App\\Models\\UserModel::transException\(\).#'
+	    	paths:
+	    	    - app/Controllers/Account/SecurityController.php
+	    -
+	    	message: '#Call to an undefined method App\\Models\\UserModel::transComplete\(\).#'
+	    	paths:
+	    	    - app/Controllers/Account/SecurityController.php
 	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity

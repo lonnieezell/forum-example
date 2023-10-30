@@ -55,6 +55,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
 
 // Actions
 $routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
+$routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDelete/$1', ['as' => 'action-cancel-account-delete']);
 
 // Shield Auth routes
 service('auth')->routes($routes);

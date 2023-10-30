@@ -13,8 +13,8 @@ class AddNotificationMutedTable extends Migration
             'thread_id'  => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'delete');
-        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'delete');
+        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'cascade');
+        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'cascade');
         $this->forge->addUniqueKey(['user_id', 'thread_id']);
         $this->forge->createTable('notification_muted', true);
     }
