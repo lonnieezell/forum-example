@@ -16,7 +16,7 @@
     <script src="<?= base_url('js/app.js') ?>"<?= ENVIRONMENT === 'development' ? '' : ' defer'; ?>></script>
 </head>
 
-<body hx-ext="loading-states">
+<body hx-ext="loading-states" class="pb-12">
 
     <?= $this->include('_app_nav') ?>
 
@@ -27,7 +27,7 @@
             <?= $this->renderSection('main') ?>
         </div>
 
-        <div class="flex-0 flex flex-row sm:flex-col gap-4 w-64 py-8 order-1 sm:<?= (auth()->user()?->handed ?? 'right') === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
+        <div class="flex-0 flex flex-row sm:flex-col gap-4 w-64 py-8 order-1 sm:<?= (auth()->user()?->handed ?: 'right') === 'right' ? 'order-2' : 'order-1' ?>" id="sidebar">
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>
