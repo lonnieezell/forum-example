@@ -64,14 +64,18 @@ class PostController extends BaseController
                 // Load category to prevent unnecessary DB call when generating a link to post.
                 $category = model(CategoryModel::class)->find($post->category_id);
 
-                Events::trigger('new_post', $category, $threadModel->withUsers($thread), $post);
+                Events::trigger('new-post', $category, $threadModel->withUsers($thread), $post);
 
                 $this->response->triggerClientEvent('removePostForm', [
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
                 ]);
 
+                alerts()->set('success', 'Your post has been added successfully');
+
                 return view('discussions/posts/_post_with_replies', ['post' => $post]);
             }
+
+            alerts()->set('error', 'Something went wrong');
         }
 
         helper('form');
@@ -108,8 +112,12 @@ class PostController extends BaseController
             $post->edited_at = Time::now('UTC');
 
             if ($postModel->update($postId, $post)) {
+                alerts()->set('success', 'Your post has been updated successfully');
+
                 return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
+
+            alerts()->set('error', 'Something went wrong');
         }
 
         helper('form');

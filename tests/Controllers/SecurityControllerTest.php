@@ -81,7 +81,7 @@ final class SecurityControllerTest extends TestCase
             ->post(route_to('account-security-delete'), ['password' => 'secret123']);
 
         // Should redirect
-        $response->assertHeader('HX-Location', json_encode(['path' => '/login']));
+        $response->assertHeader('HX-Redirect', url_to('login'));
 
         // User should be deleted
         $this->assertNull(model(UserModel::class)->find($this->user->id));

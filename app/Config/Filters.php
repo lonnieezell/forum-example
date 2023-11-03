@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\AlertsFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -24,6 +25,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'alerts'        => AlertsFilter::class,
     ];
 
     /**
@@ -41,6 +43,7 @@ class Filters extends BaseConfig
         ],
         'after' => [
             'toolbar',
+            'alerts',
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -68,6 +71,6 @@ class Filters extends BaseConfig
      */
     public array $filters = [
         'session'   => ['before' => ['account*', 'admin*']],
-        'signedurl' => ['before' => ['thread-notifications/*']],
+        'signedurl' => ['before' => ['thread-notifications/*', 'cancel-account-delete/*']],
     ];
 }

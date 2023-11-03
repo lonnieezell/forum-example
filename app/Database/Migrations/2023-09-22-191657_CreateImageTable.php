@@ -10,7 +10,7 @@ class CreateImageTable extends Migration
     {
         $this->forge->addField([
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'thread_id'  => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'post_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'name'       => ['type' => 'varchar', 'constraint' => 255, 'null' => false],
@@ -21,9 +21,9 @@ class CreateImageTable extends Migration
             'updated_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'delete');
-        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'delete');
-        $this->forge->addForeignKey('post_id', 'posts', 'id', '', 'delete');
+        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'set null');
+        $this->forge->addForeignKey('thread_id', 'threads', 'id', '', 'set null');
+        $this->forge->addForeignKey('post_id', 'posts', 'id', '', 'set null');
         $this->forge->createTable('images', true);
     }
 

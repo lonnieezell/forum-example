@@ -58,8 +58,7 @@ final class AccountControllerTest extends TestCase
             ]);
 
         $response->assertOK();
-        $response->assertSeeElement('h2');
-        $response->assertSee('My Notifications');
+        $response->assertSeeElement('form');
 
         $this->seeInDatabase('notification_settings', [
             'user_id'          => $user->id,
