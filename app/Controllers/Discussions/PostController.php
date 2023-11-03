@@ -70,8 +70,12 @@ class PostController extends BaseController
                     'id' => $post->reply_to === null ? 'post-reply' : 'post-reply-' . $post->reply_to,
                 ]);
 
+                alerts()->set('success', 'Your post has been added successfully');
+
                 return view('discussions/posts/_post_with_replies', ['post' => $post]);
             }
+
+            alerts()->set('error', 'Something went wrong');
         }
 
         helper('form');
@@ -108,8 +112,12 @@ class PostController extends BaseController
             $post->edited_at = Time::now('UTC');
 
             if ($postModel->update($postId, $post)) {
+                alerts()->set('success', 'Your post has been updated successfully');
+
                 return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
+
+            alerts()->set('error', 'Something went wrong');
         }
 
         helper('form');
