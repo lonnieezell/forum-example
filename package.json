@@ -15,7 +15,7 @@
     "htmx.org": "^1.9.6"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.10.1",
+    "@parcel/transformer-sass": "^2.10.2",
     "@tailwindcss/typography": "^0.5.9",
     "parcel": "^2.10.2",
     "postcss": "^8.4.31",
