@@ -4,9 +4,9 @@
              x-data="{ show: true }"
              x-show="show"
              x-transition
-             x-init="setTimeout(() => show = false, <?= config('Forum')->alertDisplayTime * 1000 ?>)"
+             x-init="setTimeout(() => show = false, <?= $message['seconds'] * 1000 ?>)"
         >
-            <span><?= esc($message); ?></span>
+            <span><?= esc($message['message']); ?></span>
         </div>
     <?php endforeach; ?>
 <?php endforeach; ?>

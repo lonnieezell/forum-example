@@ -2,6 +2,7 @@
 
 use App\Libraries\Alerts;
 use CodeIgniter\Test\CIUnitTestCase;
+use Config\Forum;
 use Config\Services;
 
 /**
@@ -11,23 +12,26 @@ final class AlertsTest extends CIUnitTestCase
 {
     public function testInstance()
     {
-        $alerts = new Alerts(Services::session());
+        $alerts = new Alerts(config(Forum::class), Services::session());
         $this->assertInstanceOf(Alerts::class, $alerts);
     }
 
     public function testSetGetClear()
     {
-        $alerts = new Alerts(Services::session());
+        $alerts = new Alerts(config(Forum::class), Services::session());
         $alerts
             ->set('success', 'message1')
             ->set('error', 'message2');
 
-        $this->assertSame(['message1'], $alerts->get('success'));
-        $this->assertSame(['success' => ['message1'], 'error' => ['message2']], $alerts->get());
+        $this->assertSame([['message' => 'message1', 'seconds' => 5]], $alerts->get('success'));
+        $this->assertSame([
+            'success' => [['message' => 'message1', 'seconds' => 5]],
+            'error' => [['message' => 'message2', 'seconds' => 5]],
+        ], $alerts->get());
 
         $alerts->clear('error');
         $this->assertSame([], $alerts->get('error'));
-        $this->assertSame(['success' => ['message1']], $alerts->get());
+        $this->assertSame(['success' => [['message' => 'message1', 'seconds' => 5]]], $alerts->get());
 
         $alerts->clear();
         $this->assertSame([], $alerts->get());
@@ -35,7 +39,7 @@ final class AlertsTest extends CIUnitTestCase
 
     public function testInline()
     {
-        $alerts = new Alerts(Services::session());
+        $alerts = new Alerts(config(Forum::class), Services::session());
         $alerts->set('success', 'message1');
         $this->assertStringContainsString('hx-swap-oob="beforeend:#alerts-container"', $alerts->inline());
         $this->assertStringContainsString('alert-success', $alerts->inline());
@@ -44,7 +48,7 @@ final class AlertsTest extends CIUnitTestCase
 
     public function testInlineEmpty()
     {
-        $alerts = new Alerts(Services::session());
+        $alerts = new Alerts(config(Forum::class), Services::session());
         $this->assertSame('', $alerts->inline());
     }
 
@@ -58,7 +62,7 @@ final class AlertsTest extends CIUnitTestCase
 
     public function testContainer()
     {
-        $alerts = new Alerts(Services::session());
+        $alerts = new Alerts(config(Forum::class), Services::session());
         $this->assertStringContainsString('id="alerts-container"', $alerts->container());
     }
 }
