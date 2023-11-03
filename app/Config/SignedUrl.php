@@ -17,7 +17,7 @@ class SignedUrl extends BaseSignedUrl
      * random_string() helper. Useful if you have
      * very few changing parameters in the URL.
      */
-    public ?int $token = 32;
+    public ?int $token = 64;
 
     /**
      * Algorithm used to sign the URL.

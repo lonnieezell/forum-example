@@ -63,8 +63,9 @@ class NewPostEvent
     {
         helper('text');
 
-        return service('queue')->push('emails', 'email-post-notification', [
+        return service('queue')->push('emails', 'email-simple-message', [
             'to'      => $user->email,
+            'subject' => 'New post notification',
             'message' => view('_emails/email_post_notification', [
                 'user' => $user, 'category' => $category, 'thread' => $thread, 'post' => $post,
             ]),

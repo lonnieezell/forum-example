@@ -4,16 +4,22 @@
         <div class="flex gap-4">
             <div class="avatar">
                 <div class="mask mask-squircle">
-                    <?= $post->author->renderAvatar(25); ?>
+                    <?php if (! $post->isMarkedAsDeleted()): ?>
+                        <?= $post->author->renderAvatar(25); ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="flex-1 opacity-50">
                 <i class="fa-solid fa-reply"></i>
-                <?php if ($post->author) : ?>
-                    <a href="<?= $post->author->link() ?>">
-                        <b><?= esc($post->author->username) ?></b>
-                    </a>
-                <?php endif ?>
+                <?php if ($post->isMarkedAsDeleted() && ! isset($post->author)): ?>
+                    <i>User Removed</i>
+                <?php else: ?>
+                    <?php if (isset($post->author)): ?>
+                        <a href="<?= $post->author->link() ?>">
+                            <b><?= esc($post->author->username) ?></b>
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
                 <?= \CodeIgniter\I18n\Time::parse($post->created_at)->humanize() ?>
             </div>
             <div class="flex-auto text-right">
@@ -26,7 +32,7 @@
                         Reply
                     </a>
                 <?php endif; ?>
-                <?php if ($post->author_id === user_id() || auth()->user()?->can('posts.edit')): ?>
+                <?php if (! $post->isMarkedAsDeleted() && ($post->author_id === user_id() || auth()->user()?->can('posts.edit'))): ?>
                     <a class="btn btn-xs btn-primary"
                        hx-get="<?= route_to('post-edit', $post->id); ?>"
                        hx-target="closest .post"
@@ -41,6 +47,10 @@
 
     <!-- Post Content -->
     <div class="post-content prose !max-w-full mt-6">
-        <?= $post->render() ?>
+        <?php if ($post->isMarkedAsDeleted()): ?>
+            <i>Message not available.</i>
+        <?php else: ?>
+            <?= $post->render() ?>
+        <?php endif; ?>
     </div>
 </div>

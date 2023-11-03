@@ -51,7 +51,16 @@ class AccountController extends BaseController
             $settings          = new NotificationSetting($this->validator->getValidated());
             $settings->user_id = user_id();
 
-            model(NotificationSettingModel::class)->save($settings);
+            if (model(NotificationSettingModel::class)->save($settings)) {
+                alerts()->set('success', 'Your notification settings has been saved successfully');
+            } else {
+                alerts()->set('error', 'Something went wrong');
+            }
+
+            return view('account/_notifications', [
+                'notification' => model(NotificationSettingModel::class)->find(user_id()),
+                'validator'    => $this->validator ?? service('validation'),
+            ]);
         }
 
         return $this->render('account/notifications', [

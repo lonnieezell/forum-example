@@ -17,7 +17,7 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.10.1",
     "@tailwindcss/typography": "^0.5.9",
-    "parcel": "^2.9.3",
+    "parcel": "^2.10.2",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",

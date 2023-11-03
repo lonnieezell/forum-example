@@ -243,7 +243,7 @@ final class ThreadControllerTest extends TestCase
      */
     public function testIsUnusedTagsAreCleared()
     {
-        $user     = model(UserModel::class)->find(1);
+        $user     = model(UserModel::class)->find(2);
         $response = $this->actingAs($user)->withBody(http_build_query([
             'title'       => 'A updated thread',
             'category_id' => 2,
