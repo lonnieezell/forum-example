@@ -6,6 +6,10 @@ use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
+use App\Models\UserModel;
+use CodeIgniter\Files\Exceptions\FileNotFoundException;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use ReflectionException;
 
 class AccountController extends BaseController
 {
@@ -67,6 +71,36 @@ class AccountController extends BaseController
             'user'         => auth()->user(),
             'notification' => model(NotificationSettingModel::class)->find(user_id()),
             'validator'    => $this->validator ?? service('validation'),
+        ]);
+    }
+
+    /**
+     * Display the user's profile form.
+     */
+    public function profile()
+    {
+        helper(['form', 'date']);
+
+        if ($this->request->is('post') && $this->validate([
+            'name'     => ['permit_empty', 'string', 'max_length[255]'],
+            'handed'   => ['required', 'in_list[right,left]'],
+            'country'  => ['permit_empty', 'string', 'max_length[2]'],
+            'website'  => ['permit_empty', 'valid_url'],
+            'location' => ['permit_empty', 'string', 'max_length[255]'],
+            'company'  => ['permit_empty', 'string', 'max_length[255]'],
+            'signature' => ['permit_empty', 'string', 'max_length[255]'],
+        ])) {
+            $user = auth()->user();
+            $user->fill($this->validator->getValidated());
+
+            model(UserModel::class)->save($user);
+            $message = 'Your profile has been updated.';
+        }
+
+        return $this->render('account/profile', [
+            'user' => auth()->user(),
+            'message' => $message ?? null,
+            'validator' => $this->validator ?? service('validation'),
         ]);
     }
 }

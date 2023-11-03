@@ -16,8 +16,8 @@
             'icon'  => view('icons/bell'),
         ],
         [
-            'title' => 'Settings',
-            'url'   => '',
+            'title' => 'Profile',
+            'url'   => route_to('account-profile'),
             'icon'  => view('icons/gear'),
         ],
         [

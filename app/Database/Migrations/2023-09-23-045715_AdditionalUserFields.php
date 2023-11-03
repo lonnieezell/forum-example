@@ -13,7 +13,7 @@ class AdditionalUserFields extends Migration
             'company'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'after' => 'timezone'],
             'location'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'after' => 'company'],
             'website'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'after' => 'location'],
-            'signature' => ['type' => 'TEXT', 'null' => true, 'after' => 'website'],
+            'signature' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'after' => 'website'],
         ]);
     }
 
