@@ -67,8 +67,11 @@ class ThreadController extends BaseController
                 if ($threadId = $threadModel->insert($thread)) {
                     $thread = $threadModel->find($threadId);
 
+                    alerts()->set('success', 'Your new discussion has been added successfully');
+
                     return redirect()->hxRedirect($thread->link());
                 }
+                alerts()->set('error', 'Something went wrong');
             }
         }
 
@@ -121,8 +124,11 @@ class ThreadController extends BaseController
                 if ($threadModel->update($threadId, $thread)) {
                     $thread = $threadModel->withTags()->find($threadId);
 
+                    alerts()->set('success', 'Changes to the discussion has been saved successfully');
+
                     return view('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
                 }
+                alerts()->set('error', 'Something went wrong');
             }
         }
 

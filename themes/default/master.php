@@ -32,6 +32,8 @@
         </div>
     </div>
 
+    <?= alerts()->container(); ?>
+
     <?= $this->renderSection('scripts') ?>
 </body>
 
