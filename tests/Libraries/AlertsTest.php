@@ -26,7 +26,7 @@ final class AlertsTest extends CIUnitTestCase
         $this->assertSame([['message' => 'message1', 'seconds' => 5]], $alerts->get('success'));
         $this->assertSame([
             'success' => [['message' => 'message1', 'seconds' => 5]],
-            'error' => [['message' => 'message2', 'seconds' => 5]],
+            'error'   => [['message' => 'message2', 'seconds' => 5]],
         ], $alerts->get());
 
         $alerts->clear('error');
