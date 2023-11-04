@@ -101,8 +101,8 @@ final class AccountControllerTest extends TestCase
             ]);
 
         $response->assertOK();
-        $response->assertSeeElement('h2');
-        $response->assertSee('My Profile');
+        $response->assertSeeElement('legend');
+        $response->assertSee('Personal');
 
         $this->seeInDatabase('users', [
             'id'        => $user->id,
