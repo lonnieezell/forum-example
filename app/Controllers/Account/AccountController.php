@@ -7,9 +7,6 @@ use App\Entities\NotificationSetting;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
-use CodeIgniter\Files\Exceptions\FileNotFoundException;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use ReflectionException;
 
 class AccountController extends BaseController
 {
@@ -82,24 +79,31 @@ class AccountController extends BaseController
         helper(['form', 'date']);
 
         if ($this->request->is('post') && $this->validate([
-            'name'     => ['permit_empty', 'string', 'max_length[255]'],
-            'handed'   => ['required', 'in_list[right,left]'],
-            'country'  => ['permit_empty', 'string', 'max_length[2]'],
-            'website'  => ['permit_empty', 'valid_url'],
-            'location' => ['permit_empty', 'string', 'max_length[255]'],
-            'company'  => ['permit_empty', 'string', 'max_length[255]'],
+            'name'      => ['permit_empty', 'string', 'max_length[255]'],
+            'handed'    => ['required', 'in_list[right,left]'],
+            'country'   => ['permit_empty', 'string', 'max_length[2]'],
+            'website'   => ['permit_empty', 'valid_url'],
+            'location'  => ['permit_empty', 'string', 'max_length[255]'],
+            'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
         ])) {
             $user = auth()->user();
             $user->fill($this->validator->getValidated());
 
-            model(UserModel::class)->save($user);
-            $message = 'Your profile has been updated.';
+            if (model(UserModel::class)->save($user)) {
+                alerts()->set('success', 'Your profile has been updated');
+            } else {
+                alerts()->set('error', 'Something went wrong');
+            }
+
+            return view('account/_profile', [
+                'user'      => auth()->user(),
+                'validator' => $this->validator ?? service('validation'),
+            ]);
         }
 
         return $this->render('account/profile', [
-            'user' => auth()->user(),
-            'message' => $message ?? null,
+            'user'      => auth()->user(),
             'validator' => $this->validator ?? service('validation'),
         ]);
     }
