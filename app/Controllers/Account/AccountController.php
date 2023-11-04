@@ -90,13 +90,20 @@ class AccountController extends BaseController
             $user = auth()->user();
             $user->fill($this->validator->getValidated());
 
-            model(UserModel::class)->save($user);
-            $message = 'Your profile has been updated.';
+            if (model(UserModel::class)->save($user)) {
+                alerts()->set('success', 'Your profile has been updated');
+            } else {
+                alerts()->set('error', 'Something went wrong');
+            }
+
+            return view('account/_profile', [
+                'user'      => auth()->user(),
+                'validator' => $this->validator ?? service('validation'),
+            ]);
         }
 
         return $this->render('account/profile', [
             'user'      => auth()->user(),
-            'message'   => $message ?? null,
             'validator' => $this->validator ?? service('validation'),
         ]);
     }
