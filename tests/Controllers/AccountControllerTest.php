@@ -91,12 +91,12 @@ final class AccountControllerTest extends TestCase
         $response = $this
             ->withHeaders([csrf_header() => csrf_hash()])
             ->actingAs($user)->post('account/profile', [
-                'name' => 'Test User',
-                'handed' => 'left',
-                'country' => 'US',
-                'website' => 'https://example.com',
-                'location' => 'New York',
-                'company' => 'Example, Inc.',
+                'name'      => 'Test User',
+                'handed'    => 'left',
+                'country'   => 'US',
+                'website'   => 'https://example.com',
+                'location'  => 'New York',
+                'company'   => 'Example, Inc.',
                 'signature' => 'Test signature',
             ]);
 
@@ -105,13 +105,13 @@ final class AccountControllerTest extends TestCase
         $response->assertSee('My Profile');
 
         $this->seeInDatabase('users', [
-            'id' => $user->id,
-            'name' => 'Test User',
-            'handed' => 'left',
-            'country' => 'US',
-            'website' => 'https://example.com',
-            'location' => 'New York',
-            'company' => 'Example, Inc.',
+            'id'        => $user->id,
+            'name'      => 'Test User',
+            'handed'    => 'left',
+            'country'   => 'US',
+            'website'   => 'https://example.com',
+            'location'  => 'New York',
+            'company'   => 'Example, Inc.',
             'signature' => 'Test signature',
         ]);
     }
