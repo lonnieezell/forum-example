@@ -16,6 +16,6 @@ But if you have reconsidered your decision, you can <a href="<?= $userDelete->re
 
 <small>
     —<br>
-    <?= config('App')->siteName; ?> Team<br>
+    <?= config(Config\App::class)->siteName; ?> Team<br>
     <?= site_url(); ?>
 </small>

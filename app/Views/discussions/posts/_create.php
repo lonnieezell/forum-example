@@ -1,3 +1,7 @@
+<?php
+use Config\ImageUpload;
+use Config\Security;
+?>
 <div class="post-create">
 
     <?= form_open('', [
@@ -33,12 +37,12 @@
                         <?= form_textarea('body', set_value('body', '', false),  [
                             'class' => 'input input-bordered', 'required' => '',
                             'id' => 'editor', 'data-type' => 'markdown',
-                            'data-upload-enabled' => config('ImageUpload')->enabled,
-                            'data-upload-size' => config('ImageUpload')->fileSize,
-                            'data-upload-mime' => config('ImageUpload')->getMime(),
-                            'data-upload-url' => config('ImageUpload')->uploadUrl,
-                            'data-csrf-name' => config('Security')->tokenName,
-                            'data-csrf-header' => config('Security')->headerName,
+                            'data-upload-enabled' => config(ImageUpload::class)->enabled,
+                            'data-upload-size' => config(ImageUpload::class)->fileSize,
+                            'data-upload-mime' => config(ImageUpload::class)->getMime(),
+                            'data-upload-url' => config(ImageUpload::class)->uploadUrl,
+                            'data-csrf-name' => config(Security::class)->tokenName,
+                            'data-csrf-header' => config(Security::class)->headerName,
                         ]); ?>
                         <?php if ($validator->hasError('body')): ?>
                             <label class="label">

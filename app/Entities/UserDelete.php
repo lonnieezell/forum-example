@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use Config\Forum;
 
 class UserDelete extends Entity
 {
@@ -17,7 +18,7 @@ class UserDelete extends Entity
      */
     public function restoreLink(): string
     {
-        $days = config('Forum')->accountDeleteAfter * DAY;
+        $days = config(Forum::class)->accountDeleteAfter * DAY;
 
         return signedurl()
             ->setExpiration($days)

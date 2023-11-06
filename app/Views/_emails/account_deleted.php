@@ -10,6 +10,6 @@ Thank you for being a part of our community.
 
 <small>
     —<br>
-    <?= config('App')->siteName; ?> Team<br>
+    <?= config(Config\App::class)->siteName; ?> Team<br>
     <?= site_url(); ?>
 </small>

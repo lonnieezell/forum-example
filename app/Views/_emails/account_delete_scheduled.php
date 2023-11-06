@@ -16,6 +16,6 @@ You can <a href="<?= $userDelete->restoreLink() ?>">click here</a> to restore yo
 
 <small>
     —<br>
-    <?= config('App')->siteName; ?> Team<br>
+    <?= config(Config\App::class)->siteName; ?> Team<br>
     <?= site_url(); ?>
 </small>

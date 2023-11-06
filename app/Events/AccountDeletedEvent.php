@@ -6,6 +6,7 @@ use App\Entities\User;
 use App\Entities\UserDelete;
 use App\Models\UserDeleteModel;
 use CodeIgniter\I18n\Time;
+use Config\Forum;
 
 class AccountDeletedEvent
 {
@@ -17,7 +18,7 @@ class AccountDeletedEvent
         $scheduledId     = $userDeleteModel->insert([
             'user_id'      => $user->id,
             'scheduled_at' => Time::now()
-                ->addDays(config('Forum')->accountDeleteAfter)
+                ->addDays(config(Forum::class)->accountDeleteAfter)
                 ->format('Y-m-d 00:00:00'),
         ]);
 

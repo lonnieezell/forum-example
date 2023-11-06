@@ -1,3 +1,7 @@
+<?php
+use Config\ImageUpload;
+use Config\Security;
+?>
 <?= form_open('', [
     'hx-confirm' => 'Are you sure you want to update the thread?',
     'hx-put' => current_url(),
@@ -69,12 +73,12 @@
                     <?= form_textarea('body', set_value('body', $thread->body, false),  [
                         'class' => 'input input-bordered', 'required' => '',
                         'id' => 'editor', 'data-type' => 'markdown',
-                        'data-upload-enabled' => config('ImageUpload')->enabled,
-                        'data-upload-size' => config('ImageUpload')->fileSize,
-                        'data-upload-mime' => config('ImageUpload')->getMime(),
-                        'data-upload-url' => config('ImageUpload')->uploadUrl,
-                        'data-csrf-name' => config('Security')->tokenName,
-                        'data-csrf-header' => config('Security')->headerName,
+                        'data-upload-enabled' => config(ImageUpload::class)->enabled,
+                        'data-upload-size' => config(ImageUpload::class)->fileSize,
+                        'data-upload-mime' => config(ImageUpload::class)->getMime(),
+                        'data-upload-url' => config(ImageUpload::class)->uploadUrl,
+                        'data-csrf-name' => config(Security::class)->tokenName,
+                        'data-csrf-header' => config(Security::class)->headerName,
                     ]); ?>
                     <?php if ($validator->hasError('body')): ?>
                         <label class="label">
