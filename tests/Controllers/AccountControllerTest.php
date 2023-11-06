@@ -67,4 +67,52 @@ final class AccountControllerTest extends TestCase
             'email_post_reply' => 0,
         ]);
     }
+
+    public function testViewProfile()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+        ]);
+        $user->addGroup('user');
+        $response = $this->actingAs($user)->get('account/profile');
+
+        $response->assertOK();
+        $response->assertSeeElement('h2');
+        $response->assertSee('My Profile');
+        $response->assertSee('testuser');
+    }
+
+    public function testSaveProfile()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+        ]);
+        $user->addGroup('user');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('account/profile', [
+                'name'      => 'Test User',
+                'handed'    => 'left',
+                'country'   => 'US',
+                'website'   => 'https://example.com',
+                'location'  => 'New York',
+                'company'   => 'Example, Inc.',
+                'signature' => 'Test signature',
+            ]);
+
+        $response->assertOK();
+        $response->assertSeeElement('legend');
+        $response->assertSee('Personal');
+
+        $this->seeInDatabase('users', [
+            'id'        => $user->id,
+            'name'      => 'Test User',
+            'handed'    => 'left',
+            'country'   => 'US',
+            'website'   => 'https://example.com',
+            'location'  => 'New York',
+            'company'   => 'Example, Inc.',
+            'signature' => 'Test signature',
+        ]);
+    }
 }

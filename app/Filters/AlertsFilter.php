@@ -26,6 +26,8 @@ class AlertsFilter implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
+        helper('alerts');
+
         if ($response instanceof RedirectResponse) {
             alerts()->session();
 

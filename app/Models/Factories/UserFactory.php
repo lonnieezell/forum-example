@@ -19,7 +19,7 @@ class UserFactory extends UserModel
             'email'    => $faker->email,
             'password' => $faker->password,
             'active'   => true,
-            'country'  => $faker->country,
+            'country'  => $faker->countryCode,
             'timezone' => $faker->timezone,
         ]);
     }

@@ -22,6 +22,19 @@ form select.select {
     border-color: hsl(var(--bc) / 0.3);
     border-radius: var(--rounded-btn, .5rem);
 }
+fieldset {
+    @apply pl-6 mb-8;
+
+    legend {
+        @apply text-base-content -ml-6 mb-2 font-bold;
+    }
+}
+.form-control {
+    @apply w-full mb-4;
+}
+label.error {
+    @apply text-xs text-error;
+}
 
 .input-tags {
     height: revert !important;
