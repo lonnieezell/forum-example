@@ -13,7 +13,7 @@
                         <label class="label">
                             <span class="label-text">Title</span>
                         </label>
-                        <?= form_input('title', set_value('title'), [
+                        <?= form_input('title', set_value('title', '', false), [
                             'class' => 'input input-bordered', 'placeholder' => 'Type here...',
                             'required' => ''
                         ]); ?>
