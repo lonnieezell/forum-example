@@ -46,7 +46,7 @@ class ThreadController extends BaseController
 
         helper('form');
 
-        $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
+        $categoryDropdown = model(CategoryModel::class)->active()->public()->findAllNestedDropdown();
 
         if ($this->request->is('post')) {
             $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);
@@ -100,7 +100,7 @@ class ThreadController extends BaseController
 
         helper('form');
 
-        $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
+        $categoryDropdown = model(CategoryModel::class)->active()->public()->findAllNestedDropdown();
 
         if ($this->request->is('put')) {
             $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);

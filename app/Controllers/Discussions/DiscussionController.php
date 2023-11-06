@@ -62,9 +62,17 @@ class DiscussionController extends BaseController
 
     /**
      * Display a standard forum-style list of discussions.
+     *
+     * @throws PageNotFoundException
      */
     public function category(string $slug): string
     {
+        $activeCategory = model(CategoryModel::class)->active()->public()->findBySlug($slug);
+
+        if (! $activeCategory) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
         $table = [
             'perPage' => $this->request->getGet('perPage') ?? 20,
             'search'  => $this->request->getGet('search') ?? ['type' => 'recent-posts'],
@@ -94,7 +102,7 @@ class DiscussionController extends BaseController
                 'pager' => $threadModel->pager,
             ],
             'searchUrl'      => route_to('category', $slug),
-            'activeCategory' => model(CategoryModel::class)->findBySlug($slug),
+            'activeCategory' => $activeCategory,
         ];
 
         $data['table'] = [...$table, ...$data['table']];
