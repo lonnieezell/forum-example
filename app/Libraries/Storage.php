@@ -27,7 +27,7 @@ class Storage
     /**
      * Get a filesystem instance.
      */
-    public function disk(string $disk = 'default'): FlySystem
+    public function disk(string $disk = 'default'): FileSystem
     {
         if ($disk === 'default') {
             $disk = $this->default;

@@ -53,7 +53,7 @@ class Services extends BaseService
     public static function storage($getShared = true)
     {
         if ($getShared) {
-            return static::getSharedInstance('alerts');
+            return static::getSharedInstance('storage');
         }
 
         return new Storage(new FileSystems());

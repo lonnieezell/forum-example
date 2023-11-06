@@ -7,6 +7,7 @@ use App\Entities\NotificationSetting;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use CodeIgniter\Files\Exceptions\FileNotFoundException;
 
 class AccountController extends BaseController
 {
@@ -86,9 +87,22 @@ class AccountController extends BaseController
             'location'  => ['permit_empty', 'string', 'max_length[255]'],
             'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
+            'avatar'    => ['permit_empty', 'uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,1024]'],
         ])) {
+            /** @var User::class */
             $user = auth()->user();
             $user->fill($this->validator->getValidated());
+
+            // If we have a new avatar, delete the old one first,
+            // then save the new one to the configured Storage.
+            if ($this->request->getFile('avatar')->isValid()) {
+                try {
+                    $user->deleteAvatar();
+                    $user->avatar = $user->saveAvatar($this->request->getFile('avatar'));
+                } catch (FileNotFoundException $e) {
+                    alerts()->set('error', $e->getMessage());
+                }
+            }
 
             if (model(UserModel::class)->save($user)) {
                 alerts()->set('success', 'Your profile has been updated');
