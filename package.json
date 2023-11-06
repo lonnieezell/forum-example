@@ -12,7 +12,7 @@
     "alpinejs": "^3.13.1",
     "daisyui": "^3.9.4",
     "easymde": "^2.18.0",
-    "htmx.org": "^1.9.6"
+    "htmx.org": "^1.9.7"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.10.2",
