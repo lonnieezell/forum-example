@@ -5,6 +5,7 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Vite;
+use App\Libraries\Storage;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -47,5 +48,14 @@ class Services extends BaseService
         }
 
         return new Vite();
+    }
+
+    public static function storage($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('alerts');
+        }
+
+        return new Storage(new FileSystems());
     }
 }
