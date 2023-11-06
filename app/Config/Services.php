@@ -36,6 +36,6 @@ class Services extends BaseService
             return static::getSharedInstance('alerts');
         }
 
-        return new Alerts(static::session());
+        return new Alerts(config(Forum::class), static::session());
     }
 }

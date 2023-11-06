@@ -6,6 +6,14 @@ module.exports = {
     "./app/Views/**/*.{html,php,js,ts,jsx,tsx}",
     "./app/Views/**/**/*.{html,php,js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'alert-success',
+    'alert-error',
+    'alert-info',
+    'progress-success',
+    'progress-error',
+    'progress-info',
+  ],
   theme: {
     extend: {},
   },

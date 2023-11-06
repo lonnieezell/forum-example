@@ -67,3 +67,9 @@ To change that we have to edit view file: `app/Views/_alerts/container`.
 
 By default, each alert is hidden after 5 seconds. We can change that by
 changing config variable: `Config\Forum::alertDisplayTime`.
+
+Display time of individual alert can be changed on demand via 3rd (optional) parameter: 
+
+```php
+alerts()->set('success', 'This message will last 10 seconds', 10);
+```

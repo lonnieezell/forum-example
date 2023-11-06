@@ -3,25 +3,29 @@
 namespace App\Libraries;
 
 use CodeIgniter\Session\Session;
+use Config\Forum;
 
 class Alerts
 {
     protected array $data = [];
 
-    public function __construct(protected Session $session)
+    public function __construct(protected Forum $config, protected Session $session)
     {
     }
 
     /**
      * Set alert type and message
      */
-    public function set(string $type, string $message): static
+    public function set(string $type, string $message, ?int $seconds = null): static
     {
         if (! isset($this->data[$type])) {
             $this->data[$type] = [];
         }
 
-        $this->data[$type][] = $message;
+        $this->data[$type][] = [
+            'message' => $message,
+            'seconds' => $seconds ?? $this->config->alertDisplayTime,
+        ];
 
         return $this;
     }

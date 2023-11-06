@@ -4,6 +4,9 @@ import Alpine from 'alpinejs';
 import "./events.js";
 import { initEditor } from "./components/markdownEditor.js";
 import { initTags } from "./components/tags.js";
+import alerts from "./components/alerts.js";
+
+Alpine.data('alerts', alerts);
 
 window.Alpine = Alpine;
 
