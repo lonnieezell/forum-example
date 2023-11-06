@@ -28,7 +28,7 @@ class DiscussionController extends BaseController
     {
         $table = [
             'perPage' => $this->request->getGet('perPage') ?? 20,
-            'search'  => $this->request->getGet('search') ?? [],
+            'search'  => $this->request->getGet('search') ?? ['type' => 'recent-posts'],
         ];
 
         $rules = [
@@ -67,7 +67,7 @@ class DiscussionController extends BaseController
     {
         $table = [
             'perPage' => $this->request->getGet('perPage') ?? 20,
-            'search'  => $this->request->getGet('search') ?? [],
+            'search'  => $this->request->getGet('search') ?? ['type' => 'recent-posts'],
         ];
         $table['search']['category'] = $slug;
 
@@ -109,7 +109,7 @@ class DiscussionController extends BaseController
     {
         $table = [
             'perPage' => $this->request->getGet('perPage') ?? 20,
-            'search'  => $this->request->getGet('search') ?? [],
+            'search'  => $this->request->getGet('search') ?? ['type' => 'recent-posts'],
         ];
 
         $table['search']['tag'] = $tagSlug;
