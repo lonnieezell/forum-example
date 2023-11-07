@@ -18,7 +18,7 @@
         <?= view('account/security/_change_password', ['validator' => $validator]) ?>
 
         <!-- Logout of all devices -->
-        <div class="flex justify-between border-b pb-4 border-slate-700 mt-4">
+        <div class="flex justify-between border-b pb-4 border-slate-700 my-4">
             <!-- Password reset button and description -->
             <div>
                 <h3 class="font-bold">Log Out of All Devices</h3>
@@ -35,6 +35,8 @@
                 </button>
             </div>
         </div>
+
+        <?= view('account/security/_two_factor_auth_email', ['user' => $user, 'validator' => $validator]) ?>
     </div>
 
     <!-- Danger Zone -->

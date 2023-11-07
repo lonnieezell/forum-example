@@ -36,10 +36,13 @@ class Tasks extends BaseConfig
      */
     public function init(Scheduler $schedule)
     {
+        // force 2FA for inactive users
+        $schedule->command('force:2fa 12')->daily('09:00 am')->named('force-2fa');
+        // email reminder about incoming user deletion
         $schedule->command('accounts:delete:reminder 1,3')->daily('10:00 am')->named('accounts-delete-reminder');
-
+        // actual user deletion
         $schedule->command('accounts:delete')->daily('11:00 am')->named('accounts-delete');
-
+        // cleanup unused images
         $schedule->command('cleanup:images 3')->hourly()->named('cleanup-images');
 
         // always set at the last position, so that other tasks can be executed first
