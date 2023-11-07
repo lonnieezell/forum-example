@@ -17,10 +17,10 @@ class User extends ShieldUser
         $casts = [
             'thread_count'          => 'integer',
             'post_count'            => 'integer',
-            'two_factor_auth_email' => 'int-bool'
+            'two_factor_auth_email' => 'int-bool',
         ];
 
-        $this->casts = array_merge($this->casts, $casts);
+        $this->casts = [...$this->casts, ...$casts];
 
         parent::__construct($data);
     }
