@@ -8,6 +8,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use Config\Forum;
 use Exception;
 
@@ -31,7 +32,8 @@ class TwoFactorAuthEmail extends Email2FA implements ActionInterface
             return parent::createIdentity($user);
         }
 
-        if ($user->lastLogin()?->date->difference(Time::now())->getMonths() >= config(Forum::class)->force2faAfter) {
+        if ($user->lastLogin()?->date->difference(Time::now())->getMonths() >= config(Forum::class)->force2faAfter
+            || model(UserIdentityModel::class)->getIdentityByType($user, $this->getType()) !== null) {
             return parent::createIdentity($user);
         }
 
