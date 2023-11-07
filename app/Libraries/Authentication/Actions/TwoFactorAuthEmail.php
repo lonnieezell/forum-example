@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Libraries\Authentication\Actions;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Entities\User;
+use Config\Forum;
+use Exception;
 
 /**
  * Class TwoFactorAuthEmail
@@ -19,13 +22,19 @@ class TwoFactorAuthEmail extends Email2FA implements ActionInterface
      * Creates an identity for the action of the user.
      *
      * @return string secret
+     *
+     * @throws Exception
      */
     public function createIdentity(User $user): string
     {
-        if (! $user->two_factor_auth_email) {
-            return '';
+        if ($user->two_factor_auth_email) {
+            return parent::createIdentity($user);
         }
 
-        return parent::createIdentity($user);
+        if ($user->lastLogin()?->date->difference(Time::now())->getMonths() >= config(Forum::class)->force2faAfter) {
+            return parent::createIdentity($user);
+        }
+
+        return '';
     }
 }
