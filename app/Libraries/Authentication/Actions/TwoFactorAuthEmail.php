@@ -32,7 +32,9 @@ class TwoFactorAuthEmail extends Email2FA implements ActionInterface
             return parent::createIdentity($user);
         }
 
-        if ($user->lastLogin()?->date->difference(Time::now())->getMonths() >= config(Forum::class)->force2faAfter
+        // Last login date or account creation date
+        $date = $user->lastLogin()?->date ?? $user->created_at;
+        if ($date->difference(Time::now())->getMonths() >= config(Forum::class)->force2faAfter
             || model(UserIdentityModel::class)->getIdentityByType($user, $this->getType()) !== null) {
             return parent::createIdentity($user);
         }
