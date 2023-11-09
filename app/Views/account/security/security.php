@@ -15,7 +15,9 @@
 
     <!-- Warning Zone -->
     <div class="border border-warning rounded-lg p-4 mt-12">
-        <?= view('account/security/_change_password', ['validator' => $validator]) ?>
+        <?php if (policy('users.changePassword', $user)): ?>
+            <?= view('account/security/_change_password', ['validator' => $validator]) ?>
+        <?php endif; ?>
 
         <!-- Logout of all devices -->
         <div class="flex justify-between border-b pb-4 border-slate-700 my-4">
@@ -36,13 +38,17 @@
             </div>
         </div>
 
-        <?= view('account/security/_two_factor_auth_email', ['user' => $user, 'validator' => $validator]) ?>
+        <?php if (policy('users.twoFactorAuthEmail', $user)): ?>
+            <?= view('account/security/_two_factor_auth_email', ['user' => $user, 'validator' => $validator]) ?>
+        <?php endif; ?>
     </div>
 
-    <!-- Danger Zone -->
-    <div class="border border-error rounded-lg p-4 mt-12">
-        <?= view('account/security/_delete') ?>
-    </div>
+    <?php if (policy('users.delete', $user)): ?>
+        <!-- Danger Zone -->
+        <div class="border border-error rounded-lg p-4 mt-12">
+            <?= view('account/security/_delete') ?>
+        </div>
+    <?php endif; ?>
 <?= $this->endSection() ?>
 
 
