@@ -123,6 +123,59 @@ class SecurityController extends BaseController
     }
 
     /**
+     * Enables / disables 2FA (email) for the account.
+     */
+    public function twoFactorAuthEmail()
+    {
+        if (! $this->policy->can('users.twoFactorAuthEmail', auth()->user())) {
+            // user is allowed NOT to change 2FA settings
+            return $this->policy->deny('You are not allowed to change the 2FA settings for this user.');
+        }
+
+        helper('form');
+
+        // Validate the user's password.
+        $credentials = [
+            'email'    => auth()->user()->email,
+            'password' => $this->request->getPost('password'),
+        ];
+
+        $validCreds = auth()->check($credentials);
+
+        if (! $validCreds->isOK()) {
+            return view('account/security/_two_factor_auth_email', [
+                'open'  => true,
+                'error' => 'The password you entered is incorrect.',
+                'user'  => auth()->user(),
+            ]);
+        }
+
+        // Update the user's password.
+        try {
+            $user                        = auth()->user();
+            $user->two_factor_auth_email = ! $user->two_factor_auth_email;
+            model(UserModel::class)->save($user);
+        } catch (Throwable $e) {
+            // Log the error
+            log_message('error', $e->getMessage());
+
+            return $this->render('account/security/_two_factor_auth_email', [
+                'open'  => true,
+                'error' => 'There was an error updating your 2FA setting. Please try again.',
+                'user'  => auth()->user(),
+            ]);
+        }
+
+        alerts()->set('success', 'Your 2FA settings has been updated.');
+
+        return $this->render('account/security/_two_factor_auth_email', [
+            'open'      => false,
+            'user'      => $user,
+            'validator' => $this->validator,
+        ]);
+    }
+
+    /**
      * Deletes the user's account.
      */
     public function deleteAccount()

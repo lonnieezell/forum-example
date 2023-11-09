@@ -36,6 +36,10 @@ parameters:
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transComplete\(\).#'
 	    	paths:
 	    	    - app/Controllers/Account/SecurityController.php
+	    -
+	    	message: '#Cannot call method difference\(\) on array\|bool\|float\|int\|object\|string.#'
+	    	paths:
+	    	    - app/Libraries/Authentication/Actions/TwoFactorAuthEmail.php
 	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity

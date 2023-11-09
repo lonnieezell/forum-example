@@ -810,16 +810,16 @@
         },
         {
             "name": "michalsn/codeigniter-tags",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michalsn/codeigniter-tags.git",
-                "reference": "2b8e04767f53d3031465a5c2cb31007fa8681588"
+                "reference": "ad2a06bb70014a2a5b9a929ae1e83355433e0aa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michalsn/codeigniter-tags/zipball/2b8e04767f53d3031465a5c2cb31007fa8681588",
-                "reference": "2b8e04767f53d3031465a5c2cb31007fa8681588",
+                "url": "https://api.github.com/repos/michalsn/codeigniter-tags/zipball/ad2a06bb70014a2a5b9a929ae1e83355433e0aa9",
+                "reference": "ad2a06bb70014a2a5b9a929ae1e83355433e0aa9",
                 "shasum": ""
             },
             "require": {
@@ -828,8 +828,7 @@
             },
             "require-dev": {
                 "codeigniter4/devkit": "^1.0",
-                "codeigniter4/framework": "^4.1",
-                "rector/rector": "0.18.5"
+                "codeigniter4/framework": "^4.1"
             },
             "type": "library",
             "autoload": {
@@ -860,9 +859,9 @@
             ],
             "support": {
                 "issues": "https://github.com/michalsn/codeigniter-tags/issues",
-                "source": "https://github.com/michalsn/codeigniter-tags/tree/v1.0.0"
+                "source": "https://github.com/michalsn/codeigniter-tags/tree/v1.1.0"
             },
-            "time": "2023-10-19T18:03:36+00:00"
+            "time": "2023-11-07T12:58:01+00:00"
         },
         {
             "name": "myth/collection",
@@ -7137,5 +7136,5 @@
         "ext-xsl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

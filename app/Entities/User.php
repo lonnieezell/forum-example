@@ -12,6 +12,19 @@ class User extends ShieldUser
     // protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     // protected $casts   = [];
 
+    public function __construct(?array $data = null)
+    {
+        $casts = [
+            'thread_count'          => 'integer',
+            'post_count'            => 'integer',
+            'two_factor_auth_email' => 'int-bool',
+        ];
+
+        $this->casts = [...$this->casts, ...$casts];
+
+        parent::__construct($data);
+    }
+
     public function link(): string
     {
         return route_to('profile', $this->username);
