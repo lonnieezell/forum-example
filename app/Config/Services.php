@@ -4,6 +4,7 @@ namespace Config;
 
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
+use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -37,5 +38,14 @@ class Services extends BaseService
         }
 
         return new Alerts(config(Forum::class), static::session());
+    }
+
+    public static function vite($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('vite');
+        }
+
+        return new Vite();
     }
 }

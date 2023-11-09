@@ -59,7 +59,9 @@
     "sa": "@analyze",
     "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff",
     "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
-    "test": "phpunit"
+    "test": "phpunit",
+    "rector": "rector process --dry-run",
+    "rector-fix": "rector process"
   },
   "support": {
     "forum": "https://forum.codeigniter.com/",

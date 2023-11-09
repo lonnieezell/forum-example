@@ -10,10 +10,9 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icon.png">
 
-    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
+    <?= vite(['themes/default/js/app.js', 'themes/default/css/app.scss']) ?>
     <script src="https://kit.fontawesome.com/9ce245a629.js" crossorigin="anonymous"></script>
     <?= $this->renderSection('styles') ?>
-    <script src="<?= base_url('js/app.js') ?>"<?= ENVIRONMENT === 'development' ? '' : ' defer'; ?>></script>
 </head>
 
 <body hx-ext="loading-states" class="pb-12">

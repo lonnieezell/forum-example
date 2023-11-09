@@ -7,23 +7,29 @@
   },
   "source": "src/index.js",
   "main": "dist/main.js",
-  "dependencies": {
+  "devDependencies": {
+    "@rollup/plugin-inject": "^5.0.3",
+    "@tailwindcss/typography": "^0.5.9",
     "@yaireo/tagify": "^4.17.9",
     "alpinejs": "^3.13.1",
+    "autoprefixer": "^10.4.16",
     "daisyui": "^3.9.4",
     "easymde": "^2.18.0",
-    "htmx.org": "^1.9.6"
-  },
-  "devDependencies": {
-    "@parcel/transformer-sass": "^2.10.2",
-    "@tailwindcss/typography": "^0.5.9",
-    "parcel": "^2.10.2",
+    "htmx.org": "^1.9.6",
     "postcss": "^8.4.31",
+    "postcss-advanced-variables": "^3.0.1",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-scss": "^4.0.9",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.4.5"
   },
   "scripts": {
-    "dev": "parcel themes/default/css/app.scss themes/default/js/app.js --dist-dir ./public"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   }
 }
