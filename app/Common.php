@@ -21,6 +21,6 @@ if (! function_exists('policy')) {
      */
     function policy(string $permission, mixed ...$arguments)
     {
-        return service('policy')->check($permission, ...$arguments);
+        return service('policy')->can($permission, ...$arguments);
     }
 }
