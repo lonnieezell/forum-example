@@ -49,7 +49,7 @@ class ThreadController extends BaseController
         $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
 
         if ($this->request->is('post')) {
-            $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);
+            $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => [...$keys, ...array_keys($innerArray)], []);
             $validCategoryIds = implode(',', $validCategoryIds);
 
             if ($this->validate([
@@ -103,7 +103,7 @@ class ThreadController extends BaseController
         $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
 
         if ($this->request->is('put')) {
-            $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => array_merge($keys, array_keys($innerArray)), []);
+            $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => [...$keys, ...array_keys($innerArray)], []);
             $validCategoryIds = implode(',', $validCategoryIds);
 
             if ($this->validate([
