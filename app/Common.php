@@ -24,3 +24,17 @@ if (! function_exists('policy')) {
         return service('policy')->check($permission, ...$arguments);
     }
 }
+
+/**
+ * Generates the URLs to the vite resources.
+ */
+function vite(string|array $path): string
+{
+    $vite = service('vite');
+
+    if (! is_array($path)) {
+        $path = [$path];
+    }
+
+    return $vite->links($path);
+}

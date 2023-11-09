@@ -57,6 +57,6 @@ class Post extends Entity
 
     public function isMarkedAsDeleted(): bool
     {
-        return $this->attributes['marked_as_deleted'] !== null;
+        return $this->attributes['marked_as_deleted'] ?? null !== null;
     }
 }
