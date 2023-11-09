@@ -22,7 +22,7 @@ class UserModel extends ShieldUser
 
         // Merge properties with parent
         $this->allowedFields = array_merge($this->allowedFields, [
-            'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature',
+            'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature', 'two_factor_auth_email',
         ]);
 
         // Add event after insert

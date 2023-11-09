@@ -17,4 +17,10 @@ class Forum extends BaseConfig
      * alert will be removed.
      */
     public int $alertDisplayTime = 5;
+
+    /**
+     * The number of months without login
+     * after which 2FA will be forced.
+     */
+    public int $force2faAfter = 12;
 }
