@@ -19,6 +19,7 @@
     "s9e/text-formatter": "^2.13"
   },
   "require-dev": {
+    "codeigniter/phpstan-codeigniter": "v1.4.2.70400",
     "codeigniter4/devkit": "^1.1",
     "mockery/mockery": "^1.6",
     "phpstan/phpstan-mockery": "^1.1",
