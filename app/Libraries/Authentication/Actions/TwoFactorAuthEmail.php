@@ -19,6 +19,8 @@ use Exception;
  */
 class TwoFactorAuthEmail extends Email2FA implements ActionInterface
 {
+    private string $type = 'two_factor_auth_email';
+
     /**
      * Creates an identity for the action of the user.
      *
@@ -40,5 +42,13 @@ class TwoFactorAuthEmail extends Email2FA implements ActionInterface
         }
 
         return '';
+    }
+
+    /**
+     * Returns the string type of the action class.
+     */
+    public function getType(): string
+    {
+        return $this->type;
     }
 }
