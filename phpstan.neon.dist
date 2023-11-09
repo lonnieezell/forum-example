@@ -15,10 +15,7 @@ parameters:
 	ignoreErrors:
 	    - '#Call to deprecated method getStatusCode\(\) of class CodeIgniter\\HTTP\\Response:#'
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
-	    - '#Cannot access property [\$a-z_]+ on (array|object)#'
-	    - '#Cannot call method [fill\|\|link\|\|hasChanged].+\(\) on array\|object.#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
-	    - '#Property CodeIgniter\\Controller::\$validator \(CodeIgniter\\Validation\\ValidationInterface\) on left side of \?\? is not nullable.#'
 	    -
 	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
 	    	paths:
