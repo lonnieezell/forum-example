@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use InvalidArgumentException;
+
 class Vite
 {
     public function __construct(private array $manifest = [])
@@ -18,11 +20,11 @@ class Vite
 
         // If not in production environment, load the client from the Vite development server.
         if (env('VITE_SERVE')) {
-            $html .= '<script type="module" src="'. $this->url('@vite/client') .'"></script>';
+            $html .= '<script type="module" src="' . $this->url('@vite/client') . '"></script>';
         }
 
         foreach ($paths as $path) {
-            $html .= "\n".$this->link($path);
+            $html .= "\n" . $this->link($path);
         }
 
         return $html;
@@ -35,16 +37,11 @@ class Vite
     {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        switch ($ext) {
-            case 'js':
-                return $this->script($path);
-            case 'css':
-            case 'scss':
-            case 'sass':
-                return $this->style($path);
-            default:
-                throw new \InvalidArgumentException('Unknown file type: ' . $ext);
-        }
+        return match ($ext) {
+            'js' => $this->script($path),
+            'css', 'scss', 'sass' => $this->style($path),
+            default => throw new InvalidArgumentException('Unknown file type: ' . $ext),
+        };
     }
 
     /**
@@ -54,7 +51,7 @@ class Vite
     {
         $path = $this->manifest[$path] ?? $path;
 
-        return '<script type="module" src="'. $this->url($path) . '"></script>';
+        return '<script type="module" src="' . $this->url($path) . '"></script>';
     }
 
     /**
@@ -72,13 +69,13 @@ class Vite
      */
     private function url(string $path)
     {
-        if (env('VITE_SERVE') == false) {
+        if (env('VITE_SERVE') === false) {
             // @todo examine the manifest file to get the proper link.
             // @see https://vitejs.dev/guide/backend-integration.html for manifest information
             return base_url($path);
         }
 
-        $devServer = 'http://'. env('VITE_HOST', 'localhost') . ':' . env('VITE_PORT', '3000') . '/';
+        $devServer = 'http://' . env('VITE_HOST', 'localhost') . ':' . env('VITE_PORT', '3000') . '/';
 
         return $devServer . $path;
     }
