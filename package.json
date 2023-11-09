@@ -15,7 +15,7 @@
     "autoprefixer": "^10.4.16",
     "daisyui": "^3.9.4",
     "easymde": "^2.18.0",
-    "htmx.org": "^1.9.6",
+    "htmx.org": "^1.9.8",
     "postcss": "^8.4.31",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-cli": "^10.1.0",
