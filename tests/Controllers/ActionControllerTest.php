@@ -10,21 +10,15 @@ use App\Models\UserModel;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Test\CIUnitTestCase;
-use CodeIgniter\Test\DatabaseTestTrait;
-use CodeIgniter\Test\FeatureTestTrait;
 use InvalidArgumentException;
 use Tests\Support\Database\Seeds\TestDataSeeder;
+use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class ActionControllerTest extends CIUnitTestCase
+final class ActionControllerTest extends TestCase
 {
-    use DatabaseTestTrait;
-    use FeatureTestTrait;
-
-    protected $namespace;
     protected $seed = TestDataSeeder::class;
 
     /**

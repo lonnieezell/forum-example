@@ -51,6 +51,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
     $routes->post('security/delete', 'Account\SecurityController::deleteAccount', ['as' => 'account-security-delete']);
     $routes->post('security/change-password', 'Account\SecurityController::changePassword', ['as' => 'account-change-password']);
+    $routes->post('security/two-factor-auth-email', 'Account\SecurityController::twoFactorAuthEmail', ['as' => 'account-two-factor-auth-email']);
     $routes->match(['get', 'post'], 'profile', 'Account\AccountController::profile', ['as' => 'account-profile']);
 });
 

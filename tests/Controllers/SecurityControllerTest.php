@@ -111,4 +111,27 @@ final class SecurityControllerTest extends TestCase
         // Should redirect
         $response->assertSee('Your password has been updated.');
     }
+
+    public function testTwoFactorAuthEmail()
+    {
+        // First with invalid password
+        $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash(), 'HX-Request' => 'true'])
+            ->post(route_to('account-two-factor-auth-email'), ['password' => 'invalid']);
+        $response->assertSee('The password you entered is incorrect.');
+
+        // Now with valid password
+        $response = $this->actingAs($this->user)
+            ->withHeaders([csrf_header() => csrf_hash(), 'HX-Request' => 'true'])
+            ->post(route_to('account-two-factor-auth-email'), ['password' => 'secret123']);
+
+        // Should see alert
+        $response->assertSee('Your 2FA settings has been updated.');
+
+        // User should have 2fa enabled
+        $this->seeInDatabase('users', [
+            'id'                    => $this->user->id,
+            'two_factor_auth_email' => 1,
+        ]);
+    }
 }
