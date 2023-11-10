@@ -9,7 +9,7 @@
     "ext-simplexml": "*",
     "ext-xsl": "*",
     "codeigniter4/framework": "^4.4",
-    "codeigniter4/shield": "1.0@beta.7",
+    "codeigniter4/shield": "^1.0@beta",
     "codeigniter4/tasks": "dev-develop",
     "league/commonmark": "^2.3",
     "michalsn/codeigniter-htmx": "^1.2.2",
