@@ -16,10 +16,8 @@
 if (! function_exists('policy')) {
     /**
      * A convenience method for accessing the Policy service.
-     *
-     * @return mixed
      */
-    function policy(string $permission, mixed ...$arguments)
+    function policy(string $permission, mixed ...$arguments): bool
     {
         return service('policy')->can($permission, ...$arguments);
     }

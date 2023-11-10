@@ -13,21 +13,15 @@ parameters:
 		- app/Views/*
 		- app/Libraries/TextFormatter.php
 	ignoreErrors:
+	    - '#Cannot use -- on array|bool|float|int|object|string|null.#'
+	    - '#Call to function model with .*::class is discouraged#'
 	    - '#Call to deprecated method getStatusCode\(\) of class CodeIgniter\\HTTP\\Response:#'
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
-	    - '#Cannot access property [\$a-z_]+ on (array|object)#'
-	    - '#Cannot call method [fill\|\|link\|\|hasChanged].+\(\) on array\|object.#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
-	    - '#Property CodeIgniter\\Controller::\$validator \(CodeIgniter\\Validation\\ValidationInterface\) on left side of \?\? is not nullable.#'
 	    -
 	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
 	    	paths:
 	    	    - app/Controllers/Account/SecurityController.php
-	    -
-	    	message: '#Call to deprecated function random_string\(\):#'
-	    	paths:
-	    	    - app/Models/Factories/UserFactory.php
-	    	    - tests/Controllers/DiscussionControllerTest.php
 	    -
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transException\(\).#'
 	    	paths:
@@ -36,10 +30,6 @@ parameters:
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transComplete\(\).#'
 	    	paths:
 	    	    - app/Controllers/Account/SecurityController.php
-	    -
-	    	message: '#Cannot call method difference\(\) on array\|bool\|float\|int\|object\|string.#'
-	    	paths:
-	    	    - app/Libraries/Authentication/Actions/TwoFactorAuthEmail.php
 	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity
@@ -52,3 +42,8 @@ parameters:
 		- APP_NAMESPACE
 		- CI_DEBUG
 		- ENVIRONMENT
+	codeigniter:
+		checkArgumentTypeOfFactories: false
+		additionalServices:
+			- CodeIgniter\Shield\Config\Services
+			- Michalsn\CodeIgniterQueue\Config\Services
