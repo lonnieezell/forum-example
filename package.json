@@ -13,7 +13,7 @@
     "@yaireo/tagify": "^4.17.9",
     "alpinejs": "^3.13.1",
     "autoprefixer": "^10.4.16",
-    "daisyui": "^3.9.4",
+    "daisyui": "^4.0.3",
     "easymde": "^2.18.0",
     "htmx.org": "^1.9.8",
     "postcss": "^8.4.31",
