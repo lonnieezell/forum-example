@@ -13,6 +13,7 @@
     "codeigniter4/tasks": "dev-develop",
     "league/commonmark": "^2.3",
     "michalsn/codeigniter-htmx": "^1.2.2",
+    "michalsn/codeigniter-markdown-pages": "dev-develop",
     "michalsn/codeigniter-queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",
     "michalsn/codeigniter-tags": "^1.0",

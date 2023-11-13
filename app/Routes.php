@@ -59,5 +59,9 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
 $routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
 $routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDelete/$1', ['as' => 'action-cancel-account-delete']);
 
+// Help section
+$routes->match(['get', 'post'], 'help', 'HelpController::index', ['as' => 'pages']);
+$routes->match(['get', 'post'], 'help/(:any)', 'HelpController::show/$1', ['as' => 'page']);
+
 // Shield Auth routes
 service('auth')->routes($routes);
