@@ -26,6 +26,7 @@ class HelpController extends BaseController
                 if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
                     return '';
                 }
+
                 return $this->render('help/_index', ['pages' => $markdownPages]);
             }
 
@@ -35,6 +36,7 @@ class HelpController extends BaseController
                 if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
                     return '';
                 }
+
                 return $this->render('help/_index', ['pages' => $markdownPages]);
             }
 
