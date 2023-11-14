@@ -22,7 +22,7 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
-    public static function policy($getShared = true)
+    public static function policy($getShared = true): Policy
     {
         if ($getShared) {
             return static::getSharedInstance('policy');
@@ -31,7 +31,7 @@ class Services extends BaseService
         return new Policy();
     }
 
-    public static function alerts($getShared = true)
+    public static function alerts($getShared = true): Alerts
     {
         if ($getShared) {
             return static::getSharedInstance('alerts');
@@ -40,7 +40,7 @@ class Services extends BaseService
         return new Alerts(config(Forum::class), static::session());
     }
 
-    public static function vite($getShared = true)
+    public static function vite($getShared = true): Vite
     {
         if ($getShared) {
             return static::getSharedInstance('vite');
