@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d3841c721fb2513829cd3a253264f06",
+    "content-hash": "469a0c372da6eef2676be9a36ce35296",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -4317,16 +4317,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.18.6",
+            "version": "0.18.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "02041b220704b9cbe075f0310d0954b2fda5c40c"
+                "reference": "caba0e294a1228f64f8a9cfd0d715cc8af47c4da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/02041b220704b9cbe075f0310d0954b2fda5c40c",
-                "reference": "02041b220704b9cbe075f0310d0954b2fda5c40c",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/caba0e294a1228f64f8a9cfd0d715cc8af47c4da",
+                "reference": "caba0e294a1228f64f8a9cfd0d715cc8af47c4da",
                 "shasum": ""
             },
             "require": {
@@ -4361,7 +4361,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.18.6"
+                "source": "https://github.com/rectorphp/rector/tree/0.18.7"
             },
             "funding": [
                 {
@@ -4369,7 +4369,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-24T15:00:59+00:00"
+            "time": "2023-11-13T10:11:05+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -7373,6 +7373,7 @@
     "stability-flags": {
         "codeigniter4/shield": 10,
         "codeigniter4/tasks": 20,
+        "michalsn/codeigniter-markdown-pages": 20,
         "michalsn/codeigniter-queue": 20
     },
     "prefer-stable": true,
@@ -7383,5 +7384,5 @@
         "ext-xsl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
