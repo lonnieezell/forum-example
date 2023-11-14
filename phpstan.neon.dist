@@ -46,4 +46,5 @@ parameters:
 		checkArgumentTypeOfFactories: false
 		additionalServices:
 			- CodeIgniter\Shield\Config\Services
+			- Michalsn\CodeIgniterMarkdownPages\Config\Services
 			- Michalsn\CodeIgniterQueue\Config\Services

@@ -65,6 +65,13 @@
                             Members
                         </a>
                     </li>
+
+                    <li>
+                        <a href="<?= url_to('pages') ?>"
+                            <?= url_is('help') ? 'class="active"' : '' ?>>
+                            Help
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="flex-none px-4">
