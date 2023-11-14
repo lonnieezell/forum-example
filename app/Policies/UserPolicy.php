@@ -30,4 +30,12 @@ class UserPolicy implements PolicyInterface
     {
         return $user->can('users.delete') || $user->id === $targetUser->id;
     }
+
+    /**
+     * Determines if the current user can delete a user's avatar.
+     */
+    public function deleteAvatar(User $user, User $targetUser): bool
+    {
+        return $user->can('users.deleteAVatar') || $user->id === $targetUser->id;
+    }
 }

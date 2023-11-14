@@ -1,4 +1,5 @@
-<form hx-encoding="multipart/form-data" hx-post="<?= current_url() ?>" hx-target="this"
+<form hx-encoding="multipart/form-data"
+    hx-post="<?= current_url() ?>"
     />
     <?= csrf_field() ?>
 
@@ -89,7 +90,14 @@
             <div class="flex gap-8 align-middle">
                 <div class="flex-0">
                     <?= $user->renderAvatar(64) ?>
-                    <p class="text-sm w-full text-center hover:text-red-500 hover:cursor-pointer underline">Delete</p>
+                    <?php if ($user->avatar) : ?>
+                        <p class="text-sm w-full text-center hover:text-red-500 hover:cursor-pointer underline"
+                            hx-confirm="Delete this avatar? This cannot be undone."
+                            hx-post="<?= route_to('account.avatar.delete') ?>"
+                        >
+                            Delete
+                        </p>
+                    <?php endif ?>
                 </div>
 
                 <div>

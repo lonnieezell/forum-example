@@ -32,5 +32,11 @@ class FileSystems extends BaseConfig
             'bucket' => '',
             'prefix' => '',
         ],
+        // This driver is used for testing. It does not
+        // actually write to the file system, but keeps
+        // everything in memory.
+        'test' => [
+            'driver' => 'memory',
+        ],
     ];
 }

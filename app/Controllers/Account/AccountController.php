@@ -5,10 +5,15 @@ namespace App\Controllers\Account;
 use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
 use App\Entities\User;
+use App\Libraries\Alerts;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use CodeIgniter\Exceptions\ModelException;
 use CodeIgniter\Files\Exceptions\FileNotFoundException;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Exceptions\LogicException;
+use RuntimeException;
 
 class AccountController extends BaseController
 {
@@ -111,15 +116,40 @@ class AccountController extends BaseController
                 alerts()->set('error', 'Something went wrong');
             }
 
-            return view('account/_profile', [
-                'user'      => auth()->user(),
-                'validator' => $this->validator ?? service('validation'),
-            ]);
+            // Reload the page to ensure the avatar is displayed correctly in all cases.
+            return redirect()->hxRefresh();
         }
 
         return $this->render('account/profile', [
             'user'      => auth()->user(),
             'validator' => $this->validator ?? service('validation'),
         ]);
+    }
+
+    /**
+     * Delete a user's avatar.
+     */
+    public function deleteAvatar()
+    {
+        if (! $this->policy->can('users.deleteAvatar', auth()->user())) {
+            return alerts()->set('error', 'You do not have permission to delete this avatar');
+        }
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        try {
+            $user->deleteAvatar();
+
+            if (model(UserModel::class)->save($user)) {
+                alerts()->set('success', 'Your avatar has been deleted');
+            } else {
+                alerts()->set('error', 'Something went wrong');
+            }
+        } catch (FileNotFoundException $e) {
+            alerts()->set('error', $e->getMessage());
+        } finally {
+            return redirect()->hxRefresh();
+        }
     }
 }

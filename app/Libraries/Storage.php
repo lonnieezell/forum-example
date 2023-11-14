@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 
 /**
  * Provides a wrapper around the Flysystem library.
@@ -20,6 +21,14 @@ class Storage
     public function __construct(private readonly FileSystems $config)
     {
         $this->default = $config->default;
+    }
+
+    /**
+     * Sets the disk that should be used as default.
+     */
+    public function setDefaultDisk(string $disk): void
+    {
+        $this->default = $disk;
     }
 
     /**
@@ -59,6 +68,8 @@ class Storage
         switch ($driver) {
             case 'local':
                 return new Filesystem(new LocalFilesystemAdapter($config['root']));
+            case 'memory':
+                return new Filesystem(new InMemoryFilesystemAdapter());
             case 's3':
                 /** @var Aws\S3\S3ClientInterface $client */
                 $client = new S3Client([

@@ -3,6 +3,8 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\UserFactory;
+use CodeIgniter\Config\Factory;
+use Config\Services;
 use Exception;
 use Tests\Support\TestCase;
 
@@ -84,6 +86,9 @@ final class AccountControllerTest extends TestCase
 
     public function testSaveProfile()
     {
+        $storage = service('storage')->setDefaultDisk('test');
+        Services::injectMock('storage', $storage);
+
         $user = fake(UserFactory::class, [
             'username' => 'testuser',
         ]);

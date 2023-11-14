@@ -6,7 +6,7 @@ The `Storage` class provides a simple wrapper around the [FlySystem](https://fly
 
 The `Storage` class is configured via the `config/filesystems.php` file. This file contains an array of named disks, each of which may provide a different storage provider. The `default` disk option may be used to specify which disk should be used if no other disk is specified.
 
-Each disk must have the `driver` listed, which represents the FlySystem driver to use. At the moment, this only supports `local` and `s3` as this is a very lean implementation, and not intended to be a thorough wrapper around FlySystem.
+Each disk must have the `driver` listed, which represents the FlySystem driver to use. At the moment, this only supports `local`, `memory`, and `s3` as this is a very lean implementation, and not intended to be a thorough wrapper around FlySystem.
 
 ## Basic Usage
 
@@ -24,3 +24,15 @@ try {
 ```
 
 The service's `disk()` method will return a FlySystem adapter instance ready for your usage. If no disk is specified, it will return the default disk.
+
+## Testing
+
+When testing, you can set the default disk to the `test` disk, which uses the `memory` driver. This ensures that no files are actually written to disk.
+
+```php
+public function testFilesystems()
+{
+    $storage = service('storage')->setDefaultDisk('test');
+    Services::injectMock('storage', $storage);
+}
+```
