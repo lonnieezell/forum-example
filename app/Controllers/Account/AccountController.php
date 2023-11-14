@@ -4,6 +4,7 @@ namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
+use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
@@ -89,7 +90,7 @@ class AccountController extends BaseController
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
             'avatar'    => ['permit_empty', 'uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,1024]'],
         ])) {
-            /** @var User::class */
+            /** @var User $user */
             $user = auth()->user();
             $user->fill($this->validator->getValidated());
 

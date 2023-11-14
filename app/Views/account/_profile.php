@@ -1,4 +1,7 @@
-<?= form_open('', ['hx-post' => current_url()]); ?>
+<form hx-encoding="multipart/form-data" hx-post="<?= current_url() ?>" hx-target="this"
+    />
+    <?= csrf_field() ?>
+
     <fieldset>
         <legend>Personal</legend>
 
@@ -76,6 +79,29 @@
             <?= form_error($validator, 'country') ?>
         </div>
 
+    </fieldset>
+
+    <fieldset>
+        <legend>Avatar</legend>
+
+        <!-- Avatar -->
+        <div class="form-control mt-2">
+            <div class="flex gap-8 align-middle">
+                <div class="flex-0">
+                    <?= $user->renderAvatar(64) ?>
+                    <p class="text-sm w-full text-center hover:text-red-500 hover:cursor-pointer underline">Delete</p>
+                </div>
+
+                <div>
+                    <?= form_upload([
+                        'name' => 'avatar',
+                        'class' => 'file-upload w-full',
+                        'accept' => 'image/png,image/jpeg,image/jpg',
+                    ]) ?>
+                    <p class="text-sm opacity-50 mt-2">Maximum file size: <?= max_upload_size() ?></p>
+                </div>
+            </div>
+            <?= form_error($validator, 'avatar') ?>
     </fieldset>
 
     <fieldset>

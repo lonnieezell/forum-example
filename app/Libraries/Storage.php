@@ -16,11 +16,9 @@ class Storage
 {
     private array $filesystems = [];
     private string $default;
-    private FileSystems $config;
 
-    public function __construct(FileSystems $config)
+    public function __construct(private readonly FileSystems $config)
     {
-        $this->config  = $config;
         $this->default = $config->default;
     }
 
@@ -42,7 +40,6 @@ class Storage
 
     /**
      * Create a new filesystem instance.
-     * @return League\Flysystem\Filesystem
      * @throws InvalidArgumentException
      */
     private function createDisk(string $disk): FileSystem
