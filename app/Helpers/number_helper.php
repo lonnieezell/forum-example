@@ -8,19 +8,19 @@
  */
 function string_to_bytes(string $val): int|float|string
 {
-    $val = trim((string) $val);
-    $last = strtolower($val[strlen($val)-1]);
+    $val  = trim($val);
+    $last = strtolower($val[strlen($val) - 1]);
 
     if (empty($last) || is_numeric($last)) {
-        return (int)$val;
+        return (int) $val;
     }
 
-    $val = substr($val, 0, strlen($val)-1);
+    $val = substr($val, 0, strlen($val) - 1);
 
-    return match($last) {
-        'g' => (int)($val * 1024 * 1024 * 1024),
-        'm' => (int)($val * 1024 * 1024),
-        'k' => (int)($val * 1024),
-        default => (int)$val,
+    return match ($last) {
+        'g'     => (int) ($val * 1024 * 1024 * 1024),
+        'm'     => (int) ($val * 1024 * 1024),
+        'k'     => (int) ($val * 1024),
+        default => (int) $val,
     };
 }

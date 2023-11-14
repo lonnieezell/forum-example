@@ -3,7 +3,6 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\UserFactory;
-use CodeIgniter\Config\Factory;
 use Config\Services;
 use Exception;
 use Tests\Support\TestCase;

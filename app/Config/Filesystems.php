@@ -4,7 +4,7 @@ namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 
-class FileSystems extends BaseConfig
+class Filesystems extends BaseConfig
 {
     /**
      * The default filesystem that will
@@ -18,11 +18,11 @@ class FileSystems extends BaseConfig
     public $disks = [
         'local' => [
             'driver' => 'local',
-            'root' => WRITEPATH . 'uploads',
+            'root'   => WRITEPATH . 'uploads',
         ],
         'public' => [
             'driver' => 'local',
-            'root' => ROOTPATH . 'public/uploads',
+            'root'   => ROOTPATH . 'public/uploads',
         ],
         // This driver requires the following environment variables:
         // AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_BUCKET

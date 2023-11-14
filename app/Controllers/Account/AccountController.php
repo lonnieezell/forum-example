@@ -5,15 +5,10 @@ namespace App\Controllers\Account;
 use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
 use App\Entities\User;
-use App\Libraries\Alerts;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
-use CodeIgniter\Exceptions\ModelException;
 use CodeIgniter\Files\Exceptions\FileNotFoundException;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Exceptions\LogicException;
-use RuntimeException;
 
 class AccountController extends BaseController
 {
