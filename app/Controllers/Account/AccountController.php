@@ -100,7 +100,7 @@ class AccountController extends BaseController
                 try {
                     $user->deleteAvatar();
                     $user->avatar = $user->saveAvatar($this->request->getFile('avatar'));
-                } catch (FileNotFoundException $e) {
+                } catch (FilesystemException $e) {
                     alerts()->set('error', $e->getMessage());
                 }
             }
@@ -141,7 +141,7 @@ class AccountController extends BaseController
             } else {
                 alerts()->set('error', 'Something went wrong');
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             alerts()->set('error', $e->getMessage());
         } finally {
             return redirect()->hxRefresh();
