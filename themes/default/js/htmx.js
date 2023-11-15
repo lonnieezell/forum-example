@@ -1,4 +1,4 @@
-import htmx from 'htmx.org';
+import htmx from "htmx.org";
 
 htmx.config.selfRequestsOnly = true;
 
