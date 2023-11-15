@@ -17,7 +17,7 @@ class HelpController extends BaseController
 
         if ($this->request->is('post')) {
             $rules = [
-                'search' => ['permit_empty', 'string', 'alpha_numeric_space', 'min_length[4]'],
+                'search' => ['permit_empty', 'string', 'alpha_numeric_space', 'min_length[4]', 'max_length[32]'],
             ];
 
             if (! $this->validateData($this->request->getPost(), $rules)) {
