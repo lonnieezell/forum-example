@@ -8,7 +8,7 @@ use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
-use CodeIgniter\Files\Exceptions\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 
 class AccountController extends BaseController
 {
@@ -88,7 +88,7 @@ class AccountController extends BaseController
             'location'  => ['permit_empty', 'string', 'max_length[255]'],
             'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
-            'avatar'    => ['permit_empty', 'uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,1024]'],
+            'avatar'    => ['uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,1024]'],
         ])) {
             /** @var User $user */
             $user = auth()->user();
