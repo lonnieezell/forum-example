@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use App\Libraries\Storage;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;

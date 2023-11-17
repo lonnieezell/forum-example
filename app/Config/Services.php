@@ -56,6 +56,6 @@ class Services extends BaseService
             return static::getSharedInstance('storage');
         }
 
-        return new Storage(new FileSystems());
+        return new Storage(new Filesystems());
     }
 }
