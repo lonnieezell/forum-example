@@ -14,7 +14,7 @@ function form_error(ValidationInterface $validator, string $field): string
 /**
  * Returns the maximum upload size in human-readable format.
  */
-function max_upload_size(): string
+function max_upload_size(bool $returnRaw = false): string
 {
     helper('number');
 
@@ -25,5 +25,5 @@ function max_upload_size(): string
     // find the smallest of them, this defines the real limit
     $size = min($max_upload, $max_post, $memory_limit);
 
-    return number_to_size($size);
+    return $returnRaw ? $size : number_to_size($size);
 }

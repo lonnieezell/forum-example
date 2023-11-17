@@ -88,7 +88,7 @@ class AccountController extends BaseController
             'location'  => ['permit_empty', 'string', 'max_length[255]'],
             'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
-            'avatar'    => ['uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,1024]'],
+            'avatar'    => ['uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,'. max_upload_size(true) .']'],
         ])) {
             /** @var User $user */
             $user = auth()->user();
