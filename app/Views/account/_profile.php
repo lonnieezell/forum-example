@@ -16,6 +16,7 @@
                 'value' => $user->username,
                 'class' => 'input input-bordered w-full',
                 'disabled' => 'disabled',
+                'accept' => implode(',', config('ImageUpload')->fileMime),
             ]) ?>
         </div>
 
@@ -106,7 +107,7 @@
                         'class' => 'file-upload w-full',
                         'accept' => 'image/png,image/jpeg,image/jpg',
                     ]) ?>
-                    <p class="text-sm opacity-50 mt-2">Maximum file size: <?= max_upload_size() ?></p>
+                    <p class="text-sm opacity-50 mt-2">Maximum file size: <?= $maxUpload ?></p>
                 </div>
             </div>
             <?= form_error($validator, 'avatar') ?>

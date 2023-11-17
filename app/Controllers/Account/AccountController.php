@@ -8,6 +8,7 @@ use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use CodeIgniter\HTTP\Files\UploadedFile;
 use League\Flysystem\FilesystemException;
 
 class AccountController extends BaseController
@@ -78,7 +79,10 @@ class AccountController extends BaseController
      */
     public function profile()
     {
-        helper(['form', 'date']);
+        helper(['form', 'date', 'number']);
+
+        $maxUploadSize = max_upload_size(true);
+        $avatar = $this->request->getFile('avatar');
 
         if ($this->request->is('post') && $this->validate([
             'name'      => ['permit_empty', 'string', 'max_length[255]'],
@@ -88,7 +92,13 @@ class AccountController extends BaseController
             'location'  => ['permit_empty', 'string', 'max_length[255]'],
             'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
-            'avatar'    => ['uploaded[avatar]', 'mime_in[avatar,image/jpg,image/jpeg,image/png]', 'max_size[avatar,'. max_upload_size(true) .']'],
+            'avatar'    => $avatar instanceof UploadedFile
+                ? [
+                    'uploaded[avatar]',
+                    'mime_in[avatar,'. implode(',', config('ImageUpload')->fileMime) .']',
+                    "max_size[avatar,{$maxUploadSize}]",
+                ]
+                : 'permit_empty',
         ])) {
             /** @var User $user */
             $user = auth()->user();
@@ -96,7 +106,7 @@ class AccountController extends BaseController
 
             // If we have a new avatar, delete the old one first,
             // then save the new one to the configured Storage.
-            if ($this->request->getFile('avatar')->isValid()) {
+            if ($avatar && $avatar->isValid()) {
                 try {
                     $user->deleteAvatar();
                     $user->avatar = $user->saveAvatar($this->request->getFile('avatar'));
@@ -115,9 +125,12 @@ class AccountController extends BaseController
             return redirect()->hxRefresh();
         }
 
-        return $this->render('account/profile', [
+        $view = $this->request->is('post') ? 'account/_profile' : 'account/profile';
+
+        return $this->render($view, [
             'user'      => auth()->user(),
             'validator' => $this->validator ?? service('validation'),
+            'maxUpload' => number_to_size($maxUploadSize * 1000),
         ]);
     }
 
