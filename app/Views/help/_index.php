@@ -4,7 +4,7 @@
         <ul class="menu bg-base-200 w-64 rounded-box">
             <li class="menu-title"><?= $category->getName(); ?></li>
             <?php foreach ($category->getFiles()->slice(0, 4)->items() as $file): ?>
-                <li><a href="<?= url_to('page', $file->urlPath()); ?>"><?= $file->getName(); ?></a></li>
+                <li><a href="<?= url_to('page', $file->getPath()); ?>"><?= $file->getName(); ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>
