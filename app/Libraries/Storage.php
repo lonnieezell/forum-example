@@ -2,9 +2,9 @@
 
 namespace App\Libraries;
 
-use Aws\S3\S3ClientInterface;
 use Aws\S3\S3Client;
-use Config\FileSystems;
+use Aws\S3\S3ClientInterface;
+use Config\Filesystems;
 use InvalidArgumentException;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Filesystem;
@@ -19,7 +19,7 @@ class Storage
     private array $filesystems = [];
     private string $default;
 
-    public function __construct(private readonly FileSystems $config)
+    public function __construct(private readonly Filesystems $config)
     {
         $this->default = $config->default;
     }
@@ -27,9 +27,11 @@ class Storage
     /**
      * Sets the disk that should be used as default.
      */
-    public function setDefaultDisk(string $disk): void
+    public function setDefaultDisk(string $disk): self
     {
         $this->default = $disk;
+
+        return $this;
     }
 
     /**

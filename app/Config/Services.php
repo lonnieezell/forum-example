@@ -50,7 +50,7 @@ class Services extends BaseService
         return new Vite();
     }
 
-    public static function storage($getShared = true)
+    public static function storage($getShared = true): Storage
     {
         if ($getShared) {
             return static::getSharedInstance('storage');

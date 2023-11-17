@@ -82,7 +82,7 @@ class AccountController extends BaseController
         helper(['form', 'date', 'number']);
 
         $maxUploadSize = max_upload_size(true);
-        $avatar = $this->request->getFile('avatar');
+        $avatar        = $this->request->getFile('avatar');
 
         if ($this->request->is('post') && $this->validate([
             'name'      => ['permit_empty', 'string', 'max_length[255]'],
@@ -95,7 +95,7 @@ class AccountController extends BaseController
             'avatar'    => $avatar instanceof UploadedFile
                 ? [
                     'uploaded[avatar]',
-                    'mime_in[avatar,'. implode(',', config('ImageUpload')->fileMime) .']',
+                    'mime_in[avatar,' . implode(',', config('ImageUpload')->fileMime) . ']',
                     "max_size[avatar,{$maxUploadSize}]",
                 ]
                 : 'permit_empty',
