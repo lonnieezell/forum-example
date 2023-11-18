@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -91,7 +92,7 @@ class User extends ShieldUser
         }
 
         return ! empty($this->avatar)
-            ? base_url('/uploads/avatars/' . $this->avatar)
+            ? base_url('/uploads/' . $this->avatar)
             : '';
     }
 
@@ -113,5 +114,33 @@ class User extends ShieldUser
             ->orderBy('date', 'desc')
             ->limit($limit)
             ->find();
+    }
+
+    /**
+     * Deletes the user's avatar from the file system.
+     */
+    public function deleteAvatar()
+    {
+        if (! empty($this->avatar)) {
+            service('storage')
+                ->disk()
+                ->delete($this->avatar);
+        }
+
+        $this->avatar = null;
+    }
+
+    /**
+     * Saves the avatar to the file system.
+     */
+    public function saveAvatar(UploadedFile $file): string
+    {
+        $path = 'avatars/' . $this->id . '/' . $file->getRandomName();
+
+        $storage = service('storage');
+        $storage->disk()
+            ->write($path, file_get_contents($file->getTempName()));
+
+        return $path;
     }
 }

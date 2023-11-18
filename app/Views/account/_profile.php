@@ -1,4 +1,8 @@
-<?= form_open('', ['hx-post' => current_url()]); ?>
+<form hx-encoding="multipart/form-data"
+    hx-post="<?= current_url() ?>"
+    />
+    <?= csrf_field() ?>
+
     <fieldset>
         <legend>Personal</legend>
 
@@ -12,6 +16,7 @@
                 'value' => $user->username,
                 'class' => 'input input-bordered w-full',
                 'disabled' => 'disabled',
+                'accept' => implode(',', config('ImageUpload')->fileMime),
             ]) ?>
         </div>
 
@@ -76,6 +81,36 @@
             <?= form_error($validator, 'country') ?>
         </div>
 
+    </fieldset>
+
+    <fieldset>
+        <legend>Avatar</legend>
+
+        <!-- Avatar -->
+        <div class="form-control mt-2">
+            <div class="flex gap-8 align-middle">
+                <div class="flex-0">
+                    <?= $user->renderAvatar(64) ?>
+                    <?php if ($user->avatar) : ?>
+                        <p class="text-sm w-full text-center hover:text-red-500 hover:cursor-pointer underline"
+                            hx-confirm="Delete this avatar? This cannot be undone."
+                            hx-post="<?= route_to('account.avatar.delete') ?>"
+                        >
+                            Delete
+                        </p>
+                    <?php endif ?>
+                </div>
+
+                <div>
+                    <?= form_upload([
+                        'name' => 'avatar',
+                        'class' => 'file-upload w-full',
+                        'accept' => 'image/png,image/jpeg,image/jpg',
+                    ]) ?>
+                    <p class="text-sm opacity-50 mt-2">Maximum file size: <?= $maxUpload ?></p>
+                </div>
+            </div>
+            <?= form_error($validator, 'avatar') ?>
     </fieldset>
 
     <fieldset>

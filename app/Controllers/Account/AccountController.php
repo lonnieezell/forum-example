@@ -4,9 +4,12 @@ namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
+use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use CodeIgniter\HTTP\Files\UploadedFile;
+use League\Flysystem\FilesystemException;
 
 class AccountController extends BaseController
 {
@@ -76,7 +79,10 @@ class AccountController extends BaseController
      */
     public function profile()
     {
-        helper(['form', 'date']);
+        helper(['form', 'date', 'number']);
+
+        $maxUploadSize = max_upload_size(true);
+        $avatar        = $this->request->getFile('avatar');
 
         if ($this->request->is('post') && $this->validate([
             'name'      => ['permit_empty', 'string', 'max_length[255]'],
@@ -86,9 +92,28 @@ class AccountController extends BaseController
             'location'  => ['permit_empty', 'string', 'max_length[255]'],
             'company'   => ['permit_empty', 'string', 'max_length[255]'],
             'signature' => ['permit_empty', 'string', 'max_length[255]'],
+            'avatar'    => $avatar instanceof UploadedFile
+                ? [
+                    'uploaded[avatar]',
+                    'mime_in[avatar,' . implode(',', config('ImageUpload')->fileMime) . ']',
+                    "max_size[avatar,{$maxUploadSize}]",
+                ]
+                : 'permit_empty',
         ])) {
+            /** @var User $user */
             $user = auth()->user();
             $user->fill($this->validator->getValidated());
+
+            // If we have a new avatar, delete the old one first,
+            // then save the new one to the configured Storage.
+            if ($avatar && $avatar->isValid()) {
+                try {
+                    $user->deleteAvatar();
+                    $user->avatar = $user->saveAvatar($this->request->getFile('avatar'));
+                } catch (FilesystemException $e) {
+                    alerts()->set('error', $e->getMessage());
+                }
+            }
 
             if (model(UserModel::class)->save($user)) {
                 alerts()->set('success', 'Your profile has been updated');
@@ -96,15 +121,43 @@ class AccountController extends BaseController
                 alerts()->set('error', 'Something went wrong');
             }
 
-            return view('account/_profile', [
-                'user'      => auth()->user(),
-                'validator' => $this->validator ?? service('validation'),
-            ]);
+            // Reload the page to ensure the avatar is displayed correctly in all cases.
+            return redirect()->hxRefresh();
         }
 
-        return $this->render('account/profile', [
+        $view = $this->request->is('post') ? 'account/_profile' : 'account/profile';
+
+        return $this->render($view, [
             'user'      => auth()->user(),
             'validator' => $this->validator ?? service('validation'),
+            'maxUpload' => number_to_size($maxUploadSize * 1000),
         ]);
+    }
+
+    /**
+     * Delete a user's avatar.
+     */
+    public function deleteAvatar()
+    {
+        if (! $this->policy->can('users.deleteAvatar', auth()->user())) {
+            return alerts()->set('error', 'You do not have permission to delete this avatar');
+        }
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        try {
+            $user->deleteAvatar();
+
+            if (model(UserModel::class)->save($user)) {
+                alerts()->set('success', 'Your avatar has been deleted');
+            } else {
+                alerts()->set('error', 'Something went wrong');
+            }
+        } catch (FilesystemException $e) {
+            alerts()->set('error', $e->getMessage());
+        } finally {
+            return redirect()->hxRefresh();
+        }
     }
 }

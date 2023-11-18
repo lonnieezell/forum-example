@@ -20,6 +20,10 @@ use App\Libraries\CountryHelper;
         'subTitle' => 'Set your profile information that will be displayed to the public.'
     ]) ?>
 
-    <?= view('account/_profile', ['user' => $user, 'validator' => $validator]) ?>
+    <?= view('account/_profile', [
+        'user' => $user,
+        'validator' => $validator,
+        'maxUpload' => $maxUpload,
+    ]) ?>
 
 <?= $this->endSection() ?>

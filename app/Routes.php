@@ -53,6 +53,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
     $routes->post('security/change-password', 'Account\SecurityController::changePassword', ['as' => 'account-change-password']);
     $routes->post('security/two-factor-auth-email', 'Account\SecurityController::twoFactorAuthEmail', ['as' => 'account-two-factor-auth-email']);
     $routes->match(['get', 'post'], 'profile', 'Account\AccountController::profile', ['as' => 'account-profile']);
+    $routes->post('avatar', 'Account\AccountController::deleteAvatar', ['as' => 'account.avatar.delete']);
 });
 
 // Actions

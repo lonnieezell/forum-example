@@ -2,7 +2,9 @@
 
 namespace Tests\Controllers;
 
+use App\Libraries\Storage;
 use App\Models\Factories\UserFactory;
+use Config\Services;
 use Exception;
 use Tests\Support\TestCase;
 
@@ -84,6 +86,12 @@ final class AccountControllerTest extends TestCase
 
     public function testSaveProfile()
     {
+        /**
+         * @var Storage $storage
+         */
+        $storage = service('storage')->setDefaultDisk('test');
+        Services::injectMock('storage', $storage);
+
         $user = fake(UserFactory::class, [
             'username' => 'testuser',
         ]);
@@ -100,9 +108,8 @@ final class AccountControllerTest extends TestCase
                 'signature' => 'Test signature',
             ]);
 
-        $response->assertOK();
-        $response->assertSeeElement('legend');
-        $response->assertSee('Personal');
+        $response->assertStatus(200);
+        $response->assertHeader('HX-Refresh');
 
         $this->seeInDatabase('users', [
             'id'        => $user->id,
