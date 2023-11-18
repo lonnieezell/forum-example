@@ -7,6 +7,7 @@
   },
   "source": "src/index.js",
   "main": "dist/main.js",
+  "type": "module",
   "devDependencies": {
     "@rollup/plugin-inject": "^5.0.5",
     "@tailwindcss/typography": "^0.5.9",
