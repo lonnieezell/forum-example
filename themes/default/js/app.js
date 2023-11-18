@@ -1,4 +1,4 @@
-import "htmx.org/dist/ext/preload.js";
+import "./htmx.js";
 import "htmx.org/dist/ext/loading-states";
 import Alpine from "alpinejs";
 import "./events.js";
