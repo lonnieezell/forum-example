@@ -1,4 +1,4 @@
-<div class="thread mt-6 px-6 py-4 border rounded bg-base-200 border-base-300">
+<div class="thread mt-6 px-6 py-4">
     <h3 class="text-xl leading-loose font-bold pb-2">
         <a href="<?= esc($thread->link(), 'attr') ?>">
             <?= esc($thread->title) ?>
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Thread Content -->
-    <div class="thread-content prose !max-w-full mt-6">
+    <div class="thread-content prose lg:prose-lg max-w-none container mt-6">
         <?= $thread->render() ?>
     </div>
 </div>

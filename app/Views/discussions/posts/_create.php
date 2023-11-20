@@ -12,9 +12,9 @@
                 Create a new <?= empty($post_id) ? 'post' : 'reply'; ?>
             </div>
             <div x-data="{ tab: 'message' }">
-                    <div class="tabs mb-1">
-                        <a class="tab tab-lifted" :class="{ 'tab-active': tab === 'message' }" @click.prevent="tab = 'message'">Message</a>
-                        <button class="tab tab-lifted"
+                    <div role="tablist" class="tabs tabs-bordered mb-2">
+                        <a role="tab" class="tab" :class="{ 'tab-active': tab === 'message' }" @click.prevent="tab = 'message'">Message</a>
+                        <button role="tab" class="tab"
                                 :class="{ 'tab-active': tab === 'preview' }"
                                 x-on:preview-show="tab = 'preview'"
                                 hx-confirm="unset"
