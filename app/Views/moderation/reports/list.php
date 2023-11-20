@@ -8,33 +8,68 @@
 
 <h1>Moderation queue - <?= plural(ucfirst($table['resourceType'])); ?></h1>
 
-<div id="report-list">
+<div id="report-list" x-data="{
+            selectAll: false,
+            showOptions: false,
+            items: [],
+            toggleAll() {
+                this.selectAll = !this.selectAll
+
+                let checkboxes = document.querySelectorAll('.selectable-item');
+                let selectedItems = [];
+
+                [...checkboxes].map((el) => {
+                    el.checked = this.selectAll;
+                    selectedItems.push(el.value);
+                })
+
+                this.items = this.selectAll ? selectedItems : [];
+                this.showOptions = this.items.length > 0;
+            },
+            toggle(id) {
+                if (this.items.includes(id)) {
+                    const index = this.items.indexOf(id);
+                    this.items.splice(index, 1);
+                } else {
+                    this.items.push(id);
+                }
+                this.showOptions = this.items.length > 0;
+            }
+        }">
 
     <div class="mt-4 my-6 flex justify-between">
+        <div class="flex">
+            <div x-show="showOptions">
+                <form hx-post="<?= route_to('moderate-action', $table['resourceType']); ?>"
+                      hx-include=".selectable-item"
+                      hx-confirm="Are you sure you want to launch this mass action?"
+                >
+                    <?= csrf_field(); ?>
+                    <div class="join">
+                        <?= form_dropdown('action', [
+                            'approve' => 'Approve selected',
+                            'deny' => 'Deny selected',
+                            'ignore' => 'Ignore selected',
+                        ], set_value('action'), ['class' => 'select join-item']); ?>
+                        <button type="submit" class="btn join-item">Go</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <?php if ($reports): ?>
-            <div class="mt-6" hx-boost="true">
+            <div hx-boost="true">
                 <?= $table['pager']->links(); ?>
             </div>
         <?php endif; ?>
     </div>
 
     <?php if ($reports): ?>
-        <table class="table table-xs table-zebra w-full mt-6 p-6" x-data="{
-            selectAll: false,
-            toggleAllCheckboxes() {
-                this.selectAll = !this.selectAll
-
-                checkboxes = document.querySelectorAll('.selectable-item');
-                [...checkboxes].map((el) => {
-                    el.checked = this.selectAll;
-                })
-            }
-        }">
+        <table class="table table-xs table-zebra w-full mt-6 p-6">
             <thead>
             <tr hx-boost="true">
                 <th>
                     <label>
-                        <input type="checkbox" class="checkbox" @click="toggleAllCheckboxes()" x-bind:checked="selectAll"  />
+                        <input type="checkbox" class="checkbox" @click="toggleAll()" x-bind:checked="selectAll" />
                     </label>
                 </th>
                 <th>Reporter</th>
@@ -48,7 +83,7 @@
                 <tr class="hover">
                     <th rowspan="2">
                         <label>
-                            <input type="checkbox" name="items" class="checkbox selectable-item" value="<?= $report->id; ?>" />
+                            <input type="checkbox" name="items[]" class="checkbox selectable-item" @click="toggle(<?= $report->id; ?>)" value="<?= $report->id; ?>" />
                         </label>
                     </th>
                     <td>
@@ -71,26 +106,29 @@
                     </td>
                     <td><?= $report->created_at->humanize(); ?></td>
                     <td class="flex">
-                        <?= form_open(route_to('moderate-action', $report->resource_type, 'approve'), [
-                            'hx-post' => route_to('moderate-action', $report->resource_type, 'approve'),
+                        <?= form_open(route_to('moderate-action', $report->resource_type), [
+                            'hx-post' => route_to('moderate-action', $report->resource_type),
                             'class' => 'mx-1'
                         ]); ?>
+                            <input type="hidden" name="action" value="approve">
                             <input type="hidden" name="items[]" value="<?= $report->id; ?>">
                             <button type="submit" class="btn btn-xs btn-success" title="Approve this post">Approve</button>
                         <?= form_close(); ?>
 
-                        <?= form_open(route_to('moderate-action', $report->resource_type, 'deny'), [
-                            'hx-post' => route_to('moderate-action', $report->resource_type, 'deny'),
+                        <?= form_open(route_to('moderate-action', $report->resource_type), [
+                            'hx-post' => route_to('moderate-action', $report->resource_type),
                             'class' => 'mx-1'
                         ]); ?>
+                            <input type="hidden" name="action" value="deny">
                             <input type="hidden" name="items[]" value="<?= $report->id; ?>">
                             <button type="submit" class="btn btn-xs btn-error" title="Deny this post">Deny</button>
                         <?= form_close(); ?>
 
-                        <?= form_open(route_to('moderate-action', $report->resource_type, 'ignore'), [
-                            'hx-post' => route_to('moderate-action', $report->resource_type, 'ignore'),
+                        <?= form_open(route_to('moderate-action', $report->resource_type), [
+                            'hx-post' => route_to('moderate-action', $report->resource_type),
                             'class' => 'mx-1'
                         ]); ?>
+                            <input type="hidden" name="action" value="ignore">
                             <input type="hidden" name="items[]" value="<?= $report->id; ?>">
                             <button type="submit" class="btn btn-xs" title="Ignore this post">Ignore</button>
                         <?= form_close(); ?>

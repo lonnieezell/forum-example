@@ -74,7 +74,7 @@ $routes->group('moderation', ['filter'], static function (RouteCollection $route
     $routes->get('reports/threads', 'Moderation\ReportsController::list/thread', ['as' => 'moderate-threads']);
     $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
     $routes->get('reports/logs', 'Moderation\ReportsController::logs', ['as' => 'moderate-logs']);
-    $routes->post('action/(:segment)/(:segment)', 'Moderation\ReportsController::action/$1/$2', ['as' => 'moderate-action']);
+    $routes->post('action/(:segment)', 'Moderation\ReportsController::action/$1', ['as' => 'moderate-action']);
 });
 
 // Shield Auth routes

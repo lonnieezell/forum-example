@@ -75,11 +75,11 @@ class ReportsController extends BaseController
      *
      * @throws ReflectionException
      */
-    public function action(string $resourceType, string $action)
+    public function action(string $resourceType)
     {
         $data = [
             'resourceType'  => $resourceType,
-            'action'        => $action,
+            'action'        => $this->request->getPost('action'),
             'items'         => $this->request->getPost('items'),
         ];
 
@@ -97,12 +97,11 @@ class ReportsController extends BaseController
         }
 
         $userId = user_id();
-        $items  = $this->request->getPost('items');
 
-        match($action) {
-            'approve' => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::APPROVED, $items, $userId),
-            'deny'   => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::DENIED, $items, $userId),
-            'ignore' => model(ModerationIgnoredModel::class)->ignore($items, $userId)
+        match($data['action']) {
+            'approve' => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::APPROVED, $data['items'], $userId),
+            'deny'   => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::DENIED, $data['items'], $userId),
+            'ignore' => model(ModerationIgnoredModel::class)->ignore($data['items'], $userId)
         };
 
         $this->response->setRetarget('body');
