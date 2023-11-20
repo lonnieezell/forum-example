@@ -1,5 +1,9 @@
 <?= $this->extend('master')  ?>
 
+<?= $this->section('sidebar')  ?>
+    <?= view('moderation/reports/_sidebar'); ?>
+<?= $this->endSection() ?>
+
 <?= $this->section('main')  ?>
 
 <h1>Moderation queue - <?= plural(ucfirst($table['resourceType'])); ?></h1>
@@ -108,6 +112,9 @@
                                 </a>
                             </div>
                         </div>
+                        <?php if (isset($report->resource->tags) && ! $report->resource->tags->isEmpty()): ?>
+                            <?= view('discussions/tags/_thread', ['tags' => $report->resource->tags]) ?>
+                        <?php endif; ?>
                         <?= $report->resource->render(); ?>
                     </td>
                 </tr>

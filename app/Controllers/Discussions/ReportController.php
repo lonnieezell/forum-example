@@ -22,7 +22,7 @@ class ReportController extends BaseController
 
         $type = plural($resourceType);
 
-        if (! $this->policy->can($type.'.report', auth()->user())) {
+        if (! $this->policy->can($type.'.report')) {
             return alerts()->set('error', 'You do not have permission to report ' . $type);
         }
 
@@ -46,21 +46,16 @@ class ReportController extends BaseController
             'comment'       => $this->request->getPost('comment'),
         ];
 
-        $rule   = $resourceType === 'thread' ? 'thread_report' : 'post_report';
         $userId = user_id();
+        $rule   = $resourceType === 'thread' ? "thread_report[{$userId}]" : "post_report[{$userId}]";
 
         $rules = [
             'resource_id'   => ['required', $rule, "unique_resource[{$resourceType},{$userId}]"],
             'resource_type' => ['required', 'in_list[thread,post]'],
             'comment'       => ['required', 'min_length[5]', 'max_length[255]'],
         ];
-        $messages = [
-            'resource_id' => [
-                'unique_resource' => 'This resource has already been reported by you',
-            ],
-        ];
 
-        if (! $this->validateData($data, $rules, $messages)) {
+        if (! $this->validateData($data, $rules)) {
             foreach ($this->validator->getErrors() as $error) {
                 alerts()->set('error', $error);
             }

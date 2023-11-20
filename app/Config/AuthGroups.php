@@ -134,8 +134,14 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'user' => [
             'threads.create',
+            'threads.report',
             'posts.create',
+            'posts.report',
             'images.upload',
+
+            // temp
+            'threads.moderate',
+            'posts.moderate',
         ],
         'beta' => [
             'beta.access',

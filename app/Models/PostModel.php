@@ -54,6 +54,28 @@ class PostModel extends Model
     }
 
     /**
+     * Scope method to return all post related data.
+     *
+     * Example:
+     *  $posts = model(PostModel::class)->posts()->findAll();
+     */
+    public function posts()
+    {
+        $selects = [
+            'posts.*',
+            'categories.title AS category_title',
+            'categories.slug AS category_slug',
+            'threads.title AS thread_title',
+            'threads.slug AS thread_slug',
+        ];
+
+        return $this
+            ->select(implode(', ', $selects))
+            ->join('categories', 'categories.id = posts.category_id', 'left')
+            ->join('threads', 'threads.id = posts.thread_id', 'left');
+    }
+
+    /**
      * Returns a paginated list of posts for the thread.
      */
     public function forThread(int $threadId, int $perPage = 10, ?int $page = null)
@@ -205,18 +227,8 @@ class PostModel extends Model
      */
     public function getPostsByUser(int $userId, int $perPage): array
     {
-        $selects = [
-            'posts.*',
-            'categories.title AS category_title',
-            'categories.slug AS category_slug',
-            'threads.title AS thread_title',
-            'threads.slug AS thread_slug',
-        ];
-
         return $this
-            ->select(implode(', ', $selects))
-            ->join('categories', 'categories.id = posts.category_id', 'left')
-            ->join('threads', 'threads.id = posts.thread_id', 'left')
+            ->posts()
             ->where('posts.author_id', $userId)
             ->orderBy('posts.created_at', 'desc')
             ->paginate($perPage);

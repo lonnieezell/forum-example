@@ -81,6 +81,14 @@
                             Help
                         </a>
                     </li>
+                    <?php if ($modThread = service('policy')->can('threads.moderate') || service('policy')->can('posts.moderate')): ?>
+                        <li>
+                            <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
+                                <?= url_is('moderation') ? 'class="active"' : '' ?>>
+                                Moderate
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div class="flex-none px-4">

@@ -46,6 +46,7 @@ $routes->get('display-error', 'ErrorController::general', ['as' => 'general-erro
 $routes->group('account', ['filter'], static function (RouteCollection $routes) {
     $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
     $routes->get('posts', 'Account\AccountController::posts', ['as' => 'account-posts']);
+    $routes->get('threads', 'Account\AccountController::threads', ['as' => 'account-threads']);
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
     $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
     $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
@@ -72,6 +73,7 @@ $routes->match(['get', 'post'], 'report/(:num)/post', 'Discussions\ReportControl
 $routes->group('moderation', ['filter'], static function (RouteCollection $routes) {
     $routes->get('reports/threads', 'Moderation\ReportsController::list/thread', ['as' => 'moderate-threads']);
     $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
+    $routes->get('reports/logs', 'Moderation\ReportsController::logs', ['as' => 'moderate-logs']);
     $routes->post('action/(:segment)/(:segment)', 'Moderation\ReportsController::action/$1/$2', ['as' => 'moderate-action']);
 });
 

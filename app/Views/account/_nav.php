@@ -7,7 +7,7 @@
         ],
         [
             'title' => 'Discussions',
-            'url'   => '',
+            'url'   => route_to('account-threads'),
             'icon'  => view('icons/chat-bubble'),
         ],
         [

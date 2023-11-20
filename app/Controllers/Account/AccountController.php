@@ -7,6 +7,7 @@ use App\Entities\NotificationSetting;
 use App\Entities\User;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
+use App\Models\ThreadModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use League\Flysystem\FilesystemException;
@@ -36,6 +37,24 @@ class AccountController extends BaseController
             'user'  => auth()->user(),
             'posts' => $posts,
             'pager' => $postModel->pager,
+        ]);
+    }
+
+    /**
+     * Display the threads authored by the user,
+     * in reverse chronological order.
+     */
+    public function threads()
+    {
+        helper('text');
+
+        $threadModel = model(ThreadModel::class);
+        $threads     = $threadModel->withTags()->getThreadsByUser(auth()->id(), 10);
+
+        return $this->render('account/threads', [
+            'user'    => auth()->user(),
+            'threads' => $threads,
+            'pager'   => $threadModel->pager,
         ]);
     }
 

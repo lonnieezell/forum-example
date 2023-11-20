@@ -8,11 +8,13 @@ use App\Entities\ModerationLog;
 use App\Entities\ModerationReport;
 use App\Enums\ModerationLogStatus;
 use CodeIgniter\Model;
+use Michalsn\CodeIgniterTags\Traits\HasTags;
 use ReflectionException;
 
 class ModerationReportModel extends Model
 {
     use HasAuthorsAndEditors;
+    use HasTags;
     use HasThreadsAndPosts;
 
     protected $table            = 'moderation_reports';

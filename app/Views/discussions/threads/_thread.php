@@ -27,14 +27,16 @@
                    hx-get="<?= route_to('thread-edit', $thread->id); ?>"
                    hx-target="#thread"
                    hx-swap="innerHTML show:top"
+                   hx-trigger="click throttle:1s"
                 >
                     Edit
                 </a>
                 <?php endif; ?>
-                <?php if ($thread->author_id !== user_id() || auth()->user()?->can('threads.report')): ?>
+                <?php if ($thread->author_id !== user_id() && auth()->user()?->can('threads.report')): ?>
                     <a class="btn btn-xs btn-outline" title="Report this thread"
                        hx-get="<?= route_to('thread-report', $thread->id); ?>"
                        hx-target="#modal-container"
+                       hx-trigger="click throttle:1s"
                     >
                         Report
                     </a>

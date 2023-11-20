@@ -28,6 +28,7 @@
                        hx-get="<?= route_to('post-create-reply', $post->thread_id, $post->reply_to ?? $post->id); ?>"
                        hx-target="#post-reply-<?= $post->reply_to ?? $post->id; ?>"
                        hx-swap="innerHTML show:top"
+                       hx-trigger="click throttle:1s"
                     >
                         Reply
                     </a>
@@ -37,14 +38,16 @@
                        hx-get="<?= route_to('post-edit', $post->id); ?>"
                        hx-target="closest .post"
                        hx-swap="outerHTML show:top"
+                       hx-trigger="click throttle:1s"
                     >
                         Edit
                     </a>
                 <?php endif; ?>
-                <?php if ($post->author_id !== user_id() || auth()->user()?->can('posts.report')): ?>
+                <?php if ($post->author_id !== user_id() && auth()->user()?->can('posts.report')): ?>
                     <a class="btn btn-xs" title="Report this post"
                        hx-get="<?= route_to('post-report', $post->id); ?>"
                        hx-target="#modal-container"
+                       hx-trigger="click throttle:1s"
                     >
                         Report
                     </a>

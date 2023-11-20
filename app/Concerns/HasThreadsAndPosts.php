@@ -4,7 +4,6 @@ namespace App\Concerns;
 
 use App\Models\PostModel;
 use App\Models\ThreadModel;
-use App\Models\UserModel;
 use CodeIgniter\Entity\Entity;
 
 trait HasThreadsAndPosts
@@ -35,23 +34,22 @@ trait HasThreadsAndPosts
         }
 
         if ($threadIds !== []) {
-            $threads = model(ThreadModel::class)->whereIn('id', array_unique($threadIds))->findAll();
+            $threads = model(ThreadModel::class)
+                ->threads()
+                ->withTags()
+                ->whereIn('threads.id', array_unique($threadIds))
+                ->findAll();
+
+            $threads = $this->withUsers($threads);
             $threads = array_column($threads, null, 'id');
         }
 
         if ($postIds !== []) {
-            $selects = [
-                'posts.*',
-                'categories.title AS category_title',
-                'categories.slug AS category_slug',
-                'threads.title AS thread_title',
-                'threads.slug AS thread_slug',
-            ];
             $posts = model(PostModel::class)
-                ->select(implode(', ', $selects))
-                ->join('categories', 'categories.id = posts.category_id', 'left')
-                ->join('threads', 'threads.id = posts.thread_id', 'left')
-                ->whereIn('posts.id', array_unique($postIds))->findAll();
+                ->posts()
+                ->whereIn('posts.id', array_unique($postIds))
+                ->findAll();
+
             $posts = $this->withUsers($posts);
             $posts = array_column($posts, null, 'id');
         }

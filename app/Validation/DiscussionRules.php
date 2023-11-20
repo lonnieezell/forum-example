@@ -149,7 +149,7 @@ class DiscussionRules
             ->getRow();
 
         if ($result !== null) {
-            $error = 'This resource already exists';
+            $error = 'This resource has already been reported by you';
 
             return false;
         }
