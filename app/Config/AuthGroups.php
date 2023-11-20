@@ -85,10 +85,12 @@ class AuthGroups extends ShieldAuthGroups
         'threads.edit'             => 'Can edit threads',
         'threads.delete'           => 'Can delete threads',
         'threads.create'           => 'Can create threads',
+        'threads.report'           => 'Can report threads',
         'threads.moderate'         => 'Can moderate threads',
         'posts.edit'               => 'Can edit posts',
         'posts.delete'             => 'Can delete posts',
         'posts.create'             => 'Can create posts',
+        'posts.report'             => 'Can report posts',
         'posts.moderate'           => 'Can moderate posts',
         'images.upload'            => 'Can upload images',
     ];

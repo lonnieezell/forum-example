@@ -31,6 +31,8 @@
         </div>
     </div>
 
+    <div id="modal-container"></div>
+
     <?= alerts()->container(); ?>
 
     <?= $this->renderSection('scripts') ?>

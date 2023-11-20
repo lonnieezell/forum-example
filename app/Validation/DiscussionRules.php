@@ -44,6 +44,46 @@ class DiscussionRules
         return true;
     }
 
+    public function thread_report(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $result = db_connect()
+            ->table('threads')
+            ->select('1')
+            ->where('id', $value)
+            ->where('author_id !=', $params)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This thread does not exist or cannot be reported';
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function post_report(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $result = db_connect()
+            ->table('posts')
+            ->select('1')
+            ->where('id', $value)
+            ->where('author_id !=', $params)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This post does not exist or cannot be reported';
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function valid_tags(string $value, string $params, array $data, ?string &$error = null): bool
     {
         $value = explode(',', $value);
@@ -87,6 +127,29 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This category does not exist';
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function unique_resource(string $value, string $params, array $data, ?string &$error = null)
+    {
+        [$type, $id] = explode(',', $params);
+
+        $result = db_connect()
+            ->table('moderation_reports')
+            ->select('1')
+            ->where('resource_id', $value)
+            ->where('resource_type', $type)
+            ->where('author_id', $id)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result !== null) {
+            $error = 'This resource already exists';
 
             return false;
         }

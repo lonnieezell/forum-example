@@ -31,6 +31,14 @@
                     Edit
                 </a>
                 <?php endif; ?>
+                <?php if ($thread->author_id !== user_id() || auth()->user()?->can('threads.report')): ?>
+                    <a class="btn btn-xs btn-outline" title="Report this thread"
+                       hx-get="<?= route_to('thread-report', $thread->id); ?>"
+                       hx-target="#modal-container"
+                    >
+                        Report
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
         <?php if (! $thread->tags->isEmpty()): ?>

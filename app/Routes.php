@@ -64,5 +64,16 @@ $routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDe
 $routes->match(['get', 'post'], 'help', 'HelpController::index', ['as' => 'pages']);
 $routes->match(['get', 'post'], 'help/(:any)', 'HelpController::show/$1', ['as' => 'page']);
 
+// Report
+$routes->match(['get', 'post'], 'report/(:num)/thread', 'Discussions\ReportController::index/$1/thread', ['as' => 'thread-report']);
+$routes->match(['get', 'post'], 'report/(:num)/post', 'Discussions\ReportController::index/$1/post', ['as' => 'post-report']);
+
+// Moderation area
+$routes->group('moderation', ['filter'], static function (RouteCollection $routes) {
+    $routes->get('reports/threads', 'Moderation\ReportsController::list/thread', ['as' => 'moderate-threads']);
+    $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
+    $routes->post('action/(:segment)/(:segment)', 'Moderation\ReportsController::action/$1/$2', ['as' => 'moderate-action']);
+});
+
 // Shield Auth routes
 service('auth')->routes($routes);
