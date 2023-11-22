@@ -17,6 +17,7 @@ class AddModerationTables extends Migration
             'author_id'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'created_at'    => ['type' => 'datetime', 'null' => false],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey(['resource_id', 'resource_type', 'author_id'], 'moderation_reports_resource_author');
         $this->forge->addForeignKey('author_id', 'users', 'id', '', 'cascade');
         $this->forge->createTable('moderation_reports', true);
@@ -30,6 +31,7 @@ class AddModerationTables extends Migration
             'status'        => ['type' => 'enum', 'constraint' => ['approved', 'denied'], 'null' => false],
             'created_at'    => ['type' => 'datetime', 'null' => false],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('author_id', 'users', 'id', '', 'cascade');
         $this->forge->createTable('moderation_logs', true);
 
@@ -37,11 +39,12 @@ class AddModerationTables extends Migration
         $this->forge->addField([
             'id'                   => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'moderation_report_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => false],
-            'author_id'            => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'user_id'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'created_at'           => ['type' => 'datetime', 'null' => false],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('moderation_report_id', 'moderation_reports', 'id', '', 'cascade');
-        $this->forge->addForeignKey('author_id', 'users', 'id', '', 'cascade');
+        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'cascade');
         $this->forge->createTable('moderation_ignored', true);
     }
 
