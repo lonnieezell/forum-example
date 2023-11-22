@@ -13,6 +13,8 @@ module.exports = {
     "progress-success",
     "progress-error",
     "progress-info",
+    "badge-success",
+    "badge-error",
   ],
   theme: {
     extend: {},

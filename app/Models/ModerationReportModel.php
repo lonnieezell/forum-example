@@ -65,17 +65,23 @@ class ModerationReportModel extends Model
      */
     public function action(string $resourceType, ModerationLogStatus $status, array $items, int $userId): bool|int
     {
+        // Delete all reports
         $this->delete($items);
 
         // Only with this status we have to touch the thread / post
-        if (ModerationLogStatus::DENIED === $status) {
-            $model = model(ucfirst($resourceType) . 'Model');
+        if ($status === ModerationLogStatus::DENIED) {
+            $modelClass = match($resourceType) {
+                'thread' => ThreadModel::class,
+                'post'   => PostModel::class,
+            };
+            $model = model($modelClass);
             // Delete one by one to trigger the model event
             foreach ($items as $item) {
                 $model->delete($item);
             }
         }
 
+        // Add to moderation log
         return model(ModerationLogModel::class)->add($resourceType, $status, $items, $userId);
     }
 }

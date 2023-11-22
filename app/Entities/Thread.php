@@ -43,4 +43,12 @@ class Thread extends Entity
     {
         return (int) $this->original['category_id'];
     }
+
+    /**
+     * Weather thread is deleted.
+     */
+    public function isDeleted(): bool
+    {
+        return $this->attributes['deleted_at'] !== null;
+    }
 }

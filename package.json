@@ -35,6 +35,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@easepick/core": "^1.2.1",
+    "@easepick/range-plugin": "^1.2.1",
     "highlight.js": "^11.9.0"
   }
 }

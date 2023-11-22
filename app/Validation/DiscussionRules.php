@@ -156,4 +156,25 @@ class DiscussionRules
 
         return true;
     }
+
+    public function date_range_when_field(?string $value, string $params, array $data, ?string &$error = null)
+    {
+        [$fieldSearch, $fieldValue] = explode(',', $params);
+
+        helper('array');
+
+        // Don't bother when fieldSearch has incorrect fieldValue
+        if (dot_array_search($fieldSearch, $data) !== $fieldValue) {
+            return true;
+        }
+
+        // Check the date range format
+        $pattern = '/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/';
+        if (! preg_match($pattern, $value)) {
+            $error = 'Incorrect date range format';
+            return false;
+        }
+
+        return true;
+    }
 }

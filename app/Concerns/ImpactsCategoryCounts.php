@@ -36,12 +36,12 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $thread = $this->allowCallbacks(false)->find($data['id']);
+        $thread = $this->allowCallbacks(false)->onlyDeleted()->find($data['id']);
 
         // Decrement Category thread count
-        model(CategoryModel::class)->decrementStats($thread->category_id, 'thread_count');
+        model(CategoryModel::class)->decrementStats($thread[0]->category_id, 'thread_count');
         // Decrement User thread count
-        model(UserModel::class)->decrementStats($thread->author_id, 'thread_count');
+        model(UserModel::class)->decrementStats($thread[0]->author_id, 'thread_count');
 
         return $data;
     }
@@ -76,14 +76,14 @@ trait ImpactsCategoryCounts
             return false;
         }
 
-        $post = $this->allowCallbacks(false)->find($data['id']);
+        $post = $this->allowCallbacks(false)->onlyDeleted()->find($data['id']);
 
         // Decrement Category post count
-        model(CategoryModel::class)->decrementStats($post->category_id, 'post_count');
+        model(CategoryModel::class)->decrementStats($post[0]->category_id, 'post_count');
         // Decrement Thread post count
-        model(ThreadModel::class)->decrementStats($post->thread_id, 'post_count');
+        model(ThreadModel::class)->decrementStats($post[0]->thread_id, 'post_count');
         // Decrement User post count
-        model(UserModel::class)->decrementStats($post->author_id, 'post_count');
+        model(UserModel::class)->decrementStats($post[0]->author_id, 'post_count');
 
         return $data;
     }

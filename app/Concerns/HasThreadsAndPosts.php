@@ -36,6 +36,7 @@ trait HasThreadsAndPosts
         if ($threadIds !== []) {
             $threads = model(ThreadModel::class)
                 ->threads()
+                ->withDeleted()
                 ->withTags()
                 ->whereIn('threads.id', array_unique($threadIds))
                 ->findAll();
@@ -47,6 +48,7 @@ trait HasThreadsAndPosts
         if ($postIds !== []) {
             $posts = model(PostModel::class)
                 ->posts()
+                ->withDeleted()
                 ->whereIn('posts.id', array_unique($postIds))
                 ->findAll();
 
