@@ -34,10 +34,10 @@ class ModerationLogModel extends Model
 
         foreach ($items as $key) {
             $logs[] = new ModerationLog([
-                'resource_id' => $key,
+                'resource_id'   => $key,
                 'resource_type' => $resourceType,
-                'status' => $status->value,
-                'author_id' => $userId,
+                'status'        => $status->value,
+                'author_id'     => $userId,
             ]);
         }
 
@@ -47,7 +47,7 @@ class ModerationLogModel extends Model
     public function list(array $search, int $page, int $perPage, string $sortColumn, string $sortDirection): ?array
     {
         if (isset($search['createdAtRange'])) {
-            $search['createdAtRange'] = explode(' - ', $search['createdAtRange']);
+            $search['createdAtRange'] = explode(' - ', (string) $search['createdAtRange']);
         }
 
         $results = $this
@@ -65,13 +65,13 @@ class ModerationLogModel extends Model
             )
             ->when(
                 isset($search['createdAt']) && $search['createdAt'] !== '',
-                static fn ($query) => match ($search['createdAt']) {
-                    'today' => $query->where('DATE(created_at)', Time::now()->format('Y-m-d')),
-                    'yesterday' => $query->where('DATE(created_at)', Time::now()->subDays(1)->format('Y-m-d')),
-                    'last7Days' => $query->where('DATE(created_at) >=', Time::now()->subDays(7)->format('Y-m-d')),
+                static fn ($query) => match ((string) $search['createdAt']) {
+                    'today'      => $query->where('DATE(created_at)', Time::now()->format('Y-m-d')),
+                    'yesterday'  => $query->where('DATE(created_at)', Time::now()->subDays(1)->format('Y-m-d')),
+                    'last7Days'  => $query->where('DATE(created_at) >=', Time::now()->subDays(7)->format('Y-m-d')),
                     'last30Days' => $query->where('DATE(created_at) >=', Time::now()->subDays(30)->format('Y-m-d')),
-                    'thisYear' => $query->where('YEAR(created_at)', Time::now()->format('Y')),
-                    'custom' => $query->when(
+                    'thisYear'   => $query->where('YEAR(created_at)', Time::now()->format('Y')),
+                    'custom'     => $query->when(
                         isset($search['createdAtRange']) && count($search['createdAtRange']) === 2,
                         static fn ($subQuery) => $subQuery->where('DATE(created_at) >=', $search['createdAtRange'][0])->where('DATE(created_at) <=', $search['createdAtRange'][1])
                     ),

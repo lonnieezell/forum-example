@@ -22,7 +22,7 @@ class ReportController extends BaseController
 
         $type = plural($resourceType);
 
-        if (! $this->policy->can($type.'.report')) {
+        if (! $this->policy->can($type . '.report')) {
             return alerts()->set('error', 'You do not have permission to report ' . $type);
         }
 
@@ -59,6 +59,7 @@ class ReportController extends BaseController
             foreach ($this->validator->getErrors() as $error) {
                 alerts()->set('error', $error);
             }
+
             return view('discussions/report/modal_content', ['type' => $resourceType]);
         }
 
@@ -66,6 +67,7 @@ class ReportController extends BaseController
         if (service('throttler')->check(md5('report-' . $userId), config(Forum::class)->maxReportsPerDey, DAY) === false) {
             alerts()->set('error', 'You have reached the maximum number of reports for today.');
             $this->response->triggerClientEvent('closeModal');
+
             return '';
         }
 

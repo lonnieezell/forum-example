@@ -33,11 +33,11 @@ class ReportsController extends BaseController
         ];
 
         $rules = [
-            'resourceType'    => ['in_list[thread,post]'],
-            'perPage'         => ['in_list[10]'],
-            'page'            => ['is_natural', 'greater_than_equal_to[1]'],
-            'sortColumn'      => ['in_list[created_at]'],
-            'sortDirection'   => ['in_list[asc,desc]'],
+            'resourceType'  => ['in_list[thread,post]'],
+            'perPage'       => ['in_list[10]'],
+            'page'          => ['is_natural', 'greater_than_equal_to[1]'],
+            'sortColumn'    => ['in_list[created_at]'],
+            'sortDirection' => ['in_list[asc,desc]'],
         ];
 
         if (! $this->validateData($table, $rules)) {
@@ -85,9 +85,9 @@ class ReportsController extends BaseController
     public function action(string $resourceType)
     {
         $data = [
-            'resourceType'  => $resourceType,
-            'action'        => $this->request->getPost('action'),
-            'items'         => $this->request->getPost('items'),
+            'resourceType' => $resourceType,
+            'action'       => $this->request->getPost('action'),
+            'items'        => $this->request->getPost('items'),
         ];
 
         $rules = [
@@ -100,15 +100,16 @@ class ReportsController extends BaseController
             foreach ($this->validator->getErrors() as $error) {
                 alerts()->set('error', $error);
             }
+
             return '';
         }
 
         $userId = user_id();
 
-        match($data['action']) {
+        match ($data['action']) {
             'approve' => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::APPROVED, $data['items'], $userId),
-            'deny'   => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::DENIED, $data['items'], $userId),
-            'ignore' => model(ModerationIgnoredModel::class)->ignore($data['items'], $userId)
+            'deny'    => model(ModerationReportModel::class)->action($resourceType, ModerationLogStatus::DENIED, $data['items'], $userId),
+            'ignore'  => model(ModerationIgnoredModel::class)->ignore($data['items'], $userId)
         };
 
         $this->response->setRetarget('body');
@@ -137,10 +138,10 @@ class ReportsController extends BaseController
             'perPage'               => ['in_list[20]'],
             'page'                  => ['is_natural', 'greater_than_equal_to[1]'],
             'search.resourceType'   => ['permit_empty', 'in_list[thread,post]'],
-            'search.status'         => ['permit_empty', 'in_list['.implode(',', $logStatuses).']'],
+            'search.status'         => ['permit_empty', 'in_list[' . implode(',', $logStatuses) . ']'],
             'search.authorId'       => ['permit_empty', 'is_natural', 'greater_than_equal_to[1]'],
-            'search.createdAt'      => ['permit_empty', 'in_list['.implode(',', array_keys($dates)).']'],
-            'search.createdAtRange' => ['permit_empty', 'date_range_when_field[search.createdAt,custom]'],
+            'search.createdAt'      => ['permit_empty', 'in_list[' . implode(',', array_keys($dates)) . ']'],
+            'search.createdAtRange' => ['permit_empty', 'string', 'date_range_when_field[search.createdAt,custom]'],
             'sortColumn'            => ['in_list[resource_type,status,created_at]'],
             'sortDirection'         => ['in_list[asc,desc]'],
         ];
@@ -172,9 +173,9 @@ class ReportsController extends BaseController
 
         $table['dropdowns'] = [
             'resourceType' => ['' => 'All types', 'thread' => 'Threads', 'post' => 'Posts'],
-            'status' => array_merge(['' => 'All statuses'], [...array_combine($logStatuses, array_map(fn($status) => ucfirst($status), $logStatuses))]),
-            'authorId' => array_replace_recursive(['' => 'All moderators'], $authorIds),
-            'createdAt' => array_merge(['' => 'All time'], $dates),
+            'status'       => array_merge(['' => 'All statuses'], [...array_combine($logStatuses, array_map(static fn ($status) => ucfirst($status), $logStatuses))]),
+            'authorId'     => array_replace_recursive(['' => 'All moderators'], $authorIds),
+            'createdAt'    => array_merge(['' => 'All time'], $dates),
         ];
 
         $table['pager']  = $logModel->pager;

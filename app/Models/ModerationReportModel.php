@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasThreadsAndPosts;
-use App\Entities\ModerationLog;
 use App\Entities\ModerationReport;
 use App\Enums\ModerationLogStatus;
 use CodeIgniter\Model;
@@ -53,9 +52,8 @@ class ModerationReportModel extends Model
             ->paginate($perPage, 'default', $page);
 
         $results = $this->withThreadsAndPosts($results);
-        $results = $this->withUsers($results);
 
-        return $results;
+        return $this->withUsers($results);
     }
 
     /**
@@ -70,11 +68,12 @@ class ModerationReportModel extends Model
 
         // Only with this status we have to touch the thread / post
         if ($status === ModerationLogStatus::DENIED) {
-            $modelClass = match($resourceType) {
+            $modelClass = match ($resourceType) {
                 'thread' => ThreadModel::class,
                 'post'   => PostModel::class,
             };
             $model = model($modelClass);
+
             // Delete one by one to trigger the model event
             foreach ($items as $item) {
                 $model->delete($item);

@@ -172,6 +172,7 @@ class DiscussionRules
         $pattern = '/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/';
         if (! preg_match($pattern, $value)) {
             $error = 'Incorrect date range format';
+
             return false;
         }
 
