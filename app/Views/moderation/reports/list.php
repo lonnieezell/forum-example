@@ -163,8 +163,30 @@
             </tbody>
         </table>
 
-        <div class="mt-6 text-center" hx-boost="true">
-            <?= $table['pager']->links(); ?>
+        <div class="mt-4 my-6 flex justify-between">
+            <div class="flex">
+                <div x-show="showOptions">
+                    <form hx-post="<?= route_to('moderate-action', $table['resourceType']); ?>"
+                          hx-include=".selectable-item"
+                          hx-confirm="Are you sure you want to launch this mass action?"
+                    >
+                        <?= csrf_field(); ?>
+                        <div class="join">
+                            <?= form_dropdown('action', [
+                                'approve' => 'Approve selected',
+                                'deny' => 'Deny selected',
+                                'ignore' => 'Ignore selected',
+                            ], set_value('action'), ['class' => 'select join-item']); ?>
+                            <button type="submit" class="btn join-item">Go</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <?php if ($reports): ?>
+                <div hx-boost="true">
+                    <?= $table['pager']->links(); ?>
+                </div>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <div class="mt-6 p-6 border rounded bg-base-200 border-base-300">
