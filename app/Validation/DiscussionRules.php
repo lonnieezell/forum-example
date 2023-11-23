@@ -146,6 +146,7 @@ class DiscussionRules
 
         $result = db_connect()
             ->table('moderation_reports')
+            ->select('created_at')
             ->where('resource_id', $value)
             ->where('resource_type', $type)
             ->where('author_id', $id)
