@@ -108,6 +108,7 @@
                     <td class="flex">
                         <?= form_open(route_to('moderate-action', $report->resource_type), [
                             'hx-post' => route_to('moderate-action', $report->resource_type),
+                            'hx-confirm' => 'Are you sure you want to approve this?',
                             'class' => 'mx-1'
                         ]); ?>
                             <input type="hidden" name="action" value="approve">
@@ -117,6 +118,7 @@
 
                         <?= form_open(route_to('moderate-action', $report->resource_type), [
                             'hx-post' => route_to('moderate-action', $report->resource_type),
+                            'hx-confirm' => 'Are you sure you want to deny this?',
                             'class' => 'mx-1'
                         ]); ?>
                             <input type="hidden" name="action" value="deny">
@@ -126,6 +128,7 @@
 
                         <?= form_open(route_to('moderate-action', $report->resource_type), [
                             'hx-post' => route_to('moderate-action', $report->resource_type),
+                            'hx-confirm' => 'Are you sure you want to ignore this?',
                             'class' => 'mx-1'
                         ]); ?>
                             <input type="hidden" name="action" value="ignore">
