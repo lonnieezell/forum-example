@@ -71,6 +71,7 @@ $routes->match(['get', 'post'], 'report/(:num)/post', 'Discussions\ReportControl
 
 // Moderation area
 $routes->group('moderation', ['filter'], static function (RouteCollection $routes) {
+    $routes->get('/', static fn () => redirect()->to('moderation/reports/threads'));
     $routes->get('reports/threads', 'Moderation\ReportsController::list/thread', ['as' => 'moderate-threads']);
     $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
     $routes->get('reports/logs', 'Moderation\ReportsController::logs', ['as' => 'moderate-logs']);
