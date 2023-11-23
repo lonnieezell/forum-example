@@ -2,6 +2,9 @@
 
 namespace App\Validation;
 
+use CodeIgniter\I18n\Time;
+use Exception;
+
 class DiscussionRules
 {
     public function thread_exists(string $value, ?string &$error = null): bool
@@ -134,13 +137,15 @@ class DiscussionRules
         return true;
     }
 
-    public function unique_resource(string $value, string $params, array $data, ?string &$error = null)
+    /**
+     * @throws Exception
+     */
+    public function unique_report(string $value, string $params, array $data, ?string &$error = null)
     {
         [$type, $id] = explode(',', $params);
 
         $result = db_connect()
             ->table('moderation_reports')
-            ->select('1')
             ->where('resource_id', $value)
             ->where('resource_type', $type)
             ->where('author_id', $id)
@@ -149,7 +154,8 @@ class DiscussionRules
             ->getRow();
 
         if ($result !== null) {
-            $error = 'This resource has already been reported by you';
+            $time  = Time::createFromFormat('Y-m-d H:i:s', $result->created_at)->humanize();
+            $error = "You already reported this {$type} {$time}";
 
             return false;
         }

@@ -50,7 +50,7 @@ class ReportController extends BaseController
         $rule   = $resourceType === 'thread' ? "thread_report[{$userId}]" : "post_report[{$userId}]";
 
         $rules = [
-            'resource_id'   => ['required', $rule, "unique_resource[{$resourceType},{$userId}]"],
+            'resource_id'   => ['required', $rule, "unique_report[{$resourceType},{$userId}]"],
             'resource_type' => ['required', 'in_list[thread,post]'],
             'comment'       => ['required', 'min_length[5]', 'max_length[255]'],
         ];
