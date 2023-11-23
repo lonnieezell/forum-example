@@ -18,7 +18,8 @@
             <directory name="app/Config" />
             <directory name="app/Views" />
             <file name="app/Cells/category_list_cell.php" />
-            <file name="app/Cells/mute_thread.php" />
+            <file name="app/Cells/mute_thread_cell.php" />
+            <file name="app/Cells/Moderation/sub_menu_cell.php" />
             <file name="app/Routes.php" />
         </ignoreFiles>
     </projectFiles>
