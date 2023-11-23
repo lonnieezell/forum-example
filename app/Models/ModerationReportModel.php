@@ -83,4 +83,35 @@ class ModerationReportModel extends Model
         // Add to moderation log
         return model(ModerationLogModel::class)->add($resourceType, $status, $items, $userId);
     }
+
+    /**
+     * Count reports.
+     */
+    public function countByType(?int $userId = null, ?array $resourceType = null): array
+    {
+        $ignored = [];
+
+        if ($userId !== null) {
+            $ignored = model(ModerationIgnoredModel::class)->getIgnored($userId);
+        }
+
+        $selects = [
+            'COUNT(*) AS count',
+            'resource_type',
+        ];
+
+        $results = $this
+            ->select(implode(', ', $selects))
+            ->when($resourceType !== null, static function ($query) use ($resourceType) {
+                $query->whereIn('resource_type', $resourceType);
+            })
+            ->when($ignored !== [], static function ($query) use ($ignored) {
+                $query->whereNotIn('id', $ignored);
+            })
+            ->groupBy('resource_type')
+            ->asArray()
+            ->findAll();
+
+        return array_column($results, 'count', 'resource_type');
+    }
 }
