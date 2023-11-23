@@ -193,8 +193,6 @@
             <p>Sorry, there are no reports to display.</p>
         </div>
     <?php endif; ?>
-
-
 </div>
 
 <?= $this->endSection() ?>

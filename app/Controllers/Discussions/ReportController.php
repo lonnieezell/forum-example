@@ -23,7 +23,8 @@ class ReportController extends BaseController
         $type = plural($resourceType);
 
         if (! $this->policy->can($type . '.report')) {
-            return alerts()->set('error', 'You do not have permission to report ' . $type);
+            alerts()->set('error', 'You do not have permission to report ' . $type);
+            return '';
         }
 
         if ($this->request->is('post')) {

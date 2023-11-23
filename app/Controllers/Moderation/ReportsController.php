@@ -24,6 +24,14 @@ class ReportsController extends BaseController
      */
     public function list(string $resourceType = 'thread')
     {
+        helper(['form', 'inflector', 'text']);
+
+        $resourceName = plural($resourceType);
+
+        if (! $this->policy->can("moderation.{$resourceName}")) {
+            return $this->policy->deny("You are not allowed to moderate {$resourceName}.");
+        }
+
         $table = [
             'resourceType'  => $resourceType,
             'perPage'       => $this->request->getGet('perPage') ?? 10,
@@ -43,8 +51,6 @@ class ReportsController extends BaseController
         if (! $this->validateData($table, $rules)) {
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
-
-        helper(['form', 'inflector', 'text']);
 
         $reportModel = model(ModerationReportModel::class);
 
@@ -84,6 +90,14 @@ class ReportsController extends BaseController
      */
     public function action(string $resourceType)
     {
+        helper('inflector');
+
+        $resourceName = plural($resourceType);
+
+        if (! $this->policy->can("moderation.{$resourceName}")) {
+            return $this->policy->deny("You are not allowed to moderate {$resourceName}.");
+        }
+
         $data = [
             'resourceType' => $resourceType,
             'action'       => $this->request->getPost('action'),
@@ -112,7 +126,12 @@ class ReportsController extends BaseController
             'ignore'  => model(ModerationIgnoredModel::class)->ignore($data['items'], $userId)
         };
 
-        $this->response->setRetarget('body');
+        alerts()->set('success', 'Your action has been successful');
+
+        $this->response
+            ->setRetarget('#main-with-sidebar')
+            ->setReselect('#main-with-sidebar')
+            ->setReswap('outerHTML');
 
         return $this->list($resourceType);
     }
@@ -122,6 +141,10 @@ class ReportsController extends BaseController
      */
     public function logs()
     {
+        if (! $this->policy->can('moderation.logs')) {
+            return $this->policy->deny('You are not allowed to see moderation logs.');
+        }
+
         $table = [
             'perPage'       => $this->request->getGet('perPage') ?? 20,
             'page'          => $this->request->getGet('page') ?? 1,

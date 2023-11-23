@@ -3,6 +3,7 @@
 namespace Tests\Support\Database\Seeds;
 
 use App\Models\Factories\CategoryFactory;
+use App\Models\Factories\ModerationReportFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
@@ -161,6 +162,13 @@ class TestDataSeeder extends Seeder
             'thread_id'   => $thread2->id,
             'reply_to'    => $post6->id,
             'author_id'   => $user1->id,
+        ]);
+
+        // Report thread1
+        fake(ModerationReportFactory::class, [
+            'resource_id'   => $thread1->id,
+            'resource_type' => 'thread',
+            'author_id'     => $user3->id,
         ]);
     }
 }

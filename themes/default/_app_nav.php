@@ -34,7 +34,7 @@
                             Help
                         </a>
                     </li>
-                    <?php if ($modThread = service('policy')->can('threads.moderate') || service('policy')->can('posts.moderate')): ?>
+                    <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
                         <li>
                             <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
                                 <?= url_is('moderation') ? 'class="active"' : '' ?>>
@@ -101,7 +101,7 @@
                             Help
                         </a>
                     </li>
-                    <?php if ($modThread = service('policy')->can('threads.moderate') || service('policy')->can('posts.moderate')): ?>
+                    <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
                         <li>
                             <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
                                 <?= url_is('moderation') ? 'class="active"' : '' ?>>
