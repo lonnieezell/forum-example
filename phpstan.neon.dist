@@ -19,8 +19,10 @@ parameters:
 	    - '#Call to deprecated method getStatusCode\(\) of class CodeIgniter\\HTTP\\Response:#'
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
-	    - '#Function auth not found.#'
-	    - '#Function user_id not found.#'
+	    -
+	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
+	    	paths:
+	    	    - app/Controllers/Account/SecurityController.php
 	    -
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transException\(\).#'
 	    	paths:
