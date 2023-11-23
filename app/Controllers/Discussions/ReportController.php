@@ -24,6 +24,7 @@ class ReportController extends BaseController
 
         if (! $this->policy->can($type . '.report')) {
             alerts()->set('error', 'You do not have permission to report ' . $type);
+
             return '';
         }
 

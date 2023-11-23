@@ -4,7 +4,6 @@ namespace Tests\Controllers;
 
 use App\Entities\User;
 use App\Models\Factories\UserFactory;
-use CodeIgniter\HTTP\Exceptions\RedirectException;
 use Config\Forum;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
@@ -49,7 +48,7 @@ final class ReportControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->post(route_to('thread-report', 1), [
             'comment' => 'testing',
         ]);
@@ -76,7 +75,7 @@ final class ReportControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('thread-report', 1), [
             'comment' => 'testing',
         ]);
@@ -91,7 +90,7 @@ final class ReportControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('thread-report', 1), [
         ]);
 
@@ -108,7 +107,7 @@ final class ReportControllerTest extends TestCase
 
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('thread-report', 1), [
             'comment' => 'testing',
         ]);

@@ -8,7 +8,7 @@ use CodeIgniter\View\Cells\Cell;
 class SubMenuCell extends Cell
 {
     protected string $view = 'sub_menu_cell';
-    public array $count = [];
+    public array $count    = [];
 
     public function mount(int $userId)
     {

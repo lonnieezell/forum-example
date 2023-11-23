@@ -10,7 +10,7 @@ use CodeIgniter\View\Cells\Cell;
 
 class MuteThreadCell extends Cell
 {
-    protected string $view = 'mute_thread_cell';
+    protected string $view                        = 'mute_thread_cell';
     public ?NotificationSetting $setting          = null;
     public ?NotificationMuted $notificationStatus = null;
     public ?int $threadId                         = null;

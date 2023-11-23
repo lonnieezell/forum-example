@@ -4,9 +4,6 @@ namespace Controllers\Moderation;
 
 use App\Entities\User;
 use App\Models\Factories\UserFactory;
-use CodeIgniter\HTTP\Exceptions\RedirectException;
-use CodeIgniter\Test\DOMParser;
-use Config\Forum;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -52,7 +49,7 @@ final class ReportsControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->post(route_to('moderate-action', 'thread'));
 
         $response->assertRedirect();
@@ -93,7 +90,7 @@ final class ReportsControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('moderate-action', 'thread'), [
             'action' => 'invalid',
             'items'  => [],
@@ -110,7 +107,7 @@ final class ReportsControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('moderate-action', 'thread'), [
             'action' => 'approve',
             'items'  => [1],
@@ -130,7 +127,7 @@ final class ReportsControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('moderate-action', 'thread'), [
             'action' => 'deny',
             'items'  => [1],
@@ -154,7 +151,7 @@ final class ReportsControllerTest extends TestCase
     {
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
-            'HX-Request' => 'true',
+            'HX-Request'  => 'true',
         ])->actingAs($this->user)->post(route_to('moderate-action', 'thread'), [
             'action' => 'ignore',
             'items'  => [1],
@@ -182,5 +179,4 @@ final class ReportsControllerTest extends TestCase
 
         $response->assertSee('Moderation logs');
     }
-
 }
