@@ -9,7 +9,7 @@ use CodeIgniter\Entity\Entity;
 trait HasThreadsAndPosts
 {
     /**
-     * Adds the author and editor to each post.
+     * Adds the threads and posts to each record.
      */
     public function withThreadsAndPosts(array|Entity|null $records): array|Entity|null
     {
