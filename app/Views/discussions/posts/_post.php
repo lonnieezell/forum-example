@@ -1,4 +1,4 @@
-<div class="post p-6 rounded bg-base-100 shadow-xl" id="post-<?= $post->id ?>">
+<div class="post p-6 rounded bg-base-100" id="post-<?= $post->id ?>">
     <!-- Post Meta -->
     <div class="post-meta">
         <div class="flex gap-4">
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Post Content -->
-    <div class="post-content prose !max-w-full mt-6">
+    <div class="post-content prose lg:prose-lg max-w-none mt-6">
         <?php if ($post->isMarkedAsDeleted()): ?>
             <i>Message not available.</i>
         <?php else: ?>

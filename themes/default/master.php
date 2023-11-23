@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" data-theme="ci_light">
 
 <head>
     <meta charset="utf-8">

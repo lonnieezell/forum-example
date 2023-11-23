@@ -51,6 +51,18 @@ label.error {
     -webkit-mask-position: center;
 }
 
+// Prose tweaks
+.prose, .prose-lg, .prose-xl {
+    ul li,
+    ol li {
+        margin: 0.25em 0;
+        p {
+            margin: 0;
+            line-height: 1.75;
+        }
+    }
+}
+
 #toolbarContainer {
     .tab {
         cursor: revert;
