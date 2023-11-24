@@ -46,6 +46,7 @@ $routes->get('display-error', 'ErrorController::general', ['as' => 'general-erro
 $routes->group('account', ['filter'], static function (RouteCollection $routes) {
     $routes->get('/', 'Account\AccountController::index', ['as' => 'account']);
     $routes->get('posts', 'Account\AccountController::posts', ['as' => 'account-posts']);
+    $routes->get('threads', 'Account\AccountController::threads', ['as' => 'account-threads']);
     $routes->match(['get', 'post'], 'notifications', 'Account\AccountController::notifications', ['as' => 'account-notifications']);
     $routes->get('security', 'Account\SecurityController::index', ['as' => 'account-security']);
     $routes->post('security/logout-all', 'Account\SecurityController::logoutAll', ['as' => 'account-security-logout-all']);
@@ -63,6 +64,19 @@ $routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDe
 // Help section
 $routes->match(['get', 'post'], 'help', 'HelpController::index', ['as' => 'pages']);
 $routes->match(['get', 'post'], 'help/(:any)', 'HelpController::show/$1', ['as' => 'page']);
+
+// Report
+$routes->match(['get', 'post'], 'report/(:num)/thread', 'Discussions\ReportController::index/$1/thread', ['as' => 'thread-report']);
+$routes->match(['get', 'post'], 'report/(:num)/post', 'Discussions\ReportController::index/$1/post', ['as' => 'post-report']);
+
+// Moderation area
+$routes->group('moderation', ['filter'], static function (RouteCollection $routes) {
+    $routes->get('/', static fn () => redirect()->to('moderation/reports/threads'));
+    $routes->get('reports/threads', 'Moderation\ReportsController::list/thread', ['as' => 'moderate-threads']);
+    $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
+    $routes->get('reports/logs', 'Moderation\ReportsController::logs', ['as' => 'moderate-logs']);
+    $routes->post('action/(:segment)', 'Moderation\ReportsController::action/$1', ['as' => 'moderate-action']);
+});
 
 // Shield Auth routes
 service('auth')->routes($routes);

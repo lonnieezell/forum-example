@@ -8,6 +8,7 @@ $helperDirs = [
     'app/Helpers',
     'vendor/codeigniter4/framework/system/Helpers',
     'vendor/codeigniter4/settings/src/Helpers',
+    'vendor/codeigniter4/shield/src/Helpers',
 ];
 
 foreach ($helperDirs as $dir) {

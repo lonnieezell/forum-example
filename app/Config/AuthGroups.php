@@ -85,12 +85,15 @@ class AuthGroups extends ShieldAuthGroups
         'threads.edit'             => 'Can edit threads',
         'threads.delete'           => 'Can delete threads',
         'threads.create'           => 'Can create threads',
-        'threads.moderate'         => 'Can moderate threads',
+        'threads.report'           => 'Can report threads',
         'posts.edit'               => 'Can edit posts',
         'posts.delete'             => 'Can delete posts',
         'posts.create'             => 'Can create posts',
-        'posts.moderate'           => 'Can moderate posts',
+        'posts.report'             => 'Can report posts',
         'images.upload'            => 'Can upload images',
+        'moderation.threads'       => 'Can moderate threads',
+        'moderation.posts'         => 'Can moderate posts',
+        'moderation.logs'          => 'Can view moderation logs',
     ];
 
     /**
@@ -109,6 +112,7 @@ class AuthGroups extends ShieldAuthGroups
             'categories.*',
             'posts.*',
             'images.*',
+            'moderation.*',
         ],
         'admin' => [
             'admin.access',
@@ -119,8 +123,10 @@ class AuthGroups extends ShieldAuthGroups
             'users.deleteAvatar',
             'beta.access',
             'categories.*',
+            'threads.*',
             'posts.*',
             'images.*',
+            'moderation.*',
         ],
         'developer' => [
             'admin.access',
@@ -132,8 +138,15 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'user' => [
             'threads.create',
+            'threads.report',
             'posts.create',
+            'posts.report',
             'images.upload',
+
+            // temp
+            'moderation.threads',
+            'moderation.posts',
+            'moderation.logs',
         ],
         'beta' => [
             'beta.access',

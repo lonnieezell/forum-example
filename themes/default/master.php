@@ -21,7 +21,7 @@
 
     <?= $this->renderSection('header') ?>
 
-    <div class="flex flex-col sm:flex-row container mx-auto gap-4">
+    <div class="flex flex-col sm:flex-row container mx-auto gap-4" id="main-with-sidebar">
         <div class="flex-1 px-4 py-8 order-2 sm:<?= (auth()->user()?->handed ?? 'right') === 'right'  ? 'order-1' : 'order-2' ?>" id="main">
             <?= $this->renderSection('main') ?>
         </div>
@@ -30,6 +30,8 @@
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>
+
+    <div id="modal-container"></div>
 
     <?= alerts()->container(); ?>
 

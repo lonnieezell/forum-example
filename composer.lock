@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc860bea08e8506fe884b23e008c0ba6",
+    "content-hash": "7c1721c4a882858119fb76cdb0c5aedd",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1452,16 +1452,16 @@
         },
         {
             "name": "michalsn/codeigniter-htmx",
-            "version": "v1.2.2",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michalsn/codeigniter-htmx.git",
-                "reference": "1d320175ebd89df324813b99974dada44f72e428"
+                "reference": "ec8c6d881828703a0e53c3bc6b90e6c930eeb99e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michalsn/codeigniter-htmx/zipball/1d320175ebd89df324813b99974dada44f72e428",
-                "reference": "1d320175ebd89df324813b99974dada44f72e428",
+                "url": "https://api.github.com/repos/michalsn/codeigniter-htmx/zipball/ec8c6d881828703a0e53c3bc6b90e6c930eeb99e",
+                "reference": "ec8c6d881828703a0e53c3bc6b90e6c930eeb99e",
                 "shasum": ""
             },
             "require": {
@@ -1469,8 +1469,7 @@
             },
             "require-dev": {
                 "codeigniter4/devkit": "^1.0",
-                "codeigniter4/framework": "^4.1",
-                "rector/rector": "0.18.0"
+                "codeigniter4/framework": "^4.1"
             },
             "type": "library",
             "autoload": {
@@ -1501,9 +1500,9 @@
             ],
             "support": {
                 "issues": "https://github.com/michalsn/codeigniter-htmx/issues",
-                "source": "https://github.com/michalsn/codeigniter-htmx/tree/v1.2.2"
+                "source": "https://github.com/michalsn/codeigniter-htmx/tree/v1.4.0"
             },
-            "time": "2023-08-26T06:16:31+00:00"
+            "time": "2023-11-23T16:42:15+00:00"
         },
         {
             "name": "michalsn/codeigniter-markdown-pages",

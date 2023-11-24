@@ -2,6 +2,9 @@
 
 namespace App\Validation;
 
+use CodeIgniter\I18n\Time;
+use Exception;
+
 class DiscussionRules
 {
     public function thread_exists(string $value, ?string &$error = null): bool
@@ -37,6 +40,46 @@ class DiscussionRules
 
         if ($result === null) {
             $error = "The thread or post you're trying to reply does not exist";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function thread_report(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $result = db_connect()
+            ->table('threads')
+            ->select('1')
+            ->where('id', $value)
+            ->where('author_id !=', $params)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This thread does not exist or cannot be reported';
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function post_report(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $result = db_connect()
+            ->table('posts')
+            ->select('1')
+            ->where('id', $value)
+            ->where('author_id !=', $params)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This post does not exist or cannot be reported';
 
             return false;
         }
@@ -87,6 +130,55 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This category does not exist';
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function unique_report(string $value, string $params, array $data, ?string &$error = null)
+    {
+        [$type, $id] = explode(',', $params);
+
+        $result = db_connect()
+            ->table('moderation_reports')
+            ->select('created_at')
+            ->where('resource_id', $value)
+            ->where('resource_type', $type)
+            ->where('author_id', $id)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result !== null) {
+            $time  = Time::createFromFormat('Y-m-d H:i:s', $result->created_at)->humanize();
+            $error = "You already reported this {$type} {$time}";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function date_range_when_field(?string $value, string $params, array $data, ?string &$error = null)
+    {
+        [$fieldSearch, $fieldValue] = explode(',', $params);
+
+        helper('array');
+
+        // Don't bother when fieldSearch has incorrect fieldValue
+        if (dot_array_search($fieldSearch, $data) !== $fieldValue) {
+            return true;
+        }
+
+        // Check the date range format
+        $pattern = '/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/';
+        if (! preg_match($pattern, $value)) {
+            $error = 'Incorrect date range format';
 
             return false;
         }

@@ -23,4 +23,10 @@ class Forum extends BaseConfig
      * after which 2FA will be forced.
      */
     public int $force2faAfter = 12;
+
+    /**
+     * The maximum number of reports
+     * user may add per day.
+     */
+    public int $maxReportsPerDey = 20;
 }

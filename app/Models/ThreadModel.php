@@ -68,6 +68,27 @@ class ThreadModel extends Model
     }
 
     /**
+     * Scope method to return all thread related data.
+     *
+     * Example:
+     *  $threads = model(ThreadModel::class)->threads()->findAll();
+     */
+    public function threads()
+    {
+        $selects = [
+            'threads.*',
+            'categories.title AS category_title',
+            'categories.slug AS category_slug',
+            'threads.title AS thread_title',
+            'threads.slug AS thread_slug',
+        ];
+
+        return $this
+            ->select(implode(', ', $selects))
+            ->join('categories', 'categories.id = threads.category_id', 'left');
+    }
+
+    /**
      * Returns a paginated list of threads for the category.
      */
     public function forList(array $search, int $perPage): ?array
@@ -125,6 +146,18 @@ class ThreadModel extends Model
     public function findBySlug(string $slug)
     {
         return $this->where('slug', $slug)->first();
+    }
+
+    /**
+     * Get threads by user.
+     */
+    public function getThreadsByUser(int $userId, int $perPage): array
+    {
+        return $this
+            ->threads()
+            ->where('threads.author_id', $userId)
+            ->orderBy('threads.created_at', 'desc')
+            ->paginate($perPage);
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Libraries\Policies\PolicyInterface;
 class PostPolicy implements PolicyInterface
 {
     /**
-     * Determines if the current user can edit a thread.
+     * Determines if the current user can edit a post.
      */
     public function edit(User $user, Post $post): bool
     {

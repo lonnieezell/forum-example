@@ -15,7 +15,7 @@
     "league/flysystem": "^3.18",
     "league/flysystem-aws-s3-v3": "^3.16",
     "league/flysystem-memory": "^3.19",
-    "michalsn/codeigniter-htmx": "^1.2.2",
+    "michalsn/codeigniter-htmx": "^1.4",
     "michalsn/codeigniter-markdown-pages": "dev-develop",
     "michalsn/codeigniter-queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",

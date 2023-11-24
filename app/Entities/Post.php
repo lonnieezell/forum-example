@@ -59,4 +59,12 @@ class Post extends Entity
     {
         return $this->attributes['marked_as_deleted'] !== null;
     }
+
+    /**
+     * Weather post is deleted or marked as one.
+     */
+    public function isDeleted(): bool
+    {
+        return $this->attributes['deleted_at'] !== null || $this->isMarkedAsDeleted();
+    }
 }

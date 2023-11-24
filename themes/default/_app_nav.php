@@ -22,6 +22,26 @@
                             Discussions
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= site_url('members') ?>"
+                            <?= url_is('members') ? 'class="active"' : '' ?>>
+                            Members
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= url_to('pages') ?>"
+                            <?= url_is('help') ? 'class="active"' : '' ?>>
+                            Help
+                        </a>
+                    </li>
+                    <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
+                        <li>
+                            <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
+                                <?= url_is('moderation') ? 'class="active"' : '' ?>>
+                                Moderate
+                            </a>
+                        </li>
+                    <?php endif; ?>
                     <?php if (! auth()->loggedIn()): ?>
                         <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
                         <li><a href="<?= route_to('login') ?>" hx-boost="false">Sign In</a></li>
@@ -81,6 +101,14 @@
                             Help
                         </a>
                     </li>
+                    <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
+                        <li>
+                            <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
+                                <?= url_is('moderation') ? 'class="active"' : '' ?>>
+                                Moderate
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div class="flex-none px-4">

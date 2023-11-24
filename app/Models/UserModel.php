@@ -31,6 +31,22 @@ class UserModel extends ShieldUser
         $this->afterRestore[] = 'afterUserRestore';
     }
 
+    /**
+     * Prepare keys => values for dropdown.
+     */
+    public function dropdown(string $key, string $value, array $ids): array
+    {
+        $results = $this
+            ->select("{$key}, {$value}")
+            ->when(
+                $ids !== [],
+                static fn ($query) => $query->whereIn($key, $ids)
+            )
+            ->findAll();
+
+        return array_column($results, $value, $key);
+    }
+
     public function searchMembers(array $search, int $page, int $perPage, string $sortColumn, string $sortDirection): ?array
     {
         $selects = [
