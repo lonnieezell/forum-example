@@ -43,8 +43,6 @@ class DailyModerationSummary extends BaseCommand
 
     /**
      * Actually execute a command.
-     *
-     * @param array $params
      */
     public function run(array $params)
     {
@@ -52,6 +50,7 @@ class DailyModerationSummary extends BaseCommand
 
         if ($users === []) {
             CLI::write('No users to notify');
+
             return EXIT_SUCCESS;
         }
 
@@ -76,6 +75,7 @@ class DailyModerationSummary extends BaseCommand
         }
 
         CLI::write(sprintf('%s emails has been sent', count($users)), 'green');
+
         return EXIT_SUCCESS;
     }
 
