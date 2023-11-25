@@ -37,7 +37,7 @@ class Toolbar extends BaseConfig
         Timers::class,
         Database::class,
         Logs::class,
-        Views::class,
+        // Views::class,
         // \CodeIgniter\Debug\Toolbar\Collectors\Cache::class,
         Files::class,
         Routes::class,
