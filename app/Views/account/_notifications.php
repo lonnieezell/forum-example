@@ -46,6 +46,23 @@
         </div>
     </div>
 
+    <?php if (service('policy')->can('moderation.logs')): ?>
+        <h6 class="border-solid border-b-2 mt-6">Moderation</h6>
+        <div class="form-control">
+            <label class="label cursor-pointer flex">
+                <input type="hidden" name="moderation_daily_summary" value="0">
+                <input type="checkbox" name="moderation_daily_summary" value="1" <?= set_checkbox('moderation_daily_summary', '1', $notification->moderation_daily_summary) ?>
+                       class="toggle toggle-primary">
+                <span class="label-text ml-2 flex-auto">Send a daily summary with a moderation stats</span>
+            </label>
+            <?php if ($validator->hasError('moderation_daily_summary')): ?>
+                <label class="label">
+                    <span class="label-text-alt text-red-600"><?= $validator->getError('moderation_daily_summary'); ?></span>
+                </label>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
     <div class="flex justify-center mt-6">
         <div class="btn-group btn-group-horizontal w-full">
             <button type="submit" class="btn btn-primary w-full" data-loading-disable>
