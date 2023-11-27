@@ -520,8 +520,8 @@ class Auth extends ShieldAuth
     {
         return match (true) {
             str_starts_with($url, 'http://') || str_starts_with($url, 'https://') => $url,
-            route_to($url) !== false => rtrim(url_to($url), '/ '),
-            default => rtrim(site_url($url), '/ '),
+            route_to($url) !== false                                              => rtrim(url_to($url), '/ '),
+            default                                                               => rtrim(site_url($url), '/ '),
         };
     }
 }

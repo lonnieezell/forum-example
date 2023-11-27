@@ -20,7 +20,7 @@ abstract class TestCase extends CIUnitTestCase
     {
         // Load helpers that should be autoloaded
         helper(['auth', 'setting']);
-        
+
         $this->resetServices();
         Services::routes()->loadRoutes();
 
