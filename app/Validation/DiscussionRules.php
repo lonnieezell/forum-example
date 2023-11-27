@@ -54,6 +54,7 @@ class DiscussionRules
             ->select('1')
             ->where('id', $value)
             ->where('author_id !=', $params)
+            ->where('deleted_at', null)
             ->limit(1)
             ->get()
             ->getRow();
@@ -74,6 +75,8 @@ class DiscussionRules
             ->select('1')
             ->where('id', $value)
             ->where('author_id !=', $params)
+            ->where('deleted_at', null)
+            ->where('marked_as_deleted', null)
             ->limit(1)
             ->get()
             ->getRow();
