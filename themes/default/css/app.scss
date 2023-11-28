@@ -18,11 +18,12 @@ body {
     @apply border-t border-base-200;
 }
 .navbar .menu li a {
-    @apply hover:bg-white/20 hover:text-primary-content;
+    @apply text-orange-50 hover:bg-white/20 hover:text-primary-content;
+}
 
-    &.active {
-        @apply bg-white/20 text-primary-content;
-    }
+// Override active nav colors
+.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active  {
+    @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
 }
 
 form select.select {
