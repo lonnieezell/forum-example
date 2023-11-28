@@ -13,7 +13,7 @@ class TestDataSeeder extends Seeder
 {
     public function run(): void
     {
-        helper('test');
+        helper(['test', 'setting']);
 
         $category1 = fake(CategoryFactory::class, [
             'parent_id' => null, 'title' => 'Category 1',
