@@ -21,20 +21,20 @@ module.exports = {
   },
   daisyui: {
     themes: [
-      "dark",
-      "light",
       {
-        my_dark: {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          primary: "#DD4815",
+          "primary-content": "#fff",
+          "base-content": "#000000de",
+          "base-100": "rgb(249, 250, 251)",
+        },
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
           primary: "#6a290d",
           "primary-content": "#fff",
           "base-content": "rgb(155, 156, 163)",
           "base-100": "rgb(30, 33, 41)",
-        },
-        my_light: {
-          primary: "#ff6e42",
-          "primary-content": "#fff",
-          "base-content": "#000000de",
-          "base-100": "rgb(249, 250, 251)",
         },
       },
     ],

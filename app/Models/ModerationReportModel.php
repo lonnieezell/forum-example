@@ -72,12 +72,7 @@ class ModerationReportModel extends Model
                 'thread' => ThreadModel::class,
                 'post'   => PostModel::class,
             };
-            $model = model($modelClass);
-
-            // Delete one by one to trigger the model event
-            foreach ($items as $item) {
-                $model->delete($item);
-            }
+            model($modelClass)->delete($items);
         }
 
         // Add to moderation log

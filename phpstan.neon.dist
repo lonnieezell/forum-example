@@ -20,10 +20,6 @@ parameters:
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
 	    -
-	    	message: '#Call to an undefined method CodeIgniter\\Shield\\Auth::forget\(\).#'
-	    	paths:
-	    	    - app/Controllers/Account/SecurityController.php
-	    -
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transException\(\).#'
 	    	paths:
 	    	    - app/Controllers/Account/SecurityController.php
@@ -39,6 +35,7 @@ parameters:
 	scanDirectories:
 		- vendor/codeigniter4/framework/system/Helpers
 		- vendor/codeigniter4/settings/src/Helpers
+		- vendor/codeigniter4/shield/src/Helpers
 	dynamicConstantNames:
 		- APP_NAMESPACE
 		- CI_DEBUG

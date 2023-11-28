@@ -43,7 +43,7 @@
                         Edit
                     </a>
                 <?php endif; ?>
-                <?php if ($post->author_id !== user_id() && auth()->user()?->can('posts.report')): ?>
+                <?php if ($post->marked_as_deleted === null && $post->author_id !== user_id() && auth()->user()?->can('posts.report')): ?>
                     <a class="btn btn-xs" title="Report this post"
                        hx-get="<?= route_to('post-report', $post->id); ?>"
                        hx-target="#modal-container"

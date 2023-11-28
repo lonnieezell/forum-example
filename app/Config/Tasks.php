@@ -43,6 +43,9 @@ class Tasks extends BaseConfig
         // cleanup unused images
         $schedule->command('cleanup:images 3')->hourly()->named('cleanup-images');
 
+        // daily moderation summary
+        $schedule->command('moderation:summary')->daily('11:50 pm')->named('daily-moderation-summary');
+
         // always set at the last position, so that other tasks can be executed first
         $schedule->command('queue:work emails -max 20 --stop-when-empty')->everyMinute()->named('queue-emails');
     }

@@ -13,7 +13,7 @@ class NotificationSettingModel extends Model
     protected $returnType       = NotificationSetting::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'email_thread', 'email_post', 'email_post_reply'];
+    protected $allowedFields    = ['user_id', 'email_thread', 'email_post', 'email_post_reply', 'moderation_daily_summary'];
 
     // Dates
     protected $useTimestamps = true;

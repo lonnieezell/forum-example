@@ -66,11 +66,17 @@ class AccountController extends BaseController
     {
         helper('form');
 
-        if ($this->request->is('post') && $this->validate([
+        $rules = [
             'email_thread'     => ['required', 'in_list[0,1]'],
             'email_post'       => ['required', 'in_list[0,1]'],
             'email_post_reply' => ['required', 'in_list[0,1]'],
-        ])) {
+        ];
+
+        if ($this->policy->can('moderation.logs')) {
+            $rules['moderation_daily_summary'] = ['required', 'in_list[0,1]'];
+        }
+
+        if ($this->request->is('post') && $this->validate($rules)) {
             $settings          = new NotificationSetting($this->validator->getValidated());
             $settings->user_id = user_id();
 

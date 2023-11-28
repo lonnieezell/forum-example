@@ -1,5 +1,6 @@
 <!doctype html>
-<html class="no-js" lang="" data-theme="ci_light">
+<html class="no-js" lang="en" data-theme="<?= get_cookie('theme') ?>">
+
 
 <head>
     <meta charset="utf-8">
