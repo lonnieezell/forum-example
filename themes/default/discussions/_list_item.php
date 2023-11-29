@@ -1,10 +1,10 @@
-<div class="flex justify-between p-4 mt-2 border rounded bg-base-200 border-base-300 hover:bg-base-100">
+<div class="discussion-list-item flex justify-between px-4 py-6 border border-transparent hover:border-base-300 hover:cursor-pointer"
+    hx-get="<?= esc($thread->link(), 'attr') ?>"
+    hx-target="#main"
+    hx-push-url="true"
+    hx-select="#thread-wrap">
     <div class="flex-1 pr-8">
-        <h3 class="text-lg leading-tight font-semibold cursor-pointer mb-2"
-            hx-get="<?= esc($thread->link(), 'attr') ?>"
-            hx-target="#main"
-            hx-push-url="true"
-            hx-select="#thread-wrap">
+        <h3 class="text-lg leading-tight font-semibold cursor-pointer mb-2">
             <?= esc($thread->title) ?>
         </h3>
 
@@ -12,7 +12,7 @@
             <?= $this->view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
         <?php endif; ?>
 
-        <div class="mt-2 text-neutral-400 text-sm">
+        <div class="discussion-meta mt-2 text-neutral-400 text-sm">
             <?php if (! empty($thread->last_post_author)) : ?>
                 <i class="fa-solid fa-reply"></i>
                 <strong>
@@ -43,23 +43,23 @@
         </div>
     </div>
 
-    <div class="flex flex-row gap-4">
+    <div class="flex flex-row gap-6 mr-4">
         <!-- Thread Count -->
-        <div class="flex flex-col p-4 aspect-square rounded bg-base-100 border-2 border-base-200 justify-center content-center text-center">
-            <div class="w-full font-bold">
+        <div class="flex flex-col aspect-square justify-center content-center text-center">
+            <div class="w-full">
                 <?= number_format($thread->views) ?>
             </div>
-            <div class="w-full">
+            <div class="w-full text-neutral-400 text-sm">
                 Views
             </div>
         </div>
 
         <!-- Post Count -->
-        <div class="flex flex-col p-4 aspect-square rounded bg-base-100 border-2 border-base-200 justify-center content-center text-center">
-            <div class="w-full font-bold">
+        <div class="flex flex-col aspect-square justify-center content-center text-center">
+            <div class="w-full">
                 <?= number_format($thread->post_count) ?>
             </div>
-            <div class="w-full">
+            <div class="w-full text-neutral-400 text-sm">
                 Replies
             </div>
         </div>

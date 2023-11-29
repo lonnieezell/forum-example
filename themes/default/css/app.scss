@@ -55,6 +55,17 @@ label.error {
     height: revert !important;
 }
 
+.discussion-list-item {
+    &:hover {
+        h3 {
+            @apply text-primary;
+        }
+        .discussion-stat {
+            @apply text-primary;
+        }
+    }
+}
+
 // ensure vendor prefix for Chrome and masks
 // These seem to have been dropped recently.
 .mask-squircle {
