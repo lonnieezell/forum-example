@@ -4,7 +4,7 @@
     <h1>Discussions - Category: <?= esc($activeCategory->title); ?></h1>
 
     <div id="discussion-list">
-        <?= view('discussions/_list_items', ['threads' => $threads, 'table' => $table, 'searchUrl' => $searchUrl]); ?>
+        <?= $this->view('discussions/_list_items', ['threads' => $threads, 'table' => $table, 'searchUrl' => $searchUrl]); ?>
     </div>
 
 <?= $this->endSection() ?>

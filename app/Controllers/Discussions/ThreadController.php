@@ -80,7 +80,7 @@ class ThreadController extends BaseController
             'validator'        => $this->validator ?? service('validation'),
         ];
 
-        return $this->render('discussions/threads/create', $data);
+        return $this->render('discussions/create', $data);
     }
 
     /**
