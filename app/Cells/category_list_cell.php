@@ -1,6 +1,7 @@
-<div class="category-list">
-    <h2>Categories</h2>
+<div class="collapse collapse-arrow category-list" x-data="{listOpen: false}" x-init="listOpen=window.innerWidth > 450">
+    <div class="collapse-title text-lg font-medium py-2" x-on:click="listOpen = !listOpen">Categories</div>
 
+    <div class="collapse-content" x-show="listOpen">
     <?php if (empty($categories)): ?>
         <p>There are no categories to display.</p>
     <?php else: ?>
@@ -29,4 +30,5 @@
             <?php endforeach ?>
         </ul>
     <?php endif ?>
+    </div>
 </div>

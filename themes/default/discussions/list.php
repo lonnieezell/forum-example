@@ -1,7 +1,14 @@
 <?= $this->extend('master')  ?>
 
+<?= $this->section('header') ?>
+    <div class="header-row">
+        <div>
+            <h2>Discussions</h2>
+        </div>
+    </div>
+<?= $this->endSection() ?>
+
 <?= $this->section('main')  ?>
-    <h1>Discussions</h1>
 
     <div id="discussion-list">
         <?= $this->view('discussions/_list_items', ['threads' => $threads, 'table' => $table, 'searchUrl' => $searchUrl]); ?>
@@ -12,7 +19,7 @@
 <?= $this->section('sidebar')  ?>
 
     <?php if (auth()->user()?->can('threads.create')): ?>
-        <div class="pt-4" hx-boost="true">
+        <div class="w-full" hx-boost="true">
             <a class="btn btn-primary mt-4 w-full" href="<?= url_to('thread-create'); ?>">
                 Start a Discussion
             </a>

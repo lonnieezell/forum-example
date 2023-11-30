@@ -1,21 +1,22 @@
-<div class="mt-4 my-6 flex justify-between">
-    <?= form_open($searchUrl, [
-        'method' => 'get', 'id' => 'discussion-search',
-        'hx-boost' => 'true', 'hx-select' => '#discussion-list',
-        'hx-target' => '#discussion-list', 'hx-swap' => 'outerHTML show:window:top'
-    ]); ?>
-    <?= form_dropdown('search[type]', $table['dropdowns']['type'], set_value('search[type]', $table['search']['type'] ?? ''), [
-        'class' => 'select w-auto', 'id' => 'search-type', 'hx-on:change' => 'htmx.trigger("#discussion-search", "submit")'
-    ]); ?>
-    <?= form_close(); ?>
-
-    <?php if ($threads): ?>
-        <div hx-boost="true" hx-select="#discussion-list"
-             hx-target="#discussion-list" hx-swap="outerHTML show:window:top"
-        >
-            <?= $table['pager']->links(); ?>
-        </div>
-    <?php endif; ?>
+<div class="flex flex-col sm:flex-row mb-3 px-2 sm:px-4 gap-4 sm:justify-stretch">
+    <div class="flex-1 w-auto mx-auto">
+        <?= form_open($searchUrl, [
+            'method' => 'get', 'id' => 'discussion-search',
+            'hx-boost' => 'true', 'hx-select' => '#discussion-list',
+            'hx-target' => '#discussion-list', 'hx-swap' => 'outerHTML show:window:top'
+        ]); ?>
+            <?= form_dropdown(
+                'search[type]',
+                $table['dropdowns']['type'],
+                set_value('search[type]', $table['search']['type'] ?? ''),
+                [
+                    'id' => 'search-type',
+                    'class' => 'select w-auto border-neutral-200',
+                    'hx-on:change' => 'htmx.trigger("#discussion-search", "submit")'
+                ]);
+            ?>
+        <?= form_close(); ?>
+    </div>
 </div>
 
 <?php if ($threads): ?>
@@ -25,8 +26,10 @@
     <?php endforeach ?>
 
     <div class="mt-6 text-center"
-         hx-boost="true" hx-select="#discussion-list"
-         hx-target="#discussion-list" hx-swap="outerHTML show:window:top"
+         hx-boost="true"
+         hx-select="#discussion-list"
+         hx-target="#discussion-list"
+         hx-swap="outerHTML show:window:top"
     >
         <?= $table['pager']->links(); ?>
     </div>
