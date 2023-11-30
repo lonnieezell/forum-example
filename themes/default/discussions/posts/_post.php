@@ -22,22 +22,21 @@
                 <?php endif; ?>
                 <?= \CodeIgniter\I18n\Time::parse($post->created_at)->humanize() ?>
             </div>
-            <div class="flex-auto text-right">
+            <div class="flex gap-x-1 text-right">
                 <?php if (service('policy')->can('threads.manageAnswer', $thread)): ?>
                     <?php if ($thread->answer_post_id === null): ?>
                         <?= form_open(route_to('thread-set-answer', $thread->id), [
                             'hx-post' => route_to('thread-set-answer', $thread->id),
-                            'class' => '',
                         ]); ?>
                             <?= form_hidden('post_id', $post->id); ?>
                             <button type="submit" class="btn btn-xs btn-success text-white">
                                 Accept as answer
                             </button>
                         <?= form_close(); ?>
-                    <?php elseif ($post->marked_as_answer !== null): ?>
+                    <?php elseif ($post->isAnswer($thread)): ?>
                         <?= form_open(route_to('thread-unset-answer', $thread->id), [
                             'hx-post' => route_to('thread-unset-answer', $thread->id),
-                            'class' => '',
+                            'class' => 'mt-[-1px]',
                         ]); ?>
                         <?= form_hidden('post_id', $post->id); ?>
                         <button type="submit" class="btn btn-xs btn-error text-white">
