@@ -19,6 +19,8 @@ class ThreadController extends BaseController
     /**
      * Show thread.
      *
+     * @todo Secure the access
+     *
      * @throws PageNotFoundException
      */
     public function show(int $threadId)

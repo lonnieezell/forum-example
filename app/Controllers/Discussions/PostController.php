@@ -20,6 +20,8 @@ class PostController extends BaseController
     /**
      * Show post.
      *
+     * @todo Secure the access
+     *
      * @throws PageNotFoundException
      */
     public function show(int $postId)
@@ -163,6 +165,8 @@ class PostController extends BaseController
 
     /**
      * Display all replies for given post.
+     *
+     * @todo Secure the access
      */
     public function allReplies(int $postId): string
     {
