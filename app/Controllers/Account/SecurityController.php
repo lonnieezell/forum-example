@@ -22,7 +22,7 @@ class SecurityController extends BaseController
         /** @var User $user */
         $user = auth()->user();
 
-        return $this->render('account/security/security', [
+        return $this->render('account/security', [
             'user'         => $user,
             'logins'       => $user->logins(5),
             'agent'        => $this->request->getUserAgent(),
@@ -143,7 +143,7 @@ class SecurityController extends BaseController
         $validCreds = auth()->check($credentials);
 
         if (! $validCreds->isOK()) {
-            return view('account/security/_two_factor_auth_email', [
+            return $this->render('account/security/_two_factor_auth_email', [
                 'open'  => true,
                 'error' => 'The password you entered is incorrect.',
                 'user'  => auth()->user(),
@@ -196,7 +196,7 @@ class SecurityController extends BaseController
         $validCreds = auth()->check($credentials);
 
         if (! $validCreds->isOK()) {
-            return view('account/security/_delete', [
+            return $this->render('account/security/_delete', [
                 'open'  => true,
                 'error' => 'The password you entered is incorrect.',
             ]);
@@ -218,7 +218,7 @@ class SecurityController extends BaseController
             // Log the error
             log_message('error', $e->getMessage());
 
-            return view('account/security/_delete', [
+            return $this->render('account/security/_delete', [
                 'open'  => true,
                 'error' => 'There was an error deleting your account. Please try again.',
             ]);

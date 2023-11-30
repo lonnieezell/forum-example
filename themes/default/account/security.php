@@ -1,22 +1,22 @@
 <?= $this->extend('master')  ?>
 
 <?= $this->section('header') ?>
-    <?= view('account/_header', ['user' => $user]) ?>
+    <?= $this->view('account/_header', ['user' => $user]) ?>
 <?= $this->endSection() ?>
 
 
 <?= $this->section('main')  ?>
-    <?= view('account/_post-head', [
+    <?= $this->view('account/_post-head', [
         'title' => 'Security',
         'subTitle' => 'Manage your account security settings.'
     ]) ?>
 
-    <?= view('account/security/_logins', ['logins' => $logins, 'agent' => $agent]) ?>
+    <?= $this->view('account/security/_logins', ['logins' => $logins, 'agent' => $agent]) ?>
 
     <!-- Warning Zone -->
     <div class="border border-warning rounded-lg p-4 mt-12">
         <?php if (policy('users.changePassword', $user)): ?>
-            <?= view('account/security/_change_password', ['validator' => $validator]) ?>
+            <?= $this->view('account/security/_change_password', ['validator' => $validator]) ?>
         <?php endif; ?>
 
         <!-- Logout of all devices -->
@@ -39,19 +39,19 @@
         </div>
 
         <?php if (policy('users.twoFactorAuthEmail', $user)): ?>
-            <?= view('account/security/_two_factor_auth_email', ['user' => $user, 'validator' => $validator]) ?>
+            <?= $this->view('account/security/_two_factor_auth_email', ['user' => $user, 'validator' => $validator]) ?>
         <?php endif; ?>
     </div>
 
     <?php if (policy('users.delete', $user)): ?>
         <!-- Danger Zone -->
         <div class="border border-error rounded-lg p-4 mt-12">
-            <?= view('account/security/_delete') ?>
+            <?= $this->view('account/security/_delete') ?>
         </div>
     <?php endif; ?>
 <?= $this->endSection() ?>
 
 
 <?= $this->section('sidebar')  ?>
-    <?= view('account/_sidebar') ?>
+    <?= $this->view('account/_sidebar') ?>
 <?= $this->endSection() ?>

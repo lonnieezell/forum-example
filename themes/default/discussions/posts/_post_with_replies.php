@@ -1,13 +1,13 @@
 <div class="post-container my-6">
 
-    <?= view('discussions/posts/_post', ['post' => $post]) ?>
+    <?= $this->view('discussions/posts/_post', ['post' => $post]) ?>
 
     <!-- Replies -->
     <?php if (isset($post->replies)) : ?>
         <div class="post-replies ml-10">
             <?php if (isset($loadedReplies[$post->id])): ?>
                 <?php foreach ($loadedReplies[$post->id] as $reply) : ?>
-                    <?= view('discussions/posts/_post_with_replies', ['post' => $reply]) ?>
+                    <?= $this->view('discussions/posts/_post_with_replies', ['post' => $reply]) ?>
                 <?php endforeach ?>
             <?php else: ?>
                 <?php if ($post->replies_count > 2): ?>
@@ -22,7 +22,7 @@
                     </div>
                 <?php endif; ?>
                 <?php foreach ($post->replies as $reply) : ?>
-                    <?= view('discussions/posts/_post_with_replies', ['post' => $reply]) ?>
+                    <?= $this->view('discussions/posts/_post_with_replies', ['post' => $reply]) ?>
                 <?php endforeach ?>
             <?php endif; ?>
         </div>

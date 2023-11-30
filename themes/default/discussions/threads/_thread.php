@@ -44,7 +44,7 @@
             </div>
         </div>
         <?php if (! $thread->tags->isEmpty()): ?>
-            <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
+            <?= $this->view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
         <?php endif; ?>
     </div>
 

@@ -21,7 +21,7 @@
 <?php if ($threads): ?>
 
     <?php foreach($threads as $thread) : ?>
-        <?= view('discussions/_list_item', ['thread' => $thread]) ?>
+        <?= $this->view('discussions/_list_item', ['thread' => $thread]) ?>
     <?php endforeach ?>
 
     <div class="mt-6 text-center"

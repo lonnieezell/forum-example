@@ -9,7 +9,7 @@
         </h3>
 
         <?php if (! $thread->tags->isEmpty()): ?>
-            <?= view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
+            <?= $this->view('discussions/tags/_thread', ['tags' => $thread->tags]) ?>
         <?php endif; ?>
 
         <div class="mt-2 text-neutral-400 text-sm">

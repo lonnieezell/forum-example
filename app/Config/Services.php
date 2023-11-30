@@ -5,8 +5,10 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Storage;
+use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
+use Config\View as ViewConfig;
 
 /**
  * Services Configuration file.
@@ -57,5 +59,21 @@ class Services extends BaseService
         }
 
         return new Storage(new Filesystems());
+    }
+
+    /**
+     * Use our custom App\Libraries\View class instead of the default
+     * to provide additional functionality.
+     */
+    public static function renderer(?string $viewPath = null, ?ViewConfig $config = null, bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('renderer', $viewPath, $config);
+        }
+
+        $viewPath = $viewPath ?: (new Paths())->viewDirectory;
+        $config ??= config(ViewConfig::class);
+
+        return new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
     }
 }

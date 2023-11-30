@@ -3,7 +3,7 @@
 <?= $this->section('main')  ?>
     <div id="thread-wrap">
         <div id="thread">
-            <?= view('discussions/threads/_thread', ['thread' => $thread]) ?>
+            <?= $this->view('discussions/threads/_thread', ['thread' => $thread]) ?>
         </div>
 
         <!-- Replies -->
@@ -27,7 +27,7 @@
                 </div>
 
                 <div id="replies-content">
-                    <?= view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => $loadedReplies]) ?>
+                    <?= $this->view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => $loadedReplies]) ?>
                 </div>
 
                 <div id="replies-footer" class="flex justify-between">

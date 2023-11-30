@@ -31,7 +31,7 @@ class PostController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+        return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
     }
 
     /**
@@ -72,7 +72,7 @@ class PostController extends BaseController
 
                 alerts()->set('success', 'Your post has been added successfully');
 
-                return view('discussions/posts/_post_with_replies', ['post' => $post]);
+                return $this->render('discussions/posts/_post_with_replies', ['post' => $post]);
             }
 
             alerts()->set('error', 'Something went wrong');
@@ -86,7 +86,7 @@ class PostController extends BaseController
             'validator' => $this->validator ?? service('validation'),
         ];
 
-        return view('discussions/posts/_create', $data);
+        return $this->render('discussions/posts/_create', $data);
     }
 
     /**
@@ -114,7 +114,7 @@ class PostController extends BaseController
             if ($postModel->update($postId, $post)) {
                 alerts()->set('success', 'Your post has been updated successfully');
 
-                return view('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+                return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
             }
 
             alerts()->set('error', 'Something went wrong');
@@ -127,7 +127,7 @@ class PostController extends BaseController
             'validator' => $this->validator ?? service('validation'),
         ];
 
-        return view('discussions/posts/_edit', $data);
+        return $this->render('discussions/posts/_edit', $data);
     }
 
     /**
@@ -150,7 +150,7 @@ class PostController extends BaseController
 
         $this->response->triggerClientEvent('preview-show');
 
-        return view('discussions/posts/_post_preview', ['post' => $post]);
+        return $this->render('discussions/posts/_post_preview', ['post' => $post]);
     }
 
     /**
@@ -160,6 +160,6 @@ class PostController extends BaseController
     {
         $posts = model(PostModel::class)->getAllReplies($postId);
 
-        return view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => []]);
+        return $this->render('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => []]);
     }
 }

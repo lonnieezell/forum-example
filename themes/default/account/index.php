@@ -1,7 +1,7 @@
 <?= $this->extend('master')  ?>
 
 <?= $this->section('header') ?>
-    <?= view('account/_header', ['user' => $user]) ?>
+    <?= $this->view('account/_header', ['user' => $user]) ?>
 <?= $this->endSection() ?>
 
 
@@ -12,5 +12,5 @@
 
 
 <?= $this->section('sidebar')  ?>
-    <?= view('account/_sidebar') ?>
+    <?= $this->view('account/_sidebar') ?>
 <?= $this->endSection() ?>
