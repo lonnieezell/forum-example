@@ -24,6 +24,9 @@ $routes->get('discussions/(:num)/show', 'Discussions\ThreadController::show/$1',
 $routes->get('discussions/(:segment)/(:segment)?post_id=(:num)', 'Discussions\DiscussionController::thread/$2', ['as' => 'post']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
 
+$routes->post('thread/(:num)/set-answer', 'Discussions\ThreadController::manageAnswer/$1/set', ['as' => 'thread-set-answer']);
+$routes->post('thread/(:num)/unset-answer', 'Discussions\ThreadController::manageAnswer/$1/unset', ['as' => 'thread-unset-answer']);
+
 // Posts
 $routes->match(['get', 'post'], 'posts/(:num)', 'Discussions\PostController::create/$1', ['as' => 'post-create']);
 $routes->match(['get', 'post'], 'posts/(:num)/(:num)', 'Discussions\PostController::create/$1/$2', ['as' => 'post-create-reply']);

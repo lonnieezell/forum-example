@@ -1,6 +1,6 @@
 <div class="post-container my-6">
 
-    <?= $this->view('discussions/posts/_post', ['post' => $post]) ?>
+    <?= $this->view('discussions/posts/_post', ['post' => $post, 'thread' => $thread]) ?>
 
     <!-- Replies -->
     <?php if (isset($post->replies)) : ?>

@@ -190,8 +190,15 @@ class DiscussionController extends BaseController
         $posts  = $postModel->forThread($thread->id, 10, $page ?? null);
         $pager  = $postModel->pager->only(['page']);
 
+        if ($thread->answer_post_id !== null) {
+            $answer = $postModel->find($thread->answer_post_id);
+            $answer = $postModel->withUsers($answer);
+        }
+
+        helper('form');
+
         return $this->render('discussions/thread', [
-            'slug'  => $slug, 'thread' => $thread, 'posts' => $posts,
+            'slug'  => $slug, 'thread' => $thread, 'posts' => $posts, 'answer' => $answer ?? null,
             'pager' => $pager, 'loadedReplies' => $loadedReplies ?? [],
         ]);
     }

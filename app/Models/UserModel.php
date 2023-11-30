@@ -243,10 +243,16 @@ class UserModel extends ShieldUser
                 ->onConstraint('id')
                 ->updateBatch();
 
-            // @todo
-            // update answer_post_id, but this should probably involve
-            // changes in the posts table to make it possible to mark the answer
-            // at the post level, so we can restore the correct value if needed
+            // Get thread_id for soft-delete posts marked as an answer and created by this user
+            $subQuery = $this->db->table('posts')
+                ->select('thread_id')
+                ->where('author_id', $user->id)
+                ->where('deleted_at', $user->deleted_at)
+                ->where('marked_as_answer !=', null);
+            // Update threads
+            $this->builder('threads')
+                ->whereIn('id', $subQuery)
+                ->update(['answer_post_id' => null]);
         }
 
         return $data;
@@ -332,6 +338,37 @@ class UserModel extends ShieldUser
             ->onConstraint('id')
             ->updateBatch();
 
+        // Restore marked_as_answer
+        // Get affected threads
+        $subQuery = $this->db->table('posts')
+            ->select('thread_id')
+            ->where('author_id', $data['id'])
+            ->where('deleted_at', $data['deletedAt'])
+            ->where('marked_as_answer !=', null);
+        // Prepare answers posts to restore (take the latest accepted answer only)
+        $subQuery = $this->db->table('posts')
+            ->select('thread_id AS id, id AS answer_post_id, ROW_NUMBER() OVER (PARTITION BY thread_id ORDER BY marked_as_answer DESC) AS answer_rank')
+            ->whereIn('thread_id', $subQuery)
+            ->groupStart()
+            ->groupStart()
+            ->where('author_id', $data['id'])
+            ->where('deleted_at', $data['deletedAt'])
+            ->groupEnd()
+            ->orGroupStart()
+            ->where('deleted_at', null)
+            ->where('marked_as_deleted', null)
+            ->groupEnd()
+            ->groupEnd();
+        $query = $this->db->newQuery()
+            ->select('t.id, t.answer_post_id')
+            ->fromSubquery($subQuery, 't')
+            ->where('t.answer_rank', 1);
+        // Update threads
+        $this->builder('threads')
+            ->setQueryAsData($query)
+            ->onConstraint('id')
+            ->updateBatch();
+
         // Restore all posts created by this user
         $this->builder('posts')
             ->where('author_id', $data['id'])
@@ -360,11 +397,6 @@ class UserModel extends ShieldUser
             ->where('id', $data['id'])
             ->set('thread_count', $countThreads)
             ->update();
-
-        // @todo
-        // update answer_post_id, but this should probably involve
-        // changes in the posts table to make it possible to mark the answer
-        // at the post level, so we can restore the correct value if needed
 
         return $data;
     }

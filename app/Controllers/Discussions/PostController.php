@@ -20,6 +20,8 @@ class PostController extends BaseController
     /**
      * Show post.
      *
+     * @todo Secure the access
+     *
      * @throws PageNotFoundException
      */
     public function show(int $postId)
@@ -31,7 +33,11 @@ class PostController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+        helper('form');
+
+        $thread = model(ThreadModel::class)->find($post->thread_id);
+
+        return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post), 'thread' => $thread]);
     }
 
     /**
@@ -72,7 +78,9 @@ class PostController extends BaseController
 
                 alerts()->set('success', 'Your post has been added successfully');
 
-                return $this->render('discussions/posts/_post_with_replies', ['post' => $post]);
+                $thread = model(ThreadModel::class)->find($post->thread_id);
+
+                return $this->render('discussions/posts/_post_with_replies', ['post' => $post, 'thread' => $thread]);
             }
 
             alerts()->set('error', 'Something went wrong');
@@ -114,7 +122,9 @@ class PostController extends BaseController
             if ($postModel->update($postId, $post)) {
                 alerts()->set('success', 'Your post has been updated successfully');
 
-                return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post)]);
+                $thread = model(ThreadModel::class)->find($post->thread_id);
+
+                return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post), 'thread' => $thread]);
             }
 
             alerts()->set('error', 'Something went wrong');
@@ -155,6 +165,8 @@ class PostController extends BaseController
 
     /**
      * Display all replies for given post.
+     *
+     * @todo Secure the access
      */
     public function allReplies(int $postId): string
     {

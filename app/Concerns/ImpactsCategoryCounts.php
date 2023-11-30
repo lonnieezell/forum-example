@@ -143,6 +143,10 @@ trait ImpactsCategoryCounts
             }
 
             $threadModel = model(ThreadModel::class);
+            // Check if post was accepted as an answer
+            if ($post->marked_as_answer !== null) {
+                $threadModel->builder()->update(['answer_post_id' => null], ['id' => $post->thread_id]);
+            }
             // Get the thread for post
             $thread = $threadModel->allowCallbacks(false)->find($post->thread_id);
             // Check if we have to update the last_post_id in the thread

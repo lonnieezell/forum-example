@@ -19,6 +19,8 @@ class ThreadController extends BaseController
     /**
      * Show thread.
      *
+     * @todo Secure the access
+     *
      * @throws PageNotFoundException
      */
     public function show(int $threadId)
@@ -163,5 +165,48 @@ class ThreadController extends BaseController
         $this->response->triggerClientEvent('preview-show');
 
         return $this->render('discussions/threads/_thread_preview', ['thread' => $thread]);
+    }
+
+    /**
+     * Set / unset an answer for the thread.
+     */
+    public function manageAnswer(int $threadId, string $type = 'set')
+    {
+        $threadModel = model(ThreadModel::class);
+        $thread      = $threadModel->find($threadId);
+
+        if (! $thread) {
+            throw PageNotFoundException::forPageNotFound('This thread does not exist.');
+        }
+
+        if (! $this->policy->can('threads.manageAnswer', $thread)) {
+            return $this->policy->deny('You are not allowed to manage an answer for this thread.');
+        }
+
+        if ($type === 'set' && $thread->answer_post_id !== null) {
+            alerts()->set('error', 'An answer has already been selected in this thread.');
+
+            return '';
+        }
+        if ($type === 'unset' && $thread->answer_post_id === null) {
+            alerts()->set('error', 'This thread has no answer selected yet.');
+
+            return '';
+        }
+
+        if (! $this->validate([
+            'post_id' => ['required', 'string', "valid_post_thread[{$threadId}]"],
+        ])) {
+            alerts()->set('error', $this->validator->getError('post_id'));
+
+            return '';
+        }
+
+        $method = $type . 'Answer';
+        $postId = $this->request->getPost('post_id');
+
+        $threadModel->{$method}($threadId, $postId);
+
+        return redirect()->hxRedirect($thread->link());
     }
 }

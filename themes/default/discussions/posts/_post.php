@@ -1,4 +1,4 @@
-<div class="post p-6 rounded bg-base-100" id="post-<?= $post->id ?>">
+<div class="post p-6 rounded bg-base-100 <?= $post->isAnswer($thread) ? 'bg-green-100' : ''; ?>" id="post-<?= $post->id ?>">
     <!-- Post Meta -->
     <div class="post-meta">
         <div class="flex gap-4">
@@ -22,7 +22,29 @@
                 <?php endif; ?>
                 <?= \CodeIgniter\I18n\Time::parse($post->created_at)->humanize() ?>
             </div>
-            <div class="flex-auto text-right">
+            <div class="flex gap-x-1 text-right">
+                <?php if (service('policy')->can('threads.manageAnswer', $thread)): ?>
+                    <?php if ($thread->answer_post_id === null): ?>
+                        <?= form_open(route_to('thread-set-answer', $thread->id), [
+                            'hx-post' => route_to('thread-set-answer', $thread->id),
+                        ]); ?>
+                            <?= form_hidden('post_id', $post->id); ?>
+                            <button type="submit" class="btn btn-xs btn-success text-white">
+                                Accept as answer
+                            </button>
+                        <?= form_close(); ?>
+                    <?php elseif ($post->isAnswer($thread)): ?>
+                        <?= form_open(route_to('thread-unset-answer', $thread->id), [
+                            'hx-post' => route_to('thread-unset-answer', $thread->id),
+                            'class' => 'mt-[-1px]',
+                        ]); ?>
+                        <?= form_hidden('post_id', $post->id); ?>
+                        <button type="submit" class="btn btn-xs btn-error text-white">
+                            Remove answer
+                        </button>
+                        <?= form_close(); ?>
+                    <?php endif; ?>
+                <?php endif; ?>
                 <?php if (auth()->user()?->can('posts.create')): ?>
                     <a class="btn btn-xs btn-primary"
                        hx-get="<?= route_to('post-create-reply', $post->thread_id, $post->reply_to ?? $post->id); ?>"

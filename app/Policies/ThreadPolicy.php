@@ -15,4 +15,12 @@ class ThreadPolicy implements PolicyInterface
     {
         return $user->can('threads.edit') || $user->id === $thread->author_id;
     }
+
+    /**
+     * Determines if the current user can accept the answer for a thread.
+     */
+    public function manageAnswer(User $user, Thread $thread): bool
+    {
+        return $user->can('threads.manageAnswer') || $user->id === $thread->author_id;
+    }
 }
