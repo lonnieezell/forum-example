@@ -51,7 +51,7 @@
         <div class="form-control">
             <label class="label cursor-pointer flex">
                 <input type="hidden" name="moderation_daily_summary" value="0">
-                <input type="checkbox" name="moderation_daily_summary" value="1" <?= set_checkbox('moderation_daily_summary', '1', $notification->moderation_daily_summary) ?>
+                <input type="checkbox" name="moderation_daily_summary" value="1" <?= set_checkbox('moderation_daily_summary', '1', $notification->moderation_daily_summary ?? false) ?>
                        class="toggle toggle-primary">
                 <span class="label-text ml-2 flex-auto">Send a daily summary with a moderation stats</span>
             </label>

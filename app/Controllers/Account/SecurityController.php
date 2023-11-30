@@ -22,7 +22,7 @@ class SecurityController extends BaseController
         /** @var User $user */
         $user = auth()->user();
 
-        return $this->render('account/security/security', [
+        return $this->render('account/security', [
             'user'         => $user,
             'logins'       => $user->logins(5),
             'agent'        => $this->request->getUserAgent(),
