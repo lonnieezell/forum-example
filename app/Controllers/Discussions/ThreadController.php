@@ -174,7 +174,7 @@ class ThreadController extends BaseController
         $thread      = $threadModel->find($threadId);
 
         if (! $thread) {
-            throw PageNotFoundException::forPageNotFound();
+            throw PageNotFoundException::forPageNotFound('This thread does not exist.');
         }
 
         if (! $this->policy->can('threads.manageAnswer', $thread)) {
@@ -195,6 +195,8 @@ class ThreadController extends BaseController
         if (! $this->validate([
             'post_id' => ['required', 'string', "valid_post_thread[{$threadId}]"],
         ])) {
+            alerts()->set('error', $this->validator->getError('post_id'));
+
             return '';
         }
 

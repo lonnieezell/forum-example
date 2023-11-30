@@ -4,7 +4,10 @@ namespace Tests\Controllers;
 
 use App\Models\Factories\ImageFactory;
 use App\Models\Factories\UserFactory;
+use App\Models\ThreadModel;
 use App\Models\UserModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\I18n\Time;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -262,5 +265,106 @@ final class ThreadControllerTest extends TestCase
         $this->seeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 1]);
         $this->seeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 2]);
         $this->dontSeeInDatabase('taggable', ['taggable_id' => 2, 'taggable_type' => 'threads', 'tag_id' => 3]);
+    }
+
+    public function testManageAnswerSet()
+    {
+        Time::setTestNow('January 10, 2023 21:50:00');
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/1/set-answer', [
+            'post_id' => 2,
+        ]);
+
+        $response->assertHeader('HX-Redirect', site_url('discussions/cat-1-sub-category-1/sample-thread-1'));
+        $this->seeInDatabase('threads', ['id' => 1, 'answer_post_id' => 2]);
+        $this->seeInDatabase('posts', ['id' => 2, 'marked_as_answer' => '2023-01-10 21:50:00']);
+    }
+
+    public function testManageAnswerUnset()
+    {
+        model(ThreadModel::class)->update(1, ['answer_post_id' => 2]);
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/1/unset-answer', [
+            'post_id' => 2,
+        ]);
+
+        $response->assertHeader('HX-Redirect', site_url('discussions/cat-1-sub-category-1/sample-thread-1'));
+        $this->seeInDatabase('threads', ['id' => 1, 'answer_post_id' => null]);
+        $this->seeInDatabase('posts', ['id' => 2, 'marked_as_answer' => null]);
+    }
+
+    public function testManageAnswerNoThread()
+    {
+        $this->expectException(PageNotFoundException::class);
+        $this->expectExceptionMessage('This thread does not exist.');
+
+        $user = model(UserModel::class)->find(1);
+        $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/999999/set-answer', [
+            'post_id' => 2,
+        ]);
+    }
+
+    public function testManageAnswerNoCredentials()
+    {
+        $user     = model(UserModel::class)->find(3);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+            'HX-Request'  => 'true',
+        ])->post('thread/1/set-answer', [
+            'post_id' => 2,
+        ]);
+
+        $response->assertRedirect();
+        $response->assertHeader('HX-Location', json_encode(['path' => '/display-error']));
+        $response->assertSessionHas('message', 'You are not allowed to manage an answer for this thread.');
+    }
+
+    public function testManageAnswerAlreadySet()
+    {
+        model(ThreadModel::class)->update(1, ['answer_post_id' => 2]);
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/1/set-answer', [
+            'post_id' => 2,
+        ]);
+
+        $response->assertSessionHas('alerts', ['error' => [
+            ['message' => 'An answer has already been selected in this thread.', 'seconds' => 5],
+        ]]);
+    }
+
+    public function testManageAnswerAlreadyUnset()
+    {
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/1/unset-answer', [
+            'post_id' => 2,
+        ]);
+
+        $response->assertSessionHas('alerts', ['error' => [
+            ['message' => 'This thread has no answer selected yet.', 'seconds' => 5],
+        ]]);
+    }
+
+    public function testManageAnswerInvalidPostId()
+    {
+        $user     = model(UserModel::class)->find(1);
+        $response = $this->actingAs($user)->withHeaders([
+            csrf_header() => csrf_hash(),
+        ])->post('thread/1/set-answer', [
+            'post_id' => 999999,
+        ]);
+
+        $response->assertSessionHas('alerts', ['error' => [
+            ['message' => 'This post does not belong in this thread', 'seconds' => 5],
+        ]]);
     }
 }
