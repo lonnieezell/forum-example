@@ -85,6 +85,7 @@ class CreateForumTables extends Migration
             'updated_at'        => ['type' => 'datetime', 'null' => false],
             'deleted_at'        => ['type' => 'datetime', 'null' => true],
             'marked_as_deleted' => ['type' => 'datetime', 'null' => true],
+            'marked_as_answer'  => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('category_id', 'categories', 'id', '', 'cascade');

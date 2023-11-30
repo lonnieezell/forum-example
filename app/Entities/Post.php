@@ -55,6 +55,11 @@ class Post extends Entity
         return $this;
     }
 
+    public function isAnswer(Thread $thread): bool
+    {
+        return $thread->answer_post_id !== null && $thread->answer_post_id === $this->id;
+    }
+
     public function isMarkedAsDeleted(): bool
     {
         return $this->attributes['marked_as_deleted'] !== null;

@@ -9,7 +9,9 @@ use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
 use App\Entities\Thread;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use Exception;
 use Michalsn\CodeIgniterTags\Traits\HasTags;
 use ReflectionException;
 
@@ -130,6 +132,60 @@ class ThreadModel extends Model
         };
 
         return $query->paginate($perPage);
+    }
+
+    /**
+     * Set answer post.
+     *
+     * @throws Exception
+     */
+    public function setAnswer(int $threadId, int $postId): bool
+    {
+        if ($this->update($threadId, ['answer_post_id' => $postId])) {
+            $builder = $this->builder('posts');
+
+            $builder
+                ->where([
+                    'thread_id'         => $threadId,
+                    'deleted_at'        => null,
+                    'marked_as_deleted' => null,
+                ])
+                ->update([
+                    'marked_as_answer' => null,
+                ]);
+
+            return $builder
+                ->where([
+                    'id' => $postId,
+                ])
+                ->update([
+                    'marked_as_answer' => Time::now(),
+                ]);
+        }
+
+        return false;
+    }
+
+    /**
+     * Unset answer post.
+     *
+     * @throws ReflectionException
+     */
+    public function unsetAnswer(int $threadId, int $postId): bool
+    {
+        if ($this->where(['answer_post_id' => $postId])->update($threadId, ['answer_post_id' => null])) {
+            return $this->builder('posts')
+                ->where([
+                    'thread_id'         => $threadId,
+                    'deleted_at'        => null,
+                    'marked_as_deleted' => null,
+                ])
+                ->update([
+                    'marked_as_answer' => null,
+                ]);
+        }
+
+        return false;
     }
 
     /**

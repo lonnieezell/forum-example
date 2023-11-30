@@ -94,6 +94,7 @@ class AuthGroups extends ShieldAuthGroups
         'threads.delete'           => 'Can delete threads',
         'threads.create'           => 'Can create threads',
         'threads.report'           => 'Can report threads',
+        'threads.manageAnswer'     => 'Can manage the answer for the thread',
         'posts.edit'               => 'Can edit posts',
         'posts.delete'             => 'Can delete posts',
         'posts.create'             => 'Can create posts',

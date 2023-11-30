@@ -90,6 +90,28 @@ class DiscussionRules
         return true;
     }
 
+    public function valid_post_thread(string $value, string $params, array $data, ?string &$error = null): bool
+    {
+        $result = db_connect()
+            ->table('posts')
+            ->select('1')
+            ->where('id', $value)
+            ->where('thread_id', $params)
+            ->where('deleted_at', null)
+            ->where('marked_as_deleted', null)
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        if ($result === null) {
+            $error = 'This post does not belong in this thread';
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function valid_tags(string $value, string $params, array $data, ?string &$error = null): bool
     {
         $value = explode(',', $value);

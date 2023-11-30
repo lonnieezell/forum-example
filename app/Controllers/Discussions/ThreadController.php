@@ -164,4 +164,45 @@ class ThreadController extends BaseController
 
         return $this->render('discussions/threads/_thread_preview', ['thread' => $thread]);
     }
+
+    /**
+     * Set / unset an answer for the thread.
+     */
+    public function manageAnswer(int $threadId, string $type = 'set')
+    {
+        $threadModel = model(ThreadModel::class);
+        $thread      = $threadModel->find($threadId);
+
+        if (! $thread) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        if (! $this->policy->can('threads.manageAnswer', $thread)) {
+            return $this->policy->deny('You are not allowed to manage an answer for this thread.');
+        }
+
+        if ($type === 'set' && $thread->answer_post_id !== null) {
+            alerts()->set('error', 'An answer has already been selected in this thread.');
+
+            return '';
+        }
+        if ($type === 'unset' && $thread->answer_post_id === null) {
+            alerts()->set('error', 'This thread has no answer selected yet.');
+
+            return '';
+        }
+
+        if (! $this->validate([
+            'post_id' => ['required', 'string', "valid_post_thread[{$threadId}]"],
+        ])) {
+            return '';
+        }
+
+        $method = $type . 'Answer';
+        $postId = $this->request->getPost('post_id');
+
+        $threadModel->{$method}($threadId, $postId);
+
+        return redirect()->hxRedirect($thread->link());
+    }
 }

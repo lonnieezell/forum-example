@@ -6,6 +6,10 @@
             <?= $this->view('discussions/threads/_thread', ['thread' => $thread]) ?>
         </div>
 
+        <?php if ($answer !== null): ?>
+            <?= $this->view('discussions/posts/_post', ['post' => $answer, 'thread' => $thread]) ?>
+        <?php endif; ?>
+
         <!-- Replies -->
         <?php if (! empty($posts)) : ?>
             <div id="replies" class="mt-6">
@@ -27,7 +31,7 @@
                 </div>
 
                 <div id="replies-content">
-                    <?= $this->view('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => $loadedReplies]) ?>
+                    <?= $this->view('discussions/_thread_items', ['posts' => $posts, 'thread' => $thread, 'loadedReplies' => $loadedReplies]) ?>
                 </div>
 
                 <div id="replies-footer" class="flex justify-between">
