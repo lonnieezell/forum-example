@@ -2,7 +2,6 @@
 
 namespace App\Libraries;
 
-use CodeIgniter\View\Exceptions\ViewException;
 use CodeIgniter\View\View as BaseView;
 
 class View extends BaseView

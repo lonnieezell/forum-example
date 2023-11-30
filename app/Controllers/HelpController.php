@@ -40,7 +40,7 @@ class HelpController extends BaseController
                 return $this->render('help/_index', ['pages' => $markdownPages]);
             }
 
-            return view('help/_search_results', ['search' => $markdownPages->search($searchQuery)]);
+            return $this->render('help/_search_results', ['search' => $markdownPages->search($searchQuery)]);
         }
 
         return $this->render('help/index', ['pages' => $markdownPages]);

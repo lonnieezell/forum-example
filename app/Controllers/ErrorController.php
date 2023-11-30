@@ -21,7 +21,7 @@ class ErrorController extends BaseController
             ? "errors/html/error_{$status}.php"
             : 'errors/html/error.php';
 
-        return view($view, [
+        return $this->render($view, [
             'status'  => session('status'),
             'message' => session('message') ?? session('error'),
         ]);

@@ -5,10 +5,10 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Storage;
+use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
 use Config\View as ViewConfig;
-use App\Libraries\View;
 
 /**
  * Services Configuration file.

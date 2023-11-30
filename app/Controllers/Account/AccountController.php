@@ -86,7 +86,7 @@ class AccountController extends BaseController
                 alerts()->set('error', 'Something went wrong');
             }
 
-            return view('account/_notifications', [
+            return $this->render('account/_notifications', [
                 'notification' => model(NotificationSettingModel::class)->find(user_id()),
                 'validator'    => $this->validator ?? service('validation'),
             ]);

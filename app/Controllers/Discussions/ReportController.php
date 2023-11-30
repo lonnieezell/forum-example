@@ -32,7 +32,7 @@ class ReportController extends BaseController
             return $this->insert($id, $resourceType);
         }
 
-        return view('discussions/report/modal', ['type' => $resourceType]);
+        return $this->render('discussions/report/modal', ['type' => $resourceType]);
     }
 
     /**
@@ -62,7 +62,7 @@ class ReportController extends BaseController
                 alerts()->set('error', $error);
             }
 
-            return view('discussions/report/modal_content', ['type' => $resourceType]);
+            return $this->render('discussions/report/modal_content', ['type' => $resourceType]);
         }
 
         // Throttle number of reports per user

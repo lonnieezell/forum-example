@@ -30,7 +30,7 @@ class ThreadController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        return view('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
+        return $this->render('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
     }
 
     /**
@@ -126,7 +126,7 @@ class ThreadController extends BaseController
 
                     alerts()->set('success', 'Changes to the discussion has been saved successfully');
 
-                    return view('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
+                    return $this->render('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
                 }
                 alerts()->set('error', 'Something went wrong');
             }
@@ -138,7 +138,7 @@ class ThreadController extends BaseController
             'validator'         => $this->validator ?? service('validation'),
         ];
 
-        return view('discussions/threads/_edit', $data);
+        return $this->render('discussions/threads/_edit', $data);
     }
 
     /**
@@ -162,6 +162,6 @@ class ThreadController extends BaseController
 
         $this->response->triggerClientEvent('preview-show');
 
-        return view('discussions/threads/_thread_preview', ['thread' => $thread]);
+        return $this->render('discussions/threads/_thread_preview', ['thread' => $thread]);
     }
 }
