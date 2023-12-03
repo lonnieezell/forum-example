@@ -21,6 +21,19 @@ body {
     @apply text-orange-50 hover:bg-white/20 hover:text-primary-content;
 }
 
+// Header Row
+.header-row {
+    @apply flex justify-center p-6 bg-base-200 border border-l-0 border-r-0 border-base-300 shadow-inner;
+
+    & > div {
+        @apply container flex flex-col sm:flex-row gap-8 w-auto;
+
+        h2 {
+            @apply text-xl text-neutral-700 font-bold;
+        }
+    }
+}
+
 // Override active nav colors
 .menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active  {
     @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
@@ -53,6 +66,24 @@ label.error {
 
 .input-tags {
     height: revert !important;
+}
+
+.discussion-list-item {
+    .discussion-stat {
+        @apply w-full text-neutral-600 text-sm sm:text-base;
+    }
+    .discussion-stat-label {
+        @apply w-full pl-1 sm:pl-0 text-neutral-400 text-sm;
+    }
+
+    &:hover {
+        h3 {
+            @apply text-primary;
+        }
+        .discussion-stat {
+            @apply text-primary;
+        }
+    }
 }
 
 // ensure vendor prefix for Chrome and masks
