@@ -73,6 +73,25 @@ class Policy
             ->route('general-error');
     }
 
+
+    /**
+     * Check if user has any of the permissions.
+     */
+    public function hasAny(array $permissions): bool
+    {
+        if ($permissions === []) {
+            return true;
+        }
+
+        foreach ($permissions as $permission) {
+            if ($this->can($permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Sets the policy to use for the current request.
      */

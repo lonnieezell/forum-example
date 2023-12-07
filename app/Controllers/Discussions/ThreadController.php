@@ -4,6 +4,7 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\Thread;
+use App\Managers\CategoryManager;
 use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -29,7 +30,12 @@ class ThreadController extends BaseController
         $thread      = $threadModel->withTags()->find($threadId);
 
         if (! $thread) {
-            throw PageNotFoundException::forPageNotFound();
+            throw PageNotFoundException::forPageNotFound('Thread not found.');
+        }
+
+        // Check if you're allowed to see the thread based on the category permissions
+        if (! manager(CategoryManager::class)->checkPermissions($thread->category_id)) {
+            return $this->policy->deny('You are not allowed to access this thread');
         }
 
         return $this->render('discussions/threads/_thread', [
@@ -50,7 +56,7 @@ class ThreadController extends BaseController
 
         helper('form');
 
-        $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
+        $categoryDropdown = manager(CategoryManager::class)->findAllNestedDropdown();
 
         if ($this->request->is('post')) {
             $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => [...$keys, ...array_keys($innerArray)], []);
@@ -104,7 +110,7 @@ class ThreadController extends BaseController
 
         helper('form');
 
-        $categoryDropdown = model(CategoryModel::class)->findAllNestedDropdown();
+        $categoryDropdown = manager(CategoryManager::class)->findAllNestedDropdown();
 
         if ($this->request->is('put')) {
             $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => [...$keys, ...array_keys($innerArray)], []);

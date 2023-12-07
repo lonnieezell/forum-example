@@ -72,7 +72,7 @@ class CategoryModel extends Model
     /**
      * Returns a list of all categories, nested by parent.
      */
-    public function findAllNested()
+    public function findAllNested(): array
     {
         $selects = [
             'categories.*',
@@ -90,7 +90,7 @@ class CategoryModel extends Model
             ->join('users', 'users.id = threads.author_id')
             ->findAll();
 
-        $allchildren = $this
+        $allChildren = $this
             ->active()
             ->children()
             ->select(implode(', ', $selects))
@@ -99,60 +99,29 @@ class CategoryModel extends Model
             ->orderBy('order', 'asc')
             ->findAll();
 
-        foreach ($categories as $category) {
-            $children = [];
-
-            foreach ($allchildren as $child) {
-                if ($child->parent_id === $category->id) {
-                    $children[] = $child;
-                }
-            }
-            $category->children = $children;
-        }
-
-        return $categories;
+        return [$categories, $allChildren];
     }
 
     /**
      * Returns a list of all categories, prepared for dropdown.
      */
-    public function findAllNestedDropdown()
+    public function findAllNestedDropdown(): array
     {
         $selects = [
-            'id', 'title', 'parent_id',
+            'id', 'title', 'parent_id', 'permissions',
         ];
 
-        $categories = $this
+        return $this
             ->active()
             ->orderBy('parent_id', 'asc')
             ->orderBy('order', 'asc')
             ->select(implode(', ', $selects))
             ->findAll();
-
-        $resultArray = [];
-
-        foreach ($categories as $item) {
-            if ($item->parent_id === null) {
-                $resultArray[$item->title] = [];
-            } else {
-                $parentTitle = null;
-
-                foreach ($categories as $parent) {
-                    if ($parent->id === $item->parent_id) {
-                        $parentTitle = $parent->title;
-                        break;
-                    }
-                }
-
-                if (! empty($parentTitle)) {
-                    $resultArray[$parentTitle][$item->id] = $item->title;
-                }
-            }
-        }
-
-        return $resultArray;
     }
 
+    /**
+     * Find category by slug.
+     */
     public function findBySlug(string $slug)
     {
         return $this
@@ -160,5 +129,24 @@ class CategoryModel extends Model
             ->children()
             ->where('slug', $slug)
             ->first();
+    }
+
+    /**
+     * Load all category IDs with permissions.
+     */
+    public function findAllPermissions(): array
+    {
+        $selects = [
+            "$this->table.id",
+            "COALESCE($this->table.permissions, p.permissions) AS permissions",
+        ];
+
+        return $this
+            ->active()
+            ->select(implode(', ', $selects))
+            ->join("$this->table p", "p.id = $this->table.parent_id", 'left')
+            ->orderBy("$this->table.parent_id", 'asc')
+            ->orderBy("$this->table.order", 'asc')
+            ->findAll();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Validation;
 
+use App\Managers\CategoryManager;
 use CodeIgniter\I18n\Time;
 use Exception;
 
@@ -139,7 +140,7 @@ class DiscussionRules
     {
         $result = db_connect()
             ->table('categories')
-            ->select('1')
+            ->select('id')
             ->where('slug', $value)
             ->when(
                 $params === 'child',
@@ -155,6 +156,13 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This category does not exist';
+
+            return false;
+        }
+
+        // Check category permissions
+        if (! manager(CategoryManager::class)->checkPermissions($result->id)) {
+            $error = 'You are not allowed to access this thread';
 
             return false;
         }

@@ -3,6 +3,7 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
+use App\Managers\CategoryManager;
 use App\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
@@ -23,6 +24,8 @@ class DiscussionController extends BaseController
 
     /**
      * Display a standard forum-style list of discussions.
+     *
+     * @todo Filtering of threads based on the permissions of the categories to which they belong
      */
     public function list(): string
     {
@@ -104,6 +107,8 @@ class DiscussionController extends BaseController
 
     /**
      * Display a standard forum-style list of discussions.
+     *
+     * @todo Filtering of threads based on the permissions of the categories to which they belong
      */
     public function tag(string $tagSlug)
     {
@@ -147,7 +152,7 @@ class DiscussionController extends BaseController
     /**
      * Displays a single thread and it's replies.
      */
-    public function thread(string $slug): string
+    public function thread(string $slug)
     {
         if (! $this->validateData([
             'slug' => $slug,
@@ -164,6 +169,11 @@ class DiscussionController extends BaseController
 
         if (! $thread) {
             throw PageNotFoundException::forPageNotFound();
+        }
+
+        // Check if you're allowed to see the thread based on the category permissions
+        if (! manager(CategoryManager::class)->checkPermissions($thread->category_id)) {
+            return $this->policy->deny('You are not allowed to access this thread');
         }
 
         if (! $this->request->is('boosted')) {
