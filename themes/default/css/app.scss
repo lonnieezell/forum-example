@@ -23,13 +23,17 @@ body {
 
 // Header Row
 .header-row {
-    @apply flex justify-center p-6 bg-base-200 border border-l-0 border-r-0 border-base-300 shadow-inner;
+    @apply flex justify-center p-6 bg-base-200 dark:bg-base-300 border border-l-0 border-r-0 border-base-300 shadow-inner;
 
     & > div {
-        @apply container flex flex-col sm:flex-row gap-8 w-auto;
+        @apply container flex flex-col sm:flex-row w-auto;
 
         h2 {
-            @apply text-xl text-neutral-700 font-bold;
+            @apply text-xl text-neutral-700 dark:text-neutral-300 font-bold;
+
+            & span {
+                @apply text-neutral-500 font-normal hidden sm:inline;
+            }
         }
     }
 }
@@ -37,6 +41,16 @@ body {
 // Override active nav colors
 .menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active  {
     @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
+}
+
+.action-bar {
+    @apply flex flex-col sm:flex-row justify-between mt-8 py-2;
+    @apply border-t border-b border-neutral-300 dark:border-neutral-600;
+    @apply opacity-60 hover:opacity-100 transition;
+
+    .action-btn {
+        @apply btn btn-sm btn-ghost opacity-50 hover:opacity-100;
+    }
 }
 
 form select.select {
@@ -83,6 +97,14 @@ label.error {
         .discussion-stat {
             @apply text-primary;
         }
+    }
+}
+
+.post-answer {
+    @apply border rounded-2xl border-green-600;
+
+    .answer-bar {
+        @apply flex justify-center items-center p-2 mb-6 -ml-6 -mr-6 bg-green-600 text-white;
     }
 }
 

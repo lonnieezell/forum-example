@@ -23,4 +23,12 @@ class ThreadPolicy implements PolicyInterface
     {
         return $user->can('threads.manageAnswer') || $user->id === $thread->author_id;
     }
+
+    /**
+     * Determines if the current user can delete a thread.
+     */
+    public function delete(User $user, Thread $thread): bool
+    {
+        return ! $user->can('threads.delete') || $user->id === $thread->author_id;
+    }
 }

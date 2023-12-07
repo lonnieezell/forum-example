@@ -104,6 +104,7 @@ class PostController extends BaseController
      */
     public function edit(int $postId)
     {
+        helper('form');
         $postModel = model(PostModel::class);
 
         $post = $postModel->find($postId);
