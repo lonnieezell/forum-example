@@ -25,7 +25,7 @@ class DiscussionController extends BaseController
     /**
      * Display a standard forum-style list of discussions.
      *
-     * @todo Filtering of threads based on the permissions of the categories to which they belong
+     * @todo Filter threads based on the permissions of the categories to which they belong
      */
     public function list(): string
     {
@@ -46,9 +46,11 @@ class DiscussionController extends BaseController
         helper('form');
 
         $threadModel = model(ThreadModel::class);
+        $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage']);
+        $threads     = manager(CategoryManager::class)->filterThreadsByPermissions($threads);
 
         $data = [
-            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
+            'threads' => $threadModel->withUsers($threads),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -108,7 +110,7 @@ class DiscussionController extends BaseController
     /**
      * Display a standard forum-style list of discussions.
      *
-     * @todo Filtering of threads based on the permissions of the categories to which they belong
+     * @todo Filter threads based on the permissions of the categories to which they belong
      */
     public function tag(string $tagSlug)
     {
@@ -132,9 +134,11 @@ class DiscussionController extends BaseController
         helper('form');
 
         $threadModel = model(ThreadModel::class);
+        $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage']);
+        $threads     = manager(CategoryManager::class)->filterThreadsByPermissions($threads);
 
         $data = [
-            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
+            'threads' => $threadModel->withUsers($threads),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -172,7 +176,7 @@ class DiscussionController extends BaseController
         }
 
         // Check if you're allowed to see the thread based on the category permissions
-        if (! manager(CategoryManager::class)->checkPermissions($thread->category_id)) {
+        if (! manager(CategoryManager::class)->checkCategoryPermissions($thread->category_id)) {
             return $this->policy->deny('You are not allowed to access this thread');
         }
 

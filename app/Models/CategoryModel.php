@@ -137,16 +137,16 @@ class CategoryModel extends Model
     public function findAllPermissions(): array
     {
         $selects = [
-            "$this->table.id",
-            "COALESCE($this->table.permissions, p.permissions) AS permissions",
+            "{$this->table}.id",
+            "COALESCE({$this->table}.permissions, p.permissions) AS permissions",
         ];
 
         return $this
             ->active()
             ->select(implode(', ', $selects))
-            ->join("$this->table p", "p.id = $this->table.parent_id", 'left')
-            ->orderBy("$this->table.parent_id", 'asc')
-            ->orderBy("$this->table.order", 'asc')
+            ->join("{$this->table} p", "p.id = {$this->table}.parent_id", 'left')
+            ->orderBy("{$this->table}.parent_id", 'asc')
+            ->orderBy("{$this->table}.order", 'asc')
             ->findAll();
     }
 }

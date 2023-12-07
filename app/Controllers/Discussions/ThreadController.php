@@ -5,7 +5,6 @@ namespace App\Controllers\Discussions;
 use App\Controllers\BaseController;
 use App\Entities\Thread;
 use App\Managers\CategoryManager;
-use App\Models\CategoryModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
@@ -34,7 +33,7 @@ class ThreadController extends BaseController
         }
 
         // Check if you're allowed to see the thread based on the category permissions
-        if (! manager(CategoryManager::class)->checkPermissions($thread->category_id)) {
+        if (! manager(CategoryManager::class)->checkCategoryPermissions($thread->category_id)) {
             return $this->policy->deny('You are not allowed to access this thread');
         }
 

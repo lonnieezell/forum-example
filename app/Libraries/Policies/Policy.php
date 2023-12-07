@@ -73,7 +73,6 @@ class Policy
             ->route('general-error');
     }
 
-
     /**
      * Check if user has any of the permissions.
      */

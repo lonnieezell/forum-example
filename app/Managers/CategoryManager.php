@@ -8,12 +8,14 @@ use App\Models\CategoryModel;
 
 class CategoryManager
 {
-    public function preparePermissions(?int $categoryId = null): array
+    /**
+     * Prepare permissions as a category id => permissions array.
+     */
+    private function preparePermissions(?int $categoryId = null): array
     {
-        $cacheKey = 'categoryPermissions';
+        $cacheKey = 'category-permissions';
 
         if (! $permissions = cache($cacheKey)) {
-
             $categories = model(CategoryModel::class)->findAllPermissions();
 
             foreach ($categories as $category) {
@@ -30,11 +32,13 @@ class CategoryManager
         return $permissions;
     }
 
-    public function checkPermissions(int $categoryId)
+    /**
+     * Check if current user should have access to the given category.
+     */
+    public function checkCategoryPermissions(int $categoryId)
     {
         $policy = service('policy');
 
-        /** @var User $user */
         if ($user = auth()->user()) {
             $policy->withUser($user);
         }
@@ -44,20 +48,44 @@ class CategoryManager
         return $policy->hasAny($permissions);
     }
 
-    /**
-     * Filter categories by permissions.
-     */
-    public function filterByPermissions(array|Category $categories): array|null|Category
+    public function filterThreadsByPermissions(array $threads): array
     {
         $policy = service('policy');
 
-        /** @var User $user */
         if ($user = auth()->user()) {
             $policy->withUser($user);
         }
 
+        $permissions = $this->preparePermissions();
+
+        return array_filter($threads, static function ($thread) use ($permissions, $user, $policy) {
+            if (($permissions[$thread->category_id] ?? []) === []) {
+                return true;
+            }
+
+            if ($user === null) {
+                return false;
+            }
+
+            return $policy->hasAny($permissions[$thread->category_id]);
+        });
+    }
+
+    /**
+     * Filter categories by permissions.
+     */
+    public function filterCategoriesByPermissions(array|Category $categories): array|null|Category
+    {
+        $policy = service('policy');
+
+        if ($user = auth()->user()) {
+            $policy->withUser($user);
+        }
+
+        $permissions = $this->preparePermissions();
+
         if ($categories instanceof Category) {
-            if (! isset($categories->permissions) || $categories->permissions === []) {
+            if (($permissions[$categories->id] ?? []) === []) {
                 return $categories;
             }
 
@@ -65,7 +93,7 @@ class CategoryManager
                 return null;
             }
 
-            if ($policy->hasAny($categories->permissions)) {
+            if ($policy->hasAny($permissions[$categories->id])) {
                 return $categories;
             }
 
@@ -74,8 +102,8 @@ class CategoryManager
 
         $removed = [];
 
-        $categories = array_filter($categories, static function ($category) use ($user, $policy, &$removed) {
-            if (! isset($category->permissions) || $category->permissions === []) {
+        $categories = array_filter($categories, static function ($category) use ($permissions, $user, $policy, &$removed) {
+            if (($permissions[$category->id] ?? []) === []) {
                 return true;
             }
 
@@ -83,7 +111,7 @@ class CategoryManager
                 return false;
             }
 
-            if ($policy->hasAny($category->permissions)) {
+            if ($policy->hasAny($permissions[$category->id])) {
                 return true;
             }
 
@@ -93,9 +121,7 @@ class CategoryManager
         });
 
         // Filter out children of removed categories
-        return array_filter($categories, static function ($category) use ($removed) {
-            return ! (in_array($category->parent_id, $removed, true));
-        });
+        return array_filter($categories, static fn ($category) => ! (in_array($category->parent_id, $removed, true)));
     }
 
     /**
@@ -105,8 +131,8 @@ class CategoryManager
     {
         [$categories, $allChildren] = model(CategoryModel::class)->findAllNested();
 
-        $categories  = $this->filterByPermissions($categories);
-        $allChildren = $this->filterByPermissions($allChildren);
+        $categories  = $this->filterCategoriesByPermissions($categories);
+        $allChildren = $this->filterCategoriesByPermissions($allChildren);
 
         foreach ($categories as $category) {
             $children = [];
@@ -128,7 +154,7 @@ class CategoryManager
     public function findAllNestedDropdown(): array
     {
         $categories = model(CategoryModel::class)->findAllNestedDropdown();
-        $categories = $this->filterByPermissions($categories);
+        $categories = $this->filterCategoriesByPermissions($categories);
 
         $resultArray = [];
 
