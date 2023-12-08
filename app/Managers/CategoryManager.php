@@ -48,6 +48,9 @@ class CategoryManager
         return $policy->hasAny($permissions);
     }
 
+    /**
+     * Filter threads by category permissions.
+     */
     public function filterThreadsByPermissions(array $threads): array
     {
         $policy = service('policy');
@@ -74,7 +77,7 @@ class CategoryManager
     /**
      * Filter categories by permissions.
      */
-    public function filterCategoriesByPermissions(array|Category $categories): array|null|Category
+    public function filterCategoriesByPermissions(array $categories): array
     {
         $policy = service('policy');
 
@@ -83,24 +86,7 @@ class CategoryManager
         }
 
         $permissions = $this->preparePermissions();
-
-        if ($categories instanceof Category) {
-            if (($permissions[$categories->id] ?? []) === []) {
-                return $categories;
-            }
-
-            if ($user === null) {
-                return null;
-            }
-
-            if ($policy->hasAny($permissions[$categories->id])) {
-                return $categories;
-            }
-
-            return null;
-        }
-
-        $removed = [];
+        $removed     = [];
 
         $categories = array_filter($categories, static function ($category) use ($permissions, $user, $policy, &$removed) {
             if (($permissions[$category->id] ?? []) === []) {
