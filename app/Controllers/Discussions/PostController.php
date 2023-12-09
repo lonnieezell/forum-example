@@ -33,8 +33,6 @@ class PostController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        helper('form');
-
         $thread = model(ThreadModel::class)->find($post->thread_id);
 
         return $this->render('discussions/posts/_post', ['post' => $postModel->withUsers($post), 'thread' => $thread]);
@@ -86,8 +84,6 @@ class PostController extends BaseController
             alerts()->set('error', 'Something went wrong');
         }
 
-        helper('form');
-
         $data = [
             'thread_id' => $threadId,
             'post_id'   => $postId ?? '',
@@ -104,7 +100,6 @@ class PostController extends BaseController
      */
     public function edit(int $postId)
     {
-        helper('form');
         $postModel = model(PostModel::class);
 
         $post = $postModel->find($postId);
@@ -130,8 +125,6 @@ class PostController extends BaseController
 
             alerts()->set('error', 'Something went wrong');
         }
-
-        helper('form');
 
         $data = [
             'post'      => $post,

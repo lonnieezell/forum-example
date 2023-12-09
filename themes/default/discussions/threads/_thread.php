@@ -36,6 +36,6 @@
             <?= $thread->render() ?>
         </div>
 
-        <?= $this->view('actions/_action_bar', ['record' => $thread]) ?>
+        <?= view_cell('ActionBarCell', ['record' => $thread]) ?>
     </div>
 </div>

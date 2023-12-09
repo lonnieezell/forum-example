@@ -101,10 +101,10 @@ label.error {
 }
 
 .post-answer {
-    @apply border rounded-2xl border-green-600;
+    @apply border rounded-2xl border-success;
 
     .answer-bar {
-        @apply flex justify-center items-center p-2 mb-6 -ml-6 -mr-6 bg-green-600 text-white;
+        @apply flex justify-center items-center p-2 mb-6 -ml-6 -mr-6 bg-success text-white;
     }
 }
 

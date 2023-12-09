@@ -1,29 +1,30 @@
-<?php if (auth()->loggedIn()) : ?>
+<?php
+
+use App\Entities\Thread;
+if (auth()->loggedIn()) : ?>
 <div class="action-bar">
     <!-- My Actions -->
     <div class="flex-1 text-start">
 
         <!-- Accept Answer -->
-        <?php if ($record instanceof App\Entities\Post &&
-            service('policy')->can('threads.manageAnswer', $thread)
-            ) : ?>
+        <?php if ($this->canManageAnswer()) : ?>
             <?php if ($thread->answer_post_id === null): ?>
                 <?= form_open(route_to('thread-set-answer', $thread->id), [
                     'hx-post' => route_to('thread-set-answer', $thread->id),
-                    'class' => 'inline-block'
+                    'class'   => 'inline-block',
                 ]); ?>
-                    <?= form_hidden('post_id', $post->id); ?>
+                    <?= form_hidden('post_id', $record->id); ?>
 
                     <button type="submit" class="action-btn" title="Accept this answer">
                         <?= view('icons/check-badge') ?>
                     </button>
                 <?= form_close(); ?>
-            <?php elseif ($post->isAnswer($thread)): ?>
+            <?php elseif ($record->isAnswer($thread)): ?>
                 <?= form_open(route_to('thread-unset-answer', $thread->id), [
                     'hx-post' => route_to('thread-unset-answer', $thread->id),
-                    'class' => 'inline-block',
+                    'class'   => 'inline-block',
                 ]); ?>
-                <?= form_hidden('post_id', $post->id); ?>
+                <?= form_hidden('post_id', $record->id); ?>
 
                 <button type="submit" class="action-btn text-green-600  opacity-100"
                     title="Remove Answer">
@@ -34,9 +35,7 @@
         <?php endif; ?>
 
         <!-- Edit Thread -->
-        <?php if ($record instanceof App\Entities\Thread &&
-            auth()->user()?->can('threads.edit')
-        ) : ?>
+        <?php if ($this->isThread() && $this->canEdit()) : ?>
             <a class="action-btn"
                 title="Edit this thread"
                 hx-get="<?= route_to('thread-edit', $record->id); ?>"
@@ -49,9 +48,7 @@
         <?php endif ?>
 
         <!-- Delete Thread -->
-        <?php if ($record instanceof App\Entities\Thread &&
-            auth()->user()?->can('threads.delete')
-        ) : ?>
+        <?php if ($this->isThread() && $this->canDelete()) : ?>
             <a class="action-btn"
                 title="Delete this thread"
                 hx-confirm='Are you sure you want to delete this thread?'
@@ -63,10 +60,7 @@
         <?php endif ?>
 
         <!-- Edit Post -->
-        <?php if ($record instanceof App\Entities\Post &&
-            !$record->isMarkedAsDeleted()  &&
-            auth()->user()?->can('posts.edit')
-        ) : ?>
+        <?php if ($this->isPost() && $this->canEdit()) : ?>
             <a class="action-btn"
                 title="Edit this post"
                 hx-get="<?= route_to('post-edit', $record->id); ?>"
@@ -79,10 +73,7 @@
         <?php endif ?>
 
         <!-- Delete Post -->
-        <?php if ($record instanceof App\Entities\Post &&
-            !$record->isMarkedAsDeleted()  &&
-            auth()->user()?->can('posts.delete')
-        ) : ?>
+        <?php if ($this->isPost() && $this->canDelete()) : ?>
             <a class="action-btn"
                 title="Delete this post"
                 hx-confirm='Are you sure you want to delete this post?'
@@ -98,8 +89,20 @@
     <!-- Community Actions -->
     <div class="flex-1 text-end">
 
+        <!-- Report Content -->
+        <?php if ($this->canReport()): ?>
+            <a class="action-btn" title="Report this content"
+                title="Report this content"
+                hx-get="<?= route_to($record instanceof Thread ? 'thread-report' : 'post-report', $record->id); ?>"
+                hx-target="#modal-container"
+                hx-trigger="click throttle:1s"
+            >
+                <?= view('icons/flag') ?>
+            </a>
+        <?php endif ?>
+
         <!-- Reply to a Thread -->
-        <?php if ($record instanceof App\Entities\Thread && auth()->user()?->can('posts.create')): ?>
+        <?php if ($this->isThread() && $this->canReply()): ?>
             <a class="action-btn" title="Post a reply"
                 hx-get="<?= route_to('post-create', $thread->id); ?>"
                 hx-target="#post-reply"
@@ -109,8 +112,8 @@
             </a>
         <?php endif; ?>
 
-        <!-- Replay to a Post -->
-        <?php if ($record instanceof App\Entities\Post && auth()->user()?->can('posts.create')): ?>
+        <!-- Reply to a Post -->
+        <?php if ($this->isPost() && $this->canReply()): ?>
             <a class="action-btn"
                 title="Reply to this post"
                 hx-get="<?= route_to('post-create-reply', $record->thread_id, $record->reply_to ?? $record->id); ?>"
@@ -121,18 +124,6 @@
                 <?= view('icons/reply') ?>
             </a>
         <?php endif; ?>
-
-        <!-- Report Content -->
-        <?php if ($record->author_id == user_id() || auth()->user()?->can('content.report')): ?>
-            <a class="action-btn" title="Report this content"
-                title="Report this content"
-                hx-get="<?= route_to($record instanceof App\Entities\Thread ? 'thread-report' : 'post-report', $record->id); ?>"
-                hx-target="#modal-container"
-                hx-trigger="click throttle:1s"
-            >
-                <?= view('icons/flag') ?>
-            </a>
-        <?php endif ?>
 
     </div>
 </div>

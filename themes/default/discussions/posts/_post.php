@@ -46,6 +46,6 @@
     </div>
 
     <?php if(! isset($standaloneAnswer)) : ?>
-        <?= $this->view('actions/_action_bar', ['record' => $post]) ?>
+        <?= view_cell('ActionBarCell', ['record' => $post]) ?>
     <?php endif ?>
 </div>

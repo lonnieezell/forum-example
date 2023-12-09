@@ -18,6 +18,6 @@ class PostPolicy implements PolicyInterface
 
     public function delete(User $user, Post $post): bool
     {
-        return ! $user->can('posts.delete') || $user->id === $post->author_id;
+        return $user->can('posts.delete') || $user->id === $post->author_id;
     }
 }

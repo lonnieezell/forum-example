@@ -56,7 +56,7 @@
                     class="btn btn-primary w-full sm:w-1/2 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-last' : '' ?>"
                     data-loading-disable
                 >
-                    Update
+                    Update 
                 </button>
             </div>
         </div>

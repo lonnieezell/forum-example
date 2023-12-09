@@ -16,13 +16,14 @@ class ThreadFactory extends ThreadModel
         $title = $faker->sentence(3);
 
         return new Thread([
-            'title'     => $title,
-            'body'      => $faker->paragraphs(3, true),
-            'author_id' => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,
-            'views'     => $faker->numberBetween(0, 1000),
-            'closed'    => false,
-            'sticky'    => false,
-            'visible'   => true,
+            'title'       => $title,
+            'body'        => $faker->paragraphs(3, true),
+            'author_id'   => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,
+            'views'       => $faker->numberBetween(0, 1000),
+            'closed'      => false,
+            'sticky'      => false,
+            'visible'     => true,
+            'category_id' => null,
         ]);
     }
 }
