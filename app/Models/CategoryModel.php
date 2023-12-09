@@ -72,7 +72,7 @@ class CategoryModel extends Model
     /**
      * Returns a list of all categories, nested by parent.
      */
-    public function findAllNested(): array
+    public function findAllNested(array $categoryIds): array
     {
         $selects = [
             'categories.*',
@@ -85,6 +85,7 @@ class CategoryModel extends Model
             ->active()
             ->orderBy('order', 'asc')
             ->parents()
+            ->whereIn("{$this->table}.id", $categoryIds)
             ->select(implode(', ', $selects))
             ->join('threads', 'threads.id = categories.last_thread_id')
             ->join('users', 'users.id = threads.author_id')
@@ -93,6 +94,7 @@ class CategoryModel extends Model
         $allChildren = $this
             ->active()
             ->children()
+            ->whereIn("{$this->table}.id", $categoryIds)
             ->select(implode(', ', $selects))
             ->join('threads', 'threads.id = categories.last_thread_id')
             ->join('users', 'users.id = threads.author_id')
@@ -105,7 +107,7 @@ class CategoryModel extends Model
     /**
      * Returns a list of all categories, prepared for dropdown.
      */
-    public function findAllNestedDropdown(): array
+    public function findAllNestedDropdown(array $categoryIds): array
     {
         $selects = [
             'id', 'title', 'parent_id', 'permissions',
@@ -113,6 +115,7 @@ class CategoryModel extends Model
 
         return $this
             ->active()
+            ->whereIn('id', $categoryIds)
             ->orderBy('parent_id', 'asc')
             ->orderBy('order', 'asc')
             ->select(implode(', ', $selects))
@@ -132,12 +135,15 @@ class CategoryModel extends Model
     }
 
     /**
-     * Load all category IDs with permissions.
+     * Load all categories with permissions.
+     * If children's permissions are empty then
+     * parents' permissions will be copied to them
      */
     public function findAllPermissions(): array
     {
         $selects = [
             "{$this->table}.id",
+            "{$this->table}.parent_id",
             "COALESCE({$this->table}.permissions, p.permissions) AS permissions",
         ];
 

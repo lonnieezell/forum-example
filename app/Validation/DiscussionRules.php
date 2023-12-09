@@ -2,7 +2,6 @@
 
 namespace App\Validation;
 
-use App\Managers\CategoryManager;
 use CodeIgniter\I18n\Time;
 use Exception;
 
@@ -25,7 +24,7 @@ class DiscussionRules
         }
 
         // Check if you're allowed to see the thread based on the category permissions
-        if (! manager(CategoryManager::class)->checkCategoryPermissions($result->category_id)) {
+        if (! service('policy')->checkCategoryPermissions($result->category_id)) {
             $error = 'You are not allowed to access this thread';
 
             return false;
@@ -147,7 +146,7 @@ class DiscussionRules
     {
         $result = db_connect()
             ->table('categories')
-            ->select('id')
+            ->select('1')
             ->where('slug', $value)
             ->when(
                 $params === 'child',
@@ -163,13 +162,6 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This category does not exist';
-
-            return false;
-        }
-
-        // Check category permissions
-        if (! manager(CategoryManager::class)->checkCategoryPermissions($result->id)) {
-            $error = 'You are not allowed to access this thread';
 
             return false;
         }

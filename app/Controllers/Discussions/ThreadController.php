@@ -33,7 +33,7 @@ class ThreadController extends BaseController
         }
 
         // Check if you're allowed to see the thread based on the category permissions
-        if (! manager(CategoryManager::class)->checkCategoryPermissions($thread->category_id)) {
+        if (! $this->policy->checkCategoryPermissions($thread->category_id)) {
             return $this->policy->deny('You are not allowed to access this thread');
         }
 
@@ -102,6 +102,10 @@ class ThreadController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         $thread = $threadModel->withTags()->find($threadId);
+
+        if (! $thread) {
+            throw PageNotFoundException::forPageNotFound('This thread does not exist.');
+        }
 
         if (! $this->policy->can('threads.edit', $thread)) {
             return $this->policy->deny('You are not allowed to edit this thread.');

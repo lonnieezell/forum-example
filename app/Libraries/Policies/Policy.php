@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Libraries\Policies;
 
 use App\Entities\User;
+use App\Managers\CategoryManager;
 
 /**
  * Provides centralized autnorization based around policies
@@ -74,7 +75,22 @@ class Policy
     }
 
     /**
-     * Check if user has any of the permissions.
+     * Check if current user should have access to the given category.
+     */
+    public function checkCategoryPermissions(int $categoryId)
+    {
+        if ($user = auth()->user()) {
+            $this->withUser($user);
+        }
+
+        $permissions = manager(CategoryManager::class)->loadCategoryPermissions($categoryId);
+
+        return $this->hasAny($permissions);
+    }
+
+    /**
+     * Check if user has any of the permissions
+     * or if the permissions are not set at all.
      */
     public function hasAny(array $permissions): bool
     {

@@ -4,7 +4,6 @@ namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\Post;
-use App\Managers\CategoryManager;
 use App\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
@@ -33,7 +32,7 @@ class PostController extends BaseController
         }
 
         // Check if you're allowed to see the post based on the category permissions
-        if (! manager(CategoryManager::class)->checkCategoryPermissions($post->category_id)) {
+        if (! $this->policy->checkCategoryPermissions($post->category_id)) {
             return $this->policy->deny('You are not allowed to access this post');
         }
 
@@ -169,7 +168,7 @@ class PostController extends BaseController
         $posts = model(PostModel::class)->getAllReplies($postId);
 
         // Check if you're allowed to see the posts based on the category permissions
-        if (count($posts) && ! manager(CategoryManager::class)->checkCategoryPermissions($posts[0]->category_id)) {
+        if (count($posts) && ! $this->policy->checkCategoryPermissions($posts[0]->category_id)) {
             return $this->policy->deny('You are not allowed to access this posts');
         }
 

@@ -11,15 +11,22 @@ class CategoryManager
     /**
      * Prepare permissions as a category id => permissions array.
      */
-    private function preparePermissions(?int $categoryId = null): array
+    public function loadCategoryPermissions(?int $categoryId = null, bool $permissionsOnly = true): array
     {
-        $cacheKey = 'category-permissions';
+        $cacheKey = 'category-permissions-' . (int) $permissionsOnly;
 
         if (! $permissions = cache($cacheKey)) {
             $categories = model(CategoryModel::class)->findAllPermissions();
 
             foreach ($categories as $category) {
-                $permissions[$category->id] = $category->permissions;
+                if ($permissionsOnly) {
+                    $permissions[$category->id] = $category->permissions;
+                } else {
+                    $permissions[$category->id] = [
+                        'parent_id'   => $category->parent_id,
+                        'permissions' => $category->permissions,
+                    ];
+                }
             }
 
             cache()->save($cacheKey, $permissions, 0);
@@ -33,9 +40,9 @@ class CategoryManager
     }
 
     /**
-     * Check if current user should have access to the given category.
+     * Returns an array of category_id which user can access.
      */
-    public function checkCategoryPermissions(int $categoryId)
+    public function filterCategoriesByPermissions(): array
     {
         $policy = service('policy');
 
@@ -43,71 +50,33 @@ class CategoryManager
             $policy->withUser($user);
         }
 
-        $permissions = $this->preparePermissions($categoryId);
-
-        return $policy->hasAny($permissions);
-    }
-
-    /**
-     * Filter threads by category permissions.
-     */
-    public function filterThreadsByPermissions(array $threads): array
-    {
-        $policy = service('policy');
-
-        if ($user = auth()->user()) {
-            $policy->withUser($user);
-        }
-
-        $permissions = $this->preparePermissions();
-
-        return array_filter($threads, static function ($thread) use ($permissions, $user, $policy) {
-            if (($permissions[$thread->category_id] ?? []) === []) {
+        $categories = $this->loadCategoryPermissions(null, false);
+        $removed    = [];
+        // Filter out categories based on permissions
+        $categories = array_filter($categories, static function ($category, $categoryId) use ($user, $policy, &$removed) {
+            if ($category['permissions'] === null) {
                 return true;
             }
 
             if ($user === null) {
+                $removed[] = $categoryId;
+
                 return false;
             }
 
-            return $policy->hasAny($permissions[$thread->category_id]);
-        });
-    }
-
-    /**
-     * Filter categories by permissions.
-     */
-    public function filterCategoriesByPermissions(array $categories): array
-    {
-        $policy = service('policy');
-
-        if ($user = auth()->user()) {
-            $policy->withUser($user);
-        }
-
-        $permissions = $this->preparePermissions();
-        $removed     = [];
-
-        $categories = array_filter($categories, static function ($category) use ($permissions, $user, $policy, &$removed) {
-            if (($permissions[$category->id] ?? []) === []) {
+            if ($policy->hasAny($category['permissions'])) {
                 return true;
             }
 
-            if ($user === null) {
-                return false;
-            }
-
-            if ($policy->hasAny($permissions[$category->id])) {
-                return true;
-            }
-
-            $removed[] = $category->id;
+            $removed[] = $categoryId;
 
             return false;
-        });
+        }, ARRAY_FILTER_USE_BOTH);
 
-        // Filter out children of removed categories
-        return array_filter($categories, static fn ($category) => ! (in_array($category->parent_id, $removed, true)));
+        // Filter out children of removed parent categories
+        $categories = array_filter($categories, static fn ($category) => ! (in_array($category['parent_id'], $removed, true)));
+
+        return array_keys($categories);
     }
 
     /**
@@ -115,10 +84,8 @@ class CategoryManager
      */
     public function findAllNested(): array
     {
-        [$categories, $allChildren] = model(CategoryModel::class)->findAllNested();
-
-        $categories  = $this->filterCategoriesByPermissions($categories);
-        $allChildren = $this->filterCategoriesByPermissions($allChildren);
+        $categoryIds                = $this->filterCategoriesByPermissions();
+        [$categories, $allChildren] = model(CategoryModel::class)->findAllNested($categoryIds);
 
         foreach ($categories as $category) {
             $children = [];
@@ -139,9 +106,8 @@ class CategoryManager
      */
     public function findAllNestedDropdown(): array
     {
-        $categories = model(CategoryModel::class)->findAllNestedDropdown();
-        $categories = $this->filterCategoriesByPermissions($categories);
-
+        $categoryIds = $this->filterCategoriesByPermissions();
+        $categories  = model(CategoryModel::class)->findAllNestedDropdown($categoryIds);
         $resultArray = [];
 
         foreach ($categories as $item) {
