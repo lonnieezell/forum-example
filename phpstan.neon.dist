@@ -13,6 +13,7 @@ parameters:
 		- app/Config/*
 		- app/Views/*
 		- app/Libraries/TextFormatter.php
+        - app/Cells/action_bar.php
 	ignoreErrors:
 	    - '#Cannot use -- on array|bool|float|int|object|string|null.#'
 	    - '#Call to function model with .*::class is discouraged#'

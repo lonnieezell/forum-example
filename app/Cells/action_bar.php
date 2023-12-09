@@ -1,6 +1,7 @@
 <?php
 
 use App\Entities\Thread;
+
 if (auth()->loggedIn()) : ?>
 <div class="action-bar">
     <!-- My Actions -->
