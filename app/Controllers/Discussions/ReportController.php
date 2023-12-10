@@ -5,6 +5,7 @@ namespace App\Controllers\Discussions;
 use App\Controllers\BaseController;
 use App\Entities\ModerationReport;
 use App\Models\ModerationReportModel;
+use App\Models\ThreadModel;
 use Config\Forum;
 use ReflectionException;
 
@@ -18,11 +19,15 @@ class ReportController extends BaseController
      */
     public function index(int $id, string $resourceType)
     {
-        helper(['form', 'inflector']);
+        helper('inflector');
+
+        $resource = $resourceType === 'thread'
+            ? model(ThreadModel::class)->find($id)
+            : model(PostModel::class)->find($id);
 
         $type = plural($resourceType);
 
-        if (! $this->policy->can($type . '.report')) {
+        if (! $this->policy->can('content.report', $resource)) {
             alerts()->set('error', 'You do not have permission to report ' . $type);
 
             return '';
