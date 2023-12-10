@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Entities\ModerationReport;
 use App\Models\ModerationReportModel;
 use App\Models\ThreadModel;
+use App\Models\PostModel;
 use Config\Forum;
 use ReflectionException;
 
