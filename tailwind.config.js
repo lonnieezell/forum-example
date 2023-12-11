@@ -31,10 +31,10 @@ module.exports = {
         },
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          primary: "#6a290d",
+          primary: "#CD4417",
           "primary-content": "#fff",
-          "base-content": "rgb(155, 156, 163)",
-          "base-100": "rgb(30, 33, 41)",
+          "base-content": "rgb(175, 176, 183)",
+          "base-100": "#242424",
         },
       },
     ],

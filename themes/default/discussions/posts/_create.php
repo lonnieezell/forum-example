@@ -1,7 +1,6 @@
 <div class="post-create">
 
     <?= form_open('', [
-        'hx-confirm' => 'Are you sure you want to create a new post?',
         'hx-post' => current_url(),
         'hx-target' => empty($post_id) ? '#replies-content' : 'previous .post-replies',
         'hx-swap' => 'beforeend show:bottom',
@@ -48,16 +47,14 @@
                 </div>
                 <div id="editor-preview" x-show="tab === 'preview'"></div>
             </div>
-            <div class="flex justify-center">
-                <div class="btn-group btn-group-horizontal w-full">
-                    <button class="btn w-1/2" type="button"
-                            @click="$dispatch('removePostForm', { id: '<?= $post_id === '' ? 'post-reply' : 'post-reply-' . $post_id; ?>' })">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary w-1/2" data-loading-disable>
-                        Publish
-                    </button>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button class="btn w-full sm:w-1/2 order-last <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>" type="button"
+                        @click="$dispatch('removePostForm', { id: '<?= $post_id === '' ? 'post-reply' : 'post-reply-' . $post_id; ?>' })">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary w-full sm:w-1/2 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-last' : '' ?>" data-loading-disable>
+                    Publish
+                </button>
             </div>
         </div>
     </div>

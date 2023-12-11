@@ -20,6 +20,7 @@
             <file name="app/Cells/category_list_cell.php" />
             <file name="app/Cells/mute_thread_cell.php" />
             <file name="app/Cells/Moderation/sub_menu_cell.php" />
+            <file name="app/Cells/action_bar_cell.php" />
             <file name="app/Routes.php" />
         </ignoreFiles>
     </projectFiles>
