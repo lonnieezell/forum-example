@@ -22,6 +22,10 @@ class PostPolicy implements PolicyInterface
 
     public function delete(User $user, Post $post): bool
     {
+        if (! service('policy')->checkCategoryPermissions($post->category_id)) {
+            return false;
+        }
+
         return $user->can('posts.delete') || $user->id === $post->author_id;
     }
 }

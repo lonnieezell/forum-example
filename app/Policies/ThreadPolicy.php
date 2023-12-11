@@ -38,6 +38,11 @@ class ThreadPolicy implements PolicyInterface
      */
     public function delete(User $user, Thread $thread): bool
     {
-        return $user->can('threads.delete', 'moderation.threads') || $user->id === $thread->author_id;
+        if (! service('policy')->checkCategoryPermissions($thread->category_id)) {
+            return false;
+        }
+
+        return $user->can('threads.delete', 'moderation.threads')
+            || $user->id === $thread->author_id;
     }
 }
