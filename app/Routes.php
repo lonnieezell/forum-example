@@ -14,13 +14,14 @@ $routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['
 $routes->get('t/(:segment)', 'Discussions\DiscussionController::tag/$1', ['as' => 'tag']);
 
 // Discussions
-$routes->get('discussions', 'Discussions\DiscussionController::list');
+$routes->get('discussions', 'Discussions\DiscussionController::list', ['as' => 'discussions']);
 
 // Threads
 $routes->match(['get', 'post'], 'discussions/new', 'Discussions\ThreadController::create', ['as' => 'thread-create']);
 $routes->match(['get', 'put'], 'discussions/(:num)/edit', 'Discussions\ThreadController::edit/$1', ['as' => 'thread-edit']);
 $routes->post('discussions/preview', 'Discussions\ThreadController::preview', ['as' => 'thread-preview']);
 $routes->get('discussions/(:num)/show', 'Discussions\ThreadController::show/$1', ['as' => 'thread-show']);
+$routes->get('discussions/(:num)/delete', 'Discussions\ThreadController::delete/$1', ['as' => 'thread-delete']);
 $routes->get('discussions/(:segment)/(:segment)?post_id=(:num)', 'Discussions\DiscussionController::thread/$2', ['as' => 'post']);
 $routes->get('discussions/(:segment)/(:segment)', 'Discussions\DiscussionController::thread/$2', ['as' => 'thread']);
 
@@ -34,6 +35,7 @@ $routes->match(['get', 'put'], 'posts/(:num)/edit', 'Discussions\PostController:
 $routes->post('posts/preview', 'Discussions\PostController::preview', ['as' => 'post-preview']);
 $routes->get('posts/(:num)/show', 'Discussions\PostController::show/$1', ['as' => 'post-show']);
 $routes->get('posts/replies/(:num)', 'Discussions\PostController::allReplies/$1', ['as' => 'post-replies-load']);
+$routes->get('posts/(:num)/delete', 'Discussions\PostController::delete/$1', ['as' => 'post-delete']);
 
 // Image upload
 $routes->post('images/upload', 'Discussions\ImageController::upload');
