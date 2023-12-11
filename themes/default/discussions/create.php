@@ -1,13 +1,13 @@
-<?= $this->extend('master')  ?>
+<?= $this->extend('discussion_layout')  ?>
 
 <?= $this->section('main')  ?>
     <div class="thread-create">
 
         <?= form_open('', ['hx-boost' => 'true', 'hx-confirm' => 'Are you sure you want to create a new thread?']); ?>
-            <div class="card rounded bg-base-100 shadow-xl">
+            <div class="">
                 <div class="card-body p-6">
                     <div class="card-title pb-3">
-                        Create a new thread
+                        Start a new Discussion
                     </div>
                     <div class="form-control w-full">
                         <label class="label">
@@ -84,9 +84,9 @@
                         </div>
                         <div id="editor-preview" x-show="tab === 'preview'"></div>
                     </div>
-                    <div class="flex justify-center">
-                        <div class="btn-group btn-group-horizontal w-full">
-                            <button type="submit" class="btn btn-primary w-full" data-loading-disable>
+                    <div class="mt-4">
+                        <div class="btn-group btn-group-horizontal w-full flex justify-end <?= (auth()->user()?->handed ?? 'right') === 'left' ? 'sm:justify-start' : '' ?>">
+                            <button type="submit" class="btn btn-primary btn-block sm:btn-wide" data-loading-disable>
                                 Publish
                             </button>
                         </div>
@@ -95,11 +95,5 @@
             </div>
         <?= form_close(); ?>
     </div>
-
-<?= $this->endSection() ?>
-
-<?= $this->section('sidebar')  ?>
-
-    <h2>Sidebar</h2>
 
 <?= $this->endSection() ?>

@@ -14,6 +14,6 @@ class View extends BaseView
     public function view(string $name, array $data = []): string
     {
         return $this->setData($data)
-            ->render($name, null, true);
+            ->render($name, null, false);
     }
 }
