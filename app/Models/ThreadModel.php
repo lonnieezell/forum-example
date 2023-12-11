@@ -93,7 +93,7 @@ class ThreadModel extends Model
     /**
      * Returns a paginated list of threads for the category.
      */
-    public function forList(array $search, int $perPage): ?array
+    public function forList(array $search, int $perPage, array $categoryIds = []): ?array
     {
         $selects = [
             'threads.*',
@@ -109,6 +109,14 @@ class ThreadModel extends Model
             ->join('categories', 'categories.id = threads.category_id')
             ->join('posts', 'posts.id = threads.last_post_id', 'left')
             ->join('users', 'users.id = posts.author_id', 'left')
+            ->when(
+                $categoryIds === [],
+                static fn ($query) => $query->where('1 = 0')
+            )
+            ->when(
+                $categoryIds !== [],
+                static fn ($query) => $query->whereIn('threads.category_id', $categoryIds)
+            )
             ->when(
                 isset($search['tag']),
                 static fn ($query) => $query

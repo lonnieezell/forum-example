@@ -19,7 +19,6 @@ class CreateForumTables extends Migration
             'parent_id'      => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'order'          => ['type' => 'tinyint', 'constraint' => 2, 'default' => 1],
             'active'         => ['type' => 'tinyint', 'constraint' => 1, 'default' => 0],
-            'private'        => ['type' => 'tinyint', 'constraint' => 1, 'default' => 0],
             'permissions'    => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'thread_count'   => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'default' => 0],
             'post_count'     => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'default' => 0],

@@ -11,7 +11,7 @@ class DiscussionRules
     {
         $result = db_connect()
             ->table('threads')
-            ->select('1')
+            ->select('category_id')
             ->where('id', $value)
             ->limit(1)
             ->get()
@@ -19,6 +19,13 @@ class DiscussionRules
 
         if ($result === null) {
             $error = 'This thread does not exist';
+
+            return false;
+        }
+
+        // Check if you're allowed to see the thread based on the category permissions
+        if (! service('policy')->checkCategoryPermissions($result->category_id)) {
+            $error = 'You are not allowed to access this thread';
 
             return false;
         }

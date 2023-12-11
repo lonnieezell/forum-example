@@ -3,6 +3,7 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
+use App\Managers\CategoryManager;
 use App\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
@@ -42,10 +43,12 @@ class DiscussionController extends BaseController
 
         helper('form');
 
+        $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
+        $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage'], $categoryIds);
 
         $data = [
-            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
+            'threads' => $threadModel->withUsers($threads),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -83,10 +86,11 @@ class DiscussionController extends BaseController
 
         helper('form');
 
+        $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
 
         $data = [
-            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
+            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'], $categoryIds)),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -126,10 +130,12 @@ class DiscussionController extends BaseController
 
         helper('form');
 
+        $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
+        $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage'], $categoryIds);
 
         $data = [
-            'threads' => $threadModel->withUsers($threadModel->withTags()->forList($table['search'], $table['perPage'])),
+            'threads' => $threadModel->withUsers($threads),
             'table'   => [
                 'dropdowns' => [
                     'type' => $this->types,
@@ -147,7 +153,7 @@ class DiscussionController extends BaseController
     /**
      * Displays a single thread and it's replies.
      */
-    public function thread(string $slug): string
+    public function thread(string $slug)
     {
         if (! $this->validateData([
             'slug' => $slug,
@@ -164,6 +170,11 @@ class DiscussionController extends BaseController
 
         if (! $thread) {
             throw PageNotFoundException::forPageNotFound();
+        }
+
+        // Check if you're allowed to see the thread based on the category permissions
+        if (! $this->policy->checkCategoryPermissions($thread->category_id)) {
+            return $this->policy->deny('You are not allowed to access this thread');
         }
 
         if (! $this->request->is('boosted')) {

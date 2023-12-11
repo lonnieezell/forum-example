@@ -36,6 +36,6 @@ class UserPolicy implements PolicyInterface
      */
     public function deleteAvatar(User $user, User $targetUser): bool
     {
-        return $user->can('users.deleteAVatar') || $user->id === $targetUser->id;
+        return $user->can('users.deleteAvatar') || $user->id === $targetUser->id;
     }
 }
