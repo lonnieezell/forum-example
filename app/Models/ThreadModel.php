@@ -292,7 +292,7 @@ class ThreadModel extends Model
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            $oldCategory->last_thread_id = $oldestThread->id;
+            $oldCategory->last_thread_id = $oldestThread?->id;
         }
 
         $categoryModel->allowCallbacks(false)->save($oldCategory);
