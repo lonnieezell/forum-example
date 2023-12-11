@@ -58,7 +58,6 @@
   "scripts": {
     "analyze": [
       "phpstan analyze",
-      "psalm",
       "rector process --dry-run"
     ],
     "sa": "@analyze",
