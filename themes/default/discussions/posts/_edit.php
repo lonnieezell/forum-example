@@ -1,6 +1,5 @@
 <div class="post-edit">
     <?= form_open('', [
-        'hx-confirm' => 'Are you sure you want to update a post?',
         'hx-put' => current_url(),
         'hx-target' => 'closest div',
         'hx-swap' => 'outerHTML show:top',
@@ -45,19 +44,20 @@
                 </div>
                 <div id="editor-preview" x-show="tab === 'preview'"></div>
             </div>
-            <div class="flex justify-center">
-                <div class="btn-group btn-group-horizontal w-full">
-                    <button class="btn w-1/2"
-                            hx-confirm="unset"
-                            hx-get="<?= route_to('post-show', $post->id); ?>"
-                            hx-target="closest .post-edit"
-                            data-loading-disable>
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary w-1/2" data-loading-disable>
-                        Update
-                    </button>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button class="btn w-full sm:w-1/2 order-last <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>"
+                        hx-confirm="unset"
+                        hx-get="<?= route_to('post-show', $post->id); ?>"
+                        hx-target="closest .post-edit"
+                        data-loading-disable>
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="btn btn-primary w-full sm:w-1/2 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-last' : '' ?>"
+                    data-loading-disable
+                >
+                    Update 
+                </button>
             </div>
         </div>
     </div>

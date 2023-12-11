@@ -198,8 +198,13 @@ class DiscussionController extends BaseController
         helper('form');
 
         return $this->render('discussions/thread', [
-            'slug'  => $slug, 'thread' => $thread, 'posts' => $posts, 'answer' => $answer ?? null,
-            'pager' => $pager, 'loadedReplies' => $loadedReplies ?? [],
+            'slug'          => $slug,
+            'thread'        => $thread,
+            'posts'         => $posts,
+            'answer'        => $answer ?? null,
+            'pager'         => $pager,
+            'loadedReplies' => $loadedReplies ?? [],
+            'category'      => model(CategoryModel::class)->find($thread->category_id),
         ]);
     }
 }
