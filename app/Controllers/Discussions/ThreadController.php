@@ -32,7 +32,9 @@ class ThreadController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        return $this->render('discussions/threads/_thread', ['thread' => $threadModel->withUsers($thread)]);
+        return $this->render('discussions/threads/_thread', [
+            'thread' => $threadModel->withUsers($thread),
+        ]);
     }
 
     /**
