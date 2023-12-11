@@ -2377,24 +2377,25 @@
         },
         {
             "name": "s9e/sweetdom",
-            "version": "2.1.2",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/SweetDOM.git",
-                "reference": "482d42537a1e0ab98924a9d932b724a175302fe8"
+                "reference": "1c1c4b83e9ef647ff0ae20235b61cd9c278102a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/SweetDOM/zipball/482d42537a1e0ab98924a9d932b724a175302fe8",
-                "reference": "482d42537a1e0ab98924a9d932b724a175302fe8",
+                "url": "https://api.github.com/repos/s9e/SweetDOM/zipball/1c1c4b83e9ef647ff0ae20235b61cd9c278102a8",
+                "reference": "1c1c4b83e9ef647ff0ae20235b61cd9c278102a8",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
-                "php": ">=8.0"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^10.0",
+                "s9e/repdoc": "dev-wip"
             },
             "type": "library",
             "autoload": {
@@ -2415,31 +2416,31 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/SweetDOM/issues",
-                "source": "https://github.com/s9e/SweetDOM/tree/2.1.2"
+                "source": "https://github.com/s9e/SweetDOM/tree/3.2.0"
             },
-            "time": "2023-10-07T13:06:42+00:00"
+            "time": "2023-11-26T15:30:50+00:00"
         },
         {
             "name": "s9e/text-formatter",
-            "version": "2.14.3",
+            "version": "2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/TextFormatter.git",
-                "reference": "bec02b24b78e4bc292c731b334d7cd31be72c3c7"
+                "reference": "3eccb693643b65b2ffcda4baa34bd435c3b578f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/bec02b24b78e4bc292c731b334d7cd31be72c3c7",
-                "reference": "bec02b24b78e4bc292c731b334d7cd31be72c3c7",
+                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/3eccb693643b65b2ffcda4baa34bd435c3b578f0",
+                "reference": "3eccb693643b65b2ffcda4baa34bd435c3b578f0",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-filter": "*",
                 "lib-pcre": ">=8.13",
-                "php": "^8.0",
+                "php": "^8.1",
                 "s9e/regexp-builder": "^1.4",
-                "s9e/sweetdom": "^2.0"
+                "s9e/sweetdom": "^3.0"
             },
             "require-dev": {
                 "code-lts/doctum": "*",
@@ -2457,7 +2458,7 @@
             },
             "type": "library",
             "extra": {
-                "version": "2.14.3"
+                "version": "2.15.0"
             },
             "autoload": {
                 "psr-4": {
@@ -2489,9 +2490,9 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/TextFormatter/issues",
-                "source": "https://github.com/s9e/TextFormatter/tree/2.14.3"
+                "source": "https://github.com/s9e/TextFormatter/tree/2.15.0"
             },
-            "time": "2023-11-11T15:27:53+00:00"
+            "time": "2023-12-03T23:25:29+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2810,16 +2811,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v6.3.8",
+            "version": "v6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "3493af8a8dad7fa91c77fa473ba23ecd95334a92"
+                "reference": "4f9237a1bb42455d609e6687d2613dde5b41a587"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/3493af8a8dad7fa91c77fa473ba23ecd95334a92",
-                "reference": "3493af8a8dad7fa91c77fa473ba23ecd95334a92",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/4f9237a1bb42455d609e6687d2613dde5b41a587",
+                "reference": "4f9237a1bb42455d609e6687d2613dde5b41a587",
                 "shasum": ""
             },
             "require": {
@@ -2831,7 +2832,7 @@
                 "symfony/console": "<5.4"
             },
             "require-dev": {
-                "symfony/console": "^5.4|^6.0"
+                "symfony/console": "^5.4|^6.0|^7.0"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -2862,7 +2863,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v6.3.8"
+                "source": "https://github.com/symfony/yaml/tree/v6.4.0"
             },
             "funding": [
                 {
@@ -2878,7 +2879,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-06T10:58:05+00:00"
+            "time": "2023-11-06T11:00:25+00:00"
         }
     ],
     "packages-dev": [
@@ -5322,16 +5323,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.13",
+            "version": "9.6.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f3d767f7f9e191eab4189abe41ab37797e30b1be"
+                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f3d767f7f9e191eab4189abe41ab37797e30b1be",
-                "reference": "f3d767f7f9e191eab4189abe41ab37797e30b1be",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/05017b80304e0eb3f31d90194a563fd53a6021f1",
+                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1",
                 "shasum": ""
             },
             "require": {
@@ -5405,7 +5406,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.15"
             },
             "funding": [
                 {
@@ -5421,7 +5422,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-19T05:39:22+00:00"
+            "time": "2023-12-01T16:55:19+00:00"
         },
         {
             "name": "psr/container",
