@@ -23,11 +23,11 @@
     <?= $this->renderSection('header') ?>
 
     <div class="flex flex-col sm:flex-row container mx-auto gap-4" id="main-with-sidebar">
-        <div class="flex-1 px-1 sm:px-4 pt-4 pb-8 order-last sm:<?= (auth()->user()?->handed ?? 'right') === 'right'  ? 'order-first' : 'order-last' ?>" id="main">
+        <div class="flex-1 px-1 sm:px-4 pt-4 pb-8 order-last <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>" id="main">
             <?= $this->renderSection('main') ?>
         </div>
 
-        <div class="flex-0 flex flex-col gap-4 w-full px-4 sm:w-64 pb-8 order-first sm:<?= (auth()->user()?->handed ?? 'right') === 'right' ? 'order-last' : 'order-first' ?>" id="sidebar">
+        <div class="flex-0 w-full px-4 pt-4 sm:w-64 pb-8 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>" id="sidebar">
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>
