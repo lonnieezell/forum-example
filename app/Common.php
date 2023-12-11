@@ -13,6 +13,9 @@
  *
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
+
+use CodeIgniter\Config\Factories;
+
 if (! function_exists('policy')) {
     /**
      * A convenience method for accessing the Policy service.
@@ -35,4 +38,14 @@ function vite(string|array $path): string
     }
 
     return $vite->links($path);
+}
+
+if (! function_exists('manager')) {
+    /**
+     * More simple way of getting manager instances from Factories
+     */
+    function manager(string $name, bool $getShared = true): mixed
+    {
+        return Factories::managers($name, ['getShared' => $getShared]);
+    }
 }

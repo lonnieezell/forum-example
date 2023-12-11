@@ -20,8 +20,6 @@ class PostController extends BaseController
     /**
      * Show post.
      *
-     * @todo Secure the access
-     *
      * @throws PageNotFoundException
      */
     public function show(int $postId)
@@ -30,7 +28,12 @@ class PostController extends BaseController
         $post      = $postModel->find($postId);
 
         if (! $post) {
-            throw PageNotFoundException::forPageNotFound();
+            throw PageNotFoundException::forPageNotFound('Post not found');
+        }
+
+        // Check if you're allowed to see the post based on the category permissions
+        if (! $this->policy->checkCategoryPermissions($post->category_id)) {
+            return $this->policy->deny('You are not allowed to access this post');
         }
 
         $thread = model(ThreadModel::class)->find($post->thread_id);
@@ -159,12 +162,15 @@ class PostController extends BaseController
 
     /**
      * Display all replies for given post.
-     *
-     * @todo Secure the access
      */
     public function allReplies(int $postId): string
     {
         $posts = model(PostModel::class)->getAllReplies($postId);
+
+        // Check if you're allowed to see the posts based on the category permissions
+        if (count($posts) && ! $this->policy->checkCategoryPermissions($posts[0]->category_id)) {
+            return $this->policy->deny('You are not allowed to access this posts');
+        }
 
         return $this->render('discussions/_thread_items', ['posts' => $posts, 'loadedReplies' => []]);
     }

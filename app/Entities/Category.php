@@ -13,11 +13,10 @@ class Category extends Entity
         'parent_id'      => '?integer',
         'order'          => 'integer',
         'active'         => 'boolean',
-        'private'        => 'boolean',
         'thread_count'   => 'integer',
         'post_count'     => 'integer',
         'last_thread_id' => '?integer',
-        'permissions'    => 'array',
+        'permissions'    => '?array',
     ];
 
     /**
