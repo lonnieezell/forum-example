@@ -181,7 +181,7 @@ final class DiscussionControllerTest extends TestCase
         $response = $this->get('discussions/cat-1-sub-category-1/sample-thread-1');
 
         $response->assertOK();
-        $response->assertSeeElement('#thread');
+        $response->assertSeeElement('#thread-wrap');
         $response->assertSeeElement('#replies-content');
     }
 

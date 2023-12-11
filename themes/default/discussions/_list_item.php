@@ -5,7 +5,7 @@
     hx-select="#thread-wrap">
 
     <div class="flex-1">
-        <h3 class="text-lg leading-tight font-semibold cursor-pointer mb-1">
+        <h3 class="text-xl leading-tight font-semibold cursor-pointer mb-1">
             <?= esc($thread->title) ?>
         </h3>
 

@@ -32,7 +32,7 @@ final class ThreadControllerTest extends TestCase
 
         $response->assertOK();
         $response->assertSeeElement('.thread-create');
-        $response->assertSee('Create a new thread');
+        $response->assertSee('Start a new Discussion');
     }
 
     /**
