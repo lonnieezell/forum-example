@@ -13,11 +13,19 @@ class PostPolicy implements PolicyInterface
      */
     public function edit(User $user, Post $post): bool
     {
+        if (! service('policy')->checkCategoryPermissions($post->category_id)) {
+            return false;
+        }
+
         return $user->can('posts.edit') || $user->id === $post->author_id;
     }
 
     public function delete(User $user, Post $post): bool
     {
+        if (! service('policy')->checkCategoryPermissions($post->category_id)) {
+            return false;
+        }
+
         return $user->can('posts.delete') || $user->id === $post->author_id;
     }
 }

@@ -163,7 +163,7 @@ class PostModel extends Model
      */
     public function getAllReplies(int $postId): array
     {
-        $posts = $this->where('reply_to', $postId)->findAll();
+        $posts = $this->where('reply_to', $postId)->visible()->findAll();
 
         return $this->withUsers($posts);
     }

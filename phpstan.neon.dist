@@ -28,6 +28,15 @@ parameters:
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transComplete\(\).#'
 	    	paths:
 	    	    - app/Controllers/Account/SecurityController.php
+	    -
+	    	message: '#Call to an undefined static method CodeIgniter\\Config\\Factories::managers\(\).#'
+	    	paths:
+	    	    - app/Common.php
+	    -
+	    	message: '#Parameter \#1 \$user of method App\\Libraries\\Policies\\Policy::withUser\(\) expects App\\Entities\\User, CodeIgniter\\Shield\\Entities\\User given.#'
+	    	paths:
+	    	    - app/Managers/CategoryManager.php
+	    	    - app/Libraries/Policies/Policy.php
 	treatPhpDocTypesAsCertain: false
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity

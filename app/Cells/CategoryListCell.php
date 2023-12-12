@@ -3,7 +3,7 @@
 namespace App\Cells;
 
 use App\Entities\Category;
-use App\Models\CategoryModel;
+use App\Managers\CategoryManager;
 use CodeIgniter\View\Cells\Cell;
 
 class CategoryListCell extends Cell
@@ -18,12 +18,6 @@ class CategoryListCell extends Cell
         $this->activeId = $activeCategory ? $activeCategory->id : 0;
         $this->parentId = $activeCategory ? $activeCategory->parent_id : 0;
 
-        $this->categories = model(CategoryModel::class)
-            ->active()
-            ->parents()
-            ->public()
-            ->orderBy('order', 'asc')
-            ->orderBy('title', 'asc')
-            ->findAllNested();
+        $this->categories = manager(CategoryManager::class)->findAllNested();
     }
 }
