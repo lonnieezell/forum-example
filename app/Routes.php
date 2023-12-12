@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', static fn () => redirect()->to('/discussions'));
 
+$routes->get('terms-of-service', 'LegalController::terms', ['as' => 'terms']);
+$routes->get('privacy-policy', 'LegalController::privacy', ['as' => 'privacy']);
+
 // Categories
 $routes->get('c/(:segment)', 'Discussions\DiscussionController::category/$1', ['as' => 'category']);
 
