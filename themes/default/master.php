@@ -16,7 +16,7 @@
     <?= $this->renderSection('styles') ?>
 </head>
 
-<body hx-ext="loading-states" class="pb-12">
+<body hx-ext="loading-states">
 
     <?= $this->include('_app_nav') ?>
 
@@ -31,6 +31,8 @@
             <?= $this->renderSection('sidebar') ?>
         </div>
     </div>
+
+    <?= $this->view('_footer') ?>
 
     <div id="modal-container"></div>
 

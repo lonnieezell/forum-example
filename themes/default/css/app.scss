@@ -43,6 +43,12 @@ body {
     @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
 }
 
+.main-footer {
+    a {
+        @apply hover:text-primary;
+    }
+}
+
 .action-bar {
     @apply flex flex-col sm:flex-row justify-between mt-8 py-2;
     @apply border-t border-b border-neutral-300 dark:border-neutral-600;

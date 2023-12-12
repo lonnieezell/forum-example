@@ -17,6 +17,16 @@ class App extends BaseConfig
 
     /**
      * --------------------------------------------------------------------------
+     * Copyright Holder
+     * --------------------------------------------------------------------------
+     *
+     * Who should be listed as the copyright holder.
+     * Displays in footer. Leave empty for no display.
+     */
+    public string $copyrightHolder = 'MySite.com';
+
+    /**
+     * --------------------------------------------------------------------------
      * Base Site URL
      * --------------------------------------------------------------------------
      *
