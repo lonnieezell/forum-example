@@ -11,8 +11,6 @@ class HelpController extends BaseController
      */
     public function index()
     {
-        helper('form');
-
         $markdownPages = service('markdownpages', ROOTPATH . 'help');
 
         if ($this->request->is('post')) {
@@ -51,8 +49,6 @@ class HelpController extends BaseController
      */
     public function show(...$slug)
     {
-        helper('form');
-
         $slug = implode('/', $slug);
 
         $markdownPages = service('markdownpages', ROOTPATH . 'help');

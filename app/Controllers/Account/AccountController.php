@@ -64,8 +64,6 @@ class AccountController extends BaseController
      */
     public function notifications()
     {
-        helper('form');
-
         $rules = [
             'email_thread'     => ['required', 'in_list[0,1]'],
             'email_post'       => ['required', 'in_list[0,1]'],
@@ -104,7 +102,7 @@ class AccountController extends BaseController
      */
     public function profile()
     {
-        helper(['form', 'date', 'number']);
+        helper(['date', 'number']);
 
         $maxUploadSize = max_upload_size(true);
         $avatar        = $this->request->getFile('avatar');

@@ -41,8 +41,6 @@ class DiscussionController extends BaseController
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
 
-        helper('form');
-
         $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
         $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage'], $categoryIds);
@@ -83,8 +81,6 @@ class DiscussionController extends BaseController
         if (! $this->validateData($table, $rules)) {
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
-
-        helper('form');
 
         $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
@@ -127,8 +123,6 @@ class DiscussionController extends BaseController
         if (! $this->validateData($table, $rules)) {
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
-
-        helper('form');
 
         $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
@@ -205,8 +199,6 @@ class DiscussionController extends BaseController
             $answer = $postModel->find($thread->answer_post_id);
             $answer = $postModel->withUsers($answer);
         }
-
-        helper('form');
 
         return $this->render('discussions/thread', [
             'slug'          => $slug,

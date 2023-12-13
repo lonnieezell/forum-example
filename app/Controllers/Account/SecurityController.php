@@ -17,8 +17,6 @@ class SecurityController extends BaseController
      */
     public function index()
     {
-        helper('form');
-
         /** @var User $user */
         $user = auth()->user();
 
@@ -58,8 +56,6 @@ class SecurityController extends BaseController
             // user is allowed NOT to edit the post
             return $this->policy->deny('You are not allowed to change the password for this user.');
         }
-
-        helper('form');
 
         // Validate the user's password.
         $valid = $this->validateData($this->request->getPost(), [
@@ -132,8 +128,6 @@ class SecurityController extends BaseController
             return $this->policy->deny('You are not allowed to change the 2FA settings for this user.');
         }
 
-        helper('form');
-
         // Validate the user's password.
         $credentials = [
             'email'    => auth()->user()->email,
@@ -184,8 +178,6 @@ class SecurityController extends BaseController
             // user is allowed NOT to edit the post
             return $this->policy->deny('You are not allowed to delete this user.');
         }
-
-        helper('form');
 
         // Validate the user's password.
         $credentials = [

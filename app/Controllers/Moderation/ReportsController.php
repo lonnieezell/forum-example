@@ -24,7 +24,7 @@ class ReportsController extends BaseController
      */
     public function list(string $resourceType = 'thread')
     {
-        helper(['form', 'inflector', 'text']);
+        helper(['inflector', 'text']);
 
         $resourceName = plural($resourceType);
 
@@ -173,7 +173,7 @@ class ReportsController extends BaseController
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
 
-        helper(['form', 'inflector', 'text']);
+        helper(['inflector', 'text']);
 
         $logModel = model(ModerationLogModel::class);
 

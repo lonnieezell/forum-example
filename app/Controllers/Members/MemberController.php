@@ -42,8 +42,6 @@ class MemberController extends BaseController
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
 
-        helper('form');
-
         $userModel = model(UserModel::class);
 
         $data = [
