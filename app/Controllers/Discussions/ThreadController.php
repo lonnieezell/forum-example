@@ -53,8 +53,6 @@ class ThreadController extends BaseController
             return $this->policy->deny('You are not allowed to create threads.');
         }
 
-        helper('form');
-
         $categoryDropdown = manager(CategoryManager::class)->findAllNestedDropdown();
 
         if ($this->request->is('post')) {
@@ -110,8 +108,6 @@ class ThreadController extends BaseController
         if (! $this->policy->can('threads.edit', $thread)) {
             return $this->policy->deny('You are not allowed to edit this thread.');
         }
-
-        helper('form');
 
         $categoryDropdown = manager(CategoryManager::class)->findAllNestedDropdown();
 
