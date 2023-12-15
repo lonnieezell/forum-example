@@ -14,7 +14,7 @@
     "@yaireo/tagify": "^4.17.9",
     "alpinejs": "^3.13.1",
     "autoprefixer": "^10.4.16",
-    "daisyui": "^4.4.19",
+    "daisyui": "^4.4.20",
     "easymde": "^2.18.0",
     "htmx.org": "^1.9.8",
     "postcss": "^8.4.32",
