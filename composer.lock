@@ -3105,19 +3105,20 @@
         },
         {
             "name": "codeigniter/phpstan-codeigniter",
-            "version": "v1.4.2.70400",
+            "version": "v1.4.3.70400",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodeIgniter/phpstan-codeigniter.git",
-                "reference": "8aded99455244e5580d71931c38ac8120163f0bf"
+                "reference": "5769b44a08face16a92b2253fbf000491a8272ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodeIgniter/phpstan-codeigniter/zipball/8aded99455244e5580d71931c38ac8120163f0bf",
-                "reference": "8aded99455244e5580d71931c38ac8120163f0bf",
+                "url": "https://api.github.com/repos/CodeIgniter/phpstan-codeigniter/zipball/5769b44a08face16a92b2253fbf000491a8272ee",
+                "reference": "5769b44a08face16a92b2253fbf000491a8272ee",
                 "shasum": ""
             },
             "require": {
+                "codeigniter4/framework": "^4.4",
                 "php": "^7.4 || ^8.0",
                 "phpstan/phpstan": "^1.10"
             },
@@ -3126,10 +3127,10 @@
             },
             "require-dev": {
                 "codeigniter/coding-standard": "^1.7",
-                "codeigniter4/framework": "^4.3",
                 "codeigniter4/shield": "^1.0@beta",
                 "friendsofphp/php-cs-fixer": "^3.20",
                 "nexusphp/cs-config": "^3.12",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpstan/extension-installer": "^1.3",
                 "phpstan/phpstan-deprecation-rules": "^1.1",
                 "phpstan/phpstan-phpunit": "^1.3",
@@ -3174,7 +3175,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "source": "https://github.com/CodeIgniter/phpstan-codeigniter"
             },
-            "time": "2023-11-05T10:43:01+00:00"
+            "time": "2023-12-21T05:10:13+00:00"
         },
         {
             "name": "codeigniter4/devkit",
@@ -4792,16 +4793,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.45",
+            "version": "1.10.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "2f024fbb47432e2e62ad8a8032387aa2dd631c73"
+                "reference": "06a98513ac72c03e8366b5a0cb00750b487032e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2f024fbb47432e2e62ad8a8032387aa2dd631c73",
-                "reference": "2f024fbb47432e2e62ad8a8032387aa2dd631c73",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/06a98513ac72c03e8366b5a0cb00750b487032e4",
+                "reference": "06a98513ac72c03e8366b5a0cb00750b487032e4",
                 "shasum": ""
             },
             "require": {
@@ -4850,7 +4851,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-27T14:15:06+00:00"
+            "time": "2023-12-13T10:59:42+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
