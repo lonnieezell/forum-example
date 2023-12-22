@@ -30,6 +30,7 @@
                         autocomplete="one-time-code"
                         required
                     >
+                    <?= show_error('token') ?>
                 </div>
 
                 <div class="card-actions justify-center mt-12">
