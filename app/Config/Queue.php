@@ -3,8 +3,8 @@
 namespace Config;
 
 use App\Jobs\EmailSimpleMessage;
-use Michalsn\CodeIgniterQueue\Config\Queue as BaseQueue;
-use Michalsn\CodeIgniterQueue\Handlers\DatabaseHandler;
+use CodeIgniter\Queue\Config\Queue as BaseQueue;
+use CodeIgniter\Queue\Handlers\DatabaseHandler;
 
 class Queue extends BaseQueue
 {

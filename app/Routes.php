@@ -87,4 +87,4 @@ $routes->group('moderation', ['filter'], static function (RouteCollection $route
 });
 
 // Shield Auth routes
-service('auth')->routes($routes);
+service('auth')->routes($routes, ['namespace' => 'App\Controllers\Auth']);

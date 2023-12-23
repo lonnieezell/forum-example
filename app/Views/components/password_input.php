@@ -8,7 +8,7 @@
             style="padding-right: 3rem;"
         />
 
-        <div class="absolute" style="right: 1rem; top: 1rem;">
+        <div class="absolute opacity-30 hover:opacity-80 cursor-pointer" style="right: 1rem; top: 1rem;">
             <span @click="show = !show" :class="{'block': !show, 'hidden':show }">
                 <?= view('icons/eye') ?>
             </span>
