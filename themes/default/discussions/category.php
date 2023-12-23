@@ -3,7 +3,10 @@
 <?= $this->section('header') ?>
     <div class="header-row">
         <div>
-            <h2><span>Discussions in </span><?= esc($activeCategory->title); ?></h2>
+            <h2 class="text-neutral-600">
+                <span>Discussions in </span>
+                <?= esc($activeCategory->title); ?>
+            </h2>
         </div>
     </div>
 <?= $this->endSection() ?>

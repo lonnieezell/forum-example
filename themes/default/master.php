@@ -27,9 +27,11 @@
             <?= $this->renderSection('main') ?>
         </div>
 
-        <div class="flex-0 w-full px-4 pt-4 sm:w-64 pb-8 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>" id="sidebar">
-            <?= $this->renderSection('sidebar') ?>
-        </div>
+        <?php if (!isset($hideSidebar) || !$hideSidebar): ?>
+            <div class="flex-0 w-full px-4 pt-4 sm:w-64 pb-8 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-first' : '' ?>" id="sidebar">
+                <?= $this->renderSection('sidebar') ?>
+            </div>
+        <?php endif ?>
     </div>
 
     <?= $this->view('_footer') ?>

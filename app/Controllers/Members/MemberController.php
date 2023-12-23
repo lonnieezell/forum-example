@@ -52,11 +52,12 @@ class MemberController extends BaseController
                 $table['sortColumn'],
                 $table['sortDirection']
             ),
+            'hideSidebar' => true,
         ];
 
         $table['dropdowns'] = [
-            'role' => array_combine($roleKeys, ['All', ...array_column(setting('AuthGroups.groups'), 'title')]),
-            'type' => ['all' => 'All users', 'new' => 'New users'],
+            'role' => array_combine($roleKeys, ['Any role', ...array_column(setting('AuthGroups.groups'), 'title')]),
+            'type' => ['all' => 'Veteran and new users', 'new' => 'New users'],
         ];
 
         $table['pager']  = $userModel->pager;

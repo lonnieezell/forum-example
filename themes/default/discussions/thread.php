@@ -3,7 +3,7 @@
 <?= $this->section('header') ?>
     <div class="header-row">
         <div>
-            <h2>
+            <h2 class="text-neutral-600">
                 <a href="<?= url_to('discussions') ?>">
                     Discussions
                 </a>

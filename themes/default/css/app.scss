@@ -29,7 +29,7 @@ body {
         @apply container flex flex-col sm:flex-row w-auto;
 
         h2 {
-            @apply text-xl text-neutral-700 dark:text-neutral-300 font-bold;
+            @apply text-xl text-slate-700 dark:text-neutral-300 font-bold;
 
             & span {
                 @apply text-neutral-500 font-normal hidden sm:inline;
@@ -59,16 +59,8 @@ body {
     }
 }
 
-form select.select {
-    height: 3rem;
-    padding-left: 1rem;
-    padding-right: 2.5rem;
-    font-size: 0.875rem;
-    line-height: 2;
-    @apply bg-base-100;
-    border-width: 1px;
-    border-color: hsl(var(--bc) / 0.3);
-    border-radius: var(--rounded-btn, .5rem);
+input.filter-select {
+    @apply select select-bordered select-sm w-auto;
 }
 fieldset {
     @apply pl-6 mb-8;

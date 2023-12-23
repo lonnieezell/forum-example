@@ -3,7 +3,7 @@
 <?= $this->section('header') ?>
     <div class="header-row">
         <div>
-            <h2>Discussions</h2>
+            <h2 class="text-neutral-600">Discussions</h2>
         </div>
     </div>
 <?= $this->endSection() ?>
