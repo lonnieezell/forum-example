@@ -3,7 +3,10 @@
 <?= $this->section('header') ?>
     <div class="header-row">
         <div>
-            <h2><span>Discussions tagged </span><?= esc($table['search']['tag']); ?></h2>
+            <h2 class="text-neutral-600">
+                <span>Discussions tagged </span>
+                <?= esc($table['search']['tag']); ?>
+            </h2>
         </div>
     </div>
 <?= $this->endSection() ?>
