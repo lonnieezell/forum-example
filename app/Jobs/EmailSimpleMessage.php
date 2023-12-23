@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use Exception;
-use Michalsn\CodeIgniterQueue\BaseJob;
-use Michalsn\CodeIgniterQueue\Interfaces\JobInterface;
+use CodeIgniter\Queue\BaseJob;
+use CodeIgniter\Queue\Interfaces\JobInterface;
 
 class EmailSimpleMessage extends BaseJob implements JobInterface
 {

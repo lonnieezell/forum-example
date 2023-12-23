@@ -5,10 +5,24 @@ use CodeIgniter\Validation\ValidationInterface;
 function form_error(ValidationInterface $validator, string $field): string
 {
     if ($validator->hasError($field)) {
-        return '<label class="label error"><span class="label-text-all">' . $validator->getError($field) . '</span></label>';
+        return wrap_error($validator->getError($field));
     }
 
     return '';
+}
+
+function show_error(string $field): string
+{
+    if (session()->has('errors') && array_key_exists($field, session('errors'))) {
+        return wrap_error(session('errors')[$field]);
+    }
+
+    return '';
+}
+
+function wrap_error(string $error)
+{
+    return '<label class="label error"><span class="label-text-all">' . $error . '</span></label>';
 }
 
 /**

@@ -9,7 +9,7 @@
     "ext-simplexml": "*",
     "ext-xsl": "*",
     "codeigniter4/framework": "^4.4",
-    "codeigniter4/shield": "^1.0@beta",
+    "codeigniter4/shield": "dev-develop",
     "codeigniter4/tasks": "dev-develop",
     "league/commonmark": "^2.3",
     "league/flysystem": "^3.18",
@@ -17,7 +17,7 @@
     "league/flysystem-memory": "^3.19",
     "michalsn/codeigniter-htmx": "^1.4",
     "michalsn/codeigniter-markdown-pages": "dev-develop",
-    "michalsn/codeigniter-queue": "dev-develop",
+    "codeigniter4/queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",
     "michalsn/codeigniter-tags": "^1.0",
     "s9e/text-formatter": "^2.13"
