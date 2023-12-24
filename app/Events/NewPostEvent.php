@@ -141,7 +141,7 @@ class NewPostEvent
                 continue;
             }
             // user wants to be notified about every reply
-            if ($setting->email_post === true) {
+            if ($setting->email_post === true && isset($users[$setting->user_id])) {
                 // send notification
                 $this->sendNotification($users[$setting->user_id], $this->category, $this->thread, $this->post);
                 $this->count++;
@@ -163,7 +163,7 @@ class NewPostEvent
                 }
 
                 // user replied to the same post earlier
-                if (in_array($setting->user_id, $replyAuthorIds, true)) {
+                if (in_array($setting->user_id, $replyAuthorIds, true) && isset($users[$setting->user_id])) {
                     // send notification
                     $this->sendNotification($users[$setting->user_id], $this->category, $this->thread, $this->post);
                     $this->count++;
