@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c98310c446ad8928a82914873c9c0b1d",
+    "content-hash": "6851e2ab4ba151ed13c23b50b0cc5208",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -348,16 +348,16 @@
         },
         {
             "name": "codeigniter4/shield",
-            "version": "dev-develop",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/shield.git",
-                "reference": "daba1e3e15bc0f06ec040023013bd96e19fb7e1b"
+                "reference": "7be6b60250158ade521a6f0fdb15ece02254d09a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/shield/zipball/daba1e3e15bc0f06ec040023013bd96e19fb7e1b",
-                "reference": "daba1e3e15bc0f06ec040023013bd96e19fb7e1b",
+                "url": "https://api.github.com/repos/codeigniter4/shield/zipball/7be6b60250158ade521a6f0fdb15ece02254d09a",
+                "reference": "7be6b60250158ade521a6f0fdb15ece02254d09a",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,6 @@
                 "ext-curl": "Required to use the password validation rule via PwnedValidator class.",
                 "ext-openssl": "Required to use the JWT Authenticator."
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -418,7 +417,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "source": "https://github.com/codeigniter4/shield"
             },
-            "time": "2023-12-22T17:47:19+00:00"
+            "time": "2023-12-27T06:55:58+00:00"
         },
         {
             "name": "codeigniter4/tasks",
@@ -8429,9 +8428,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "codeigniter4/shield": 20,
-        "codeigniter4/tasks": 20,
         "codeigniter4/queue": 20,
+        "codeigniter4/tasks": 20,
         "michalsn/codeigniter-markdown-pages": 20
     },
     "prefer-stable": true,
