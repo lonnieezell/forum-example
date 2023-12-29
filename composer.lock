@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30df08cfe579f87a947445032ec94fa5",
+    "content-hash": "c98310c446ad8928a82914873c9c0b1d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -453,57 +453,7 @@
                     "**/Database/Migrations/**"
                 ]
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\Support\\": "tests/_support"
-                }
-            },
-            "scripts": {
-                "post-update-cmd": [
-                    "bash admin/setup.sh"
-                ],
-                "analyze": [
-                    "Composer\\Config::disableProcessTimeout",
-                    "phpstan analyze",
-                    "psalm",
-                    "rector process --dry-run"
-                ],
-                "sa": [
-                    "@analyze"
-                ],
-                "ci": [
-                    "Composer\\Config::disableProcessTimeout",
-                    "@cs",
-                    "@deduplicate",
-                    "@inspect",
-                    "@analyze",
-                    "@test"
-                ],
-                "cs": [
-                    "php-cs-fixer fix --ansi --verbose --dry-run --diff"
-                ],
-                "cs-fix": [
-                    "php-cs-fixer fix --ansi --verbose --diff"
-                ],
-                "style": [
-                    "@cs-fix"
-                ],
-                "deduplicate": [
-                    "phpcpd src/ tests/"
-                ],
-                "inspect": [
-                    "deptrac analyze --cache-file=build/deptrac.cache"
-                ],
-                "mutate": [
-                    "infection --threads=2 --skip-initial-tests --coverage=build/phpunit"
-                ],
-                "retool": [
-                    "retool"
-                ],
-                "test": [
-                    "phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -523,8 +473,8 @@
                 "task scheduling"
             ],
             "support": {
-                "source": "https://github.com/codeigniter4/tasks/tree/develop",
-                "issues": "https://github.com/codeigniter4/tasks/issues"
+                "issues": "https://github.com/codeigniter4/tasks/issues",
+                "source": "https://github.com/codeigniter4/tasks/tree/develop"
             },
             "time": "2023-12-22T18:29:10+00:00"
         },
@@ -8480,8 +8430,8 @@
     "stability-flags": {
         "codeigniter4/shield": 20,
         "codeigniter4/tasks": 20,
-        "michalsn/codeigniter-markdown-pages": 20,
-        "codeigniter4/queue": 20
+        "codeigniter4/queue": 20,
+        "michalsn/codeigniter-markdown-pages": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
