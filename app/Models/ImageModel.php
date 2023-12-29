@@ -34,4 +34,24 @@ class ImageModel extends Model
             ->groupEnd()
             ->find();
     }
+
+    /**
+     * Returns the total storage used by all images.
+     * Can optionally be filtered by user.
+     */
+    public function totalStorageUsed(?int $userId = null)
+    {
+        if ($userId === null) {
+            return $this
+                ->selectSum('size')
+                ->asArray()
+                ->first()['size'];
+        }
+
+        return $this
+            ->selectSum('size')
+            ->where('user_id', $userId)
+            ->asArray()
+            ->first()['size'];
+    }
 }

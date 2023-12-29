@@ -14,8 +14,14 @@ export default defineConfig(() => {
       manifest: true,
       rollupOptions: {
         // overwrite default .html entry
-        input: ["./themes/default/css/app.scss", "./themes/default/js/app.js"],
+        input: [
+          "./themes/default/css/app.scss",
+          "./themes/default/js/app.js",
+          "./themes/admin/css/admin.scss",
+          "./themes/admin/js/admin.js",
+        ],
       },
+      outDir: "./public/assets/",
     },
   };
 });
