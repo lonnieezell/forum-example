@@ -11,13 +11,13 @@
     "codeigniter4/framework": "^4.4",
     "codeigniter4/shield": "dev-develop",
     "codeigniter4/tasks": "dev-develop",
+    "codeigniter4/queue": "dev-develop",
     "league/commonmark": "^2.3",
     "league/flysystem": "^3.18",
     "league/flysystem-aws-s3-v3": "^3.16",
     "league/flysystem-memory": "^3.19",
     "michalsn/codeigniter-htmx": "^1.4",
     "michalsn/codeigniter-markdown-pages": "dev-develop",
-    "codeigniter4/queue": "dev-develop",
     "michalsn/codeigniter-signed-url": "^2.1",
     "michalsn/codeigniter-tags": "^1.0",
     "s9e/text-formatter": "^2.13"
@@ -49,12 +49,6 @@
       "Tests\\Support\\": "tests/_support"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/codeigniter4/tasks.git"
-    }
-  ],
   "scripts": {
     "analyze": [
       "phpstan analyze",
