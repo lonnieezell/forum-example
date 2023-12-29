@@ -7,37 +7,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                 </label>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52">
-                    <li>
-                        <a href="<?= site_url('discussions') ?>"
-                            <?= url_is('discussions') ? 'class="active"' : '' ?>>
-                            Discussions
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= site_url('members') ?>"
-                            <?= url_is('members') ? 'class="active"' : '' ?>>
-                            Members
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= url_to('pages') ?>"
-                            <?= url_is('help') ? 'class="active"' : '' ?>>
-                            Help
-                        </a>
-                    </li>
-                    <?php if (! auth()->loggedIn()): ?>
-                        <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
-                        <li><a href="<?= route_to('login') ?>" hx-boost="false">Sign In</a></li>
-                    <?php endif ?>
 
                     <?php if (auth()->loggedIn()): ?>
-                        <?php if (auth()->user()->inGroup('admin', 'superadmin')) : ?>
-                            <li>
-                                <a href="<?= url_to('admin-dashboard') ?>">
-                                    Administer
-                                </a>
-                            </li>
-                        <?php endif ?>
                         <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
                             <li>
                                 <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>"
@@ -67,29 +38,10 @@
             <div class="flex-none">
                 <ul class="menu menu-horizontal px-1 gap-4">
                     <li>
-                        <a href="<?= site_url('discussions') ?>"
-                            <?= url_is('discussions') ? 'class="active"' : '' ?>>
-                            Discussions
+                        <a href="<?= url_to('/') ?>" target="_blank">
+                            Forums
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= site_url('members') ?>"
-                            <?= url_is('members') ? 'class="active"' : '' ?>>
-                            Members
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= url_to('pages') ?>"
-                            <?= url_is('help') ? 'class="active"' : '' ?>>
-                            Help
-                        </a>
-                    </li>
-                    <!-- Auth -->
-                    <?php if (! auth()->loggedIn()): ?>
-                        <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
-                        <li><a href="<?= route_to('login') ?>" hx-boost="false">Sign In</a></li>
-                    <?php endif ?>
                 </ul>
             </div>
         </div>
@@ -111,26 +63,6 @@
                     <?= auth()->user()->renderAvatar(40) ?>
                 </label>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-primary shadow rounded-box rounded-lg w-36">
-                    <?php if (auth()->user()->inGroup('admin', 'superadmin')) : ?>
-                        <li>
-                            <a href="<?= url_to('admin-dashboard') ?>">
-                                Administer
-                            </a>
-                        </li>
-                    <?php endif ?>
-                    <?php if ($modThread = service('policy')->can('moderation.threads') || service('policy')->can('moderation.posts')): ?>
-                        <li>
-                            <a href="<?= $modThread ? url_to('moderate-threads') : url_to('moderate-posts') ?>">
-                                Moderate
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <li>
-                        <a href="<?= url_to('account') ?>">
-                            Account
-                        </a>
-                    </li>
-                    <li class="separator"></li>
                     <li>
                         <a href="<?= url_to('logout') ?>" hx-boost="false">
                             Logout
