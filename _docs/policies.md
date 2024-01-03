@@ -12,9 +12,9 @@ Policies are simple classes that extend the `App\Libraries\Policies\PolicyInterf
 
 Here are some examples:
 
-    - `posts.create` => `PostPolicy::create()`
-    - `threads.edit` => `ThreadPolicy::edit()`
-    - `users.delete` => `UserPolicy::delete()`
+- `posts.create` => `PostPolicy::create()`
+- `threads.edit` => `ThreadPolicy::edit()`
+- `users.delete` => `UserPolicy::delete()`
 
 The policy class would look something like:
 
