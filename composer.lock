@@ -1626,16 +1626,16 @@
         },
         {
             "name": "michalsn/codeigniter-tags",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michalsn/codeigniter-tags.git",
-                "reference": "ad2a06bb70014a2a5b9a929ae1e83355433e0aa9"
+                "reference": "f85e724b015e764f0ce9134cccdf28bb55eda431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michalsn/codeigniter-tags/zipball/ad2a06bb70014a2a5b9a929ae1e83355433e0aa9",
-                "reference": "ad2a06bb70014a2a5b9a929ae1e83355433e0aa9",
+                "url": "https://api.github.com/repos/michalsn/codeigniter-tags/zipball/f85e724b015e764f0ce9134cccdf28bb55eda431",
+                "reference": "f85e724b015e764f0ce9134cccdf28bb55eda431",
                 "shasum": ""
             },
             "require": {
@@ -1675,9 +1675,9 @@
             ],
             "support": {
                 "issues": "https://github.com/michalsn/codeigniter-tags/issues",
-                "source": "https://github.com/michalsn/codeigniter-tags/tree/v1.1.0"
+                "source": "https://github.com/michalsn/codeigniter-tags/tree/v1.1.1"
             },
-            "time": "2023-11-07T12:58:01+00:00"
+            "time": "2024-01-05T14:57:34+00:00"
         },
         {
             "name": "mnapoli/front-yaml",
@@ -8440,5 +8440,5 @@
         "ext-xsl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
