@@ -2329,16 +2329,16 @@
         },
         {
             "name": "s9e/sweetdom",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/SweetDOM.git",
-                "reference": "d0f73ade9f535e9dbd09cba37341398f2ef84245"
+                "reference": "b07ae8f5fe4ac40a0b734e0e23dbadcc26a161e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/SweetDOM/zipball/d0f73ade9f535e9dbd09cba37341398f2ef84245",
-                "reference": "d0f73ade9f535e9dbd09cba37341398f2ef84245",
+                "url": "https://api.github.com/repos/s9e/SweetDOM/zipball/b07ae8f5fe4ac40a0b734e0e23dbadcc26a161e3",
+                "reference": "b07ae8f5fe4ac40a0b734e0e23dbadcc26a161e3",
                 "shasum": ""
             },
             "require": {
@@ -2368,22 +2368,22 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/SweetDOM/issues",
-                "source": "https://github.com/s9e/SweetDOM/tree/3.3.0"
+                "source": "https://github.com/s9e/SweetDOM/tree/3.4.0"
             },
-            "time": "2023-12-21T22:51:55+00:00"
+            "time": "2024-01-01T17:22:53+00:00"
         },
         {
             "name": "s9e/text-formatter",
-            "version": "2.15.1",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/TextFormatter.git",
-                "reference": "520538fc6f58d7debe7b952ab1f6bbbde2986e04"
+                "reference": "a78b8f9bc169d0b6dd81ffff3c97479875bd673d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/520538fc6f58d7debe7b952ab1f6bbbde2986e04",
-                "reference": "520538fc6f58d7debe7b952ab1f6bbbde2986e04",
+                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/a78b8f9bc169d0b6dd81ffff3c97479875bd673d",
+                "reference": "a78b8f9bc169d0b6dd81ffff3c97479875bd673d",
                 "shasum": ""
             },
             "require": {
@@ -2392,7 +2392,7 @@
                 "lib-pcre": ">=8.13",
                 "php": "^8.1",
                 "s9e/regexp-builder": "^1.4",
-                "s9e/sweetdom": "^3.3"
+                "s9e/sweetdom": "^3.4"
             },
             "require-dev": {
                 "code-lts/doctum": "*",
@@ -2410,7 +2410,7 @@
             },
             "type": "library",
             "extra": {
-                "version": "2.15.1"
+                "version": "2.16.0"
             },
             "autoload": {
                 "psr-4": {
@@ -2442,9 +2442,9 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/TextFormatter/issues",
-                "source": "https://github.com/s9e/TextFormatter/tree/2.15.1"
+                "source": "https://github.com/s9e/TextFormatter/tree/2.16.0"
             },
-            "time": "2023-12-21T23:56:22+00:00"
+            "time": "2024-01-07T00:41:30+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -4694,16 +4694,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.24.5",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "fedf211ff14ec8381c9bf5714e33a7a552dd1acc"
+                "reference": "bd84b629c8de41aa2ae82c067c955e06f1b00240"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/fedf211ff14ec8381c9bf5714e33a7a552dd1acc",
-                "reference": "fedf211ff14ec8381c9bf5714e33a7a552dd1acc",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/bd84b629c8de41aa2ae82c067c955e06f1b00240",
+                "reference": "bd84b629c8de41aa2ae82c067c955e06f1b00240",
                 "shasum": ""
             },
             "require": {
@@ -4735,9 +4735,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.5"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.25.0"
             },
-            "time": "2023-12-16T09:33:33+00:00"
+            "time": "2024-01-04T17:06:16+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -8440,5 +8440,5 @@
         "ext-xsl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
