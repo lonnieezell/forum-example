@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.side-nav {
+    p.side-nav-title {
+        @apply text-base font-normal cursor-pointer flex justify-between;
+
+        span {
+            @apply text-xl font-normal;
+        }
+    }
+    menu {
+        @apply mt-1 pl-2 border-l;
+        li {
+            @apply mb-1;
+            a {
+                @apply block px-2 py-1 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:bg-base-200;
+            }
+        }
+    }
+}
+
+form {
+    fieldset {
+        @apply border-b pb-4 mb-4;
+
+        legend {
+            @apply text-2xl mb-2 font-normal text-base-content;
+        }
+    }
+}
+
+.text-muted {
+    @apply opacity-50;
+}
