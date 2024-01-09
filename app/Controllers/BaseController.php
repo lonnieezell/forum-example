@@ -27,7 +27,7 @@ abstract class BaseController extends Controller
      * The name of the current theme.
      * Must be within /themes directory.
      */
-    protected string $theme = 'default';
+    protected ?string $theme = null;
 
     /**
      * Instance of the main Request object.
@@ -77,6 +77,8 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
 
         $this->policy = service('policy');
+
+        $this->theme ??= config('Forum')->themeName;
     }
 
     /**

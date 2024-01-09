@@ -94,7 +94,7 @@
                         name="email2FA"
                         value="1"
                         id="email-2fa"
-                        <?php if (setting('Auth.actions')['login'] === 'App\Libraries\Authentication\Actions\TwoFactorAuthEmail') : ?> checked <?php endif ?>
+                        <?php if (setting('Auth.actions')['login'] === 'App\Libraries\Authentication\Actions\Email2FA') : ?> checked <?php endif ?>
                     >
                     <span class="label-text ml-2">Force 2FA check after login?</span>
                 </label>

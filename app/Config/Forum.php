@@ -7,6 +7,12 @@ use CodeIgniter\Config\BaseConfig;
 class Forum extends BaseConfig
 {
     /**
+     * The name of the current theme.
+     * Must be within /themes directory.
+     */
+    public string $themeName = 'default';
+
+    /**
      * The number of days after which the
      * user account will be deleted.
      */
