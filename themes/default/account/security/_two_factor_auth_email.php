@@ -7,9 +7,15 @@
             </p>
         </div>
         <div class="flex align-middle h-full">
-            <button class="btn btn-outline btn-<?= $user->two_factor_auth_email ? 'error': 'warning' ?>" x-on:click="open = !open" x-show="!open">
-                <?= $user->two_factor_auth_email ? 'Disable 2FA': 'Enable 2FA' ?>
-            </button>
+            <?php if (setting('Auth.actions')['login'] === 'App\Libraries\Authentication\Actions\TwoFactorAuthEmail'): ?>
+                <button class="btn btn-outline btn-<?= $user->two_factor_auth_email ? 'error': 'warning' ?>" x-on:click="open = !open" x-show="!open">
+                    <?= $user->two_factor_auth_email ? 'Disable 2FA': 'Enable 2FA' ?>
+                </button>
+            <?php else: ?>
+                <button class="btn btn-outline" disabled>
+                    Enabled for everyone
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 
