@@ -83,13 +83,11 @@ final class UserSettingsTest extends TestCase
 
         $response->assertOK();
 
-        // setting()->flush();
-
         // Check that the settings were saved
         $this->assertTrue(setting('Auth.allowRegistration'));
         $this->assertTrue(setting('Auth.sessionConfig')['allowRemembering']);
         $this->assertSame(TwoFactorAuthEmail::class, setting('Auth.actions')['login']);
         $this->assertSame(EmailActivator::class, setting('Auth.actions')['register']);
-        $this->assertSame(2 * WEEK, (int)setting('Auth.sessionConfig')['rememberLength']);
+        $this->assertSame(2 * WEEK, (int) setting('Auth.sessionConfig')['rememberLength']);
     }
 }
