@@ -26,7 +26,9 @@
                         </a>
                     </li>
                     <?php if (! auth()->loggedIn()): ?>
-                        <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
+                        <?php if (setting('Auth.allowRegistration')) : ?>
+                            <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
+                        <?php endif ?>
                         <li><a href="<?= route_to('login') ?>" hx-boost="false">Sign In</a></li>
                     <?php endif ?>
 
@@ -87,7 +89,9 @@
                     </li>
                     <!-- Auth -->
                     <?php if (! auth()->loggedIn()): ?>
-                        <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
+                        <?php if (setting('Auth.allowRegistration')) : ?>
+                            <li><a href="<?= route_to('register') ?>" hx-boost="false">Sign Up</a></li>
+                        <?php endif ?>
                         <li><a href="<?= route_to('login') ?>" hx-boost="false">Sign In</a></li>
                     <?php endif ?>
                 </ul>
