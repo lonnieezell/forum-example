@@ -8,6 +8,8 @@ use App\Libraries\Storage;
 use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use Config\View as ViewConfig;
 
 /**
@@ -59,6 +61,34 @@ class Services extends BaseService
         }
 
         return new Storage(new Filesystems());
+    }
+
+    /**
+     * Override Shield's Password utilities to allow using setting() helper.
+     */
+    public static function passwords(bool $getShared = true): Passwords
+    {
+        if ($getShared) {
+            return self::getSharedInstance('passwords');
+        }
+
+        /** @var Auth $config */
+        $config = config('Auth');
+
+        if ($options = setting('Auth.allowRegistration')) {
+            $config->allowRegistration = $options;
+        }
+        if ($options = setting('Auth.passwordValidators')) {
+            $config->passwordValidators = $options;
+        }
+        if ($options = setting('Auth.actions')) {
+            $config->actions = $options;
+        }
+        if ($options = setting('Auth.sessionConfig')) {
+            $config->sessionConfig = $options;
+        }
+
+        return new Passwords($config);
     }
 
     /**
