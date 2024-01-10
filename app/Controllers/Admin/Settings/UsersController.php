@@ -35,7 +35,7 @@ class UsersController extends AdminController
             setting('Auth.passwordValidators', $this->request->getPost('validators'));
             // Actions
             $actions             = setting('Auth.actions');
-            $actions['login']    = $this->request->getPost('email2FA') ? TwoFactorAuthEmail::class : null;
+            $actions['login']    = $this->request->getPost('email2FA') ? Email2FA::class : TwoFactorAuthEmail::class;
             $actions['register'] = $this->request->getPost('emailActivation') ? EmailActivator::class : null;
             setting('Auth.actions', $actions);
             // Remember Me
