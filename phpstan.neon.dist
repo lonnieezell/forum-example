@@ -17,7 +17,6 @@ parameters:
 	ignoreErrors:
 	    - '#Cannot use -- on array|bool|float|int|object|string|null.#'
 	    - '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
-	    - '#Call to method PHPUnit\\Framework\\Assert::assertSame\(\) with 1209600 and 2592000 will always evaluate to false.#'
 	    - '#Call to an undefined method CodeIgniter\\HTTP\\RedirectResponse::[hxLocation\|\|hxRedirect\|\|hxRefresh].+\(\)#'
 	    -
 	    	message: '#Call to an undefined method App\\Models\\UserModel::transException\(\).#'

@@ -88,6 +88,8 @@ final class UserSettingsTest extends TestCase
         $this->assertTrue(setting('Auth.sessionConfig')['allowRemembering']);
         $this->assertSame(Email2FA::class, setting('Auth.actions')['login']);
         $this->assertSame(EmailActivator::class, setting('Auth.actions')['register']);
-        $this->assertSame(2 * WEEK, (int) setting('Auth.sessionConfig')['rememberLength']);
+        /** @var string $rememberLength */
+        $rememberLength = setting('Auth.sessionConfig')['rememberLength'];
+        $this->assertSame(2 * WEEK, (int) $rememberLength);
     }
 }

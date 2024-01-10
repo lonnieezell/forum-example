@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6851e2ab4ba151ed13c23b50b0cc5208",
+    "content-hash": "a2c51d726c7e37769a3e89c92bb268a3",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -236,12 +236,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/queue.git",
-                "reference": "706ca992ef9b1a99ee85ea4e25740bb61ff4648a"
+                "reference": "1482353bf2d6fdae3ed8f413a182e655b29d9427"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/queue/zipball/706ca992ef9b1a99ee85ea4e25740bb61ff4648a",
-                "reference": "706ca992ef9b1a99ee85ea4e25740bb61ff4648a",
+                "url": "https://api.github.com/repos/codeigniter4/queue/zipball/1482353bf2d6fdae3ed8f413a182e655b29d9427",
+                "reference": "1482353bf2d6fdae3ed8f413a182e655b29d9427",
                 "shasum": ""
             },
             "require": {
@@ -289,7 +289,7 @@
                 "issues": "https://github.com/codeigniter4/queue/issues",
                 "source": "https://github.com/codeigniter4/queue/tree/develop"
             },
-            "time": "2023-12-29T15:52:09+00:00"
+            "time": "2024-01-09T07:34:12+00:00"
         },
         {
             "name": "codeigniter4/settings",
@@ -3131,16 +3131,16 @@
         },
         {
             "name": "codeigniter4/devkit",
-            "version": "v1.1.2",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/devkit.git",
-                "reference": "d4ac84b92ede7a7eb5dc21b6aa0af7b4001efd5d"
+                "reference": "dcd1c280b983c3ca8f21790ed8e943e2113e8945"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/devkit/zipball/d4ac84b92ede7a7eb5dc21b6aa0af7b4001efd5d",
-                "reference": "d4ac84b92ede7a7eb5dc21b6aa0af7b4001efd5d",
+                "url": "https://api.github.com/repos/codeigniter4/devkit/zipball/dcd1c280b983c3ca8f21790ed8e943e2113e8945",
+                "reference": "dcd1c280b983c3ca8f21790ed8e943e2113e8945",
                 "shasum": ""
             },
             "require": {
@@ -3148,20 +3148,20 @@
                 "fakerphp/faker": "^1.9",
                 "mikey179/vfsstream": "^1.6",
                 "nexusphp/cs-config": "^3.6",
-                "nexusphp/tachycardia": "^1.3",
+                "nexusphp/tachycardia": "^1.0",
                 "php": "^7.4 || ^8.0",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^1.0",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpunit/phpunit": "^9.3",
-                "rector/rector": "^0.18.3",
                 "roave/security-advisories": "dev-latest",
                 "vimeo/psalm": "^5.0"
             },
             "require-dev": {
                 "codeigniter4/framework": "^4.1",
-                "icanhazstring/composer-unused": "^0.8.2"
+                "icanhazstring/composer-unused": "^0.8.2",
+                "rector/rector": "0.15.1"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -3189,9 +3189,9 @@
             ],
             "support": {
                 "issues": "https://github.com/codeigniter4/devkit/issues",
-                "source": "https://github.com/codeigniter4/devkit/tree/v1.1.2"
+                "source": "https://github.com/codeigniter4/devkit/tree/v1.1.1"
             },
-            "time": "2023-09-26T12:35:05+00:00"
+            "time": "2022-12-22T02:37:54+00:00"
         },
         {
             "name": "composer/pcre",
@@ -5423,21 +5423,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.18.11",
+            "version": "0.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "9621124c860066f56a4ab841349cb7c284edfaee"
+                "reference": "503f4ead06b3892bd106f67f3c86d4e36c94423d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/9621124c860066f56a4ab841349cb7c284edfaee",
-                "reference": "9621124c860066f56a4ab841349cb7c284edfaee",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/503f4ead06b3892bd106f67f3c86d4e36c94423d",
+                "reference": "503f4ead06b3892bd106f67f3c86d4e36c94423d",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.35"
+                "phpstan/phpstan": "^1.10.52"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -5467,7 +5467,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.18.11"
+                "source": "https://github.com/rectorphp/rector/tree/0.19.0"
             },
             "funding": [
                 {
@@ -5475,7 +5475,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-27T13:27:43+00:00"
+            "time": "2024-01-09T00:49:06+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -5483,12 +5483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c8682d0318353f7979a429981e902463e4879cf0"
+                "reference": "b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c8682d0318353f7979a429981e902463e4879cf0",
-                "reference": "c8682d0318353f7979a429981e902463e4879cf0",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4",
+                "reference": "b3fcb6d7942e8ad987f8cccc11bb2ba496789ce4",
                 "shasum": ""
             },
             "conflict": {
@@ -5740,6 +5740,7 @@
                 "joyqi/hyper-down": "<=2.4.27",
                 "jsdecena/laracom": "<2.0.9",
                 "jsmitty12/phpwhois": "<5.1",
+                "juzaweb/cms": "<=3.4",
                 "kazist/phpwhois": "<=4.2.6",
                 "kelvinmo/simplexrd": "<3.1.1",
                 "kevinpapst/kimai2": "<1.16.7",
@@ -6199,7 +6200,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-05T21:04:02+00:00"
+            "time": "2024-01-09T18:04:23+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8259,16 +8260,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.18.0",
+            "version": "5.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "b113f3ed0259fd6e212d87c3df80eec95a6abf19"
+                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/b113f3ed0259fd6e212d87c3df80eec95a6abf19",
-                "reference": "b113f3ed0259fd6e212d87c3df80eec95a6abf19",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/06b71be009a6bd6d81b9811855d6629b9fe90e1b",
+                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b",
                 "shasum": ""
             },
             "require": {
@@ -8365,7 +8366,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2023-12-16T09:37:35+00:00"
+            "time": "2024-01-09T21:02:43+00:00"
         },
         {
             "name": "webmozart/assert",
