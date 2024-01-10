@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin\Settings;
 
 use App\Controllers\AdminController;
+use App\Libraries\Authentication\Actions\Email2FA;
 use App\Libraries\Authentication\Actions\TwoFactorAuthEmail;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 
@@ -36,7 +37,7 @@ class UsersController extends AdminController
 
                 // Actions
                 $actions             = setting('Auth.actions');
-                $actions['login']    = $this->request->getPost('email2FA') ? TwoFactorAuthEmail::class : null;
+                $actions['login']    = $this->request->getPost('email2FA') ? Email2FA::class : TwoFactorAuthEmail::class;
                 $actions['register'] = $this->request->getPost('emailActivation') ? EmailActivator::class : null;
                 setting('Auth.actions', $actions);
 

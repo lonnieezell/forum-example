@@ -8,5 +8,5 @@ namespace App\Controllers;
  */
 class AdminController extends BaseController
 {
-    protected string $theme = 'admin';
+    protected ?string $theme = 'admin';
 }

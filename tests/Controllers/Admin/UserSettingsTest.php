@@ -3,7 +3,7 @@
 namespace Controllers\Admin;
 
 use App\Entities\User;
-use App\Libraries\Authentication\Actions\TwoFactorAuthEmail;
+use App\Libraries\Authentication\Actions\Email2FA;
 use App\Models\Factories\UserFactory;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use Exception;
@@ -86,7 +86,7 @@ final class UserSettingsTest extends TestCase
         // Check that the settings were saved
         $this->assertTrue(setting('Auth.allowRegistration'));
         $this->assertTrue(setting('Auth.sessionConfig')['allowRemembering']);
-        $this->assertSame(TwoFactorAuthEmail::class, setting('Auth.actions')['login']);
+        $this->assertSame(Email2FA::class, setting('Auth.actions')['login']);
         $this->assertSame(EmailActivator::class, setting('Auth.actions')['register']);
         $this->assertSame(2 * WEEK, (int) setting('Auth.sessionConfig')['rememberLength']);
     }

@@ -6,7 +6,6 @@ namespace App\Libraries\Authentication\Actions;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
-use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use Config\Forum;
