@@ -2,6 +2,7 @@
 
 namespace App\Models\Factories;
 
+use App\Entities\Category;
 use App\Entities\Post;
 use App\Models\PostModel;
 use Faker\Generator;
@@ -14,7 +15,7 @@ class PostFactory extends PostModel
     public function fake(Generator &$faker): Post
     {
         return new Post([
-            'category_id'   => null,
+            'category_id'   => fake(CategoryFactory::class)->id,
             'thread_id'     => null,
             'reply_to'      => null,
             'author_id'     => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,

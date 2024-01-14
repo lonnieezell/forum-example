@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasReactions;
 use App\Concerns\HasStats;
 use App\Concerns\RestoreEntry;
 use App\Entities\User;
@@ -13,6 +14,7 @@ class UserModel extends ShieldUser
 {
     use HasStats;
     use RestoreEntry;
+    use HasReactions;
 
     protected $returnType = User::class;
 
@@ -21,7 +23,8 @@ class UserModel extends ShieldUser
         parent::initialize();
 
         // Merge properties with parent
-        $this->allowedFields = [...$this->allowedFields, 'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature', 'two_factor_auth_email'];
+        $this->allowedFields = [...$this->allowedFields, 'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature', 'two_factor_auth_email', 'reaction_count',
+        ];
 
         // Add event after insert
         $this->afterInsert[] = 'createNotificationSettings';

@@ -68,6 +68,7 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
 // Actions
 $routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
 $routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDelete/$1', ['as' => 'action-cancel-account-delete']);
+$routes->get('content/react/(:num)/(:segment)', 'Discussions\ReactionController::toggleReaction/$1/$2', ['as' => 'react-to']);
 
 // Help section
 $routes->match(['get', 'post'], 'help', 'HelpController::index', ['as' => 'pages']);

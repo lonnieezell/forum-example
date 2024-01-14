@@ -23,13 +23,25 @@ class PostModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup',
+        'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup', 'reaction_count',
     ];
     protected $useTimestamps        = true;
     protected $cleanValidationRules = false;
     protected $afterInsert          = ['updatePostImages', 'incrementPostCount', 'touchThread', 'touchUser'];
     protected $afterDelete          = ['decrementPostCount'];
     protected $afterUpdate          = ['updatePostImages', 'touchThread'];
+
+    /**
+     * Include the 'has_reacted' field in the query.
+     */
+    public function includeHasReacted (?int $userId): self
+    {
+        if ($userId > 0) {
+            $this->select('posts.*, (SELECT COUNT(*) from reactions WHERE post_id = posts.id AND reactor_id = '. $userId .') as has_reacted');
+        }
+
+        return $this;
+    }
 
     /**
      * Scope method to only return visible posts.
@@ -83,6 +95,7 @@ class PostModel extends Model
         $posts = $this->where('thread_id', $threadId)
             ->visible()
             ->main()
+            ->includeHasReacted(auth()->id())
             ->orderBy('id', 'asc')
             ->paginate($perPage, 'default', $page);
 

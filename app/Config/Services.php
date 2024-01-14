@@ -11,6 +11,7 @@ use CodeIgniter\Config\BaseService;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
 use Config\View as ViewConfig;
+use App\Libraries\Theme;
 
 /**
  * Services Configuration file.
@@ -105,5 +106,17 @@ class Services extends BaseService
         $config ??= config(ViewConfig::class);
 
         return new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
+    }
+
+    /**
+     * Returns the Theme library.
+     */
+    public static function theme(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('theme');
+        }
+
+        return new Theme();
     }
 }

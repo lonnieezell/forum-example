@@ -90,6 +90,15 @@ if (auth()->loggedIn()) : ?>
     <!-- Community Actions -->
     <div class="flex-1 text-end">
 
+        <!-- React -->
+        <?php if (auth()->loggedIn()): ?>
+            <?= theme()->render('discussions/_reactions', [
+                'record'       => $record,
+                'resourceId'   => $record->id,
+                'resourceType' => $record instanceof Thread ? 'thread' : 'post',
+            ]); ?>
+        <?php endif ?>
+
         <!-- Report Content -->
         <?php if ($this->canReport()): ?>
             <a class="action-btn" title="Report this content"

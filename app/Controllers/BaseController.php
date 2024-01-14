@@ -88,11 +88,8 @@ abstract class BaseController extends Controller
      */
     protected function render(string $view, array $data = []): string
     {
-        $themePath = ROOTPATH . "/themes/{$this->theme}/";
-        $renderer  = single_service('renderer', $themePath);
-
-        return $renderer
-            ->setData($data)
-            ->render($view);
+        return service('theme')
+            ->setTheme($this->theme)
+            ->render($view, $data);
     }
 }

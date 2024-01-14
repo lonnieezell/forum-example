@@ -2,7 +2,9 @@
 
 namespace App\Concerns;
 
+use App\Entities\User;
 use App\Models\UserModel;
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Entity\Entity;
 
 trait HasAuthorsAndEditors
@@ -46,5 +48,21 @@ trait HasAuthorsAndEditors
         return $wasSingle
             ? array_shift($records)
             : $records;
+    }
+
+    /**
+     * Returns the author of the resource.
+     */
+    public function author(): ?User
+    {
+        if (empty($this->author_id)) {
+            return null;
+        }
+
+        if (empty($this->author)) {
+            $this->author = model(UserModel::class)->find($this->author_id);
+        }
+
+        return $this->author;
     }
 }

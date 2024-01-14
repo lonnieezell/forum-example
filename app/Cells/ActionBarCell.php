@@ -18,6 +18,8 @@ class ActionBarCell extends Cell
     public ?Thread $thread = null; // needed for answering posts
     public string $type;
     public ?User $user     = null;
+    public int $reactionCount = 0;
+
     protected string $view = 'action_bar_cell';
     private Policy $policy;
 
