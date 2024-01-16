@@ -34,10 +34,10 @@ class PostModel extends Model
     /**
      * Include the 'has_reacted' field in the query.
      */
-    public function includeHasReacted (?int $userId): self
+    public function includeHasReacted(?int $userId): self
     {
         if ($userId > 0) {
-            $this->select('posts.*, (SELECT COUNT(*) from reactions WHERE post_id = posts.id AND reactor_id = '. $userId .') as has_reacted');
+            $this->select('posts.*, (SELECT COUNT(*) from reactions WHERE post_id = posts.id AND reactor_id = ' . $userId . ') as has_reacted');
         }
 
         return $this;

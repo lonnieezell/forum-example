@@ -2,7 +2,6 @@
 
 namespace App\Models\Factories;
 
-use App\Entities\Category;
 use App\Entities\Post;
 use App\Models\PostModel;
 use Faker\Generator;

@@ -9,11 +9,11 @@ class CreatePostsLikesTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id' => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'auto_increment' => true,],
-            'post_id' => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'null' => true],
-            'thread_id' => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'null' => true],
+            'id'         => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'auto_increment' => true],
+            'post_id'    => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'null' => true],
+            'thread_id'  => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true, 'null' => true],
             'reactor_id' => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true],
-            'reaction' => ['type' => 'TINYINT'],
+            'reaction'   => ['type' => 'TINYINT'],
             'created_at' => ['type' => 'DATETIME', 'null' => false],
             'updated_at' => ['type' => 'DATETIME', 'null' => false],
         ]);

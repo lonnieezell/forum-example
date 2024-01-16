@@ -52,8 +52,8 @@ class ThreadModel extends Model
      */
     public function includeHasReacted(?int $userId): self
     {
-        if ($userId > 0 ) {
-            $this->select('threads.*, (SELECT COUNT(*) from reactions WHERE thread_id = threads.id AND reactor_id = '. $userId .') as has_reacted');
+        if ($userId > 0) {
+            $this->select('threads.*, (SELECT COUNT(*) from reactions WHERE thread_id = threads.id AND reactor_id = ' . $userId . ') as has_reacted');
         }
 
         return $this;

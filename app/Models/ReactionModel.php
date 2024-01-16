@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-use CodeIgniter\Exceptions\ModelException;
-use CodeIgniter\Database\Exceptions\DatabaseException;
-use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
-use ReflectionException;
 use RuntimeException;
 
 /**
@@ -17,7 +13,7 @@ use RuntimeException;
  */
 class ReactionModel extends Model
 {
-    const REACTION_LIKE = 1;
+    public const REACTION_LIKE = 1;
 
     protected $table            = 'reactions';
     protected $primaryKey       = 'id';
@@ -54,7 +50,7 @@ class ReactionModel extends Model
     /**
      * React to a post or thread.
      */
-    public function reactTo(int $userId, int $resourceId, string $resourceType,  int $reaction): void
+    public function reactTo(int $userId, int $resourceId, string $resourceType, int $reaction): void
     {
         // Can only react to posts and threads. Users are updated automatically.
         if (! in_array($resourceType, ['post', 'thread'], true)) {
@@ -70,7 +66,7 @@ class ReactionModel extends Model
         }
 
         // Has the user already reacted to this resource?
-        $reactionModel = model(ReactionModel::class);
+        $reactionModel    = model(ReactionModel::class);
         $existingReaction = $reactionModel
             ->where('reactor_id', $userId)
             ->where("{$resourceType}_id", $resourceId)
@@ -79,26 +75,28 @@ class ReactionModel extends Model
         if ($existingReaction) {
             // If the user is trying to react to the same resource with the same reaction,
             // then we'll just remove the reaction.
-            if ($existingReaction->reaction == $reaction) {
+            if ($existingReaction->reaction === $reaction) {
                 $reactionModel->delete($existingReaction->id);
 
                 // Decrement count from the resource and the resources's user.
                 $resource->decrementReactionCount();
                 $resource->author()->decrementReactionCount();
+
                 return;
             }
 
             // Otherwise, we'll update the reaction to the new one.
             $existingReaction->reaction = $reaction;
             $reactionModel->save($existingReaction);
+
             return;
         }
 
         // Otherwise, we'll create a new reaction.
         $reactionModel->insert([
-            'reactor_id' => $userId,
+            'reactor_id'         => $userId,
             "{$resourceType}_id" => $resourceId,
-            'reaction' => $reaction,
+            'reaction'           => $reaction,
         ]);
 
         // Increment count from the resource and the resources's user.
@@ -112,12 +110,8 @@ class ReactionModel extends Model
     public function countReactions(int $resourceId, string $resourceType): int
     {
         return $this
-            ->when($resourceType === 'thread', function ($query) use ($resourceId) {
-                return $query->where('thread_id', $resourceId);
-            })
-            ->when($resourceType === 'post', function ($query) use ($resourceId) {
-                return $query->where('post_id', $resourceId);
-            })
+            ->when($resourceType === 'thread', static fn ($query) => $query->where('thread_id', $resourceId))
+            ->when($resourceType === 'post', static fn ($query) => $query->where('post_id', $resourceId))
             ->countAllResults();
     }
 }

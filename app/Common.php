@@ -14,8 +14,8 @@
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
 
-use CodeIgniter\Config\Factories;
 use App\Libraries\Theme;
+use CodeIgniter\Config\Factories;
 
 if (! function_exists('policy')) {
     /**

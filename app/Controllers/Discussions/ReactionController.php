@@ -17,7 +17,7 @@ class ReactionController extends BaseController
         $model = model(ReactionModel::class);
         $model->reactTo(auth()->id(), $resourceId, $resourceType, ReactionModel::REACTION_LIKE);
 
-        $record = $resourceType == 'thread' ? model(ThreadModel::class) : model(PostModel::class);
+        $record = $resourceType === 'thread' ? model(ThreadModel::class) : model(PostModel::class);
         $record = $record
             ->includeHasReacted(auth()->id())
             ->find($resourceId);

@@ -5,13 +5,13 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Storage;
+use App\Libraries\Theme;
 use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
 use Config\View as ViewConfig;
-use App\Libraries\Theme;
 
 /**
  * Services Configuration file.

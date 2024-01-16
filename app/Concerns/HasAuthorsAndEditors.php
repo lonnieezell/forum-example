@@ -4,9 +4,7 @@ namespace App\Concerns;
 
 use App\Entities\User;
 use App\Models\UserModel;
-use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Entity\Entity;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
 
 trait HasAuthorsAndEditors
 {
@@ -70,10 +68,9 @@ trait HasAuthorsAndEditors
     /**
      * Is the current user the author of this resource?
      */
-    public function isOwner(?User $user=null): bool
+    public function isOwner(?User $user = null): bool
     {
-
-        if(! $user) {
+        if (! $user) {
             // Must be logged in to check if no user provided.
             if (! auth()->loggedIn()) {
                 return false;
@@ -83,7 +80,6 @@ trait HasAuthorsAndEditors
             $user = auth()->user();
         }
 
-
-        return $this->author_id == $user->id;
+        return $this->author_id === $user->id;
     }
 }

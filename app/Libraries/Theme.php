@@ -2,14 +2,12 @@
 
 namespace App\Libraries;
 
-use App\Libraries\View;
-use ReflectionException;
 use InvalidArgumentException;
+use ReflectionException;
 
 class Theme
 {
-    private string $theme = 'default';
-
+    private string $theme   = 'default';
     private ?View $renderer = null;
 
     /**
@@ -33,13 +31,14 @@ class Theme
     /**
      * Returns a rendered view, either from the theme,
      * or the app/Views directory if not in current theme.
-     * @param string $view
-     * @param array $data
+     *
      * @return string
-     * @throws ReflectionException
+     *
      * @throws InvalidArgumentException
+     * @throws ReflectionException
      */
-    public function render(string $view, array $data=[]) {
+    public function render(string $view, array $data = [])
+    {
         return $this->renderer()
             ->setData($data)
             ->render($view);
@@ -48,7 +47,7 @@ class Theme
     private function renderer(): View
     {
         if ($this->renderer === null) {
-            $themePath = ROOTPATH . "/themes/{$this->theme}/";
+            $themePath      = ROOTPATH . "/themes/{$this->theme}/";
             $this->renderer = single_service('renderer', $themePath);
         }
 
