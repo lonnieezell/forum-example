@@ -68,7 +68,6 @@ $routes->group('account', ['filter'], static function (RouteCollection $routes) 
 // Actions
 $routes->get('thread-notifications/(:num)/(:num)/(:segment)', 'ActionsController::notifications/$1/$2/$3', ['as' => 'action-thread-notifications']);
 $routes->get('cancel-account-delete/(:num)', 'ActionsController::cancelAccountDelete/$1', ['as' => 'action-cancel-account-delete']);
-$routes->get('content/react/(:num)/(:segment)', 'Discussions\ReactionController::toggleReaction/$1/$2', ['as' => 'react-to']);
 
 // Help section
 $routes->match(['get', 'post'], 'help', 'HelpController::index', ['as' => 'pages']);
@@ -85,6 +84,11 @@ $routes->group('moderation', ['filter'], static function (RouteCollection $route
     $routes->get('reports/posts', 'Moderation\ReportsController::list/post', ['as' => 'moderate-posts']);
     $routes->get('reports/logs', 'Moderation\ReportsController::logs', ['as' => 'moderate-logs']);
     $routes->post('action/(:segment)', 'Moderation\ReportsController::action/$1', ['as' => 'moderate-action']);
+});
+
+// Content utilities
+$routes->group('content', ['filter'], static function (RouteCollection $routes) {
+    $routes->post('react/(:num)/(:segment)', 'Discussions\ReactionController::toggleReaction/$1/$2', ['as' => 'react-to']);
 });
 
 // Shield Auth routes

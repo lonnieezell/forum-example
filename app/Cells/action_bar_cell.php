@@ -91,7 +91,7 @@ if (auth()->loggedIn()) : ?>
     <div class="flex-1 text-end">
 
         <!-- React -->
-        <?php if (auth()->loggedIn()): ?>
+        <?php if (! $record->isOwner()): ?>
             <?= theme()->render('discussions/_reactions', [
                 'record'       => $record,
                 'resourceId'   => $record->id,

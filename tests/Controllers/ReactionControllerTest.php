@@ -31,7 +31,8 @@ final class ReactionControllerTest extends TestCase
     {
         $thread = fake(ThreadFactory::class, ['author_id' => $this->user->id]);
 
-        $response = $this->get("content/react/{$thread->id}/thread");
+        $response = $this->withHeaders([csrf_header() => csrf_hash()])
+            ->post("content/react/{$thread->id}/thread");
 
         $response->assertRedirectTo(url_to('login'));
     }
@@ -42,7 +43,8 @@ final class ReactionControllerTest extends TestCase
 
         // Like the thread
         $response = $this->actingAs($this->user)
-            ->get("content/react/{$thread->id}/thread");
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->post("content/react/{$thread->id}/thread");
 
         $response->assertOk();
 
@@ -65,7 +67,8 @@ final class ReactionControllerTest extends TestCase
 
         // Unlike the thread
         $response = $this->actingAs($this->user)
-            ->get("content/react/{$thread->id}/thread");
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->post("content/react/{$thread->id}/thread");
 
         $response->assertOk();
 
@@ -87,14 +90,15 @@ final class ReactionControllerTest extends TestCase
         ]);
     }
 
-    public function testReactTo()
+    public function testReactToPost()
     {
         $thread = fake(ThreadFactory::class, ['author_id' => $this->user->id]);
         $post = fake(PostFactory::class, ['author_id' => $this->user->id, 'thread_id' => $thread->id]);
 
         // Like the post
         $response = $this->actingAs($this->user)
-            ->get("content/react/{$post->id}/post");
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->post("content/react/{$post->id}/post");
 
         $response->assertOk();
 
@@ -117,7 +121,8 @@ final class ReactionControllerTest extends TestCase
 
         // Unlike the post
         $response = $this->actingAs($this->user)
-            ->get("content/react/{$post->id}/post");
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->post("content/react/{$post->id}/post");
 
         $response->assertOk();
 
