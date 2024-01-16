@@ -86,5 +86,10 @@ $routes->group('moderation', ['filter'], static function (RouteCollection $route
     $routes->post('action/(:segment)', 'Moderation\ReportsController::action/$1', ['as' => 'moderate-action']);
 });
 
+// Content utilities
+$routes->group('content', ['filter'], static function (RouteCollection $routes) {
+    $routes->post('react/(:num)/(:segment)', 'Discussions\ReactionController::toggleReaction/$1/$2', ['as' => 'react-to']);
+});
+
 // Shield Auth routes
 service('auth')->routes($routes, ['namespace' => 'App\Controllers\Auth']);

@@ -32,7 +32,7 @@ class ThreadModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'category_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup',
+        'category_id', 'title', 'slug', 'body', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'views', 'closed', 'sticky', 'visible', 'last_post_id', 'post_count', 'answer_post_id', 'markup', 'reaction_count',
     ];
     protected $useTimestamps        = true;
     protected $cleanValidationRules = false;
@@ -45,6 +45,18 @@ class ThreadModel extends Model
     protected function initialize(): void
     {
         $this->initTags();
+    }
+
+    /**
+     * Include the 'has_reacted' field in the query.
+     */
+    public function includeHasReacted(?int $userId): self
+    {
+        if ($userId > 0) {
+            $this->select('threads.*, (SELECT COUNT(*) from reactions WHERE thread_id = threads.id AND reactor_id = ' . $userId . ') as has_reacted');
+        }
+
+        return $this;
     }
 
     /**

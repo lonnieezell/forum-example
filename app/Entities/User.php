@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Concerns\HasReactions;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
@@ -9,6 +10,8 @@ use CodeIgniter\Shield\Models\LoginModel;
 
 class User extends ShieldUser
 {
+    use HasReactions;
+
     // protected $datamap = [];
     // protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     // protected $casts   = [];

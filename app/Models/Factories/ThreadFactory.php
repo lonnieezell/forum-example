@@ -18,12 +18,12 @@ class ThreadFactory extends ThreadModel
         return new Thread([
             'title'       => $title,
             'body'        => $faker->paragraphs(3, true),
-            'author_id'   => model('UserModel')->orderBy('id', 'RANDOM')->first()->id,
+            'author_id'   => fake(UserFactory::class)->id,
             'views'       => $faker->numberBetween(0, 1000),
             'closed'      => false,
             'sticky'      => false,
             'visible'     => true,
-            'category_id' => null,
+            'category_id' => fake(CategoryFactory::class)->id,
         ]);
     }
 }

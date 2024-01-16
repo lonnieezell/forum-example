@@ -2,6 +2,7 @@
 
 namespace App\Concerns;
 
+use App\Entities\User;
 use App\Models\UserModel;
 use CodeIgniter\Entity\Entity;
 
@@ -46,5 +47,39 @@ trait HasAuthorsAndEditors
         return $wasSingle
             ? array_shift($records)
             : $records;
+    }
+
+    /**
+     * Returns the author of the resource.
+     */
+    public function author(): ?User
+    {
+        if (empty($this->author_id)) {
+            return null;
+        }
+
+        if (empty($this->author)) {
+            $this->author = model(UserModel::class)->find($this->author_id);
+        }
+
+        return $this->author;
+    }
+
+    /**
+     * Is the current user the author of this resource?
+     */
+    public function isOwner(?User $user = null): bool
+    {
+        if (! $user) {
+            // Must be logged in to check if no user provided.
+            if (! auth()->loggedIn()) {
+                return false;
+            }
+
+            // Otherwise use the logged in user.
+            $user = auth()->user();
+        }
+
+        return $this->author_id === $user->id;
     }
 }

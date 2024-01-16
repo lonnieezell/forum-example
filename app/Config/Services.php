@@ -5,6 +5,7 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Storage;
+use App\Libraries\Theme;
 use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
@@ -105,5 +106,17 @@ class Services extends BaseService
         $config ??= config(ViewConfig::class);
 
         return new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
+    }
+
+    /**
+     * Returns the Theme library.
+     */
+    public static function theme(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('theme');
+        }
+
+        return new Theme();
     }
 }

@@ -45,6 +45,7 @@
                     <?php if (setting('Auth.sessionConfig')['allowRemembering']): ?>
                         <label class="label cursor-pointer justify-start">
                             <input
+                                name="remember"
                                 type="checkbox"
                                 checked="checked"
                                 class="checkbox checkbox-xs mr-2"
