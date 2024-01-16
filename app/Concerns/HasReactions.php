@@ -6,7 +6,7 @@ trait HasReactions
 {
     public function incrementReactionCount(): void
     {
-        $class = explode('\\', static::class);
+        $class = explode('\\', (string) $this::class);
         $class = array_pop($class);
         $model = model("{$class}Model");
         $model->where('id', $this->id)->increment('reaction_count');
@@ -14,7 +14,7 @@ trait HasReactions
 
     public function decrementReactionCount(): void
     {
-        $class = explode('\\', static::class);
+        $class = explode('\\', (string) $this::class);
         $class = array_pop($class);
         $model = model("{$class}Model");
         $model->where('id', $this->id)->decrement('reaction_count');

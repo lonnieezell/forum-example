@@ -13,7 +13,7 @@ use Tests\Support\TestCase;
  */
 final class ReactionControllerTest extends TestCase
 {
-    protected User $user;
+    private User $user;
 
     protected function setUp(): void
     {
