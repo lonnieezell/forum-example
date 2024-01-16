@@ -27,7 +27,7 @@
     "codeigniter4/devkit": "^1.1",
     "mockery/mockery": "^1.6",
     "phpstan/phpstan-mockery": "^1.1",
-    "rector/rector": "0.19.0"
+    "rector/rector": "0.19.1"
   },
   "config": {
     "optimize-autoloader": true,
