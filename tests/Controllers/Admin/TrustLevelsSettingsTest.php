@@ -3,7 +3,9 @@
 namespace Tests\Controllers\Admin;
 
 use App\Entities\User;
+use App\Libraries\Authentication\Actions\Email2FA;
 use App\Models\Factories\UserFactory;
+use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;

@@ -5,10 +5,7 @@ namespace Tests\Entities;
 use App\Entities\User;
 use Tests\Support\TestCase;
 
-/**
- * @internal
- */
-final class UserTest extends TestCase
+class UserTest extends TestCase
 {
     public function testCanTrustTo()
     {
