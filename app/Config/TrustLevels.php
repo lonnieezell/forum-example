@@ -10,13 +10,13 @@ class TrustLevels extends BaseConfig
      * The actions that trust levels can check against.
      */
     public $actions = [
-        'flag' => 'Flag a thread/post',
-        'attach' => 'Attach a file to a thread/post',
-        'link-signature' => 'Have any links in their signature',
+        'flag'             => 'Flag a thread/post',
+        'attach'           => 'Attach a file to a thread/post',
+        'link-signature'   => 'Have any links in their signature',
         'start-discussion' => 'Start more than 3 new discussions',
-        'reply' => 'Post more than 10 replies',
-        'edit-own' => 'Edit their own thread/post after 24 hours',
-        'send-pm' => 'Send private messages',
+        'reply'            => 'Post more than 10 replies',
+        'edit-own'         => 'Edit their own thread/post after 24 hours',
+        'send-pm'          => 'Send private messages',
     ];
 
     /**
@@ -51,16 +51,16 @@ class TrustLevels extends BaseConfig
     public $requirements = [
         0 => [],
         1 => [
-            'new-threads' => 5,
+            'new-threads'  => 5,
             'read-threads' => 30,
         ],
         2 => [
-            'daily-visits' => 15,
-            'likes-given' => 1,
+            'daily-visits'   => 15,
+            'likes-given'    => 1,
             'likes-received' => 1,
-            'replies-given' => 3,
-            'new-threads' => 20,
-            'read-threads' => 100,
+            'replies-given'  => 3,
+            'new-threads'    => 20,
+            'read-threads'   => 100,
         ],
     ];
 }

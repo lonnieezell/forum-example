@@ -3,9 +3,7 @@
 namespace App\Controllers\Admin\Settings;
 
 use App\Controllers\AdminController;
-use CodeIgniter\HTTP\ResponseInterface;
 use InvalidArgumentException;
-use RuntimeException;
 
 class TrustLevelsController extends AdminController
 {
@@ -14,14 +12,14 @@ class TrustLevelsController extends AdminController
      */
     public function index()
     {
-        if($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'post') {
             return $this->update();
         }
 
         return $this->render('admin/settings/trust_levels', [
-            'trustLevels'  => setting('TrustLevels.levels'),
-            'trustActions' => setting('TrustLevels.actions'),
-            'trustAllowed' => setting('TrustLevels.allowedActions'),
+            'trustLevels'       => setting('TrustLevels.levels'),
+            'trustActions'      => setting('TrustLevels.actions'),
+            'trustAllowed'      => setting('TrustLevels.allowedActions'),
             'trustRequirements' => setting('TrustLevels.requirements'),
         ]);
     }
@@ -32,24 +30,24 @@ class TrustLevelsController extends AdminController
     private function update()
     {
         $this->validateData($this->request->getPost(), [
-            'trust' => 'required',
+            'trust'        => 'required',
             'requirements' => 'required',
         ]);
 
-        $trust = $this->request->getPost('trust');
+        $trust        = $this->request->getPost('trust');
         $requirements = $this->request->getPost('requirements');
 
-        $trustLevels = setting('TrustLevels.levels');
+        $trustLevels  = setting('TrustLevels.levels');
         $trustActions = setting('TrustLevels.actions');
 
         // Ensure the trust levels and actions are valid
         foreach ($trust as $level => $actions) {
-            if (!isset($trustLevels[$level])) {
+            if (! isset($trustLevels[$level])) {
                 throw new InvalidArgumentException('Invalid trust level: ' . $level);
             }
 
             foreach ($actions as $action => $value) {
-                if (!isset($trustActions[$action])) {
+                if (! isset($trustActions[$action])) {
                     throw new InvalidArgumentException('Invalid trust action: ' . $action);
                 }
             }
@@ -57,7 +55,7 @@ class TrustLevelsController extends AdminController
 
         // Ensure the requirements are valid
         foreach ($requirements as $level => $values) {
-            if (!isset($trustLevels[$level])) {
+            if (! isset($trustLevels[$level])) {
                 throw new InvalidArgumentException('Invalid trust level: ' . $level);
             }
         }

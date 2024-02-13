@@ -7,8 +7,6 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
-use InvalidArgumentException;
-use RuntimeException;
 
 class User extends ShieldUser
 {
@@ -162,6 +160,6 @@ class User extends ShieldUser
         }
 
         // Ensure they're allowed this action.
-        return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel]);
+        return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel], true);
     }
 }

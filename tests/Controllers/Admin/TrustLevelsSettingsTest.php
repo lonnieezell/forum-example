@@ -3,9 +3,7 @@
 namespace Controllers\Admin;
 
 use App\Entities\User;
-use App\Libraries\Authentication\Actions\Email2FA;
 use App\Models\Factories\UserFactory;
-use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -61,9 +59,9 @@ final class TrustLevelsSettingsTest extends TestCase
     public function testUserSettings()
     {
         // Check default state on a couple elements
-        $this->assertFalse(in_array('flag', setting('TrustLevels.allowedActions')[0]));
-        $this->assertTrue(in_array('attach', setting('TrustLevels.allowedActions')[1]));
-        $this->assertEquals(setting('TrustLevels.requirements')[1]['new-threads'], 5);
+        $this->assertFalse(in_array('flag', setting('TrustLevels.allowedActions')[0], true));
+        $this->assertTrue(in_array('attach', setting('TrustLevels.allowedActions')[1], true));
+        $this->assertSame(setting('TrustLevels.requirements')[1]['new-threads'], 5);
 
         // Submit the form with some new values
         $response = $this
@@ -72,7 +70,7 @@ final class TrustLevelsSettingsTest extends TestCase
             ->post('admin/settings/trust-levels', [
                 'trust' => [
                     0 => ['flag' => 1],
-                    1 => []
+                    1 => [],
                 ],
                 'requirements' => [
                     1 => ['new-threads' => 15],
@@ -82,8 +80,8 @@ final class TrustLevelsSettingsTest extends TestCase
         $response->assertOK();
 
         // Check that the settings were saved
-        $this->assertTrue(in_array('flag', setting('TrustLevels.allowedActions')[0]));
-        $this->assertFalse(in_array('attach', setting('TrustLevels.allowedActions')[1]));
-        $this->assertEquals(setting('TrustLevels.requirements')[1]['new-threads'], 15);
+        $this->assertTrue(in_array('flag', setting('TrustLevels.allowedActions')[0], true));
+        $this->assertFalse(in_array('attach', setting('TrustLevels.allowedActions')[1], true));
+        $this->assertSame(setting('TrustLevels.requirements')[1]['new-threads'], 15);
     }
 }
