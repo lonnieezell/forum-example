@@ -7,6 +7,8 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
+use InvalidArgumentException;
+use RuntimeException;
 
 class User extends ShieldUser
 {
@@ -145,5 +147,21 @@ class User extends ShieldUser
             ->write($path, file_get_contents($file->getTempName()));
 
         return $path;
+    }
+
+    /**
+     * Checks if the user can be trusted to peform the given action.
+     */
+    public function canTrustTo(string $action): bool
+    {
+        $trustLevel = $this->trust_level;
+
+        // Ensure it's a valid trust level
+        if (! array_key_exists($trustLevel, setting('TrustLevels.allowedActions'))) {
+            return false;
+        }
+
+        // Ensure they're allowed this action.
+        return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel]);
     }
 }
