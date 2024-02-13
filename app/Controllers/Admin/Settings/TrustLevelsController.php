@@ -12,7 +12,7 @@ class TrustLevelsController extends AdminController
      */
     public function index()
     {
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->is('post')) {
             return $this->update();
         }
 

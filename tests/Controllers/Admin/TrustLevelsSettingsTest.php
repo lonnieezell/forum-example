@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Admin;
+namespace Tests\Controllers\Admin;
 
 use App\Entities\User;
 use App\Models\Factories\UserFactory;
