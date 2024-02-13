@@ -7,8 +7,6 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
 use CodeIgniter\Shield\Models\LoginModel;
-use InvalidArgumentException;
-use RuntimeException;
 
 class User extends ShieldUser
 {
