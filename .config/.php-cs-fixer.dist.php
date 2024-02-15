@@ -1,14 +1,12 @@
 <?php
 
-use CodeIgniter\CodingStandard\CodeIgniter4;
-use Nexus\CsConfig\Factory;
 use PhpCsFixer\Finder;
 
 $finder = Finder::create()
     ->files()
     ->in([
-        __DIR__ . '/app/',
-        __DIR__ . '/tests/',
+        __DIR__ . '/../app/',
+        __DIR__ . '/../tests/',
     ])
     ->exclude([
         'build',
@@ -22,7 +20,7 @@ $overrides = [
 
 $options = [
     'finder'    => $finder,
-    'cacheFile' => 'build/.php-cs-fixer.cache',
+    'cacheFile' => '../build/.php-cs-fixer.cache',
 ];
 
 return (new PhpCsFixer\Config())
@@ -30,5 +28,6 @@ return (new PhpCsFixer\Config())
         '@PSR12' => true,
         'array_syntax' => ['syntax' => 'short'],
     ])
+    ->setCacheFile(__DIR__.'/../build/.php-cs-fixer.cache')
     ->setFinder($finder)
 ;

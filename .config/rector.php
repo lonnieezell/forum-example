@@ -74,7 +74,6 @@ use Rector\CodingStyle\Rector\FuncCall\VersionCompareFuncCallToConstantRector;
 use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
 use Rector\CodingStyle\Rector\Plus\UseIncrementAssignRector;
 use Rector\CodingStyle\Rector\Property\SplitGroupedPropertiesRector;
-use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\CodingStyle\Rector\Ternary\TernaryConditionVariableAssignmentRector;
@@ -109,13 +108,13 @@ return static function (RectorConfig $rectorConfig): void {
 
     // The paths to refactor (can also be supplied with CLI arguments)
     $rectorConfig->paths([
-        __DIR__ . '/app/',
+        __DIR__ . '/../app/',
         // __DIR__ . '/tests/',
     ]);
 
     // Include Composer's autoload - required for global execution, remove if running locally
     $rectorConfig->autoloadPaths([
-        __DIR__ . '/vendor/autoload.php',
+        __DIR__ . '/../vendor/autoload.php',
     ]);
 
     // Do you need to include constants, class aliases, or a custom autoloader?
@@ -131,7 +130,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // Are there files or rules you need to skip?
     $rectorConfig->skip([
-        __DIR__ . '/app/Views',
+        __DIR__ . '/../app/Views',
     ]);
 
     // auto import fully qualified class names
