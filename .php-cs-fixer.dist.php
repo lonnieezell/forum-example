@@ -14,14 +14,9 @@ $finder = Finder::create()
         'build',
         'Views',
     ])
-    ->append([
-        __FILE__,
-        __DIR__ . '/rector.php',
-    ]);
+;
 
 $overrides = [
-    // 'declare_strict_types' => true,
-    // 'void_return'          => true,
     'yoda_style' => ['identical' => false],
 ];
 
@@ -30,4 +25,10 @@ $options = [
     'cacheFile' => 'build/.php-cs-fixer.cache',
 ];
 
-return Factory::create(new CodeIgniter4(), $overrides, $options)->forProjects();
+return (new PhpCsFixer\Config())
+    ->setRules([
+        '@PSR12' => true,
+        'array_syntax' => ['syntax' => 'short'],
+    ])
+    ->setFinder($finder)
+;

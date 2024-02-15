@@ -6,6 +6,7 @@
 		beStrictAboutCoversAnnotation="true"
 		beStrictAboutOutputDuringTests="true"
 		beStrictAboutTodoAnnotatedTests="true"
+        cacheDirectory="build/phpunit/cache"
 		colors="true"
 		convertErrorsToExceptions="true"
 		convertNoticesToExceptions="true"
