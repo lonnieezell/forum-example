@@ -146,4 +146,20 @@ class User extends ShieldUser
 
         return $path;
     }
+
+    /**
+     * Checks if the user can be trusted to peform the given action.
+     */
+    public function canTrustTo(string $action): bool
+    {
+        $trustLevel = $this->trust_level;
+
+        // Ensure it's a valid trust level
+        if (! array_key_exists($trustLevel, setting('TrustLevels.allowedActions'))) {
+            return false;
+        }
+
+        // Ensure they're allowed this action.
+        return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel], true);
+    }
 }
