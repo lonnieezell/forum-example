@@ -70,7 +70,7 @@ trait HasAuthorsAndEditors
      */
     public function isOwner(?User $user = null): bool
     {
-        if (! $user) {
+        if ($user === null) {
             // Must be logged in to check if no user provided.
             if (! auth()->loggedIn()) {
                 return false;
