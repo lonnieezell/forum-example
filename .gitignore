@@ -41,6 +41,7 @@ npm-debug.log
 yarn-error.log
 php_errors.log
 .parcel-cache/*
+.php-cs-fixer.cache
 
 #-------------------------
 # Operating Specific Junk Files
