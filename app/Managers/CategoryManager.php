@@ -46,7 +46,7 @@ class CategoryManager
     {
         $policy = service('policy');
 
-        if ($user = auth()->user()) {
+        if (($user = auth()->user()) !== null) {
             $policy->withUser($user);
         }
 

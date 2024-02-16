@@ -29,7 +29,7 @@ class Policy
     {
         // We must have a user....
         $user = $this->user ?? auth()->user();
-        if (! $user) {
+        if ($user === null) {
             return false;
         }
 
@@ -79,7 +79,7 @@ class Policy
      */
     public function checkCategoryPermissions(int $categoryId)
     {
-        if ($user = auth()->user()) {
+        if (($user = auth()->user()) !== null) {
             $this->withUser($user);
         }
 
@@ -142,7 +142,7 @@ class Policy
     {
         helper('inflector');
         $className = substr($permission, 0, strpos($permission, '.'));
-        $className = ucfirst(singular($className)) . 'Policy';
+        $className = ucfirst((string) singular($className)) . 'Policy';
 
         $policy = '\\App\\Policies\\' . $className;
 

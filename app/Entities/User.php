@@ -49,7 +49,7 @@ class User extends ShieldUser
 
         if ($this->id) {
             if (setting('Users.avatarNameBasis') === 'name') {
-                $names    = explode(' ', $this->name);
+                $names    = explode(' ', (string) $this->name);
                 $idString = $this->first_name
                     ? $names[0][0] . ($names[1][0] ?? '')
                     : $this->username[0] . $this->username[1];
@@ -84,7 +84,7 @@ class User extends ShieldUser
     {
         // Default from Gravatar
         if (isset($this->id) && empty($this->avatar) && setting('Users.useGravatar')) {
-            $hash = md5(strtolower(trim($this->email)));
+            $hash = md5(strtolower(trim((string) $this->email)));
 
             return "https://www.gravatar.com/avatar/{$hash}?" . http_build_query([
                 's' => ($size ?? 60),
@@ -94,9 +94,9 @@ class User extends ShieldUser
             ]);
         }
 
-        return ! empty($this->avatar)
-            ? base_url('/uploads/' . $this->avatar)
-            : '';
+        return empty($this->avatar)
+            ? ''
+            : base_url('/uploads/' . $this->avatar);
     }
 
     /**

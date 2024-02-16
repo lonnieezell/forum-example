@@ -28,7 +28,7 @@ class HelpController extends BaseController
                 return $this->render('help/_index', ['pages' => $markdownPages]);
             }
 
-            $searchQuery = trim($this->request->getPost('search'));
+            $searchQuery = trim((string) $this->request->getPost('search'));
 
             if ($searchQuery === '') {
                 if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
