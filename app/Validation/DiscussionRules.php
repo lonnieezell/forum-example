@@ -209,7 +209,7 @@ class DiscussionRules
 
         // Check the date range format
         $pattern = '/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/';
-        if (! preg_match($pattern, $value)) {
+        if (! preg_match($pattern, (string) $value)) {
             $error = 'Incorrect date range format';
 
             return false;

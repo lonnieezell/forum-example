@@ -21,9 +21,10 @@ trait HasThreadsAndPosts
         if (! is_array($records)) {
             $records = [$records];
         }
-
-        $threadIds = $threads = [];
-        $postIds   = $posts = [];
+        $threadIds = [];
+        $threads = [];
+        $postIds = [];
+        $posts = [];
 
         foreach ($records as $record) {
             if ($record->resource_type === 'thread') {

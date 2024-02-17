@@ -49,7 +49,7 @@ class User extends ShieldUser
 
         if ($this->id) {
             if (setting('Users.avatarNameBasis') === 'name') {
-                $names    = explode(' ', $this->name);
+                $names    = explode(' ', (string) $this->name);
                 $idString = $this->first_name
                     ? $names[0][0] . ($names[1][0] ?? '')
                     : $this->username[0] . $this->username[1];
@@ -84,7 +84,7 @@ class User extends ShieldUser
     {
         // Default from Gravatar
         if (isset($this->id) && empty($this->avatar) && setting('Users.useGravatar')) {
-            $hash = md5(strtolower(trim($this->email)));
+            $hash = md5(strtolower(trim((string) $this->email)));
 
             return "https://www.gravatar.com/avatar/{$hash}?" . http_build_query([
                 's' => ($size ?? 60),
@@ -94,9 +94,9 @@ class User extends ShieldUser
             ]);
         }
 
-        return ! empty($this->avatar)
-            ? base_url('/uploads/' . $this->avatar)
-            : '';
+        return empty($this->avatar)
+            ? ''
+            : base_url('/uploads/' . $this->avatar);
     }
 
     /**
@@ -145,5 +145,21 @@ class User extends ShieldUser
             ->write($path, file_get_contents($file->getTempName()));
 
         return $path;
+    }
+
+    /**
+     * Checks if the user can be trusted to peform the given action.
+     */
+    public function canTrustTo(string $action): bool
+    {
+        $trustLevel = $this->trust_level;
+
+        // Ensure it's a valid trust level
+        if (! array_key_exists($trustLevel, setting('TrustLevels.allowedActions'))) {
+            return false;
+        }
+
+        // Ensure they're allowed this action.
+        return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel], true);
     }
 }
