@@ -14,6 +14,7 @@
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
 
+use App\Libraries\Theme;
 use CodeIgniter\Config\Factories;
 
 if (! function_exists('policy')) {
@@ -47,5 +48,16 @@ if (! function_exists('manager')) {
     function manager(string $name, bool $getShared = true): mixed
     {
         return Factories::managers($name, ['getShared' => $getShared]);
+    }
+}
+
+if (! function_exists('theme')) {
+    /**
+     * A convenience method for accessing the Theme service.
+     * Especially useful for views.
+     */
+    function theme(): Theme
+    {
+        return service('theme');
     }
 }

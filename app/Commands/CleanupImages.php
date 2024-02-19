@@ -87,7 +87,7 @@ class CleanupImages extends BaseCommand
         }
 
         // Delete images from DB
-        if (! empty($delete)) {
+        if ($delete !== []) {
             $db->table('images')->whereIn('id', $delete)->delete();
         }
 

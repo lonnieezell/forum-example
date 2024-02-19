@@ -61,6 +61,7 @@ class TextFormatter
 
         $configurator = new Configurator();
         $configurator = $this->loadStandardPlugins($configurator);
+
         $configurator->plugins->load('Litedown');
         $configurator->plugins->load('PipeTables');
         $configurator->TaskLists;

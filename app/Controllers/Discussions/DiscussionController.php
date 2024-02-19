@@ -160,7 +160,10 @@ class DiscussionController extends BaseController
         $threadModel = model(ThreadModel::class);
 
         // Find the thread by the slug
-        $thread = $threadModel->where('slug', $slug)->withTags()->first();
+        $thread = $threadModel->where('slug', $slug)
+            ->withTags()
+            ->includeHasReacted(auth()->id())
+            ->first();
 
         if (! $thread) {
             throw PageNotFoundException::forPageNotFound();
@@ -180,7 +183,9 @@ class DiscussionController extends BaseController
 
         if ($postId = (int) $this->request->getGet('post_id')) {
             // User was directed here to see the certain post
-            $post = $postModel->where('thread_id', $thread->id)->find($postId);
+            $post = $postModel->where('thread_id', $thread->id)
+                ->includeHasReacted(auth()->id())
+                ->find($postId);
             // Determine the page number for the post
             $page = $postModel->getPageNumberForPost($post->thread_id, $post->reply_to ?? $post->id);
             // Load all the replies for the post if needed

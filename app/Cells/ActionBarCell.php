@@ -17,8 +17,9 @@ class ActionBarCell extends Cell
     public Post|Thread $record;
     public ?Thread $thread = null; // needed for answering posts
     public string $type;
-    public ?User $user     = null;
-    protected string $view = 'action_bar_cell';
+    public ?User $user        = null;
+    public int $reactionCount = 0;
+    protected string $view    = 'action_bar_cell';
     private Policy $policy;
 
     public function mount(Post|Thread $record, ?User $user = null): void

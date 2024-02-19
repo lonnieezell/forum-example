@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-		bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
-		backupGlobals="false"
-		beStrictAboutCoversAnnotation="true"
-		beStrictAboutOutputDuringTests="true"
-		beStrictAboutTodoAnnotatedTests="true"
-		colors="true"
-		convertErrorsToExceptions="true"
-		convertNoticesToExceptions="true"
-		convertWarningsToExceptions="true"
-		executionOrder="random"
-		failOnRisky="true"
-		failOnWarning="true"
-		stopOnError="false"
-		stopOnFailure="false"
-		stopOnIncomplete="false"
-		stopOnSkipped="false"
-		verbose="true">
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+        bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
+        backupGlobals="false"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTodoAnnotatedTests="true"
+        cacheDirectory="build/phpunit/cache"
+        colors="true"
+        executionOrder="random"
+        failOnRisky="true"
+        failOnWarning="true"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+    >
 
-	<coverage includeUncoveredFiles="true" processUncoveredFiles="true">
-		<include>
+    <source>
+        <include>
 			<directory suffix=".php">./app/</directory>
 		</include>
 		<exclude>
@@ -30,11 +27,14 @@
             <directory suffix="_cell.php">./app/Cells/Moderation</directory>
             <file>./app/Routes.php</file>
         </exclude>
+    </source>
+
+	<coverage includeUncoveredFiles="true">
 		<report>
 			<clover outputFile="build/phpunit/clover.xml"/>
 			<html outputDirectory="build/phpunit/html"/>
 			<php outputFile="build/phpunit/coverage.serialized"/>
-			<text outputFile="php://stdout" showUncoveredFiles="false"/>
+			<text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
 			<xml outputDirectory="build/phpunit/xml-coverage"/>
 		</report>
 	</coverage>
@@ -46,27 +46,11 @@
 	</testsuites>
 
 	<extensions>
-		<extension class="Nexus\PHPUnit\Extension\Tachycardia">
-			<arguments>
-				<array>
-					<element key="timeLimit">
-						<double>1.00</double>
-					</element>
-					<element key="reportable">
-						<integer>30</integer>
-					</element>
-					<element key="precision">
-						<integer>2</integer>
-					</element>
-					<element key="collectBare">
-						<boolean>true</boolean>
-					</element>
-					<element key="tabulate">
-						<boolean>true</boolean>
-					</element>
-				</array>
-			</arguments>
-		</extension>
+		<bootstrap class="Nexus\PHPUnit\Tachycardia\TachycardiaExtension">
+            <parameter name="time-limit" value="1.00" />
+            <parameter name="report-count" value="30" />
+            <parameter name="precision" value="2" />
+		</bootstrap>
 	</extensions>
 
 	<logging>

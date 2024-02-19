@@ -52,7 +52,7 @@ class Auth extends ShieldAuth
         'layout'                      => 'auth',
         'action_email_2fa'            => '\App\Views\auth\email_2fa_show',
         'action_email_2fa_verify'     => '\App\Views\auth\email_2fa_verify',
-        'action_email_2fa_email'      => '\App\Views\auth\email_2fa_email',
+        'action_email_2fa_email'      => '\App\Views\auth\Email\email_2fa_email',
         'action_email_activate_show'  => '\App\Views\auth\email_activate_show',
         'action_email_activate_email' => '\App\Views\auth\Email\email_activate_email',
         'magic-link-login'            => '\App\Views\auth\magic_link_form',

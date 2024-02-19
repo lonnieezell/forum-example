@@ -5,9 +5,12 @@ namespace Config;
 use App\Libraries\Alerts;
 use App\Libraries\Policies\Policy;
 use App\Libraries\Storage;
+use App\Libraries\Theme;
 use App\Libraries\View;
 use App\Libraries\Vite;
 use CodeIgniter\Config\BaseService;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use Config\View as ViewConfig;
 
 /**
@@ -62,6 +65,34 @@ class Services extends BaseService
     }
 
     /**
+     * Override Shield's Password utilities to allow using setting() helper.
+     */
+    public static function passwords(bool $getShared = true): Passwords
+    {
+        if ($getShared) {
+            return self::getSharedInstance('passwords');
+        }
+
+        /** @var Auth $config */
+        $config = config('Auth');
+
+        if ($options = setting('Auth.allowRegistration')) {
+            $config->allowRegistration = $options;
+        }
+        if ($options = setting('Auth.passwordValidators')) {
+            $config->passwordValidators = $options;
+        }
+        if ($options = setting('Auth.actions')) {
+            $config->actions = $options;
+        }
+        if ($options = setting('Auth.sessionConfig')) {
+            $config->sessionConfig = $options;
+        }
+
+        return new Passwords($config);
+    }
+
+    /**
      * Use our custom App\Libraries\View class instead of the default
      * to provide additional functionality.
      */
@@ -75,5 +106,17 @@ class Services extends BaseService
         $config ??= config(ViewConfig::class);
 
         return new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
+    }
+
+    /**
+     * Returns the Theme library.
+     */
+    public static function theme(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('theme');
+        }
+
+        return new Theme();
     }
 }

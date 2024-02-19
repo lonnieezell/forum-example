@@ -2,6 +2,8 @@
 
 namespace App\Entities;
 
+use App\Concerns\HasAuthorsAndEditors;
+use App\Concerns\HasReactions;
 use App\Concerns\RendersContent;
 use App\Models\CategoryModel;
 use App\Models\ThreadModel;
@@ -10,6 +12,8 @@ use CodeIgniter\Entity\Entity;
 class Post extends Entity
 {
     use RendersContent;
+    use HasAuthorsAndEditors;
+    use HasReactions;
 
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at', 'marked_as_deleted'];
