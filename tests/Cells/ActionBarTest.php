@@ -75,7 +75,11 @@ final class ActionBarTest extends TestCase
         // User should be able to manage the answer to a thread.
         $this->assertFalse($this->cell->canManageAnswer());
 
-        // Can report someone else's thread.
+        // Can NOT report a thread with a default trust level.
+        $this->assertFalse($this->cell->canReport());
+
+        // Can report someone else's thread with a higher trust level.
+        $this->user->trust_level = 1;
         $this->assertTrue($this->cell->canReport());
     }
 
@@ -149,11 +153,15 @@ final class ActionBarTest extends TestCase
         // Should be able to reply to other post.
         $this->assertTrue($this->cell->canReply());
 
-        // Should be able to report other post.
-        $this->assertTrue($this->cell->canReport());
-
         // Since it's your thread, you should be able to manage the answer.
         $this->assertTrue($this->cell->canManageAnswer());
+
+        // Should NOT be able to report other post with a default trust level.
+        $this->assertFalse($this->cell->canReport());
+
+        // Should be able to report other post with a higher trust level.
+        $this->user->trust_level = 1;
+        $this->assertTrue($this->cell->canReport());
 
         // Should not be able to manage the answer on someone else's thread.
         $post->thread_id = $otherThread->id;

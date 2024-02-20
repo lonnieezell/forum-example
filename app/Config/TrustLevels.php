@@ -10,7 +10,7 @@ class TrustLevels extends BaseConfig
      * The actions that trust levels can check against.
      */
     public $actions = [
-        'flag'             => 'Flag a thread/post',
+        'report'           => 'Report a thread/post',
         'attach'           => 'Attach a file to a thread/post',
         'link-signature'   => 'Have any links in their signature',
         'start-discussion' => 'Start more than 3 new discussions',
@@ -35,7 +35,7 @@ class TrustLevels extends BaseConfig
     public $allowedActions = [
         0 => [],
         1 => [
-            'flag',
+            'report',
             'attach',
             'link-signature',
             'start-discussion',

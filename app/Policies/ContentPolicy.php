@@ -15,6 +15,11 @@ class ContentPolicy implements PolicyInterface
     public function report(User $user, Post|Thread $record): bool
     {
         // Can't report your own content.
-        return $user->id !== $record->author_id;
+        if ($user->id == $record->author_id) {
+            return false;
+        }
+
+        // Otherwise, base it on the user's trust level.
+        return $user->canTrustTo('report');
     }
 }
