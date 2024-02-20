@@ -373,7 +373,7 @@ class Auth extends ShieldAuth
      *
      * Valid range is between 4 - 31.
      */
-    public int $hashCost = 12;
+    public int $hashCost = ENVIRONMENT == 'testing' ? 4 : 12;
 
     /**
      * If you need to support passwords saved in versions prior to Shield v1.0.0-beta.4.

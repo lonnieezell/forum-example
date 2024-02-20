@@ -59,7 +59,7 @@ final class TrustLevelsSettingsTest extends TestCase
     public function testUserSettings()
     {
         // Check default state on a couple elements
-        $this->assertFalse(in_array('flag', setting('TrustLevels.allowedActions')[0], true));
+        $this->assertFalse(in_array('report', setting('TrustLevels.allowedActions')[0], true));
         $this->assertTrue(in_array('attach', setting('TrustLevels.allowedActions')[1], true));
         $this->assertSame(setting('TrustLevels.requirements')[1]['new-threads'], 5);
 
@@ -69,7 +69,7 @@ final class TrustLevelsSettingsTest extends TestCase
             ->actingAs($this->user)
             ->post('admin/settings/trust-levels', [
                 'trust' => [
-                    0 => ['flag' => 1],
+                    0 => ['report' => 1],
                     1 => [],
                 ],
                 'requirements' => [
@@ -80,7 +80,7 @@ final class TrustLevelsSettingsTest extends TestCase
         $response->assertOK();
 
         // Check that the settings were saved
-        $this->assertTrue(in_array('flag', setting('TrustLevels.allowedActions')[0], true));
+        $this->assertTrue(in_array('report', setting('TrustLevels.allowedActions')[0], true));
         $this->assertFalse(in_array('attach', setting('TrustLevels.allowedActions')[1], true));
         $this->assertSame(setting('TrustLevels.requirements')[1]['new-threads'], 15);
     }
