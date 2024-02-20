@@ -37,7 +37,7 @@ class Storage
     /**
      * Get a filesystem instance.
      */
-    public function disk(string $disk = 'default'): FileSystem
+    public function disk(string $disk = 'default'): Filesystem
     {
         if ($disk === 'default') {
             $disk = $this->default;
@@ -55,7 +55,7 @@ class Storage
      *
      * @throws InvalidArgumentException
      */
-    private function createDisk(string $disk): FileSystem
+    private function createDisk(string $disk): Filesystem
     {
         $config = $this->config->disks[$disk] ?? null;
 

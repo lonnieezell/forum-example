@@ -11,6 +11,11 @@
                     Users
                 </a>
             </li>
+            <li>
+                <a href="<?= url_to('settings-trust') ?>">
+                    Trust Levels
+                </a>
+            </li>
         </menu>
     </div>
 </nav>
