@@ -33,6 +33,15 @@ final class ThreadControllerTest extends TestCase
         $response->assertOK();
         $response->assertSeeElement('.thread-create');
         $response->assertSee('Start a new Discussion');
+
+        $response->assertSeeElement('textarea[data-upload-enabled=0]');
+
+        // Update their trust level to 1 and check again.
+        $user->trust_level = 1;
+        model(UserModel::class)->save($user);
+
+        $response = $this->actingAs($user)->get('discussions/new');
+        $response->assertSeeElement('textarea[data-upload-enabled=1]');
     }
 
     /**

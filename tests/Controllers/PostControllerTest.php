@@ -30,6 +30,16 @@ final class PostControllerTest extends TestCase
         $response->assertOK();
         $response->assertSeeElement('.post-create');
         $response->assertSee('Create a new post', 'div');
+
+        // Trust Level 0 should not have the upload feature.
+        $response->assertSeeElement('textarea[data-upload-enabled=0]');
+
+        // Update their trust level to 1 and check again.
+        $user->trust_level = 1;
+        model(UserModel::class)->save($user);
+
+        $response = $this->actingAs($user)->get('posts/1');
+        $response->assertSeeElement('textarea[data-upload-enabled=1]');
     }
 
     /**

@@ -26,10 +26,10 @@
                     <div class="tab tab-lifted flex-1 cursor-default"></div>
                 </div>
                 <div class="form-control w-full" x-show="tab === 'message'">
-                    <?= form_textarea('body', set_value('body', $post->body, false),  [
+                    <?= form_textarea('body', set_value('body', $post->body, false), [
                         'class' => 'input input-bordered', 'required' => '',
                         'id' => 'editor', 'data-type' => 'markdown',
-                        'data-upload-enabled' => config('ImageUpload')->enabled,
+                        'data-upload-enabled' => (int)policy('threads.uploadImage'),
                         'data-upload-size' => config('ImageUpload')->fileSize,
                         'data-upload-mime' => config('ImageUpload')->getMime(),
                         'data-upload-url' => config('ImageUpload')->uploadUrl,
@@ -56,7 +56,7 @@
                     class="btn btn-primary w-full sm:w-1/2 order-first <?= (auth()->user()?->handed ?? 'right') === 'right' ? 'sm:order-last' : '' ?>"
                     data-loading-disable
                 >
-                    Update 
+                    Update
                 </button>
             </div>
         </div>

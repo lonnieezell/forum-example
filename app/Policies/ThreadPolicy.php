@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Entities\Thread;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
+use InvalidArgumentException;
+use RuntimeException;
 
 class ThreadPolicy implements PolicyInterface
 {
@@ -44,5 +46,19 @@ class ThreadPolicy implements PolicyInterface
 
         return $user->can('threads.delete', 'moderation.threads')
             || $user->id === $thread->author_id;
+    }
+
+    /**
+     * Determines if the current user can attach a file to threads/posts.
+     */
+    public function uploadImage(User $user): bool
+    {
+        // Is the image upload feature enabled?
+        if (! config('ImageUpload')->enabled) {
+            return false;
+        }
+
+        // Otherwise, check if the user has the permission to upload images.
+        return $user->canTrustTo('attach');
     }
 }
