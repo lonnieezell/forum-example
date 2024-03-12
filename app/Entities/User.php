@@ -37,7 +37,7 @@ class User extends ShieldUser
         return route_to('profile', $this->username);
     }
 
-    public function cacheKey(string $suffix=''): string
+    public function cacheKey(string $suffix = ''): string
     {
         return 'user-' . $this->id . $suffix;
     }
