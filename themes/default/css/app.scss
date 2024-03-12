@@ -106,6 +106,10 @@ label.error {
     }
 }
 
+.signature a {
+    @apply underline hover:text-primary;
+}
+
 // ensure vendor prefix for Chrome and masks
 // These seem to have been dropped recently.
 .mask-squircle {

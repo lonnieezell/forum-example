@@ -3,6 +3,8 @@
 namespace App\Entities;
 
 use App\Concerns\HasReactions;
+use App\Concerns\RendersContent;
+use App\Libraries\TextFormatter;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
@@ -11,6 +13,7 @@ use CodeIgniter\Shield\Models\LoginModel;
 class User extends ShieldUser
 {
     use HasReactions;
+    use RendersContent;
 
     // protected $datamap = [];
     // protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
@@ -32,6 +35,35 @@ class User extends ShieldUser
     public function link(): string
     {
         return route_to('profile', $this->username);
+    }
+
+    public function cacheKey(string $suffix=''): string
+    {
+        return 'user-' . $this->id . $suffix;
+    }
+
+    public function renderSignature(): string
+    {
+        $cacheKey = $this->cacheKey('-sig');
+
+        if (! $signature = cache($cacheKey)) {
+            $signature = $this->signature;
+
+            if (empty($signature)) {
+                return '';
+            }
+
+            $signature = TextFormatter::instance()->renderMarkdown($signature);
+            $signature = $this->nofollowLinks($signature);
+
+            if (! $this->canTrustTo('link-signature')) {
+                $signature = $this->stripAnchors($signature);
+            }
+
+            cache()->save($cacheKey, $signature, YEAR);
+        }
+
+        return $signature;
     }
 
     /**
@@ -152,6 +184,11 @@ class User extends ShieldUser
      */
     public function canTrustTo(string $action): bool
     {
+        // Superadmins can do anything.
+        if ($this->inGroup('superadmin')) {
+            return true;
+        }
+
         $trustLevel = $this->trust_level;
 
         // Ensure it's a valid trust level
