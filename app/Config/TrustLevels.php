@@ -6,6 +6,9 @@ use CodeIgniter\Config\BaseConfig;
 
 class TrustLevels extends BaseConfig
 {
+    public const THREAD_THRESHOLD = 3;
+    public const POST_THRESHOLD = 10;
+
     /**
      * The actions that trust levels can check against.
      */
@@ -13,8 +16,8 @@ class TrustLevels extends BaseConfig
         'report'           => 'Report a thread/post',
         'attach'           => 'Attach a file to a thread/post',
         'link-signature'   => 'Have any links in their signature',
-        'start-discussion' => 'Start more than 3 new discussions',
-        'reply'            => 'Post more than 10 replies',
+        'start-discussion' => 'Start more than '. self::THREAD_THRESHOLD .' new discussions',
+        'reply'            => 'Post more than '. self::POST_THRESHOLD .' replies',
         'edit-own'         => 'Edit their own thread/post after 24 hours',
         'send-pm'          => 'Send private messages',
     ];

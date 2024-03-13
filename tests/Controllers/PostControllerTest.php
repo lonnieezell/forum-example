@@ -8,6 +8,7 @@ use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
 use CodeIgniter\Cache\CacheFactory;
+use Config\TrustLevels;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -82,6 +83,37 @@ final class PostControllerTest extends TestCase
         $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 0, 'thread_id' => null]);
     }
 
+    public function testCanUserCreateAPostWithLowTrustLevel()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+            'post_count' => TrustLevels::POST_THRESHOLD,
+            'trust_level' => 0,
+        ]);
+        $user->addGroup('user');
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('posts/1', [
+                'thread_id' => '1',
+                'reply_to'  => '',
+                'body'      => 'Sample body for post ![](' . $fileUrl . ')',
+            ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
+    }
+
     /**
      * @throws Exception
      */
@@ -92,7 +124,7 @@ final class PostControllerTest extends TestCase
         ])->get('posts/1');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
         $response->assertSessionHas('status', '403');
     }
 
@@ -111,7 +143,7 @@ final class PostControllerTest extends TestCase
         ]);
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
         $response->assertSessionHas('status', '403');
     }
 

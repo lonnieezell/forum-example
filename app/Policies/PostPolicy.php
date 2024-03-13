@@ -5,9 +5,31 @@ namespace App\Policies;
 use App\Entities\Post;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
+use CodeIgniter\Exceptions\ModelException;
+use CodeIgniter\Shield\Exceptions\LogicException;
+use Config\TrustLevels;
+use InvalidArgumentException;
+use RuntimeException;
 
 class PostPolicy implements PolicyInterface
 {
+    /**
+     * Users might be restricted from creating posts above a certain limit,
+     * based on their trust level and the trust level settings.
+     *
+     * Additionally, their role or user permissions should be checked.
+     */
+    public function create(User $user): bool
+    {
+        // Does the user have the trust level to create posts?
+        // Or have they exceeded the maximum number of posts per the trust level?
+        if (! $user->canTrustTo('reply') && $user->post_count >= TrustLevels::POST_THRESHOLD) {
+            return false;
+        }
+
+        return $user->can('posts.create');
+    }
+
     /**
      * Determines if the current user can edit a post.
      */
