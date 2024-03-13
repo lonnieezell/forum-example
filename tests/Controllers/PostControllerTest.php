@@ -3,8 +3,11 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\ImageFactory;
+use App\Models\Factories\PostFactory;
+use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
+use CodeIgniter\Cache\CacheFactory;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -193,5 +196,48 @@ final class PostControllerTest extends TestCase
         $this->seeInDatabase('posts', ['body' => 'Sample updated post body ![](' . $fileUrl . ')']);
         $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 0, 'thread_id' => null]);
         $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 1, 'thread_id' => 1]);
+    }
+
+    public function testViewThreadWithSignatureNoTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'trust_level' => 0,
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+
+        $thread = fake(ThreadFactory::class);
+        $post = fake(PostFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+            'thread_id' => $thread->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        // Trust level 0 - should NOT see the link.
+        $response->assertSee('This signature has a link');
+    }
+
+    public function testViewThreadWithSignatureWithTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'trust_level' => 1,
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+
+        $thread = fake(ThreadFactory::class);
+        $post = fake(PostFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+            'thread_id' => $thread->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        $response->assertSee('This signature has a <a href="https://example.com" rel="nofollow" target="_blank">link</a>');
     }
 }

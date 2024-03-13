@@ -76,4 +76,9 @@ class Post extends Entity
     {
         return $this->attributes['deleted_at'] !== null || $this->isMarkedAsDeleted();
     }
+
+    public function cacheKey(string $suffix = ''): string
+    {
+        return 'post-' . $this->id . $suffix;
+    }
 }
