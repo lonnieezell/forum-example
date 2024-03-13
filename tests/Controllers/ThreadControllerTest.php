@@ -3,9 +3,11 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\ImageFactory;
+use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\ThreadModel;
 use App\Models\UserModel;
+use CodeIgniter\Cache\CacheFactory;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use Exception;
@@ -34,6 +36,7 @@ final class ThreadControllerTest extends TestCase
         $response->assertSeeElement('.thread-create');
         $response->assertSee('Start a new Discussion');
 
+        // Trust Level 0 should not have the upload feature.
         $response->assertSeeElement('textarea[data-upload-enabled=0]');
 
         // Update their trust level to 1 and check again.
@@ -375,5 +378,42 @@ final class ThreadControllerTest extends TestCase
         $response->assertSessionHas('alerts', ['error' => [
             ['message' => 'This post does not belong in this thread', 'seconds' => 5],
         ]]);
+    }
+
+    public function testViewThreadWithSignatureNoTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+        $thread = fake(ThreadFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        // The author has a trust level 0 so their signature should not be visible.
+        $response->assertSee('This signature has a link');
+    }
+
+    public function testViewThreadWithSignatureWithTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'trust_level' => 1,
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+
+        $thread = fake(ThreadFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        $response->assertSee('This signature has a <a href="https://example.com" rel="nofollow" target="_blank">link</a>');
     }
 }

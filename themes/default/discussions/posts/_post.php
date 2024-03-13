@@ -3,7 +3,7 @@
 >
 
     <!-- Answer Bar -->
-    <?php if(isset($standaloneAnswer)) : ?>
+    <?php if (isset($standaloneAnswer)) : ?>
         <div class="answer-bar">
             <?= view('icons/check-badge') ?> &nbsp;
             Accepted Answer
@@ -42,10 +42,12 @@
             <i>Message not available.</i>
         <?php else: ?>
             <?= $post->render() ?>
+
+            <?= $this->view('discussions/_signature', ['user' => $post->author]) ?>
         <?php endif; ?>
     </div>
 
-    <?php if(! isset($standaloneAnswer)) : ?>
+    <?php if (! isset($standaloneAnswer)) : ?>
         <?= view_cell('ActionBarCell', ['record' => $post]) ?>
     <?php endif ?>
 </div>
