@@ -10,6 +10,7 @@ use App\Models\UserModel;
 use CodeIgniter\Cache\CacheFactory;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
+use Config\TrustLevels;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -45,6 +46,37 @@ final class ThreadControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get('discussions/new');
         $response->assertSeeElement('textarea[data-upload-enabled=1]');
+    }
+
+    public function testCanSeeTheCreateDiscussionButtonBasedOnTrust()
+    {
+        $user = fake(UserFactory::class, [
+            'trust_level' => 0,
+            'thread_count' => 0,
+        ]);
+        $user->addGroup('user');
+        $response = $this->actingAs($user)->get('discussions');
+
+        // Trust Level 0 should have the create button as long
+        // as they have less than the threshold.
+        $response->assertSee('Start a Discussion');
+
+        $user->thread_count = TrustLevels::THREAD_THRESHOLD;
+        model(UserModel::class)->save($user);
+
+        $response = $this->actingAs($user)->get('discussions');
+
+        // But once they hit the threshold they should no longer be able to create a discussion.
+        $response->assertDontSee('Start a Discussion');
+
+        $user->trust_level = 1;
+        $user->thread_count++;
+        model(UserModel::class)->save($user);
+
+        $response = $this->actingAs($user)->get('discussions');
+
+        // But if they have trust they should still see it, even at the threshold.
+        $response->assertSee('Start a Discussion');
     }
 
     /**
