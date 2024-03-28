@@ -5,11 +5,22 @@ namespace App\Policies;
 use App\Entities\Thread;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
+use Config\TrustLevels;
 use InvalidArgumentException;
 use RuntimeException;
 
 class ThreadPolicy implements PolicyInterface
 {
+    public function create(User $user): bool
+    {
+        $hasTrust = $user->canTrustTo('start-discussion');
+        if (! $hasTrust && $user->thread_count >= TrustLevels::THREAD_THRESHOLD) {
+            return false;
+        }
+
+        return $user->can('threads.create');
+    }
+
     /**
      * Determines if the current user can edit a thread.
      */

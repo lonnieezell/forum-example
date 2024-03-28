@@ -11,9 +11,9 @@
 
 <?= $this->section('sidebar')  ?>
 
-<?php if (auth()->user()?->can('threads.create')): ?>
+<?php if (policy('threads.create')): ?>
     <div class="py-4" hx-boost="true">
-        <a class="btn btn-primary mt-4 w-full" href="<?= url_to('thread-create'); ?>"">
+        <a class="btn btn-primary mt-4 w-full" href="<?= url_to('thread-create'); ?>">
         Start a Discussion
         </a>
     </div>
