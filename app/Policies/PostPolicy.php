@@ -6,6 +6,7 @@ use App\Entities\Post;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
 use CodeIgniter\Exceptions\ModelException;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use Config\TrustLevels;
 use InvalidArgumentException;
@@ -35,11 +36,20 @@ class PostPolicy implements PolicyInterface
      */
     public function edit(User $user, Post $post): bool
     {
+        $isOwnPost = $user->id === $post->author_id;
+
+        if ($isOwnPost &&
+            ! $user->canTrustTo('edit-own') &&
+            $post->created_at->isBefore(Time::now()->subHours(24))
+        ) {
+            return false;
+        }
+
         if (! service('policy')->checkCategoryPermissions($post->category_id)) {
             return false;
         }
 
-        return $user->can('posts.edit') || $user->id === $post->author_id;
+        return $user->can('posts.edit') || $isOwnPost;
     }
 
     public function delete(User $user, Post $post): bool
