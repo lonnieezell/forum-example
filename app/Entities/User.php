@@ -223,11 +223,9 @@ class User extends ShieldUser
         $reactions = model(ReactionModel::class);
         return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
             ->where('user_id', $this->id)
-            ->where(function ($query) {
-                return $query
-                    ->where(new RawSql('exists (select * from threads where threads.id = reactions.thread_id)'))
-                    ->orWhere(new RawSql('exists (select * from posts where posts.id = reactions.post_id)'));
-            })
+            ->where(static fn($query) => $query
+                ->where(new RawSql('exists (select * from threads where threads.id = reactions.thread_id)'))
+                ->orWhere(new RawSql('exists (select * from posts where posts.id = reactions.post_id)')))
             ->countAllResults();
     }
 }

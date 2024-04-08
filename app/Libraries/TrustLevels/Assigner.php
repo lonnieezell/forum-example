@@ -14,7 +14,7 @@ use JakubOnderka\PhpParallelLint\RunTimeException;
  */
 class Assigner
 {
-    private UserModel $userModel;
+    private readonly UserModel $userModel;
     private array $levels = [];
     private array $requirements = [];
 
