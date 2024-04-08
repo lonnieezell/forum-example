@@ -5,6 +5,8 @@ namespace App\Entities;
 use App\Concerns\HasReactions;
 use App\Concerns\RendersContent;
 use App\Libraries\TextFormatter;
+use App\Models\ReactionModel;
+use CodeIgniter\Database\RawSql;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
@@ -198,5 +200,34 @@ class User extends ShieldUser
 
         // Ensure they're allowed this action.
         return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel], true);
+    }
+
+    /**
+     * Returns the number of likes the user has given
+     * across all posts and threads.
+     */
+    public function countLikesGiven(): int
+    {
+        $reactions = model(ReactionModel::class);
+        return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
+            ->where('reactor_id', $this->id)
+            ->countAllResults();
+    }
+
+    /**
+     * Returns the number of likes the user's content
+     * has received across all posts and threads.
+     */
+    public function countLikesReceived(): int
+    {
+        $reactions = model(ReactionModel::class);
+        return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
+            ->where('user_id', $this->id)
+            ->where(function ($query) {
+                return $query
+                    ->where(new RawSql('exists (select * from threads where threads.id = reactions.thread_id)'))
+                    ->orWhere(new RawSql('exists (select * from posts where posts.id = reactions.post_id)'));
+            })
+            ->countAllResults();
     }
 }

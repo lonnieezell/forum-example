@@ -55,15 +55,23 @@ class TrustLevels extends BaseConfig
         0 => [],
         1 => [
             'new-threads'  => 5,
-            'read-threads' => 30,
+            // 'read-threads' => 30,
         ],
         2 => [
-            'daily-visits'   => 15,
+            // 'daily-visits'   => 15,
             'likes-given'    => 1,
             'likes-received' => 1,
             'replies-given'  => 3,
             'new-threads'    => 20,
-            'read-threads'   => 100,
+            // 'read-threads'   => 100,
+        ],
+        3 => [
+            // 'daily-visits'   => 15,
+            'likes-given'    => 1,
+            'likes-received' => 1,
+            'replies-given'  => 3,
+            'new-threads'    => 20,
+            // 'read-threads'   => 100,
         ],
     ];
 }
