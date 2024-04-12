@@ -11,7 +11,7 @@
   "devDependencies": {
     "@rollup/plugin-inject": "^5.0.5",
     "@tailwindcss/typography": "^0.5.9",
-    "@yaireo/tagify": "^4.17.9",
+    "@yaireo/tagify": "^4.24.0",
     "alpinejs": "^3.13.1",
     "autoprefixer": "^10.4.16",
     "daisyui": "^4.4.24",
