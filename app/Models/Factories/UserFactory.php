@@ -21,6 +21,7 @@ class UserFactory extends UserModel
             'active'   => true,
             'country'  => $faker->countryCode,
             'timezone' => $faker->timezone,
+            'trust_level' => 0,
         ]);
     }
 

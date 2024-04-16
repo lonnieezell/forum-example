@@ -36,6 +36,8 @@
             <?= $thread->render() ?>
         </div>
 
+        <?= $this->view('discussions/_signature', ['user' => $thread->author]) ?>
+
         <?= view_cell('ActionBarCell', ['record' => $thread]) ?>
     </div>
 </div>

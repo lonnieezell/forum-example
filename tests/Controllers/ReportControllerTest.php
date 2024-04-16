@@ -24,6 +24,7 @@ final class ReportControllerTest extends TestCase
         /** @var User $user */
         $user = fake(UserFactory::class, [
             'password' => 'secret123',
+            'trust_level' => 0,
         ]);
         $this->user = $user;
         $this->user->addGroup('admin');
@@ -61,6 +62,8 @@ final class ReportControllerTest extends TestCase
      */
     public function testReportGet()
     {
+        $this->user->trust_level = 1;
+
         $response = $this->withHeaders([
             'HX-Request' => 'true',
         ])->actingAs($this->user)->get(route_to('thread-report', 1));
@@ -73,6 +76,8 @@ final class ReportControllerTest extends TestCase
      */
     public function testReportPost()
     {
+        $this->user->trust_level = 1;
+
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
             'HX-Request'  => 'true',
@@ -88,6 +93,8 @@ final class ReportControllerTest extends TestCase
      */
     public function testReportPostEmptyComment()
     {
+        $this->user->trust_level = 1;
+
         $response = $this->withHeaders([
             csrf_header() => csrf_hash(),
             'HX-Request'  => 'true',
@@ -102,6 +109,8 @@ final class ReportControllerTest extends TestCase
      */
     public function testReportPostTooManyReports()
     {
+        $this->user->trust_level = 1;
+
         config(Forum::class)->maxReportsPerDey = 1;
         service('throttler')->check(md5('report-' . $this->user->id), config(Forum::class)->maxReportsPerDey, DAY);
 

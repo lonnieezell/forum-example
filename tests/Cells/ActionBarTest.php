@@ -8,6 +8,7 @@ use App\Models\Factories\CategoryFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
+use Config\TrustLevels;
 use Tests\Support\TestCase;
 
 /**
@@ -75,8 +76,32 @@ final class ActionBarTest extends TestCase
         // User should be able to manage the answer to a thread.
         $this->assertFalse($this->cell->canManageAnswer());
 
-        // Can report someone else's thread.
+        // Can NOT report a thread with a default trust level.
+        $this->assertFalse($this->cell->canReport());
+
+        // Can report someone else's thread with a higher trust level.
+        $this->user->trust_level = 1;
         $this->assertTrue($this->cell->canReport());
+    }
+
+    public function testUserCanReplyLowTrustLevel(): void
+    {
+        $thread = fake(ThreadFactory::class, [
+            'author_id'   => fake(UserFactory::class)->id,
+            'category_id' => fake(CategoryFactory::class)->id,
+        ], true);
+
+        $this->user->trust_level = 0;
+        $this->user->post_count = 0;
+
+        $this->cell->mount($thread, $this->user);
+        $this->assertTrue($this->cell->canReply());
+
+        // Now they should fail because they've reached the post threshold.
+        $this->user->post_count = TrustLevels::POST_THRESHOLD;
+        $this->cell->mount($thread, $this->user);
+
+        $this->assertFalse($this->cell->canReply());
     }
 
     public function testUserOwnPost(): void
@@ -149,11 +174,15 @@ final class ActionBarTest extends TestCase
         // Should be able to reply to other post.
         $this->assertTrue($this->cell->canReply());
 
-        // Should be able to report other post.
-        $this->assertTrue($this->cell->canReport());
-
         // Since it's your thread, you should be able to manage the answer.
         $this->assertTrue($this->cell->canManageAnswer());
+
+        // Should NOT be able to report other post with a default trust level.
+        $this->assertFalse($this->cell->canReport());
+
+        // Should be able to report other post with a higher trust level.
+        $this->user->trust_level = 1;
+        $this->assertTrue($this->cell->canReport());
 
         // Should not be able to manage the answer on someone else's thread.
         $post->thread_id = $otherThread->id;

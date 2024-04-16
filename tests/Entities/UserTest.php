@@ -17,7 +17,7 @@ final class UserTest extends TestCase
         ]);
 
         // Should fail nicely when no trust level is set
-        $this->assertFalse($user->canTrustTo('flag'));
+        $this->assertFalse($user->canTrustTo('report'));
 
         // Should return false with a valid action, but not at the right level
         $user->trust_level = 0;
@@ -28,6 +28,6 @@ final class UserTest extends TestCase
         $this->assertFalse($user->canTrustTo(1));
 
         // Should return true with a valid action
-        $this->assertTrue($user->canTrustTo('flag'));
+        $this->assertTrue($user->canTrustTo('report'));
     }
 }

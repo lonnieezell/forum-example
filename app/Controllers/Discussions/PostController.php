@@ -47,7 +47,7 @@ class PostController extends BaseController
     public function create(int $threadId, ?int $postId = null)
     {
         if (! $this->policy->can('posts.create')) {
-            return $this->policy->deny('You are not allowed to create posts.');
+            return $this->policy->deny('You are not allowed to create posts currently.');
         }
 
         if ($this->request->is('post') && $this->validate([

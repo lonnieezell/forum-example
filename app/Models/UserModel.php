@@ -7,7 +7,9 @@ use App\Concerns\HasStats;
 use App\Concerns\RestoreEntry;
 use App\Entities\User;
 use CodeIgniter\Database\BaseBuilder;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Models\UserModel as ShieldUser;
+use Exception;
 use ReflectionException;
 
 class UserModel extends ShieldUser
@@ -23,7 +25,7 @@ class UserModel extends ShieldUser
         parent::initialize();
 
         // Merge properties with parent
-        $this->allowedFields = [...$this->allowedFields, 'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature', 'two_factor_auth_email', 'reaction_count',
+        $this->allowedFields = [...$this->allowedFields, 'handed', 'thread_count', 'post_count', 'avatar', 'country', 'timezone', 'name', 'company', 'location', 'website', 'signature', 'two_factor_auth_email', 'reaction_count', 'trust_level',
         ];
 
         // Add event after insert
@@ -32,6 +34,25 @@ class UserModel extends ShieldUser
         // Add event after delete and restore
         $this->afterDelete[]  = 'afterUserDelete';
         $this->afterRestore[] = 'afterUserRestore';
+    }
+
+    /**
+     * Only return users that are active.
+     */
+    public function active(): self
+    {
+        return $this->where('active', 1);
+    }
+
+    /**
+     * Only return users that have been active on the site within
+     * the last 24 hours.
+     *
+     * NOTE: This requires that Config\Auth::recordActiveDate is set to true.
+     */
+    public function activeToday(): self
+    {
+        return $this->where('last_active >=', Time::now()->subHours(24)->toDateTimeString());
     }
 
     /**

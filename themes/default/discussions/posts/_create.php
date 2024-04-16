@@ -29,10 +29,10 @@
                     <div class="form-control w-full" x-show="tab === 'message'">
                         <?= form_hidden('thread_id', set_value('thread_id', $thread_id)); ?>
                         <?= form_hidden('reply_to', set_value('reply_to', $post_id)); ?>
-                        <?= form_textarea('body', set_value('body', '', false),  [
+                        <?= form_textarea('body', set_value('body', '', false), [
                             'class' => 'input input-bordered', 'required' => '',
                             'id' => 'editor', 'data-type' => 'markdown',
-                            'data-upload-enabled' => config('ImageUpload')->enabled,
+                            'data-upload-enabled' => (int)policy('threads.uploadImage'),
                             'data-upload-size' => config('ImageUpload')->fileSize,
                             'data-upload-mime' => config('ImageUpload')->getMime(),
                             'data-upload-url' => config('ImageUpload')->uploadUrl,

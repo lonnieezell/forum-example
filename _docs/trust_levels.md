@@ -14,10 +14,10 @@ This examines all users and assigns them a trust level which is stored in the `t
 
 ## Checking Trust Level
 
-You can check whether a user can be trusted to perform a certain action by using the `canTrustTo()` method on the `User` entity. This method accepts a string as an argument and returns a boolean. For example, to check if a user can flag posts, you would use the following code:
+You can check whether a user can be trusted to perform a certain action by using the `canTrustTo()` method on the `User` entity. This method accepts a string as an argument and returns a boolean. For example, to check if a user can report posts, you would use the following code:
 
 ```php
-if ($user->canTrustTo('flag')) {
+if ($user->canTrustTo('report')) {
     //
 }
 ```

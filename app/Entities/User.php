@@ -3,6 +3,10 @@
 namespace App\Entities;
 
 use App\Concerns\HasReactions;
+use App\Concerns\RendersContent;
+use App\Libraries\TextFormatter;
+use App\Models\ReactionModel;
+use CodeIgniter\Database\RawSql;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
@@ -11,6 +15,7 @@ use CodeIgniter\Shield\Models\LoginModel;
 class User extends ShieldUser
 {
     use HasReactions;
+    use RendersContent;
 
     // protected $datamap = [];
     // protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
@@ -32,6 +37,35 @@ class User extends ShieldUser
     public function link(): string
     {
         return route_to('profile', $this->username);
+    }
+
+    public function cacheKey(string $suffix = ''): string
+    {
+        return 'user-' . $this->id . $suffix;
+    }
+
+    public function renderSignature(): string
+    {
+        $cacheKey = $this->cacheKey('-sig');
+
+        if (! $signature = cache($cacheKey)) {
+            $signature = $this->signature;
+
+            if (empty($signature)) {
+                return '';
+            }
+
+            $signature = TextFormatter::instance()->renderMarkdown($signature);
+            $signature = $this->nofollowLinks($signature);
+
+            if (! $this->canTrustTo('link-signature')) {
+                $signature = $this->stripAnchors($signature);
+            }
+
+            cache()->save($cacheKey, $signature, YEAR);
+        }
+
+        return $signature;
     }
 
     /**
@@ -152,6 +186,11 @@ class User extends ShieldUser
      */
     public function canTrustTo(string $action): bool
     {
+        // Superadmins can do anything.
+        if ($this->inGroup('superadmin')) {
+            return true;
+        }
+
         $trustLevel = $this->trust_level;
 
         // Ensure it's a valid trust level
@@ -161,5 +200,32 @@ class User extends ShieldUser
 
         // Ensure they're allowed this action.
         return in_array($action, setting('TrustLevels.allowedActions')[$trustLevel], true);
+    }
+
+    /**
+     * Returns the number of likes the user has given
+     * across all posts and threads.
+     */
+    public function countLikesGiven(): int
+    {
+        $reactions = model(ReactionModel::class);
+        return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
+            ->where('reactor_id', $this->id)
+            ->countAllResults();
+    }
+
+    /**
+     * Returns the number of likes the user's content
+     * has received across all posts and threads.
+     */
+    public function countLikesReceived(): int
+    {
+        $reactions = model(ReactionModel::class);
+        return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
+            ->where('user_id', $this->id)
+            ->where(static fn($query) => $query
+                ->where(new RawSql('exists (select * from threads where threads.id = reactions.thread_id)'))
+                ->orWhere(new RawSql('exists (select * from posts where posts.id = reactions.post_id)')))
+            ->countAllResults();
     }
 }
