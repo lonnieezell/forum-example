@@ -5,6 +5,7 @@ namespace App\Controllers\Account;
 use App\Controllers\BaseController;
 use App\Entities\NotificationSetting;
 use App\Entities\User;
+use App\Libraries\CacheUtils;
 use App\Models\NotificationSettingModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
@@ -136,6 +137,11 @@ class AccountController extends BaseController
                 } catch (FilesystemException $e) {
                     alerts()->set('error', $e->getMessage());
                 }
+            }
+
+            // If the signature has been changed, invalidate the cache.
+            if ($user->hasChanged('signature')) {
+                CacheUtils::invalidateSignatureCache($user);
             }
 
             if (model(UserModel::class)->save($user)) {

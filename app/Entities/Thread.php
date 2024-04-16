@@ -55,4 +55,9 @@ class Thread extends Entity
     {
         return $this->attributes['deleted_at'] !== null;
     }
+
+    public function cacheKey(string $suffix = ''): string
+    {
+        return 'post-' . $this->id . $suffix;
+    }
 }

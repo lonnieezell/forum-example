@@ -8,6 +8,7 @@ use App\Models\Factories\CategoryFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
+use Config\TrustLevels;
 use Tests\Support\TestCase;
 
 /**
@@ -81,6 +82,26 @@ final class ActionBarTest extends TestCase
         // Can report someone else's thread with a higher trust level.
         $this->user->trust_level = 1;
         $this->assertTrue($this->cell->canReport());
+    }
+
+    public function testUserCanReplyLowTrustLevel(): void
+    {
+        $thread = fake(ThreadFactory::class, [
+            'author_id'   => fake(UserFactory::class)->id,
+            'category_id' => fake(CategoryFactory::class)->id,
+        ], true);
+
+        $this->user->trust_level = 0;
+        $this->user->post_count = 0;
+
+        $this->cell->mount($thread, $this->user);
+        $this->assertTrue($this->cell->canReply());
+
+        // Now they should fail because they've reached the post threshold.
+        $this->user->post_count = TrustLevels::POST_THRESHOLD;
+        $this->cell->mount($thread, $this->user);
+
+        $this->assertFalse($this->cell->canReply());
     }
 
     public function testUserOwnPost(): void

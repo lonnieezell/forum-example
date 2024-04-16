@@ -3,8 +3,12 @@
 namespace Tests\Controllers;
 
 use App\Models\Factories\ImageFactory;
+use App\Models\Factories\PostFactory;
+use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
+use CodeIgniter\Cache\CacheFactory;
+use Config\TrustLevels;
 use Exception;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
@@ -30,6 +34,16 @@ final class PostControllerTest extends TestCase
         $response->assertOK();
         $response->assertSeeElement('.post-create');
         $response->assertSee('Create a new post', 'div');
+
+        // Trust Level 0 should not have the upload feature.
+        $response->assertSeeElement('textarea[data-upload-enabled=0]');
+
+        // Update their trust level to 1 and check again.
+        $user->trust_level = 1;
+        model(UserModel::class)->save($user);
+
+        $response = $this->actingAs($user)->get('posts/1');
+        $response->assertSeeElement('textarea[data-upload-enabled=1]');
     }
 
     /**
@@ -69,6 +83,37 @@ final class PostControllerTest extends TestCase
         $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 0, 'thread_id' => null]);
     }
 
+    public function testCanUserCreateAPostWithLowTrustLevel()
+    {
+        $user = fake(UserFactory::class, [
+            'username' => 'testuser',
+            'post_count' => TrustLevels::POST_THRESHOLD,
+            'trust_level' => 0,
+        ]);
+        $user->addGroup('user');
+
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image1.jpg',
+        ]);
+        fake(ImageFactory::class, [
+            'user_id' => $user->id,
+            'name'    => 'test_image2.jpg',
+        ]);
+
+        $fileUrl  = base_url('uploads/' . $user->id . '/test_image1.jpg');
+        $response = $this
+            ->withHeaders([csrf_header() => csrf_hash()])
+            ->actingAs($user)->post('posts/1', [
+                'thread_id' => '1',
+                'reply_to'  => '',
+                'body'      => 'Sample body for post ![](' . $fileUrl . ')',
+            ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
+    }
+
     /**
      * @throws Exception
      */
@@ -79,7 +124,7 @@ final class PostControllerTest extends TestCase
         ])->get('posts/1');
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
         $response->assertSessionHas('status', '403');
     }
 
@@ -98,7 +143,7 @@ final class PostControllerTest extends TestCase
         ]);
 
         $response->assertHeader('HX-Location', '{"path":"\/display-error"}');
-        $response->assertSessionHas('message', 'You are not allowed to create posts.');
+        $response->assertSessionHas('message', 'You are not allowed to create posts currently.');
         $response->assertSessionHas('status', '403');
     }
 
@@ -183,5 +228,48 @@ final class PostControllerTest extends TestCase
         $this->seeInDatabase('posts', ['body' => 'Sample updated post body ![](' . $fileUrl . ')']);
         $this->seeInDatabase('images', ['name' => 'test_image1.jpg', 'is_used' => 0, 'thread_id' => null]);
         $this->seeInDatabase('images', ['name' => 'test_image2.jpg', 'is_used' => 1, 'thread_id' => 1]);
+    }
+
+    public function testViewThreadWithSignatureNoTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'trust_level' => 0,
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+
+        $thread = fake(ThreadFactory::class);
+        $post = fake(PostFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+            'thread_id' => $thread->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        // Trust level 0 - should NOT see the link.
+        $response->assertSee('This signature has a link');
+    }
+
+    public function testViewThreadWithSignatureWithTrust()
+    {
+        $mockCache = mock(CacheFactory::class);
+
+        $author = fake(UserFactory::class, [
+            'trust_level' => 1,
+            'signature' => 'This signature has a [link](https://example.com)',
+        ]);
+
+        $thread = fake(ThreadFactory::class);
+        $post = fake(PostFactory::class, [
+            'body' => 'This is a test thread.',
+            'author_id' => $author->id,
+            'thread_id' => $thread->id,
+        ]);
+
+        $response = $this->get($thread->link());
+
+        $response->assertSee('This signature has a <a href="https://example.com" rel="nofollow" target="_blank">link</a>');
     }
 }
