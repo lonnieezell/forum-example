@@ -2,13 +2,15 @@
 
 namespace Tests\Libraries\TrustLevels;
 
-use App\Entities\User;
 use App\Libraries\TrustLevels\Assigner;
 use App\Models\Factories\UserFactory;
+use Tests\Support\Concerns\SupportsTrustLevels;
 use Tests\Support\TestCase;
 
 class AssignerTest extends TestCase
 {
+    use SupportsTrustLevels;
+
     protected $refresh = true;
 
     public function testAssignNewUser()
@@ -34,6 +36,24 @@ class AssignerTest extends TestCase
         $assigner->assignTrustLevels($user);
 
         $this->assertEquals(1, $user->trust_level);
+    }
+
+    public function testAssignRaiseToLevelTwo()
+    {
+        $assigner = new Assigner();
+        $user = fake(UserFactory::class, [
+            'trust_level' => 0,
+            'thread_count' => 20,
+            'post_count' => 3,
+        ]);
+
+        $this->userLikesPosts($user, 1);
+        $this->userLikedByOthers($user, 1);
+        $this->userVisits($user, 15);
+
+        $assigner->assignTrustLevels($user);
+
+        $this->assertEquals(2, $user->trust_level);
     }
 
     public function testAssignDemotesLevel()

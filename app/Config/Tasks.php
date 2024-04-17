@@ -49,6 +49,9 @@ class Tasks extends BaseConfig
         // always set at the last position, so that other tasks can be executed first
         $schedule->command('queue:work emails -max 20 --stop-when-empty')->everyMinute()->named('queue-emails');
 
+        // update the user visits daily
+        $schedule->command('trust-levels:visits')->daily('11:45 pm')->named('track-user-visits');
+
         // update trust levels daily
         $schedule->command('trust-levels:set')->daily('1:00 am')->named('trust-levels-set');
     }

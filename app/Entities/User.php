@@ -221,11 +221,29 @@ class User extends ShieldUser
     public function countLikesReceived(): int
     {
         $reactions = model(ReactionModel::class);
-        return $reactions->where('reaction', ReactionModel::REACTION_LIKE)
+        return db_connect()->query('SELECT COUNT(reactions.id) as count
+            FROM reactions
+            WHERE reaction = ?
+                AND reactor_id = ?
+                AND (
+                    exists (select * from threads where threads.id = reactions.thread_id) OR
+                    exists (select * from posts where posts.id = reactions.post_id)
+                )
+            ', [
+                ReactionModel::REACTION_LIKE,
+                $this->id,
+            ])->getResult()[0]->count ?? 0;
+    }
+
+    /**
+     * Returns the number of daily visits the user has made
+     * within the last 100 days.
+     */
+    public function countDailyVisits(): int
+    {
+        return db_connect()
+            ->table('user_visits')
             ->where('user_id', $this->id)
-            ->where(static fn($query) => $query
-                ->where(new RawSql('exists (select * from threads where threads.id = reactions.thread_id)'))
-                ->orWhere(new RawSql('exists (select * from posts where posts.id = reactions.post_id)')))
             ->countAllResults();
     }
 }

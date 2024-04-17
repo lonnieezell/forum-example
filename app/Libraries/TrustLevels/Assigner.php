@@ -100,7 +100,7 @@ class Assigner
             $meetsCriteria = match ($action) {
                 'new-threads' => $user->thread_count >= $value,
                 // 'read-threads' => $user->read_count >= $value,
-                // 'daily-visits' => $user->daily_visits >= $value,
+                'daily-visits' => $user->countDailyVisits() >= $value,
                 'likes-given' => $user->countLikesGiven() >= $value,
                 'likes-received' => $user->countLikesReceived() >= $value,
                 'replies-given' => $user->post_count >= $value,
