@@ -9,6 +9,8 @@ use Tests\Support\TestCase;
 
 class ThreadPolicyTest extends TestCase
 {
+    protected $refresh = true;
+
     protected $policy;
 
     public function setUp(): void

@@ -23,7 +23,7 @@
             </p>
 
             <p class="text-sm mt-2">
-                Generated in <?= ('{elapsed_time}') ?> seconds, with a server load of <?= number_format(sys_getloadavg()[1], 2) ?>.
+                Generated in <?= ('{elapsed_time}') ?> seconds<?= function_exists('sys_getloadavg') ? ', with a server load of '. number_format(sys_getloadavg()[1], 2) : '.' ?>
             </p>
         </div>
 

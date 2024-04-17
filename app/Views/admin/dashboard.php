@@ -29,7 +29,12 @@
                             </tr>
                             <tr>
                                 <td>Server Load</td>
-                                <td><?= number_format(sys_getloadavg()[1], 2) ?></td>
+                                <td>
+                                    <?= function_exists('sys_getloadavg')
+                                        ? number_format(sys_getloadavg()[1], 2)
+                                        : 'Not available'
+                                    ?>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
