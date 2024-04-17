@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use Exception;
 use App\Models\UserModel;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
@@ -64,7 +65,7 @@ class UpdateVisits extends BaseCommand
         // all users that have a last_active date of today.
         model(UserModel::class)
             ->where('last_active', date('Y-m-d'))
-            ->chunk(100, function ($users) use ($db) {
+            ->chunk(100, static function ($users) use ($db) {
                 foreach ($users as $user) {
                     try {
                         $db->table('user_visits')
@@ -72,7 +73,7 @@ class UpdateVisits extends BaseCommand
                                 'user_id' => $user->id,
                                 'visited_on' => date('Y-m-d'),
                             ]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         log_message('error', 'Error updating user visits: '. $e->getMessage());
                     }
                 }
