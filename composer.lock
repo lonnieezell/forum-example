@@ -2372,16 +2372,16 @@
         },
         {
             "name": "s9e/text-formatter",
-            "version": "2.17.1",
+            "version": "2.17.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/TextFormatter.git",
-                "reference": "1dc04d8426db1988d6552a2f79ee5701ec8bae81"
+                "reference": "9adf2557f13e45c4524d0dc9886cab22822e337a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/1dc04d8426db1988d6552a2f79ee5701ec8bae81",
-                "reference": "1dc04d8426db1988d6552a2f79ee5701ec8bae81",
+                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/9adf2557f13e45c4524d0dc9886cab22822e337a",
+                "reference": "9adf2557f13e45c4524d0dc9886cab22822e337a",
                 "shasum": ""
             },
             "require": {
@@ -2409,7 +2409,7 @@
             },
             "type": "library",
             "extra": {
-                "version": "2.17.1"
+                "version": "2.17.3"
             },
             "autoload": {
                 "psr-4": {
@@ -2441,9 +2441,9 @@
             ],
             "support": {
                 "issues": "https://github.com/s9e/TextFormatter/issues",
-                "source": "https://github.com/s9e/TextFormatter/tree/2.17.1"
+                "source": "https://github.com/s9e/TextFormatter/tree/2.17.3"
             },
-            "time": "2024-03-28T11:54:38+00:00"
+            "time": "2024-05-26T00:00:08+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -4227,16 +4227,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.17",
+            "version": "10.5.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5"
+                "reference": "547d314dc24ec1e177720d45c6263fb226cc2ae3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1f736a473d21957ead7e94fcc029f571895abf5",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/547d314dc24ec1e177720d45c6263fb226cc2ae3",
+                "reference": "547d314dc24ec1e177720d45c6263fb226cc2ae3",
                 "shasum": ""
             },
             "require": {
@@ -4308,7 +4308,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.17"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.20"
             },
             "funding": [
                 {
@@ -4324,7 +4324,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-05T04:39:01+00:00"
+            "time": "2024-04-24T06:32:35+00:00"
         },
         {
             "name": "psr/container",
