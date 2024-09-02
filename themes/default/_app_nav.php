@@ -59,7 +59,7 @@
             </div>
 
             <!-- Site Name -->
-            <a class="btn btn-ghost normal-case text-xl text-primary-content">
+            <a href="<?= site_url() ?>" class="btn btn-ghost normal-case text-xl text-primary-content">
                 <?= config('App')->siteName ?>
             </a>
         </div>
