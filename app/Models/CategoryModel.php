@@ -74,6 +74,10 @@ class CategoryModel extends Model
      */
     public function findAllNested(array $categoryIds): array
     {
+        if ($categoryIds === []) {
+            return [[], []];
+        }
+
         $selects = [
             'categories.*',
             'threads.title as last_thread_title',
