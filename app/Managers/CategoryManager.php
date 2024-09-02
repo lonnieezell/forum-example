@@ -2,8 +2,6 @@
 
 namespace App\Managers;
 
-use App\Entities\Category;
-use App\Entities\User;
 use App\Models\CategoryModel;
 
 class CategoryManager
