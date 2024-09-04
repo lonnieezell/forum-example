@@ -37,13 +37,15 @@ trait RendersContent
     public function stripAnchors(string $html): string
     {
         $xml = new DOMDocument('1.0', 'UTF-8');
-        $xml->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $xml->loadHTML(mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, ~0], 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         foreach ($xml->getElementsByTagName('a') as $anchor) {
             $anchor->parentNode->replaceChild($xml->createTextNode($anchor->nodeValue), $anchor);
         }
 
-        return $xml->saveHTML();
+        return html_entity_decode(
+                mb_decode_numericentity($xml->saveHTML(), [0x80, 0x10FFFF, 0, ~0], 'UTF-8')
+            );
     }
 
     /**
@@ -55,7 +57,7 @@ trait RendersContent
     public function nofollowLinks(string $html): string
     {
         $xml = new DOMDocument('1.0', 'UTF-8');
-        $xml->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $xml->loadHTML(mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, ~0], 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         /**
          * @var \DOMElement $anchor
@@ -65,6 +67,8 @@ trait RendersContent
             $anchor->setAttribute('target', '_blank');
         }
 
-        return $xml->saveHTML();
+        return html_entity_decode(
+                mb_decode_numericentity($xml->saveHTML(), [0x80, 0x10FFFF, 0, ~0], 'UTF-8')
+            );
     }
 }
