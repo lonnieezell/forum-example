@@ -36,8 +36,8 @@ trait RendersContent
      */
     public function stripAnchors(string $html): string
     {
-        $xml = new DOMDocument();
-        $xml->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         foreach ($xml->getElementsByTagName('a') as $anchor) {
             $anchor->parentNode->replaceChild($xml->createTextNode($anchor->nodeValue), $anchor);
@@ -54,9 +54,12 @@ trait RendersContent
      */
     public function nofollowLinks(string $html): string
     {
-        $xml = new DOMDocument();
-        $xml->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
+        /**
+         * @var \DOMElement $anchor
+         */
         foreach ($xml->getElementsByTagName('a') as $anchor) {
             $anchor->setAttribute('rel', 'nofollow');
             $anchor->setAttribute('target', '_blank');
