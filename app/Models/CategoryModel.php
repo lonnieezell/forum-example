@@ -91,8 +91,8 @@ class CategoryModel extends Model
             ->parents()
             ->whereIn("{$this->table}.id", $categoryIds)
             ->select(implode(', ', $selects))
-            ->join('threads', 'threads.id = categories.last_thread_id')
-            ->join('users', 'users.id = threads.author_id')
+            ->join('threads', 'threads.id = categories.last_thread_id', 'LEFT')
+            ->join('users', 'users.id = threads.author_id', 'LEFT')
             ->findAll();
 
         $allChildren = $this
@@ -100,8 +100,8 @@ class CategoryModel extends Model
             ->children()
             ->whereIn("{$this->table}.id", $categoryIds)
             ->select(implode(', ', $selects))
-            ->join('threads', 'threads.id = categories.last_thread_id')
-            ->join('users', 'users.id = threads.author_id')
+            ->join('threads', 'threads.id = categories.last_thread_id', 'LEFT')
+            ->join('users', 'users.id = threads.author_id', 'LEFT')
             ->orderBy('order', 'asc')
             ->findAll();
 
@@ -113,6 +113,10 @@ class CategoryModel extends Model
      */
     public function findAllNestedDropdown(array $categoryIds): array
     {
+        if ($categoryIds === []) {
+            return [];
+        }
+
         $selects = [
             'id', 'title', 'parent_id', 'permissions',
         ];
