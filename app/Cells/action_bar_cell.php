@@ -14,7 +14,7 @@ if (auth()->loggedIn()) : ?>
                     'hx-post' => route_to('thread-set-answer', $thread->id),
                     'class'   => 'inline-block',
                 ]); ?>
-                    <?= form_hidden('post_id', $record->id); ?>
+                    <?= form_hidden('post_id', (string)$record->id); ?>
 
                     <button type="submit" class="action-btn" title="Accept this answer">
                         <?= view('icons/check-badge') ?>
@@ -25,7 +25,7 @@ if (auth()->loggedIn()) : ?>
                     'hx-post' => route_to('thread-unset-answer', $thread->id),
                     'class'   => 'inline-block',
                 ]); ?>
-                <?= form_hidden('post_id', $record->id); ?>
+                <?= form_hidden('post_id', (string)$record->id); ?>
 
                 <button type="submit" class="action-btn text-green-600  opacity-100"
                     title="Remove Answer">

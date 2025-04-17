@@ -54,7 +54,7 @@ class DiscussionRules
         return true;
     }
 
-    public function thread_report(string $value, string $params, array $data, ?string &$error = null): bool
+    public function thread_report(int $value, string $params, array $data, ?string &$error = null): bool
     {
         $result = db_connect()
             ->table('threads')
@@ -172,7 +172,7 @@ class DiscussionRules
     /**
      * @throws Exception
      */
-    public function unique_report(string $value, string $params, array $data, ?string &$error = null)
+    public function unique_report(mixed $value, string $params, array $data, ?string &$error = null)
     {
         [$type, $id] = explode(',', $params);
 

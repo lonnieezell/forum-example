@@ -5,10 +5,10 @@
   "homepage": "https://codeigniter.com",
   "license": "MIT",
   "require": {
-    "php": "^8.1",
+    "php": "^8.4",
     "ext-simplexml": "*",
     "ext-xsl": "*",
-    "codeigniter4/framework": "^4.4",
+    "codeigniter4/framework": "^4.5",
     "codeigniter4/queue": "dev-develop",
     "codeigniter4/shield": "^1.0",
     "codeigniter4/tasks": "dev-develop",

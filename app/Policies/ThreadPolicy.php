@@ -29,7 +29,8 @@ class ThreadPolicy implements PolicyInterface
 
         // If the user doesn't have the trust level to edit their own threads after 24 hours,
         // and the thread is older than 24 hours, they can't edit it.
-        if ($isOwnThread &&
+        if (
+            $isOwnThread &&
             ! $user->canTrustTo('edit-own') &&
             $thread->created_at->isBefore(Time::now()->subHours(24))
         ) {
@@ -40,8 +41,23 @@ class ThreadPolicy implements PolicyInterface
             return false;
         }
 
-        return $user->can('threads.edit', 'moderation.threads')
-            || $user->id === $thread->author_id;
+        // Only allow edit if user has permission or is the author and within 24 hours or has trust
+        if ($user->can('threads.edit', 'moderation.threads')) {
+            return true;
+        }
+
+        // If it's their own thread, and either they have trust or it's within 24 hours, allow
+        if ($isOwnThread) {
+            if ($user->canTrustTo('edit-own')) {
+                return true;
+            }
+            // Already checked 24h above, so if we get here, it's within 24h
+            if ($thread->created_at->isAfter(Time::now()->subHours(24))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

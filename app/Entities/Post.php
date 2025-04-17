@@ -52,7 +52,7 @@ class Post extends Entity
         return url_to('post', $categorySlug, $threadSlug, $this->id) . '#post-' . $this->id;
     }
 
-    public function setReplyTo(?string $value = null)
+    public function setReplyTo(mixed $value = null)
     {
         $this->attributes['reply_to'] = $value ?: null;
 

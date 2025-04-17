@@ -9,16 +9,13 @@ use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Services;
 use Mockery as m;
 use Tests\Support\Policies\TestPolicy;
+use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class PolicyTest extends CIUnitTestCase
+final class PolicyTest extends TestCase
 {
-    use DatabaseTestTrait;
-
-    protected $namespace = '';
-
     protected function setUp(): void
     {
         parent::setUp();

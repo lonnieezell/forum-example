@@ -1,7 +1,7 @@
 
 <form id="reaction-<?= $record->id ?>"
     class="inline"
-    hx-post="<?= route_to('react-to', $record->id, $record instanceof \App\Entities\Thread ? 'thread' : 'post', \App\Models\ReactionModel::REACTION_LIKE); ?>"
+    hx-post="<?= route_to('react-to', $record->id, $record instanceof \App\Entities\Thread ? 'thread' : 'post'); ?>"
     hx-target="#reaction-<?= $record->id ?>"
     hx-swap="outerHTML"
     hx-trigger="click throttle:1s"

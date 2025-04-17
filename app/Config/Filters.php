@@ -26,6 +26,9 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'alerts'        => AlertsFilter::class,
+        'forcehttps'    => \CodeIgniter\Filters\ForceHTTPS::class,
+        'pagecache'     => \CodeIgniter\Filters\PageCache::class,
+        'performance'   => \CodeIgniter\Filters\PerformanceMetrics::class,
     ];
 
     /**
@@ -72,5 +75,17 @@ class Filters extends BaseConfig
         'session'                => ['before' => ['account*', 'admin*', 'content*']],
         'group:superadmin,admin' => ['before' => ['admin*']],
         'signedurl'              => ['before' => ['thread-notifications/*', 'cancel-account-delete/*']],
+    ];
+
+    public array $required = [
+        'before' => [
+            // 'forcehttps', // Force Global Secure Requests
+            'pagecache',  // Web Page Caching
+        ],
+        'after' => [
+            'pagecache',   // Web Page Caching
+            'performance', // Performance Metrics
+            'toolbar',     // Debug Toolbar
+        ],
     ];
 }
