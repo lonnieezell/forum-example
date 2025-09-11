@@ -13,7 +13,7 @@ use RuntimeException;
  */
 class ReactionModel extends Model
 {
-    final public const REACTION_LIKE = 1;
+    final public const int REACTION_LIKE = 1;
 
     protected $table            = 'reactions';
     protected $primaryKey       = 'id';
