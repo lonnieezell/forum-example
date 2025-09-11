@@ -12,6 +12,7 @@ use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 
 /**
@@ -25,9 +26,9 @@ final class NewPostEventTest extends CIUnitTestCase
     protected $seed = TestDataSeeder::class;
 
     /**
-     * @dataProvider provideHandleThreadNotifications
      * @throws ReflectionException
      */
+    #[DataProvider('provideHandleThreadNotifications')]
     public function testHandleThreadNotifications(int $emailThread, bool $result, int $count)
     {
         $user = fake(UserFactory::class, [
@@ -67,9 +68,9 @@ final class NewPostEventTest extends CIUnitTestCase
     }
 
     /**
-     * @dataProvider provideHandlePostNotifications
      * @throws ReflectionException
      */
+    #[DataProvider('provideHandlePostNotifications')]
     public function testHandlePostNotifications(bool $addPost1, bool $replyTo, ?int $userId, int $emailPost, int $emailPostReply, bool $result, int $count)
     {
         $user = fake(UserFactory::class, [
