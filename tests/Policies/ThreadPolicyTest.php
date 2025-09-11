@@ -5,6 +5,7 @@ namespace Tests\Policies;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
 use App\Policies\ThreadPolicy;
+use CodeIgniter\I18n\Time;
 use Tests\Support\TestCase;
 
 class ThreadPolicyTest extends TestCase
@@ -22,13 +23,14 @@ class ThreadPolicyTest extends TestCase
 
     public function testCanEdit()
     {
+        Time::setTestNow('2025-07-01 14:15:16');
+
         $user = fake(UserFactory::class, [
             'trust_level' => 0,
         ]);
         $user->addGroup('user');
         $thread = fake(ThreadFactory::class, [
             'author_id' => $user->id,
-            'created_at' => date('Y-m-d H:i:s'),
         ]);
 
         // Trust level 0 should be able to edit their own post
@@ -36,12 +38,12 @@ class ThreadPolicyTest extends TestCase
 
         // Trust level 0 should be able to edit their own post
         // when the post is more than 24 hours old
-        $thread->created_at = date('Y-m-d H:i:s', strtotime('-23 hours'));
+        $thread->created_at = Time::now()->subHours(23);
         $this->assertTrue($this->policy->edit($user, $thread));
 
         // Trust level 0 should not be able to edit their own post
         // when the thread is older than 24 hours
-        $thread->created_at = date('Y-m-d H:i:s', strtotime('-25 hours'));
+        $thread->created_at = Time::now()->subHours(25);
         $this->assertFalse($this->policy->edit($user, $thread));
     }
 }
