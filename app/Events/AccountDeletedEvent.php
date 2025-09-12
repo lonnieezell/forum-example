@@ -46,6 +46,6 @@ class AccountDeletedEvent
             'message' => view('_emails/account_delete_scheduled', [
                 'user' => $user, 'userDelete' => $userDelete,
             ]),
-        ]);
+        ])->getStatus();
     }
 }

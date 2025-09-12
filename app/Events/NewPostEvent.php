@@ -69,7 +69,7 @@ class NewPostEvent
             'message' => view('_emails/email_post_notification', [
                 'user' => $user, 'category' => $category, 'thread' => $thread, 'post' => $post,
             ]),
-        ]);
+        ])->getStatus();
     }
 
     /**

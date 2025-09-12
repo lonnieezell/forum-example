@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use CodeIgniter\Filters\ForceHTTPS;
+use CodeIgniter\Filters\PageCache;
+use CodeIgniter\Filters\PerformanceMetrics;
 use App\Filters\AlertsFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -26,9 +29,9 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'alerts'        => AlertsFilter::class,
-        'forcehttps'    => \CodeIgniter\Filters\ForceHTTPS::class,
-        'pagecache'     => \CodeIgniter\Filters\PageCache::class,
-        'performance'   => \CodeIgniter\Filters\PerformanceMetrics::class,
+        'forcehttps'    => ForceHTTPS::class,
+        'pagecache'     => PageCache::class,
+        'performance'   => PerformanceMetrics::class,
     ];
 
     /**

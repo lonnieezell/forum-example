@@ -71,7 +71,7 @@
 
     <?php if (auth()->loggedIn()): ?>
         <div id="mute-thread-cell" <?= request()->is('htmx') ? 'hx-swap-oob="true"' : '' ?>>
-            <?= view_cell('MuteThreadCell', ['userId' => user_id(), 'threadId' => $thread->id]) ?>
+            <?= view_cell('MuteThreadCell', ['userId' => user_id(), 'threadId' => (int) $thread->id]) ?>
         </div>
     <?php endif; ?>
 

@@ -1,6 +1,5 @@
 <?php
 
-use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodeQuality\Rector\Assign\CombinedAssignRector;
 use Rector\CodeQuality\Rector\BooleanAnd\RemoveUselessIsObjectCheckRector;
 use Rector\CodeQuality\Rector\BooleanAnd\SimplifyEmptyArrayCheckRector;
@@ -17,21 +16,16 @@ use Rector\CodeQuality\Rector\For_\ForRepeatedCountToOwnVariableRector;
 use Rector\CodeQuality\Rector\Foreach_\ForeachToInArrayRector;
 use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToCoalescingRector;
 use Rector\CodeQuality\Rector\FuncCall\ArrayMergeOfNonArraysToSimpleArrayRector;
-use Rector\CodeQuality\Rector\FuncCall\BoolvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector;
 use Rector\CodeQuality\Rector\FuncCall\CompactToVariablesRector;
-use Rector\CodeQuality\Rector\FuncCall\FloatvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\InlineIsAInstanceOfRector;
-use Rector\CodeQuality\Rector\FuncCall\IntvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\SetTypeToCastRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyFuncGetArgsCountRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyInArrayValuesRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyStrposLowerRector;
 use Rector\CodeQuality\Rector\FuncCall\SingleInArrayToCompareRector;
-use Rector\CodeQuality\Rector\FuncCall\StrvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\UnwrapSprintfOneArgumentRector;
 use Rector\CodeQuality\Rector\Identical\BooleanNotIdenticalToNotIdenticalRector;
-use Rector\CodeQuality\Rector\Identical\GetClassToInstanceOfRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyArraySearchRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
@@ -72,7 +66,6 @@ use Rector\CodingStyle\Rector\FuncCall\ConsistentImplodeRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\FuncCall\VersionCompareFuncCallToConstantRector;
 use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
-use Rector\CodingStyle\Rector\Plus\UseIncrementAssignRector;
 use Rector\CodingStyle\Rector\Property\SplitGroupedPropertiesRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
@@ -86,12 +79,12 @@ use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\StmtsAwareInterface\ReturnEarlyIfVariableRector;
 use Rector\Instanceof_\Rector\Ternary\FlipNegatedTernaryInstanceofRector;
+use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Renaming\Rector\ClassMethod\RenameAnnotationRector;
 use Rector\Renaming\Rector\ConstFetch\RenameConstantRector;
 use Rector\Set\ValueObject\LevelSetList;
-use Rector\Set\ValueObject\SetList;
 use Rector\ValueObject\PhpVersion;
 
 /**
@@ -99,7 +92,7 @@ use Rector\ValueObject\PhpVersion;
  */
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_84,
         PHPUnitSetList::PHPUNIT_100,
     ]);
 
@@ -109,7 +102,7 @@ return static function (RectorConfig $rectorConfig): void {
     // The paths to refactor (can also be supplied with CLI arguments)
     $rectorConfig->paths([
         __DIR__ . '/../app/',
-        // __DIR__ . '/tests/',
+        // __DIR__ . '/../tests/',
     ]);
 
     // Include Composer's autoload - required for global execution, remove if running locally
@@ -123,7 +116,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     // Set the target version for refactoring
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+    $rectorConfig->phpVersion(PhpVersion::PHP_84);
 
     // Auto-import fully qualified class names
     $rectorConfig->importNames();
@@ -131,6 +124,7 @@ return static function (RectorConfig $rectorConfig): void {
     // Are there files or rules you need to skip?
     $rectorConfig->skip([
         __DIR__ . '/../app/Views',
+        AddOverrideAttributeToOverriddenMethodsRector::class,
     ]);
 
     // auto import fully qualified class names
@@ -151,8 +145,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(ArrayKeyExistsTernaryThenValueToCoalescingRector::class);
     $rectorConfig->rule(ArrayMergeOfNonArraysToSimpleArrayRector::class);
     $rectorConfig->rule(BooleanNotIdenticalToNotIdenticalRector::class);
-    $rectorConfig->rule(BoolvalToTypeCastRector::class);
-    $rectorConfig->rule(CallableThisArrayToAnonymousFunctionRector::class);
     $rectorConfig->rule(ChangeArrayPushToArrayAssignRector::class);
     $rectorConfig->rule(CleanupUnneededNullsafeOperatorRector::class);
     $rectorConfig->rule(CombineIfRector::class);
@@ -163,13 +155,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(CompleteMissingIfElseBracketRector::class);
     $rectorConfig->rule(ConsecutiveNullCompareReturnsToNullCoalesceQueueRector::class);
     $rectorConfig->rule(ConvertStaticPrivateConstantToSelfRector::class);
-    $rectorConfig->rule(FloatvalToTypeCastRector::class);
     $rectorConfig->rule(ForRepeatedCountToOwnVariableRector::class);
     $rectorConfig->rule(ForeachToInArrayRector::class);
-    $rectorConfig->rule(GetClassToInstanceOfRector::class);
     $rectorConfig->rule(InlineIfToExplicitIfRector::class);
     $rectorConfig->rule(InlineIsAInstanceOfRector::class);
-    $rectorConfig->rule(IntvalToTypeCastRector::class);
     $rectorConfig->rule(JoinStringConcatRector::class);
     $rectorConfig->rule(NewStaticToNewSelfRector::class);
     $rectorConfig->rule(NumberCompareToMaxFuncCallRector::class);
@@ -194,7 +183,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SingleInArrayToCompareRector::class);
     $rectorConfig->rule(SingularSwitchToIfRector::class);
     $rectorConfig->rule(StrlenZeroToIdenticalEmptyStringRector::class);
-    $rectorConfig->rule(StrvalToTypeCastRector::class);
     $rectorConfig->rule(SwitchNegatedTernaryRector::class);
     $rectorConfig->rule(SwitchTrueToIfRector::class);
     $rectorConfig->rule(TernaryEmptyArrayArrayDimFetchToCoalesceRector::class);
@@ -222,7 +210,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(StaticClosureRector::class);
     $rectorConfig->rule(SymplifyQuoteEscapeRector::class);
     $rectorConfig->rule(TernaryConditionVariableAssignmentRector::class);
-    $rectorConfig->rule(UseIncrementAssignRector::class);
     $rectorConfig->rule(VersionCompareFuncCallToConstantRector::class);
     $rectorConfig->rule(WrapEncapsedVariableInCurlyBracesRector::class);
     // Removing

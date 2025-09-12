@@ -6,6 +6,7 @@ use App\Models\Factories\UserFactory;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Exception;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\Database\Seeds\TestDataSeeder;
 use Tests\Support\TestCase;
 
@@ -29,9 +30,7 @@ final class DiscussionControllerTest extends TestCase
         $response->assertDontSee('Start a Discussion');
     }
 
-    /**
-     * @dataProvider provideShowDiscussionSearchByType
-     */
+    #[DataProvider('provideShowDiscussionSearchByType')]
     public function testShowDiscussionSearchByType(string $input, bool $see)
     {
         $response = $this->get('discussions?search[type]=' . $input);
@@ -100,9 +99,7 @@ final class DiscussionControllerTest extends TestCase
         $response->assertDontSee('Start a Discussion');
     }
 
-    /**
-     * @dataProvider provideShowDiscussionSearchByType
-     */
+    #[DataProvider('provideShowDiscussionSearchByType')]
     public function testShowCategorySearchByType(string $input, bool $see)
     {
         $response = $this->get('c/cat-1-sub-category-1?search[type]=' . $input);
@@ -143,9 +140,7 @@ final class DiscussionControllerTest extends TestCase
         $response->assertDontSee('Start a Discussion');
     }
 
-    /**
-     * @dataProvider provideShowDiscussionSearchByType
-     */
+    #[DataProvider('provideShowDiscussionSearchByType')]
     public function testShowTagSearchByType(string $input, bool $see)
     {
         $response = $this->get('t/tag1?search[type]=' . $input);

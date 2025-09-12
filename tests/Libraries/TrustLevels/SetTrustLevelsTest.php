@@ -5,6 +5,8 @@ namespace Tests\Libraries\TrustLevels;
 use App\Commands\SetTrustLevels;
 use App\Models\Factories\UserFactory;
 use App\Models\UserModel;
+use CodeIgniter\CLI\CLI;
+use CodeIgniter\Test\Mock\MockInputOutput;
 use Tests\Support\TestCase;
 use CodeIgniter\I18n\Time;
 
@@ -21,6 +23,10 @@ class SetTrustLevelsTest extends TestCase
             'post_count' => 30,
             'last_active' => Time::now()->toDateTimeString(),
         ]);
+
+        $io = new MockInputOutput();
+        CLI::setInputOutput($io);
+
         $command = new SetTrustLevels(service('logger'), service('commands'));
 
         $result = $command->run([]);
@@ -31,5 +37,7 @@ class SetTrustLevelsTest extends TestCase
         $user = model(UserModel::class)->find($user->id);
 
         $this->assertEquals(1, $user->trust_level);
+
+        CLI::resetInputOutput();
     }
 }
