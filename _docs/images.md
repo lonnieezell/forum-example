@@ -1,5 +1,9 @@
 # Images
 
+## TODOS
+
+- [ ] Use the filesystems configuration to store images on S3 or other remote storage.
+
 ## Overview
 
 Images are available for threads and posts. We can attach them by drag and drop or by pasting from the clipboard.

@@ -59,7 +59,7 @@ Policies are used in conjunction with the `can()` method on the controller. For 
 
 ```php
 if (! $this->policy->can('posts.edit', $post)) {
-    // user is allowed NOT to edit the post
+    // user is NOT allowed to edit the post
     return $this->policy->deny('You are not allowed to edit this post.');
 }
 ```

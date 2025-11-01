@@ -13,7 +13,6 @@
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
 -   [Commonmark](https://github.com/thephpleague/commonmark)
 -   [TextFormatter](https://github.com/s9e/TextFormatter)
--   [ParcelJS](https://parceljs.org/)
 -   [htmx](https://htmx.org/)
 -   [AlpineJS](https://alpinejs.dev/)
 -   [Tailwind](https://tailwindcss.com/)
@@ -21,7 +20,7 @@
 
 ## Initial Setup
 
-Once the reposoitory has been installed on your local machine you need to get a few things setup:
+Once the repository has been installed on your local machine you need to get a few things setup:
 
 ```cli
 composer install  (only needed if you directly downloaded the files)
@@ -30,15 +29,18 @@ php spark migrate --all
 php spark db:seed SampleDataSeeder  (only if you want sample forums, users, etc created)
 ```
 
-## Frontend Development
+## Running the Application
 
-We use [ParcelJS]() to handle compiling the frontend assets, including SASS and Javascript. When working on frontend code, ensure you have parcel running:
+For local development, you can use CodeIgniter's built-in development server. You also need to run the Vite development server for frontend assets.
 
 ```cli
+php spark serve
 npm run dev
 ```
 
+You can now access the application at `http://localhost:8080`.
+
 ## Sending emails
 
-Setup some Email Sandbox. Provide credentials - preferably using the `.env` file. 
+Setup some Email Sandbox. Provide credentials - preferably using the `.env` file.
 Don't forget to set up `fromEmail` and `fromName` variables too, because without them emails won't be sent.
