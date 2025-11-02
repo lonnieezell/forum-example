@@ -1,7 +1,7 @@
 {
-  "name": "codeigniter4/appstarter",
+  "name": "lonnieezell/vox",
   "type": "project",
-  "description": "CodeIgniter4 starter app",
+  "description": "A modular discussion forum built with CodeIgniter 4",
   "homepage": "https://codeigniter.com",
   "license": "MIT",
   "require": {

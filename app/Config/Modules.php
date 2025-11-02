@@ -16,6 +16,26 @@ class Modules extends BaseModules
 {
     /**
      * --------------------------------------------------------------------------
+     * Enabled Modules
+     * --------------------------------------------------------------------------
+     * List of all modules that are enabled by default. They can be enabled/disabled
+     * via the ModuleManager, which uses the CodeIgniter Settings library to manage
+     * the enabled/disabled state.
+     *
+     * The names here must match the module folder names in modules/ or addons/
+     * directories.
+     */
+    public array $enabledModules = [
+        'core-auth',
+        'core-discussions',
+        'core-moderation',
+        'core-notifications',
+        'core-reactions',
+        'core-tagging',
+    ];
+
+    /**
+     * --------------------------------------------------------------------------
      * Enable Auto-Discovery?
      * --------------------------------------------------------------------------
      *
