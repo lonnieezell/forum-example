@@ -37,5 +37,16 @@ return [
     'namespace'     => 'Vox\Discussions',
     'dependencies'  => ['core-discussions'],
     'permissions'   => ['posts.create' => '...'],
+    'required'      => true,
+    'min_php'       => '7.4', // Minimum PHP version
+    'min_framework' => '4.2.0', // Minimum CodeIgniter version
 ];
 ```
+
+## LifeCycle
+
+Here's how modules are bootstrapped during the application lifecycle:
+
+**Autoloader Registration**: The `ModuleBootstrapper` class registers active module namespaces with the autoloader.
+
+Once the namespaces are registered, CodeIgniter's standard module discovery process takes over, loading controllers, models, views, events, filters and routes as defined by each module.

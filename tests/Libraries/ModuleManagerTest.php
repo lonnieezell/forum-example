@@ -1,6 +1,6 @@
 <?php
 
-use App\Libraries\ModuleManager;
+use App\Libraries\Modules\ModuleManager;
 use CodeIgniter\Settings\Settings;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\Services;

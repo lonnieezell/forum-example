@@ -8,6 +8,7 @@ use App\Entities\Thread;
 use App\Entities\User;
 use App\Events\AccountDeletedEvent;
 use App\Events\NewPostEvent;
+use App\Libraries\Modules\ModuleBootstrapper;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
@@ -58,6 +59,14 @@ Events::on('pre_system', static function () {
             });
         }
     }
+
+    /*
+     * --------------------------------------------------------------------
+     * Register active modules
+     * --------------------------------------------------------------------
+     * Registers active module namespaces with the autoloader.
+     */
+    ModuleBootstrapper::registerAutoloaderNamespaces();
 });
 
 /**

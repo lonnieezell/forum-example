@@ -2,7 +2,7 @@
 
 namespace Tests\Support\Database\Seeds;
 
-use App\Models\Factories\CategoryFactory;
+use Vox\Categories\Models\CategoryFactory;
 use App\Models\Factories\ModerationReportFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;

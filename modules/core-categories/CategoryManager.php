@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Managers;
+namespace Vox\Categories;
 
-use App\Entities\Category;
 use App\Entities\User;
-use App\Models\CategoryModel;
+use Vox\Categories\Models\CategoryModel;
 
 class CategoryManager
 {

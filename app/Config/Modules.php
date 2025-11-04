@@ -26,7 +26,7 @@ class Modules extends BaseModules
      * directories.
      */
     public array $enabledModules = [
-        'core-auth',
+        'core-categories',
         'core-discussions',
         'core-moderation',
         'core-notifications',

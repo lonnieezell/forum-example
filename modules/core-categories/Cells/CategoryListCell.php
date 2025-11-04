@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Cells;
+namespace Vox\Categories\Cells;
 
-use App\Entities\Category;
-use App\Managers\CategoryManager;
+use Vox\Categories\Entities\Category;
+use Vox\Categories\CategoryManager;
 use CodeIgniter\View\Cells\Cell;
 
 class CategoryListCell extends Cell

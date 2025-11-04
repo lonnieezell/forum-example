@@ -2,6 +2,7 @@
 
 namespace Tests\Support;
 
+use App\Libraries\Modules\ModuleBootstrapper;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -14,7 +15,7 @@ abstract class TestCase extends CIUnitTestCase
     use FeatureTestTrait;
     use AuthenticationTesting;
 
-    protected $namespace;
+    protected $namespace = null;
 
     protected function setUp(): void
     {
@@ -22,6 +23,7 @@ abstract class TestCase extends CIUnitTestCase
         helper(['auth', 'setting']);
 
         $this->resetServices();
+        ModuleBootstrapper::registerAutoloaderNamespaces();
         Services::routes()->loadRoutes();
 
         parent::setUp();

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Libraries;
+namespace App\Libraries\Modules;
 
+use CodeIgniter\CodeIgniter;
 use InvalidArgumentException;
 
 /**
@@ -38,6 +39,10 @@ class ModuleManager
             foreach (glob(ROOTPATH . 'modules/*/module.php') as $manifestPath) {
                 $moduleName = basename(dirname($manifestPath));
                 $manifest = require $manifestPath;
+
+                // Store the module path in the manifest
+                $manifest['path'] = dirname($manifestPath) . DIRECTORY_SEPARATOR;
+
                 $modules[strtolower($moduleName)] = $manifest;
             }
 
@@ -61,6 +66,27 @@ class ModuleManager
 
         // Filter out any enabled modules that don't exist
         $this->enabled = array_filter($this->enabled, fn ($m) => isset($modules[$m]));
+
+        // Filter out any whose min_php or min_framework is not met
+        $phpVersion = phpversion();
+        $ciVersion = CodeIgniter::CI_VERSION;
+        $this->enabled = array_filter($this->enabled, function ($moduleName) use ($modules, $phpVersion, $ciVersion) {
+            $manifest = $modules[$moduleName];
+
+            // Check for minimum PHP version
+            if (isset($manifest['min_php']) && version_compare($phpVersion, $manifest['min_php'], '<')) {
+                // Skip module if PHP version is not met
+                return false;
+            }
+
+            // Check for minimum CodeIgniter version
+            if (isset($manifest['min_framework']) && version_compare($ciVersion, $manifest['min_framework'], '<')) {
+                // Skip module if CI version is not met
+                return false;
+            }
+
+            return true;
+        });
 
         return $modules;
     }

@@ -3,8 +3,8 @@
 namespace App\Controllers\Discussions;
 
 use App\Controllers\BaseController;
-use App\Managers\CategoryManager;
-use App\Models\CategoryModel;
+use Vox\Categories\CategoryManager;
+use Vox\Categories\Models\CategoryModel;
 use App\Models\PostModel;
 use App\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -41,7 +41,7 @@ class DiscussionController extends BaseController
             throw new InvalidArgumentException(implode(PHP_EOL, $this->validator->getErrors()));
         }
 
-        $categoryIds = manager(CategoryManager::class)->filterCategoriesByPermissions();
+        $categoryIds = (new CategoryManager())->filterCategoriesByPermissions();
         $threadModel = model(ThreadModel::class);
         $threads     = $threadModel->withTags()->forList($table['search'], $table['perPage'], $categoryIds);
 
