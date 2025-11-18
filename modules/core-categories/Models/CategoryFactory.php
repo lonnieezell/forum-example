@@ -1,9 +1,9 @@
 <?php
 
-namespace Vox\Categories\Models;
+namespace Koru\Categories\Models;
 
-use Vox\Categories\Entities\Category;
-use Vox\Categories\Models\CategoryModel;
+use Koru\Categories\Entities\Category;
+use Koru\Categories\Models\CategoryModel;
 use Faker\Generator;
 
 class CategoryFactory extends CategoryModel

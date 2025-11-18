@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers\Discussions;
+namespace Koru\Discussions\Controllers\Discussions;
 
 use App\Controllers\BaseController;
-use App\Entities\Post;
-use App\Models\CategoryModel;
-use App\Models\PostModel;
-use App\Models\ThreadModel;
+use Koru\Discussions\Entities\Post;
+use Koru\Categories\Models\CategoryModel;
+use Koru\Discussions\Models\PostModel;
+use Koru\Discussions\Models\ThreadModel;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
@@ -111,7 +111,7 @@ class PostController extends BaseController
             return $this->policy->deny('You are not allowed to edit this post.');
         }
 
-        if ($this->request->is('put') && $this->validate([
+        if ($this->request->is('PUT') && $this->validate([
             'body' => ['required', 'string', 'max_length[65000]'],
         ])) {
             $post->fill($this->validator->getValidated());

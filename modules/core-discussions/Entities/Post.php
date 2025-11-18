@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Entities;
+namespace Koru\Discussions\Entities;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasReactions;
 use App\Concerns\RendersContent;
-use App\Models\CategoryModel;
-use App\Models\ThreadModel;
+use Koru\Categories\Models\CategoryModel;
+use Koru\Discussions\Models\ThreadModel;
 use CodeIgniter\Entity\Entity;
 
 class Post extends Entity

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Entities\Thread;
+use Koru\Discussions\Entities\Thread;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
 use CodeIgniter\I18n\Time;

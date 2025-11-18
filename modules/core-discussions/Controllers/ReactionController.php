@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controllers\Discussions;
+namespace Koru\Discussions\Controllers\Discussions;
 
 use App\Controllers\BaseController;
-use App\Models\PostModel;
-use App\Models\ReactionModel;
-use App\Models\ThreadModel;
+use Koru\Discussions\Models\PostModel;
+use Koru\Discussions\Models\ReactionModel;
+use Koru\Discussions\Models\ThreadModel;
 
 class ReactionController extends BaseController
 {

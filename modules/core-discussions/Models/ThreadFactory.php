@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models\Factories;
+namespace Koru\Discussions\Models;
 
-use App\Entities\Thread;
-use App\Models\ThreadModel;
+use Koru\Discussions\Entities\Thread;
+use Koru\Discussions\Models\ThreadModel;
+use App\Models\Factories\UserFactory;
+use Koru\Categories\Models\CategoryFactory;
 use Faker\Generator;
 
 class ThreadFactory extends ThreadModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vox\Categories\Entities;
+namespace Koru\Categories\Entities;
 
 use CodeIgniter\Entity\Entity;
 

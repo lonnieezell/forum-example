@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers\Discussions;
+namespace Koru\Discussions\Controllers\Discussions;
 
 use App\Controllers\BaseController;
 use App\Entities\ModerationReport;
 use App\Models\ModerationReportModel;
-use App\Models\PostModel;
-use App\Models\ThreadModel;
+use Koru\Discussions\Models\PostModel;
+use Koru\Discussions\Models\ThreadModel;
 use Config\Forum;
 use ReflectionException;
 

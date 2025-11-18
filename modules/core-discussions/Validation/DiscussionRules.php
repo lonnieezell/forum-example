@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validation;
+namespace Koru\Discussions\Validation;
 
 use CodeIgniter\I18n\Time;
 use Exception;

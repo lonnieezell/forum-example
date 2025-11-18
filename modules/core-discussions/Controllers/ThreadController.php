@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controllers\Discussions;
+namespace Koru\Discussions\Controllers\Discussions;
 
 use App\Controllers\BaseController;
-use App\Entities\Thread;
-use App\Managers\CategoryManager;
-use App\Models\ThreadModel;
+use Koru\Discussions\Entities\Thread;
+use Koru\Categories\CategoryManager;
+use Koru\Discussions\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use Exception;
@@ -111,7 +111,7 @@ class ThreadController extends BaseController
 
         $categoryDropdown = manager(CategoryManager::class)->findAllNestedDropdown();
 
-        if ($this->request->is('put')) {
+        if ($this->request->is('PUT')) {
             $validCategoryIds = array_reduce($categoryDropdown, static fn ($keys, $innerArray) => [...$keys, ...array_keys($innerArray)], []);
             $validCategoryIds = implode(',', $validCategoryIds);
 

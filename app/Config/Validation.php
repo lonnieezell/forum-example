@@ -2,7 +2,7 @@
 
 namespace Config;
 
-use App\Validation\DiscussionRules;
+use Koru\Discussions\Validation\DiscussionRules;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;

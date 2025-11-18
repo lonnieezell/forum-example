@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace Koru\Discussions\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasImages;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
-use App\Entities\Post;
+use Koru\Discussions\Entities\Post;
 use CodeIgniter\Model;
 
 class PostModel extends Model

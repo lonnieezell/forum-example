@@ -9,8 +9,8 @@ return [
     'type'          => 'core',
     'required'      => true,
 
-    'provider'      => 'Vox\Categories\CategoryProvider',
-    'namespace'     => 'Vox\Categories',
+    'provider'      => 'Koru\Categories\CategoryProvider',
+    'namespace'     => 'Koru\Categories',
 
     'min_php'       => '8.2',
     'min_framework' => '4.5',

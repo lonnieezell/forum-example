@@ -1,6 +1,6 @@
 # Modules
 
-Modules are the core building blocks of the Vox forum application. Each module encapsulates a specific feature or set of related features, allowing for a modular and extensible architecture. This is built on top of CodeIgniter 4's modular support and extends it to allow for dynamic enabling/disabling of modules as well as addon modules.
+Modules are the core building blocks of the Koru forum application. Each module encapsulates a specific feature or set of related features, allowing for a modular and extensible architecture. This is built on top of CodeIgniter 4's modular support and extends it to allow for dynamic enabling/disabling of modules as well as addon modules.
 
 ## Module Structure
 
@@ -34,7 +34,7 @@ return [
     'name'          => 'core-discussions',
     'version'       => '1.0.0',
     'description'   => 'Handles user posts and comments',
-    'namespace'     => 'Vox\Discussions',
+    'namespace'     => 'Koru\Discussions',
     'dependencies'  => ['core-discussions'],
     'permissions'   => ['posts.create' => '...'],
     'required'      => true,

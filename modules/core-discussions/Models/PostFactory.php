@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models\Factories;
+namespace Koru\Discussions\Models;
 
-use App\Entities\Post;
-use App\Models\PostModel;
+use Koru\Discussions\Entities\Post;
+use Koru\Discussions\Models\PostModel;
+use Koru\Categories\Models\CategoryFactory;
 use Faker\Generator;
 
 class PostFactory extends PostModel

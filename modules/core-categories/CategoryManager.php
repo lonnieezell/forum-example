@@ -1,9 +1,9 @@
 <?php
 
-namespace Vox\Categories;
+namespace Koru\Categories;
 
 use App\Entities\User;
-use Vox\Categories\Models\CategoryModel;
+use Koru\Categories\Models\CategoryModel;
 
 class CategoryManager
 {

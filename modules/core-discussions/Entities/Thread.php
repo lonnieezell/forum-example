@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entities;
+namespace Koru\Discussions\Entities;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasReactions;
 use App\Concerns\RendersContent;
-use App\Models\CategoryModel;
+use Koru\Categories\Models\CategoryModel;
 use CodeIgniter\Entity\Entity;
 
 class Thread extends Entity

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers\Discussions;
+namespace Koru\Discussions\Controllers\Discussions;
 
 use App\Controllers\BaseController;
-use Vox\Categories\CategoryManager;
-use Vox\Categories\Models\CategoryModel;
-use App\Models\PostModel;
-use App\Models\ThreadModel;
+use Koru\Categories\CategoryManager;
+use Koru\Categories\Models\CategoryModel;
+use Koru\Discussions\Models\PostModel;
+use Koru\Discussions\Models\ThreadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use InvalidArgumentException;
 

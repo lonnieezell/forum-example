@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Libraries\Policies;
 
 use App\Entities\User;
-use App\Managers\CategoryManager;
+use Koru\Categories\CategoryManager;
 
 /**
  * Provides centralized autnorization based around policies

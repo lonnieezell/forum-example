@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Cells;
+namespace Koru\Discussions\Cells;
 
-use App\Entities\Post;
-use App\Entities\Thread;
+use Koru\Discussions\Entities\Post;
+use Koru\Discussions\Entities\Thread;
 use App\Entities\User;
 use App\Libraries\Policies\Policy;
 use App\Models\ThreadModel;

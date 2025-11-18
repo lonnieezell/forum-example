@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Cells;
+namespace Koru\Discussions\Cells;
 
 use App\Entities\NotificationMuted;
 use App\Entities\NotificationSetting;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Vox\Categories\Models;
+namespace Koru\Categories\Models;
 
 use App\Concerns\HasStats;
 use App\Concerns\Sluggable;
-use Vox\Categories\Entities\Category;
+use Koru\Categories\Entities\Category;
 use CodeIgniter\Model;
 
 class CategoryModel extends Model

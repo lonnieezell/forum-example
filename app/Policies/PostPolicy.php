@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Entities\Post;
+use Koru\Discussions\Entities\Post;
 use App\Entities\User;
 use App\Libraries\Policies\PolicyInterface;
 use CodeIgniter\Exceptions\ModelException;

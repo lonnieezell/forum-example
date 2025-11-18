@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Koru\Discussions\Models;
 
 use App\Concerns\HasAuthorsAndEditors;
 use App\Concerns\HasImages;
@@ -8,12 +8,13 @@ use App\Concerns\HasStats;
 use App\Concerns\ImpactsCategoryCounts;
 use App\Concerns\ImpactsUserActivity;
 use App\Concerns\Sluggable;
-use App\Entities\Thread;
+use Koru\Discussions\Entities\Thread;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use Exception;
 use Michalsn\CodeIgniterTags\Traits\HasTags;
 use ReflectionException;
+use Koru\Categories\Models\CategoryModel;
 
 class ThreadModel extends Model
 {

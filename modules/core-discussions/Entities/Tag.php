@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace Koru\Discussions\Entities;
 
 use CodeIgniter\Entity\Entity;
 
