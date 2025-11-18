@@ -16,7 +16,9 @@ class TrustLevelsController extends AdminController
             return $this->update();
         }
 
-        return $this->render('admin/settings/trust_levels', [
+        $view = $this->request->isHtmx() ? 'admin/settings/_trust_levels_form' : 'admin/settings/trust_levels';
+
+        return $this->render($view, [
             'trustLevels'       => setting('TrustLevels.levels'),
             'trustActions'      => setting('TrustLevels.actions'),
             'trustAllowed'      => setting('TrustLevels.allowedActions'),

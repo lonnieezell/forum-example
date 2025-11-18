@@ -1,21 +1,28 @@
-<nav class="side-nav">
-    <!-- Settings -->
-    <div x-data="{ open: true }">
-        <p class="side-nav-title" x-on:click="open = ! open">
-            Settings
-            <span>&#709;</span>
-        </p>
-        <menu x-show="open" x-transition>
-            <li>
-                <a href="<?= url_to('settings-users') ?>">
-                    Users
-                </a>
-            </li>
-            <li>
-                <a href="<?= url_to('settings-trust') ?>">
-                    Trust Levels
-                </a>
-            </li>
-        </menu>
-    </div>
-</nav>
+<div class="admin-sidebar" hx-boost="true">
+    <ul class="menu">
+        <!-- Settings -->
+        <li>
+            <details open>
+                <summary>Settings</summary>
+                <ul>
+                    <li>
+                        <a href="<?= url_to('settings-users') ?>"
+                           hx-get="<?= url_to('settings-users') ?>"
+                           hx-target="#main"
+                           hx-swap="innerHTML">
+                            Users
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= url_to('settings-trust') ?>"
+                           hx-get="<?= url_to('settings-trust') ?>"
+                           hx-target="#main"
+                           hx-swap="innerHTML">
+                            Trust Levels
+                        </a>
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+</div>

@@ -2,22 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-.side-nav {
-    p.side-nav-title {
-        @apply text-base font-normal cursor-pointer flex justify-between;
+body {
+    @apply flex flex-col min-h-screen;
+}
 
-        span {
-            @apply text-xl font-normal;
-        }
+#main-with-sidebar {
+    @apply flex-1;
+}
+
+.admin-sidebar {
+    @apply mb-4;
+
+    .menu {
+        @apply bg-base-100 rounded-box;
     }
-    menu {
-        @apply mt-1 pl-2 border-l;
-        li {
-            @apply mb-1;
-            a {
-                @apply block px-2 py-1 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:bg-base-200;
-            }
-        }
+
+    .menu li > *:not(ul):not(.menu-title):not(details):active,
+    .menu li > *:not(ul):not(.menu-title):not(details).active {
+        @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
+    }
+
+    .menu details {
+        @apply cursor-pointer;
+    }
+
+    .menu details summary {
+        @apply text-base font-medium;
+    }
+
+    .menu details[open] summary {
+        @apply bg-base-200 dark:bg-base-300;
+    }
+
+    .menu li a {
+        @apply text-sm font-medium;
     }
 }
 
