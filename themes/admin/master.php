@@ -14,7 +14,9 @@
     <?= $this->renderSection('styles') ?>
 </head>
 
-<body hx-ext="loading-states">
+<body hx-ext="loading-states" hx-indicator=".loading-bar">
+
+    <div class="loading-bar"></div>
 
     <?= $this->include('_top_nav') ?>
 
