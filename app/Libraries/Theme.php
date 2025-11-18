@@ -47,10 +47,12 @@ class Theme
     private function renderer(): View
     {
         if ($this->renderer === null) {
-            $themePath      = ROOTPATH . "/themes/{$this->theme}/";
-            $this->renderer = single_service('renderer', $themePath);
+            $themePath        = ROOTPATH . "/themes/{$this->theme}/";
+            $defaultThemePath = ROOTPATH . "/themes/default/";
+            $this->renderer   = single_service('renderer', $themePath, $defaultThemePath);
         }
 
         return $this->renderer;
     }
 }
+

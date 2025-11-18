@@ -96,16 +96,24 @@ class Services extends BaseService
      * Use our custom App\Libraries\View class instead of the default
      * to provide additional functionality.
      */
-    public static function renderer(?string $viewPath = null, ?ViewConfig $config = null, bool $getShared = true)
+    public static function renderer(?string $viewPath = null, ?string $defaultThemePath = null, ?ViewConfig $config = null, bool $getShared = true)
     {
         if ($getShared) {
-            return static::getSharedInstance('renderer', $viewPath, $config);
+            return static::getSharedInstance('renderer', $viewPath, $defaultThemePath, $config);
         }
 
         $viewPath = $viewPath ?: (new Paths())->viewDirectory;
         $config ??= config(ViewConfig::class);
 
-        return new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
+        $view = new View($config, $viewPath, service('locator'), CI_DEBUG, service('logger'));
+
+        // If a default theme path is provided, set up theme resolver for fallback
+        if ($defaultThemePath !== null) {
+            $resolver = new \App\Libraries\ThemeFileResolver($viewPath, [$defaultThemePath]);
+            $view->setThemeResolver($resolver);
+        }
+
+        return $view;
     }
 
     /**

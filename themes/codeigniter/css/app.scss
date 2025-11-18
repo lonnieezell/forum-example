@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '../../../node_modules/easymde/dist/easymde.min.css';
+@import '../../../node_modules/@yaireo/tagify/dist/tagify.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.dropdown ul li {
+    @apply hover:bg-white/20 hover:text-primary-content;
+}
+.dropdown ul li.separator {
+    @apply border-t border-base-200;
+}
+.navbar .menu li a {
+    @apply text-orange-50 hover:bg-white/20 hover:text-primary-content;
+}
+
+// Header Row
+.header-row {
+    @apply flex justify-center p-6 bg-base-200 dark:bg-base-300 border border-l-0 border-r-0 border-base-300 shadow-inner;
+
+    & > div {
+        @apply container flex flex-col sm:flex-row w-auto;
+
+        h2 {
+            @apply text-xl text-slate-700 dark:text-neutral-300 font-bold;
+
+            & span {
+                @apply text-neutral-500 font-normal hidden sm:inline;
+            }
+        }
+    }
+}
+
+// Override active nav colors
+.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active  {
+    @apply bg-orange-900/50 text-white dark:bg-orange-800/80;
+}
+
+.main-footer {
+    a {
+        @apply hover:text-primary;
+    }
+}
+
+.action-bar {
+    @apply flex flex-col sm:flex-row justify-between mt-8 py-2;
+    @apply border-t border-b border-neutral-300 dark:border-neutral-600;
+    @apply opacity-60 hover:opacity-100 transition;
+
+    .action-btn {
+        @apply btn btn-sm btn-ghost opacity-50 hover:opacity-100;
+    }
+}
+
+input.filter-select {
+    @apply select select-bordered select-sm w-auto;
+}
+fieldset {
+    @apply pl-6 mb-8;
+
+    legend {
+        @apply text-base-content -ml-6 mb-2 font-bold;
+    }
+}
+.form-control {
+    @apply w-full mb-4;
+}
+label.error {
+    @apply text-xs text-error;
+}
+
+.input-tags {
+    height: revert !important;
+}
+
+.discussion-list-item {
+    .discussion-stat {
+        @apply w-full text-neutral-600 text-sm sm:text-base;
+    }
+    .discussion-stat-label {
+        @apply w-full pl-1 sm:pl-0 text-neutral-400 text-sm;
+    }
+
+    &:hover {
+        h3 {
+            @apply text-primary;
+        }
+        .discussion-stat {
+            @apply text-primary;
+        }
+    }
+}
+
+.post-answer {
+    @apply border rounded-2xl border-success;
+
+    .answer-bar {
+        @apply flex justify-center items-center p-2 mb-6 -ml-6 -mr-6 bg-success text-white;
+    }
+}
+
+.signature a {
+    @apply underline hover:text-primary;
+}
+
+// ensure vendor prefix for Chrome and masks
+// These seem to have been dropped recently.
+.mask-squircle {
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M100 0C20 0 0 20 0 100s20 100 100 100 100-20 100-100S180 0 100 0Z'/%3e%3c/svg%3e");
+}
+.mask {
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+// Prose tweaks
+.prose, .prose-lg, .prose-xl {
+    ul li,
+    ol li {
+        margin: 0.25em 0;
+        p {
+            margin: 0;
+            line-height: 1.75;
+        }
+    }
+}
+
+#toolbarContainer {
+    .tab {
+        cursor: revert;
+        -webkit-user-select: revert;
+        user-select: revert;
+        height: revert;
+    }
+}

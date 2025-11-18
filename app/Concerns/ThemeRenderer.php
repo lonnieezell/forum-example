@@ -13,7 +13,8 @@ trait ThemeRenderer
     {
         $themeName = config('Forum')->themeName;
         $themePath = ROOTPATH . "/themes/{$themeName}/";
-        $renderer  = single_service('renderer', $themePath);
+        $defaultThemePath = ROOTPATH . "/themes/default/";
+        $renderer  = single_service('renderer', $themePath, $defaultThemePath);
 
         return $renderer
             ->setData($data)
