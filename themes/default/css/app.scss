@@ -178,12 +178,20 @@ label.error {
     background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
     box-shadow: 0 0 15px rgba(251, 191, 36, 0.8), 0 0 5px rgba(245, 158, 11, 0.6);
     z-index: 9999;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .htmx-request.loading-bar {
     animation: htmx-loading-slide 0.8s ease-in-out infinite;
     animation-delay: 0.5s;
+    opacity: 1;
+}
+
+// Error state
+.loading-bar.error {
+    background: linear-gradient(90deg, #ef4444, #dc2626, #ef4444);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8), 0 0 5px rgba(220, 38, 38, 0.6);
+    animation: none !important;
     opacity: 1;
 }
 

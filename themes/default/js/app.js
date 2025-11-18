@@ -13,6 +13,17 @@ Alpine.data("alerts", alerts);
 window.Alpine = Alpine;
 Alpine.start();
 
+// Loading indicator error handling
+const loadingBar = document.querySelector('.loading-bar');
+htmx.on('htmx:responseError', () => {
+  if (loadingBar) {
+    loadingBar.classList.add('error');
+    setTimeout(() => {
+      loadingBar.classList.remove('error');
+    }, 2000);
+  }
+});
+
 // HTMX
 htmx.on("htmx:load", function (evt) {
   let editorElement = htmx.find(evt.detail.elt, "#editor");
