@@ -6,7 +6,6 @@ use App\Concerns\HasReactions;
 use App\Concerns\RendersContent;
 use App\Libraries\TextFormatter;
 use App\Models\ReactionModel;
-use CodeIgniter\Database\RawSql;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User as ShieldUser;
