@@ -8,10 +8,9 @@ htmx.on("htmx:load", function (evt) {
     systemSettingDark,
   });
 
+  document.documentElement.setAttribute('data-theme', currentThemeSetting);
   // Set the appropriate checked state for the theme toggler
-  document.querySelector("input.theme-controller").checked =
-    currentThemeSetting === "light";
-
+  document.querySelector("input.theme-controller").checked = currentThemeSetting === "light";
   // Store the current theme in a cookie so it can be accessed by both us and the server
   createCookie("theme", currentThemeSetting, "365");
 
@@ -19,10 +18,16 @@ htmx.on("htmx:load", function (evt) {
   document.querySelectorAll("input.theme-controller").forEach((e) => {
     e.addEventListener("click", () => {
       const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute('data-theme', newTheme);
+
+      if (newTheme == 'light') {
+        document.querySelector("input.theme-controller").setAttribute('checked', 'checked');
+      } else {
+        document.querySelector("input.theme-controller").removeAttribute('checked');
+      }
 
       // Update our cookie
       createCookie("theme", newTheme, "365");
-
       // update the currentThemeSetting in memory
       currentThemeSetting = newTheme;
     });
@@ -54,11 +59,9 @@ function createCookie(name, value, days) {
   document.cookie = name + "=" + value + expires + "; path=/";
 }
 
-function getCookie(cookiename) {
-  // Get name followed by anything except a semicolon
-  var cookiestring = RegExp(cookiename + "=[^;]+").exec(document.cookie);
-  // Return everything after the equal sign, or an empty string if the cookie name not found
-  return decodeURIComponent(
-    !!cookiestring ? cookiestring.toString().replace(/^[^=]+./, "") : "",
-  );
+function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
 }
