@@ -23,7 +23,7 @@ class MuteThreadCell extends Cell
         $this->threadId = $threadId;
         $this->userId   = $userId;
         $this->setting  = model(NotificationSettingModel::class)->withAnyNotification()->find($userId);
-        if ($this->setting) {
+        if ($this->setting !== null) {
             $this->notificationStatus = model(NotificationMutedModel::class)->find($userId, $threadId);
         }
     }

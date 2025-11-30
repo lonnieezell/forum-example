@@ -94,6 +94,6 @@ class ModerationLogModel extends Model
     {
         $results = $this->builder()->distinct()->select('author_id')->get()->getResultArray();
 
-        return array_map('intval', array_column($results, 'author_id'));
+        return array_map(intval(...), array_column($results, 'author_id'));
     }
 }

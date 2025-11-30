@@ -107,7 +107,7 @@ class UserModel extends ShieldUser
         }
 
         // Determine groups for users
-        $userIds   = array_map('intval', array_column($results, 'id'));
+        $userIds   = array_map(intval(...), array_column($results, 'id'));
         $userRoles = model(GroupModel::class)->getForUsers($userIds);
 
         $roleNames = array_combine(

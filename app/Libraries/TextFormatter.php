@@ -15,11 +15,11 @@ class TextFormatter
 
     public static function instance()
     {
-        if (static::$instance === null) {
-            static::$instance = new static();
+        if (self::$instance === null) {
+            self::$instance = new static();
         }
 
-        return static::$instance;
+        return self::$instance;
     }
 
     public function renderMarkdown(string $text): string

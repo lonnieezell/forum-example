@@ -113,7 +113,7 @@ class PostModel extends Model
      */
     public function withReplies(array $posts, int $limit = 2): array
     {
-        $postIds      = array_map('intval', array_column($posts, 'id'));
+        $postIds      = array_map(intval(...), array_column($posts, 'id'));
         $replies      = $this->getReplies($postIds, $limit);
         $repliesCount = $this->getRepliesCount($postIds);
 
@@ -215,7 +215,7 @@ class PostModel extends Model
             ->get()
             ->getResultArray();
 
-        return array_map('intval', array_column($authors, 'author_id'));
+        return array_map(intval(...), array_column($authors, 'author_id'));
     }
 
     /**
@@ -232,7 +232,7 @@ class PostModel extends Model
             ->get()
             ->getResultArray();
 
-        return array_map('intval', array_column($authors, 'author_id'));
+        return array_map(intval(...), array_column($authors, 'author_id'));
     }
 
     /**

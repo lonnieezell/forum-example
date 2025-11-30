@@ -25,7 +25,7 @@ class MemberController extends BaseController
             'sortDirection' => $this->request->getGet('sortDirection') ?? 'asc',
         ];
 
-        $roleKeys = array_merge(['all'], array_keys(setting('AuthGroups.groups')));
+        $roleKeys = ['all', ...array_keys(setting('AuthGroups.groups'))];
 
         $rules = [
             'perPage'         => ['in_list[5]'],
