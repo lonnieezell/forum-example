@@ -8,6 +8,7 @@ use CodeIgniter\Pager\PagerRenderer;
 $pager->setSurroundCount(2);
 ?>
 
+<?php if ($pager->getPageCount() > 1): ?>
 <nav aria-label="<?= lang('Pager.pageNavigation') ?>">
 	<div class="join">
 		<?php if ($pager->hasPrevious()) : ?>
@@ -35,3 +36,4 @@ $pager->setSurroundCount(2);
 		<?php endif ?>
 	</div>
 </nav>
+<?php endif; ?>

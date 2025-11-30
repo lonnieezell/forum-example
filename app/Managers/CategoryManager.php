@@ -2,8 +2,6 @@
 
 namespace App\Managers;
 
-use App\Entities\Category;
-use App\Entities\User;
 use App\Models\CategoryModel;
 
 class CategoryManager
@@ -16,7 +14,8 @@ class CategoryManager
         $cacheKey = 'category-permissions-' . (int) $permissionsOnly;
 
         if (! $permissions = cache($cacheKey)) {
-            $categories = model(CategoryModel::class)->findAllPermissions();
+            $permissions = [];
+            $categories  = model(CategoryModel::class)->findAllPermissions();
 
             foreach ($categories as $category) {
                 if ($permissionsOnly) {

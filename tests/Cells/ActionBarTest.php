@@ -8,6 +8,7 @@ use App\Models\Factories\CategoryFactory;
 use App\Models\Factories\PostFactory;
 use App\Models\Factories\ThreadFactory;
 use App\Models\Factories\UserFactory;
+use CodeIgniter\I18n\Time;
 use Config\TrustLevels;
 use Tests\Support\TestCase;
 
@@ -188,5 +189,27 @@ final class ActionBarTest extends TestCase
         $post->thread_id = $otherThread->id;
         $this->cell->mount($post, $this->user);
         $this->assertFalse($this->cell->canManageAnswer());
+    }
+
+    public function testUserOwnPostThatIsMarkedAsDeleted(): void
+    {
+        $category = fake(CategoryFactory::class);
+        $myThread = fake(ThreadFactory::class, [
+            'author_id'   => $this->user->id,
+            'category_id' => $category->id,
+        ], true);
+        $post = fake(PostFactory::class, [
+            'author_id'         => fake(UserFactory::class)->id,
+            'thread_id'         => $myThread->id,
+            'category_id'       => $category->id,
+            'marked_as_deleted' => Time::now(),
+            'deleted_at'        => Time::now(),
+        ], true);
+
+        $this->cell->mount($post, $this->user);
+
+        // Cannot be able to edit/delete a deleted post.
+        $this->assertFalse($this->cell->canEdit());
+        $this->assertFalse($this->cell->canDelete());
     }
 }

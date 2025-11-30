@@ -1,4 +1,4 @@
-<div class="thread px-6 pb-4">
+<div id="thread" class="thread px-6 pb-4">
     <h3 class="text-3xl leading-loose font-bold pb-2">
         <a href="<?= esc($thread->link(), 'attr') ?>">
             <?= esc($thread->title) ?>
