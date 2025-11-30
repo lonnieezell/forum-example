@@ -97,7 +97,7 @@ class Policy
         if ($permissions === []) {
             return true;
         }
-        return array_any($permissions, fn($permission) => $this->can($permission));
+        return array_any($permissions, fn ($permission) => $this->can($permission));
     }
 
     /**
