@@ -9,6 +9,8 @@ No guarantee is made that this repo represents a complete, working application. 
 -   [CodeIgniter 4.6+](https://codeigniter.com/)
 -   [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
+-   [CodeIgniter Tasks](https://github.com/codeigniter4/tasks)
+-   [CodeIgniter Queue](https://github.com/codeigniter4/queue)
 -   [Commonmark](https://github.com/thephpleague/commonmark)
 -   [TextFormatter](https://github.com/s9e/TextFormatter)
 -   [ParcelJS](https://parceljs.org/)
