@@ -6,7 +6,7 @@ No guarantee is made that this repo represents a complete, working application. 
 
 ## Packages Used
 
--   [CodeIgniter 4.4+](https://codeigniter.com/)
+-   [CodeIgniter 4.6+](https://codeigniter.com/)
 -   [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
 -   [Commonmark](https://github.com/thephpleague/commonmark)
@@ -16,7 +16,7 @@ No guarantee is made that this repo represents a complete, working application. 
 -   [AlpineJS](https://alpinejs.dev/)
 -   [Tailwind](https://tailwindcss.com/)
 -   [DaisyUI](https://daisyui.com/)
--   [HeroIcons](https://heroicons.com/) 
+-   [HeroIcons](https://heroicons.com/)
 -   [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)
 
 ## Docs and Installation

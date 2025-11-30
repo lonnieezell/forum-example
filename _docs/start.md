@@ -2,13 +2,13 @@
 
 ## System Requirements
 
--   PHP 8.1+
+-   PHP 8.4+
 -   Node 18.12.1+
 -   MySQL 8.0+
 
 ## Packages Used
 
--   [CodeIgniter 4.4+](https://codeigniter.com/)
+-   [CodeIgniter 4.6+](https://codeigniter.com/)
 -   [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 -   [CodeIgniter Settings](https://github.com/codeigniter4/settings)
 -   [Commonmark](https://github.com/thephpleague/commonmark)
