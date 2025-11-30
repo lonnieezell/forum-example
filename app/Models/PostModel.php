@@ -23,7 +23,7 @@ class PostModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup', 'reaction_count',
+        'category_id', 'thread_id', 'reply_to', 'author_id', 'editor_id', 'edited_at', 'edited_reason', 'body', 'ip_address', 'include_sig', 'visible', 'markup', 'reaction_count', 'marked_as_deleted', 'marked_as_answer'
     ];
     protected $useTimestamps        = true;
     protected $cleanValidationRules = false;

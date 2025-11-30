@@ -16,7 +16,7 @@ class Post extends Entity
     use HasReactions;
 
     protected $datamap = [];
-    protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at', 'marked_as_deleted'];
+    protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'edited_at', 'marked_as_deleted', 'marked_as_answer'];
     protected $casts   = [
         'id'          => 'integer',
         'category_id' => 'integer',
