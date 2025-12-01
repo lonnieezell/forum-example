@@ -15,7 +15,7 @@ final class HelpControllerTest extends TestCase
         $response = $this->get('help');
 
         $response->assertOK();
-        $response->assertSee('Help Section', 'h1');
+        $response->assertSee('Help', 'h1');
     }
 
     public function testIndexSearch()
@@ -23,6 +23,7 @@ final class HelpControllerTest extends TestCase
         $response = $this
             ->withHeaders([
                 csrf_header() => csrf_hash(),
+                'REFERER'     => url_to('pages'),
             ])
             ->post('help', [
                 'search' => 'sample',
@@ -30,6 +31,22 @@ final class HelpControllerTest extends TestCase
 
         $response->assertOK();
         $response->assertSee('Search Results', 'h3');
+    }
+
+    public function testIndexSearchWithoutReferrer()
+    {
+        $response = $this
+            ->withHeaders([
+                csrf_header() => csrf_hash(),
+                'REFERER'     => '',
+                'HX-Request'  => 'true',
+            ])
+            ->post('help', [
+                'search' => 'sample',
+            ]);
+
+        $this->assertSame(200, $response->response()->getStatusCode());
+        $this->assertEmpty($response->response()->getBody());
     }
 
     public function testIndexSearchEmpty()
@@ -45,6 +62,7 @@ final class HelpControllerTest extends TestCase
             ]);
 
         $response->assertStatus(200);
+        $response->assertSee('The search field may only contain alphanumeric and space characters.', 'span');
     }
 
     public function testIndexSearchValidationError()
@@ -56,7 +74,7 @@ final class HelpControllerTest extends TestCase
                 csrf_header() => csrf_hash(),
             ])
             ->post('help', [
-                'search' => 'sam',
+                'search' => '   sam   ',
             ]);
 
         $response->assertOK();
@@ -68,6 +86,7 @@ final class HelpControllerTest extends TestCase
         $response = $this
             ->withHeaders([
                 csrf_header() => csrf_hash(),
+                'REFERER'     => url_to('pages'),
             ])
             ->post('help', [
                 'search' => 'invalid',

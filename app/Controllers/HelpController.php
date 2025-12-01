@@ -14,31 +14,19 @@ class HelpController extends BaseController
         $markdownPages = service('markdownpages', ROOTPATH . 'help');
 
         if ($this->request->is('post')) {
+            $validReferer = $this->request->header('REFERER')?->getValueLine() === url_to('pages');
+            $searchQuery  = trim((string) $this->request->getPost('search'));
             $rules = [
-                'search' => ['permit_empty', 'string', 'alpha_numeric_space', 'min_length[4]', 'max_length[32]'],
+                'search' => ['string', 'alpha_numeric_space', 'min_length[4]', 'max_length[32]'],
             ];
 
-            if (! $this->validateData($this->request->getPost(), $rules)) {
+            if (! $this->validateData(['search' => $searchQuery], $rules)) {
                 alerts()->set('error', $this->validator->getError('search'));
 
-                if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
-                    return '';
-                }
-
-                return $this->render('help/_index', ['pages' => $markdownPages]);
+                return $validReferer ? $this->render('help/_index', ['pages' => $markdownPages]) : '';
             }
 
-            $searchQuery = trim((string) $this->request->getPost('search'));
-
-            if ($searchQuery === '') {
-                if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
-                    return '';
-                }
-
-                return $this->render('help/_index', ['pages' => $markdownPages]);
-            }
-
-            return $this->render('help/_search_results', ['search' => $markdownPages->search($searchQuery)]);
+            return $validReferer ? $this->render('help/_search_results', ['search' => $markdownPages->search($searchQuery)]) : '';
         }
 
         return $this->render('help/index', ['pages' => $markdownPages]);

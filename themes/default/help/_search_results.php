@@ -1,15 +1,15 @@
 <?php if ($search->getResults()->isEmpty()): ?>
 
-    <h3>No results, sorry.</h3>
+    <h3 class="font-bold">No results, sorry.</h3>
 
 <?php else: ?>
 
-    <h3>Search Results (<?= $search->getResults()->count(); ?>)</h3>
+    <h3 class="font-bold">Search Results (<?= $search->getResults()->count(); ?>)</h3>
 
     <div hx-boost="true">
         <?php foreach ($search->getResults()->items() as $key => $result): ?>
 
-            <div class="card card-compact bg-base-100 shadow-xl my-6">
+            <div class="card card-compact bg-base-100 shadow-lg my-6">
                 <div class="card-body">
                     <p>
                         <strong><?= ++$key; ?>.</strong>
