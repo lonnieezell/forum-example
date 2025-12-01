@@ -13,7 +13,6 @@ No guarantee is made that this repo represents a complete, working application. 
 -   [CodeIgniter Queue](https://github.com/codeigniter4/queue)
 -   [Commonmark](https://github.com/thephpleague/commonmark)
 -   [TextFormatter](https://github.com/s9e/TextFormatter)
--   [ParcelJS](https://parceljs.org/)
 -   [htmx](https://htmx.org/)
 -   [AlpineJS](https://alpinejs.dev/)
 -   [Tailwind](https://tailwindcss.com/)
