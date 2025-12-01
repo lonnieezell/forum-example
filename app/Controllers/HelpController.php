@@ -14,7 +14,8 @@ class HelpController extends BaseController
         $markdownPages = service('markdownpages', ROOTPATH . 'help');
 
         if ($this->request->is('post')) {
-            $searchQuery = trim((string) $this->request->getPost('search'));
+            $validReferer = $this->request->header('REFERER')?->getValueLine() === url_to('pages');
+            $searchQuery  = trim((string) $this->request->getPost('search'));
             $rules = [
                 'search' => ['string', 'alpha_numeric_space', 'min_length[4]', 'max_length[32]'],
             ];
@@ -22,14 +23,10 @@ class HelpController extends BaseController
             if (! $this->validateData(['search' => $searchQuery], $rules)) {
                 alerts()->set('error', $this->validator->getError('search'));
 
-                if ($this->request->header('REFERER')?->getValueLine() !== url_to('pages')) {
-                    return '';
-                }
-
-                return $this->render('help/_index', ['pages' => $markdownPages]);
+                return $validReferer ? $this->render('help/_index', ['pages' => $markdownPages]) : '';
             }
 
-            return $this->render('help/_search_results', ['search' => $markdownPages->search($searchQuery)]);
+            return $validReferer ? $this->render('help/_search_results', ['search' => $markdownPages->search($searchQuery)]) : '';
         }
 
         return $this->render('help/index', ['pages' => $markdownPages]);
