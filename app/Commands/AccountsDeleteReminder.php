@@ -54,7 +54,7 @@ class AccountsDeleteReminder extends BaseCommand
     public function run(array $params)
     {
         $days = array_shift($params) ?? 4;
-        $days = array_map('intval', explode(',', $days));
+        $days = array_map(intval(...), explode(',', (string) $days));
 
         // Get active users to delete
         $userDeletedModel = model(UserDeleteModel::class);

@@ -196,7 +196,7 @@ class ReportsController extends BaseController
 
         $table['dropdowns'] = [
             'resourceType' => ['' => 'All types', 'thread' => 'Threads', 'post' => 'Posts'],
-            'status'       => ['' => 'All statuses', array_combine($logStatuses, array_map(static fn ($status) => ucfirst($status), $logStatuses))],
+            'status'       => ['' => 'All statuses', array_combine($logStatuses, array_map(ucfirst(...), $logStatuses))],
             'authorId'     => array_replace_recursive(['' => 'All moderators'], $authorIds),
             'createdAt'    => ['' => 'All time', ...$dates],
         ];

@@ -54,7 +54,7 @@ Events::on('pre_system', static function () {
         // Hot Reload route - for framework use on the hot reloader.
         if (ENVIRONMENT === 'development') {
             Services::routes()->get('__hot-reload', static function () {
-                (new HotReloader())->run();
+                new HotReloader()->run();
             });
         }
     }
@@ -64,12 +64,12 @@ Events::on('pre_system', static function () {
  * Event fired after a new post is added.
  */
 Events::on('new-post', static function (Category $category, Thread $thread, Post $post) {
-    (new NewPostEvent($category, $thread, $post))->process();
+    new NewPostEvent($category, $thread, $post)->process();
 });
 
 /**
  * Event fired after user is soft-deleted.
  */
 Events::on('account-deleted', static function (User $user) {
-    (new AccountDeletedEvent($user))->process();
+    new AccountDeletedEvent($user)->process();
 });

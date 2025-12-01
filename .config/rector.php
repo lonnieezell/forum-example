@@ -7,7 +7,7 @@ use Rector\CodeQuality\Rector\BooleanNot\ReplaceMultipleBooleanNotRector;
 use Rector\CodeQuality\Rector\BooleanNot\SimplifyDeMorganBinaryRector;
 use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
-use Rector\CodeQuality\Rector\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector;
+use Rector\CodeQuality\Rector\Class_\ConvertStaticToSelfRector;
 use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
@@ -68,7 +68,7 @@ use Rector\CodingStyle\Rector\FuncCall\VersionCompareFuncCallToConstantRector;
 use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
 use Rector\CodingStyle\Rector\Property\SplitGroupedPropertiesRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
+use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\CodingStyle\Rector\Ternary\TernaryConditionVariableAssignmentRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
@@ -80,6 +80,7 @@ use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\StmtsAwareInterface\ReturnEarlyIfVariableRector;
 use Rector\Instanceof_\Rector\Ternary\FlipNegatedTernaryInstanceofRector;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use Rector\Php84\Rector\Class_\DeprecatedAnnotationToDeprecatedAttributeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Renaming\Rector\ClassMethod\RenameAnnotationRector;
@@ -125,6 +126,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         __DIR__ . '/../app/Views',
         AddOverrideAttributeToOverriddenMethodsRector::class,
+        DeprecatedAnnotationToDeprecatedAttributeRector::class,
     ]);
 
     // auto import fully qualified class names
@@ -154,7 +156,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(CompleteDynamicPropertiesRector::class);
     $rectorConfig->rule(CompleteMissingIfElseBracketRector::class);
     $rectorConfig->rule(ConsecutiveNullCompareReturnsToNullCoalesceQueueRector::class);
-    $rectorConfig->rule(ConvertStaticPrivateConstantToSelfRector::class);
+    $rectorConfig->rule(ConvertStaticToSelfRector::class);
     $rectorConfig->rule(ForRepeatedCountToOwnVariableRector::class);
     $rectorConfig->rule(ForeachToInArrayRector::class);
     $rectorConfig->rule(InlineIfToExplicitIfRector::class);
@@ -208,7 +210,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SplitGroupedPropertiesRector::class);
     $rectorConfig->rule(StaticArrowFunctionRector::class);
     $rectorConfig->rule(StaticClosureRector::class);
-    $rectorConfig->rule(SymplifyQuoteEscapeRector::class);
+    $rectorConfig->rule(SimplifyQuoteEscapeRector::class);
     $rectorConfig->rule(TernaryConditionVariableAssignmentRector::class);
     $rectorConfig->rule(VersionCompareFuncCallToConstantRector::class);
     $rectorConfig->rule(WrapEncapsedVariableInCurlyBracesRector::class);
