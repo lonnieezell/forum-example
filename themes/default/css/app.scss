@@ -199,3 +199,14 @@ label.error {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
 }
+
+@media (max-width: 640px) {
+    .container {
+        max-width:640px;
+        padding-inline: 1rem;
+    }
+
+    .navbar > .container {
+        padding-inline: inherit !important;
+    }
+}
