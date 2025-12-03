@@ -1,5 +1,5 @@
 import "./htmx.js";
-import "htmx.org/dist/ext/loading-states";
+import "htmx-ext-loading-states/dist/loading-states.min.js";
 import Alpine from "alpinejs";
 import alerts from "./components/alerts.js";
 import "./components/themeSwitch.js";

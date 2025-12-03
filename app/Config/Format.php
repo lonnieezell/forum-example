@@ -6,6 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Format\FormatterInterface;
 use CodeIgniter\Format\JSONFormatter;
 use CodeIgniter\Format\XMLFormatter;
+use Michalsn\CodeIgniterHtmx\Format\HTMLFormatter;
 
 class Format extends BaseConfig
 {
@@ -28,6 +29,7 @@ class Format extends BaseConfig
         'application/json',
         'application/xml', // machine-readable XML
         'text/xml', // human-readable XML
+        'text/html'
     ];
 
     /**
@@ -45,6 +47,7 @@ class Format extends BaseConfig
         'application/json' => JSONFormatter::class,
         'application/xml'  => XMLFormatter::class,
         'text/xml'         => XMLFormatter::class,
+        'text/html'        => HTMLFormatter::class,
     ];
 
     /**

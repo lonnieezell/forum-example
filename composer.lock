@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4288b0cc69d05059e737c401932977d",
+    "content-hash": "1a5f97dd996e07e8cf3a2bd6610a7bda",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1425,16 +1425,16 @@
         },
         {
             "name": "michalsn/codeigniter-htmx",
-            "version": "v1.6.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michalsn/codeigniter-htmx.git",
-                "reference": "f3a37ac1dba13354980d04d8db2f8de89301a031"
+                "reference": "2ec7f6426e3c142b078f704c73f41e945a6577de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michalsn/codeigniter-htmx/zipball/f3a37ac1dba13354980d04d8db2f8de89301a031",
-                "reference": "f3a37ac1dba13354980d04d8db2f8de89301a031",
+                "url": "https://api.github.com/repos/michalsn/codeigniter-htmx/zipball/2ec7f6426e3c142b078f704c73f41e945a6577de",
+                "reference": "2ec7f6426e3c142b078f704c73f41e945a6577de",
                 "shasum": ""
             },
             "require": {
@@ -1473,9 +1473,9 @@
             ],
             "support": {
                 "issues": "https://github.com/michalsn/codeigniter-htmx/issues",
-                "source": "https://github.com/michalsn/codeigniter-htmx/tree/v1.6.0"
+                "source": "https://github.com/michalsn/codeigniter-htmx/tree/v2.1.0"
             },
-            "time": "2024-09-09T09:19:47+00:00"
+            "time": "2024-11-06T15:06:29+00:00"
         },
         {
             "name": "michalsn/codeigniter-markdown-pages",
