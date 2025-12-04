@@ -46,7 +46,7 @@ final class HelpControllerTest extends TestCase
             ]);
 
         $this->assertSame(200, $response->response()->getStatusCode());
-        $this->assertEmpty($response->response()->getBody());
+        $response->assertSee('Sample File', 'a');
     }
 
     public function testIndexSearchEmpty()
