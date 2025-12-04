@@ -52,7 +52,10 @@ class Services extends BaseService
             return static::getSharedInstance('vite');
         }
 
-        return new Vite();
+        $manifestFile = FCPATH . 'assets/.vite/manifest.json';
+        $manifest     = env('VITE_SERVE') || ! is_file($manifestFile) ? [] : json_decode(file_get_contents($manifestFile), true);
+
+        return new Vite($manifest);
     }
 
     public static function storage($getShared = true): Storage
