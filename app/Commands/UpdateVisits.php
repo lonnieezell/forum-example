@@ -64,18 +64,16 @@ class UpdateVisits extends BaseCommand
         // Create a new entry in the user_visits table for
         // all users that have a last_active date of today.
         model(UserModel::class)
-            ->where('last_active', date('Y-m-d'))
-            ->chunk(100, static function ($users) use ($db) {
-                foreach ($users as $user) {
-                    try {
-                        $db->table('user_visits')
-                            ->insert([
-                                'user_id' => $user->id,
-                                'visited_on' => date('Y-m-d'),
-                            ]);
-                    } catch (Exception $e) {
-                        log_message('error', 'Error updating user visits: '. $e->getMessage());
-                    }
+            ->activeToday()
+            ->chunk(100, static function ($user) use ($db) {
+                try {
+                    $db->table('user_visits')
+                        ->insert([
+                            'user_id' => $user->id,
+                            'visited_on' => date('Y-m-d'),
+                        ]);
+                } catch (Exception $e) {
+                    log_message('error', 'Error updating user visits: '. $e->getMessage());
                 }
             });
 
